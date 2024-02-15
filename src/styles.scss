@@ -17,43 +17,95 @@ $info: #2EC2B3;
 
 $link-hover-color: #000;
 
+
+$btn-font-size:  0.938rem;
+//REVOIR CETTE HISTOIRE DE PADDING POUR REUSSIR A LES AFFECTER
+// $btn-padding-y: 0.625rem;
+// $btn-padding-x: 1rem 0.5rem;
+$btn-border-radius:0.625rem 0.625rem 1.5625rem 0.625rem;
+
+//Interet de creer un btn c'est parti dans le styleGuide? On l'utilise qu'une fois
 .divTitle {
     color: $primary
 }
 
 
-.btn1 {
-    display: inline-block;
-    box-sizing: content-box;
-    width: 141px; //A changer en fonction du btn concerné
-    cursor: pointer;
-    padding: 10px 20px;
-    border: 4px solid $primary;
-    border-radius: 10px 10px 25px;
-    font: $font-family-base;
-    color: rgba(255,255,255,0.9);
-    -o-text-overflow: clip;
-    text-overflow: clip;
+.btn-primary {
+    display: flex;
+    width: 141px;
+    height: 43px;
+    padding: 10px 8px 10px 16px;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    border-radius: $btn-border-radius;
     background: $primary;
-    text-align: center;
+    color: white;
+    font-size: $btn-font-size;
   }
 
-  .inversedStyleBtn {
-    display: inline-block;
-    box-sizing: content-box;
-    width: 120px;
+  .btn-secondary {
+    display: flex;
+    width: 141px;
     height: 43px;
-    cursor: pointer;
-    padding: 10px 20px;
-    border: 3px solid $primary;
-    border-radius: 10px 10px 25px;
-    font: $font-family-base;
+    padding: 10px 8px 10px 16px;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    border-radius: $btn-border-radius;
+    border: 2px solid $primary;
+    background: #FFF;
     color: $primary;
-    text-align: center;
-    -o-text-overflow: clip;
-    text-overflow: clip;
-    background: rgba(255,255,255,0.9);
+    font-size: $btn-font-size;
   }
+
+  .btn-info {
+    display: flex;
+    width: 121px;
+    height: 43px;
+    padding: 10px 8px 10px 16px;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    border-radius: $btn-border-radius;
+    background: $primary;
+    color:white;
+    font-size: $btn-font-size;
+  }
+
+  .arrowIconInBtn {
+    border-radius: 50%;
+  }
+
+  .btn-success{
+    display: flex;
+    width: 250px;
+    height: 51px;
+    padding: 16px 18px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border: 2px solid $primary;
+    background: $secondary;
+    box-shadow: -4px 4px 0px 0px $primary;
+    color:white;
+    font-size: $btn-font-size;
+  }
+
+  .btn-warning{
+    width: 154px;
+    height: 43px;
+    flex-shrink: 0;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color:$primary;
+    font-size: $btn-font-size;
+    border-radius: $btn-border-radius;
+    padding: 10px 8px 10px 16px;
+  }
+  
+
+  
   
   
   
