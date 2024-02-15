@@ -1,15 +1,15 @@
 // See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
 // see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
 
-
-
 $font-sans-serif: 'Verdana', sans-serif;
 $font-family-base: $font-sans-serif;
 
+// Title size
 $h1-font-size: 2.22rem;
 $h2-font-size: 1.5rem;
 $h3-font-size: 1.125rem;
 
+// Colors
 $primary: #FF9F1A;
 $secondary: #FFBF6B;
 $tertiary:#CFF1EF;
@@ -17,10 +17,24 @@ $info: #2EC2B3;
 
 $link-hover-color: #000;
 
+body {
+  margin-left: 2vh !important;
+  margin-right: 2vh !important;
+}
+
+// Method to create personalized containers
+@mixin make-container($padding-x: $container-padding-x, $padding-y: $container-padding-y) {
+  width: 100%;
+  margin-top: $padding-y;
+  padding-right: $padding-x;
+  padding-left: $padding-x;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .divTitle {
     color: $primary
 }
-
 
 .btn1 {
     display: inline-block;
@@ -54,12 +68,19 @@ $link-hover-color: #000;
     text-overflow: clip;
     background: rgba(255,255,255,0.9);
   }
-  
-  
-  
 
 // Desktop version
 @media (min-width: 1200px) {
+
+  body {
+    margin-left: 14vh !important;
+    margin-right: 14vh !important;
+  }
+
+// Personalized container to use in "my account" pages (includes tabs and page content)
+.profil-container {
+  @include make-container($padding-x: 20vh, $padding-y: 13.25vh);
+}
 
 }
 
