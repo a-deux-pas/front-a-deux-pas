@@ -1,34 +1,31 @@
-FROM node:20-alpine as build
-WORKDIR /usr/src/app
-# variable utilisée dans le fichier angular.json pour créer des images avec des configurations différentes en fonction de l'environement
-ARG CONFIGURATION
+# use the latest Node LTS (v20) in Debian bookworm image
+FROM node:20-bookworm
 
-# Copie les fichiers package.json et package-lock.json files dans le container
-COPY package*.json ./
+# set args with default values, can be changed at build time with docker build --buil-args option
+ARG ANGULAR_CONFIG=production \
+    ANGULAR_MAJOR_VERSION=17 \
+    APP_UID=1001
 
-# Configuration du cache
-RUN --mount=type=cache,target=/usr/src/app/.npm \
-  npm set cache /usr/src/app/.npm && \
-  npm install && \
-  npm install -g @angular/cli
+# create app-user to avoid running app as root and install Angular CLI globally
+RUN useradd -U -m -d /app/ -s /bin/bash -u ${APP_UID} app-user && \
+    npm install -g @angular/cli@${ANGULAR_MAJOR_VERSION}
 
-# Copie le code dans le container
-COPY . .
+# switch to user app and its home directory 
+USER app-user
+WORKDIR /app
 
-RUN npm run build --configuration=$CONFIGURATION
+# copy application files and change owner (chown) to app-user
+COPY --chown=${APP_UID}:${APP_UID} package.json angular.json tsconfig*.json /app/
+ADD --chown=${APP_UID}:${APP_UID}  src /app/src
 
-# Environnement de dev
-FROM build as dev
-# Commande exécutée lorsque le container sera lancé en mode dev
+# install dependencies and build application
+RUN npm set cache /app/.npm && \
+    npm install && \
+    npm run build --configuration=${ANGULAR_CONFIG}
+
+# make app and tmp directories writable when container is running in readonly
+VOLUME /app /tmp
+
+# set default command to start application and expose application port
 CMD ["ng", "serve", "--host", "0.0.0.0"]
-
-# Environnement de prod
-FROM nginx:1.21-alpine as prod
-
-# COPY --link pour éviter de casser le cache si l'on modifie l'image de base de la deuxième étape.
-COPY --link nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copie les fichiers de l'application dans le container ngix
-COPY --link --from=build /usr/src/app/dist/front /usr/share/nginx/html
-
 EXPOSE 4200
