@@ -1,6 +1,8 @@
 // See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
 // see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
 
+
+
 $font-sans-serif: 'Verdana', sans-serif;
 $font-family-base: $font-sans-serif;
 
@@ -15,9 +17,51 @@ $info: #2EC2B3;
 
 $link-hover-color: #000;
 
+.divTitle {
+    color: $primary
+}
+
+
+.btn1 {
+    display: inline-block;
+    box-sizing: content-box;
+    width: 141px; //A changer en fonction du btn concerné
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 4px solid $primary;
+    border-radius: 10px 10px 25px;
+    font: $font-family-base;
+    color: rgba(255,255,255,0.9);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: $primary;
+    text-align: center;
+  }
+
+  .inversedStyleBtn {
+    display: inline-block;
+    box-sizing: content-box;
+    width: 120px;
+    height: 43px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 3px solid $primary;
+    border-radius: 10px 10px 25px;
+    font: $font-family-base;
+    color: $primary;
+    text-align: center;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: rgba(255,255,255,0.9);
+  }
+  
+  
+  
+
 // Desktop version
 @media (min-width: 1200px) {
 
 }
 
 @import 'bootstrap/scss/bootstrap';
+
