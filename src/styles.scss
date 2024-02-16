@@ -3,7 +3,9 @@
 
 //Voir si possible de factoriser l'effet hover
 //Meilleure résolution des images
-//Revoir input pour border transparent when selected
+//Verif dimension des btns pour mobile et desktop
+//Change option box in select option
+//Radio et Check boxes apparences
 
 $font-sans-serif: 'Verdana', sans-serif;
 $font-family-base: $font-sans-serif;
@@ -19,8 +21,6 @@ $info: #2EC2B3;
 
 $link-hover-color: #000;
 
-
-
 $btn-font-size:  0.938rem;
 $btn-padding-x: 0.625rem;
 $btn-padding-y: 1.5625rem;
@@ -34,13 +34,11 @@ $color: var(--bs-btn-hover-color);
     color: $primary
 }
 
-
 .btn-primary {
     display: flex;
     width: 141px;
     height: 43px;
     padding: $btn-padding-x $btn-padding-y;
-    text-align: justify;
     align-items: center;
     border-radius: $btn-border-radius;
     background: $primary;
@@ -73,7 +71,6 @@ $color: var(--bs-btn-hover-color);
     width: 121px;
     height: 43px;
     gap: 10px;
-    // padding: $btn-padding-x $btn-padding-y;
     align-items: center;
     border-radius: $btn-border-radius;
     background: $primary;
@@ -129,9 +126,15 @@ input{
     border-top: white;
     border-right: white;
     border-left: white;
+    &:focus{
+        outline: transparent;  
+        // outline: 2px solid orange;
+    }
 }
 
-select{
+select option{background-color:#FFF !important}
+
+select.formSelect{
     border-radius: 10px 10px 40px 5px;
     border-bottom: 5px solid $primary;
     border-top: white;
@@ -139,7 +142,60 @@ select{
     border-left: white;
     min-width: 130px;
     color:rgba(128, 128, 128, 0.614);
+    // padding-right: 3rem !important;
+    // -moz-appearance:none !important;
+    // -webkit-appearance: none !important; 
+    &:focus{
+        outline: transparent;  
+        // outline: 2px solid orange;
+    }
+
 }
+
+select.toFilter{
+    display: flex;
+    padding: 14px 26px 15.993px 23px;
+    justify-content: center;
+    align-items: center;
+    gap: 37px;
+    border-radius: 5px;
+    border: 1.5px solid #FF9F1A;
+    &:hover {
+        background: rgba(255, 191, 107, 0.39);
+    }
+    &:focus{
+        outline: transparent;  
+    }
+}
+
+input[type="radio"]::before {
+    border-radius: 50%;
+    font: $primary;
+    color:$primary;
+    border-width: 2px;
+    width: 1.15em;
+    background-color: $primary;
+    &:checked{
+        background-color: $primary;
+    }
+}
+
+
+
+// select.formSelect option {
+//     border-radius: 10px;
+//     border-top: 2px solid #FFBF6B;
+//     border-right: 2px solid #FFBF6B;
+//     border-bottom: 4px solid #FFBF6B;
+//     border-left: 2px solid #FFBF6B;
+//     background: #FFF;
+//     width: 246px;
+// height: 135px;
+// }
+
+// select option[value="1"] {
+//     background: rgba(100, 100, 100, 0.3);
+//   }
 
 // input::selection{
 //     border: transparent;
