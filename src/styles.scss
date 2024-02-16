@@ -1,7 +1,7 @@
 // See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
 // see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
 
-//Voir si possible de factoriser l'effet hover
+//Voir si possible de factoriser l'effet hover et changer hover en secondary (en tout cas plus clair)
 //Meilleure résolution des images
 //Verif dimension des btns pour mobile et desktop
 //Change option box in select option
@@ -10,10 +10,12 @@
 $font-sans-serif: 'Verdana', sans-serif;
 $font-family-base: $font-sans-serif;
 
+// Title size
 $h1-font-size: 2.22rem;
 $h2-font-size: 1.5rem;
 $h3-font-size: 1.125rem;
 
+// Colors
 $primary: #FF9F1A;
 $secondary: #FFBF6B;
 $tertiary:#CFF1EF;
@@ -21,51 +23,62 @@ $info: #2EC2B3;
 
 $link-hover-color: #000;
 
+// Method to create personalized containers
+@mixin make-container($padding-x: $container-padding-x, $padding-y: $container-padding-y) {
+  width: 100%;
+  margin-top: $padding-y;
+  padding-right: $padding-x;
+  padding-left: $padding-x;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+body {
+  margin-left: 2vh !important;
+  margin-right: 2vh !important;
+}
+
+// Buttons
 $btn-font-size:  0.938rem;
 $btn-padding-x: 0.625rem;
 $btn-padding-y: 1.5625rem;
 $btn-border-radius:0.625rem 0.625rem 1.5625rem 0.625rem;
-
-
 $--bs-btn-focus-shadow-rgb: 49,132,253;
 $color: var(--bs-btn-hover-color);
 
-.divTitle {
-    color: $primary
-}
-
 .btn-primary {
-    display: flex;
-    width: 141px;
-    height: 43px;
-    padding: $btn-padding-x $btn-padding-y;
-    align-items: center;
-    border-radius: $btn-border-radius;
-    background: $primary;
-    color: white;
-    font-size: $btn-font-size;
-    border:$primary;
-    &:hover {
-        background: darken($primary, 10%);
-    }
+  display: flex;
+  width: 141px;
+  height: 43px;
+  padding: $btn-padding-x $btn-padding-y;
+  text-align: justify;
+  align-items: center;
+  border-radius: $btn-border-radius;
+  background: $primary;
+  color: white;
+  font-size: $btn-font-size;
+  border:$primary;
+  &:hover {
+    background: darken($primary, 10%);
+  }
 }
 
 .btn-secondary {
-    display: flex;
-    width: 141px;
-    height: 43px;
-    padding: $btn-padding-x $btn-padding-y;
-    align-items: center;
-    border-radius: $btn-border-radius;
-    border: 2px solid $primary;
-    background: #FFF;
-    color: $primary;
-    font-size: $btn-font-size;
-    &:hover {
-        background: darken(#FFF, 10%);
-    }
+  display: flex;
+  width: 141px;
+  height: 43px;
+  padding: $btn-padding-x $btn-padding-y;
+  align-items: center;
+  border-radius: $btn-border-radius;
+  border: 2px solid $primary;
+  background: #FFF;
+  color: $primary;
+  font-size: $btn-font-size;
+  &:hover {
+      background: darken(#FFF, 10%);
+  }
 }
-
+//plus de margin left
 .btn-info {
     display: flex;
     width: 121px;
@@ -86,40 +99,40 @@ $color: var(--bs-btn-hover-color);
     border-radius: 50%;
 }
 
-.btn-sell{
-    display: flex;
-    width: 250px;
-    height: 51px;
-    padding: $btn-padding-x $btn-padding-y;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    border: 2px solid $primary;
-    background: $secondary;
-    box-shadow: -4px 4px 0px 0px $primary;
-    color:white;
-    font-size: $btn-font-size;
-    &:hover {
-        background: darken($secondary, 10%);
-    }
+.btn-sell {
+  display: flex;
+  width: 250px;
+  height: 51px;
+  padding: $btn-padding-x $btn-padding-y;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid $primary;
+  background: $secondary;
+  box-shadow: -4px 4px 0px 0px $primary;
+  color:white;
+  font-size: $btn-font-size;
+  &:hover {
+    background: darken($secondary, 10%);
+  }
 }
 
-.btn-connexion{
-    width: 154px;
-    height: 43px;
-    flex-shrink: 0;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    color:$primary;
-    font-size: $btn-font-size;
-    border-radius: $btn-border-radius;
-    padding: $btn-padding-x $btn-padding-y;
-    border:white;
-    &:hover {
-        background: darken(#FFF, 10%);
-    }
+.btn-connexion {
+  width: 154px;
+  height: 43px;
+  flex-shrink: 0;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color:$primary;
+  font-size: $btn-font-size;
+  border-radius: $btn-border-radius;
+  padding: $btn-padding-x $btn-padding-y;
+  border:white;
+  &:hover {
+    background: darken(#FFF, 10%);
+  }
 }
-
-input{
+//Plus de padding bottom entre text et stroke
+input {
     border-radius: 10px 10px 40px 5px;
     border-bottom: 5px solid $primary;
     caret-color: $primary;
@@ -131,10 +144,10 @@ input{
         // outline: 2px solid orange;
     }
 }
-
+//Plus de padding bottom entre text et stroke
 select option{background-color:#FFF !important}
 
-select.formSelect{
+select.formSelect {
     border-radius: 10px 10px 40px 5px;
     border-bottom: 5px solid $primary;
     border-top: white;
@@ -152,7 +165,7 @@ select.formSelect{
 
 }
 
-select.toFilter{
+select.toFilter {
     display: flex;
     padding: 14px 26px 15.993px 23px;
     justify-content: center;
@@ -200,11 +213,35 @@ input[type="radio"]::before {
 // input::selection{
 //     border: transparent;
 // }
+.btn-edit img {
+  width: 30px;
+}
+
+.btn-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color:#000;
+  text-decoration: none;
+  width: 15%;
+}
+
+.btn-edit:hover {
+  color: $primary;
+}
 
 // Desktop version
 @media (min-width: 1200px) {
 
+  body {
+    margin-left: 14vh !important;
+    margin-right: 14vh !important;
+  }
+
+    // Personalized container to use in "my account" pages (includes tabs and page content)
+    .profil-container {
+    @include make-container($padding-x: 20vh, $padding-y: 13.25vh);
+    }
 }
 
 @import 'bootstrap/scss/bootstrap';
-
