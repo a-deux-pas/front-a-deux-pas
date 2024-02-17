@@ -1,8 +1,23 @@
+<!-- Desktop logo -->
+<div class="d-flex align-items-end mt-2">
+  <img class="desktop-footsteps float-left mr-3" src="/assets/icons/desktop-footsteps.webp" alt="icône de traces de pas">
+  <div>
+    <span class="desktop-logo d-block">A</span>
+    <span class="desktop-logo d-block">DEUX</span>
+    <span class="desktop-logo d-block">PAS</span>
+  </div>
+</div>
+
+<!-- Mobile logo -->
+<div class="d-inline-flex mt-4">
+    <span class="mobile-logo align-self-center">A DEUX PAS</span>
+  <img class="mobile-footsteps" src="/assets/icons/mobile-footsteps.webp" alt="icône de traces de pas">
+</div>
+
 <div class="profil-container">
   <h1 class="mt-4">Bonjour Erika !</h1>
   <h2 class="mt-4">Ma présentation</h2>
   <p class="mt-4">Passionnée de mode, je vends mes vêtements pour permettre aux plus grand nombre d’être stylé.</p>
-
 
   <h3 class="mt-4">Mon adresse</h3>
   <div class="row my-3">
@@ -53,29 +68,39 @@
   </div>
 </ng-template>
 
-  <h1 class="mb-4">Boutons</h1>
+<h1 class="mt-4">Boutons</h1>
 
-  <button type="submit" class="btn-primary mt-4 mb-4">  PrimaryBtn</button>
+<button type="submit" class="btn-primary mt-4">PrimaryBtn</button>
 
-  <button type="submit" class="btn-secondary mt-4 mb-4">OtherBtn</button>
+<button type="submit" class="btn-secondary mt-4">OtherBtn</button>
 
-  <button type="submit" class="btn-info mt-4 mb-4">voir plus<img class="arrowIconInBtn" src="../../assets/icons/arrow-down-in-icon.webp" alt="arrowDown"></button>
+<button type="submit" class="btn-info mt-4">voir plus<img class="arrow-down-icon" src="/assets/icons/buttons/arrow-down.webp" alt="arrowDown"></button>
 
-  <button type="submit" class="btn-sell mt-4 mb-4"><img class="whiteplus" src="../../assets/icons/white-plus.webp" alt="whitePlus">créer une annonce</button>
+<button type="submit" class="btn-sell mt-4"><img class="add-icon" src="/assets/icons/buttons/add-white.webp" alt="whitePlus">créer une annonce</button>
 
-  <button type="submit" class="btn-connexion mt-2 mb-4">se connecter</button>
+<button type="submit" class="btn-connexion mt-4">se connecter</button>
 
-<div class="divTitle mb-4">Input - select</div>
+<a class="btn-icon mt-4">
+  <img class="edit-icon" src="/assets/icons/buttons/edit-orange.webp" alt="icône crayon">
+  <span>modifier</span>
+</a>
+
+<a class="btn-icon mt-4">
+  <img class="save-icon" src="/assets/icons/buttons/save.webp" alt="icône disquette">
+  <span>mettre à jour</span>
+</a>
+
+<h1 class="mt-4">Input - select</h1>
 
 <input class="mb-2" type="text"><br>
-<!-- 
-CHANGE SELECT OPTION BG COLOR 
+<!--
+CHANGE SELECT OPTION BG COLOR
 space between arrow and right limitation-->
 
 <select class="mt-2 mb-2 formSelect" name="" id="">
-    <option class="inFormSelect" value="">option 1</option>
-    <option class="inFormSelect" value="">option 2</option>
-    <option class="inFormSelect" value="">option 3</option>
+  <option class="inFormSelect" value="">option 1</option>
+  <option class="inFormSelect" value="">option 2</option>
+  <option class="inFormSelect" value="">option 3</option>
 </select>
 
 <select name="" id="" class="toFilter mt-2 mb-2">
@@ -106,9 +131,3 @@ space between arrow and right limitation-->
     <input type="checkbox" id="4" name="4" />
     <label for="4">Neuf avec étiquette</label>
   </div>
-
-
-  <a class="btn-edit">
-    <img src="../../assets/icons/edit.webp" alt="icône modifier image">
-    <span>modifier</span>
-  </a>

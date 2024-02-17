@@ -7,6 +7,8 @@
 //Change option box in select option
 //Radio et Check boxes apparences
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 $font-sans-serif: 'Verdana', sans-serif;
 $font-family-base: $font-sans-serif;
 
@@ -22,6 +24,30 @@ $tertiary:#CFF1EF;
 $info: #2EC2B3;
 
 $link-hover-color: #000;
+
+// Mobile logo
+.mobile-footsteps {
+  width: 48.174px;
+  height: 49.367px;
+}
+
+.mobile-logo {
+  font-size: 40px;
+  font-family: "Roboto", sans-serif;
+}
+
+// Desktop logo
+.desktop-footsteps {
+  width: 75.661px;
+  height: 75.661px;
+}
+
+.desktop-logo {
+  font-size: 33.5px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  margin-bottom: -18px;
+}
 
 // Method to create personalized containers
 @mixin make-container($padding-x: $container-padding-x, $padding-y: $container-padding-y) {
@@ -95,8 +121,8 @@ $color: var(--bs-btn-hover-color);
     }
 }
 
-.arrowIconInBtn {
-    border-radius: 50%;
+.arrow-down-icon {
+  width: 22px;
 }
 
 .btn-sell {
@@ -117,6 +143,10 @@ $color: var(--bs-btn-hover-color);
   }
 }
 
+.add-icon {
+  width: 29px;
+}
+
 .btn-connexion {
   width: 154px;
   height: 43px;
@@ -131,6 +161,32 @@ $color: var(--bs-btn-hover-color);
     background: darken(#FFF, 10%);
   }
 }
+
+.btn-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color:#000;
+  text-decoration: none;
+  width: 16vh;
+}
+
+.btn-icon span {
+  margin-top: 6.29px ;
+}
+
+.btn-icon:hover {
+  color: $primary;
+}
+
+.edit-icon {
+  width:32px;
+}
+
+.save-icon {
+  width: 40px;
+}
+
 //Plus de padding bottom entre text et stroke
 input {
     border-radius: 10px 10px 40px 5px;
@@ -140,7 +196,7 @@ input {
     border-right: white;
     border-left: white;
     &:focus{
-        outline: transparent;  
+        outline: transparent;
         // outline: 2px solid orange;
     }
 }
@@ -157,12 +213,11 @@ select.formSelect {
     color:rgba(128, 128, 128, 0.614);
     // padding-right: 3rem !important;
     // -moz-appearance:none !important;
-    // -webkit-appearance: none !important; 
+    // -webkit-appearance: none !important;
     &:focus{
-        outline: transparent;  
+        outline: transparent;
         // outline: 2px solid orange;
     }
-
 }
 
 select.toFilter {
@@ -177,7 +232,7 @@ select.toFilter {
         background: rgba(255, 191, 107, 0.39);
     }
     &:focus{
-        outline: transparent;  
+        outline: transparent;
     }
 }
 
@@ -192,8 +247,6 @@ input[type="radio"]::before {
         background-color: $primary;
     }
 }
-
-
 
 // select.formSelect option {
 //     border-radius: 10px;
@@ -213,22 +266,6 @@ input[type="radio"]::before {
 // input::selection{
 //     border: transparent;
 // }
-.btn-edit img {
-  width: 30px;
-}
-
-.btn-edit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color:#000;
-  text-decoration: none;
-  width: 15%;
-}
-
-.btn-edit:hover {
-  color: $primary;
-}
 
 // Desktop version
 @media (min-width: 1200px) {
