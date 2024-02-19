@@ -1,6 +1,6 @@
 {
-  "name": "front",
-  "version": "0.0.0",
+  "name": "front-a-deux-pas",
+  "version": "1.0.0-SAPSHOT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
