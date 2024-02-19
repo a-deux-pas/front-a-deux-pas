@@ -41,39 +41,47 @@ jobs:
           echo "APP_VERSION=$(node -p "require('./package.json').version -q -DforceStdout)" >> $GITHUB_OUTPUT
       - name: Print Package.json project version
         run: echo "application version = ${{ env.APP_VERSION }}"
-  docker:
-    needs: maven
-    runs-on: ubuntu-latest
-    env:
-      APP_NAME: ${{ vars.APP_NAME }}
-      APP_VERSION: ${{ needs.maven.outputs.APP_VERSION }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Download Application Package
-        uses: actions/download-artifact@master
+      # Upload artifact to repository
+      - name: Upload Application Package
+        uses: actions/upload-artifact@master
         with:
-          name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar
-          path: target/
-      # Prepare docker build with buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@master
-        with:
-          driver: docker
-      # Docker login
-      - name: Login to Docker Hub
-        uses: docker/login-action@master
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # Docker build and push
-      - name: Build and push
-        uses: docker/build-push-action@master
-        with:
-          context: ${{ github.workspace }}
-          file: Dockerfile
-          push: ${{ github.event_name != 'pull_request' }} # Don't push on PR
-          tags: docker.io/douniabed/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
-          build-args: |
-            APP_NAME=${{ env.APP_NAME }}
-            APP_VERSION=${{ env.APP_VERSION }}
+          name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.zip
+          path: ${{ github.workspace }}
+          overwrite: true
+  #docker:
+  #  needs: maven
+  #  runs-on: ubuntu-latest
+  #  env:
+  #    APP_NAME: ${{ vars.APP_NAME }}
+  #    APP_VERSION: ${{ needs.maven.outputs.APP_VERSION }}
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@master
+  #    - name: Download Application Package
+  #      uses: actions/download-artifact@master
+  #      with:
+  #        name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.jar
+  #        path: target/
+  #    # Prepare docker build with buildx
+  #    - name: Set up Docker Buildx
+  #      uses: docker/setup-buildx-action@master
+  #      with:
+  #        driver: docker
+  #    # Docker login
+  #    - name: Login to Docker Hub
+  #      uses: docker/login-action@master
+  #      with:
+  #        username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #        password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #    # Docker build and push
+  #    - name: Build and push
+  #      uses: docker/build-push-action@master
+  #      with:
+  #        context: ${{ github.workspace }}
+  #        file: Dockerfile
+  #        push: ${{ github.event_name != 'pull_request' }} # Don't push on PR
+  #        tags: docker.io/douniabed/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
+  #        build-args: |
+  #          APP_NAME=${{ env.APP_NAME }}
+  #          APP_VERSION=${{ env.APP_VERSION }}
+#
