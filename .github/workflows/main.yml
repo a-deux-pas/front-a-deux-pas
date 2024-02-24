@@ -47,7 +47,9 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}
-          path: ${{ github.workspace }}
+          path: |
+            ${{ github.workspace }}
+            !.git/
           overwrite: true
   docker:
     needs: build
