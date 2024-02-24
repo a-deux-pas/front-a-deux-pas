@@ -1,52 +1,260 @@
-<div class="container-fluid py-3">
-<h1 class="mt-4">Bonjour Erika !</h1>
-<h2 class="mt-4">Ma présentation</h2>
-<p class="mt-4">Passionnée de mode, je vends mes vêtements pour permettre aux plus grand nombre d’être stylé.</p>
-<h3 class="mt-4">Mon adresse</h3>
-  <div class="row my-3">
-    <div class="col">
-      <label for="exampleFormControlInput1" class="form-label">Email address</label>
-      <input type="email" class="form-control form-control-sm" id="exampleFormControlInput1" placeholder="name@example.com">
-    </div>
-  </div>
-  <div class="row my-3">
-    <div class="col">
-      <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-      <textarea class="form-control form-control-sm" id="exampleFormControlTextarea1" rows="3"></textarea>
-    </div>
-  </div>
-  <div class="row my-3">
-    <div class="col">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
-      </div>
-    </div>
-  </div>
-  <div class="row my-3">
-    <div class="col">
-      <button class="btn btn-sm btn-outline-primary" (click)="open(demoModal)">Launch demo modal</button>
-    </div>
-  </div>
-</div>
+<!-- Personalized container to use in "my account" pages (includes tabs and page content) -->
+<div class="profil-container">
 
-<ng-template #demoModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
-        <div class="input-group">
-          <input id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" ngbDatepicker #dp="ngbDatepicker">
-          <button type="button" class="btn btn-outline-secondary bi bi-calendar" (click)="dp.toggle()"></button>
+  <div class="text-center">
+    <h1 class="text-center">Logos</h1>
+    <!-- Desktop logo -->
+    <div class="mt-2">
+      <img class="desktop-footsteps" src="/assets/icons/desktop-footsteps.webp" alt="icône de traces de pas">
+      <div>
+        <div class="text-left">
+          <span class="desktop-logo">A</span>
+          <span class="desktop-logo">DEUX</span>
+          <span class="desktop-logo">PAS</span>
         </div>
       </div>
-    </form>
+    </div>
+    <!-- </div> -->
+
+    <!-- Mobile logo -->
+    <div class="mobile-logo-container mt-4">
+      <span class="mobile-logo align-self-center">A DEUX PAS</span>
+      <img class="mobile-footsteps" src="/assets/icons/mobile-footsteps.webp" alt="icône de traces de pas">
+    </div>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+
+  <!-- Titles and paragraphs -->
+  <h1 class="text-center mt-5">Titles and paragraphs</h1>
+
+  <h1 class="mt-5">Bienvenue Erika !</h1>
+  <h2 class="mt-4">Ma présentation</h2>
+  <h3 class="mt-4">Mon adresse</h3>
+  <p class="mt-4">Passionnée de mode, je vends mes vêtements pour permettre aux plus grand nombre d’être stylé.</p>
+
+  <!-- Card -->
+  <h1 class=" text-center mt-5">Card</h1>
+
+  <div class="card mt-4">
+    <img class="card-img-top" [src]="dummyArticle.image" alt="image de l'article">
+    <div class="card-colored-border">
+      <div class="card-body">
+        <h5 class="card-title pb-4">{{ dummyArticle.title }}</h5>
+        <p class="card-text">{{ dummyArticle.seller }}</p>
+        <div class="bottom-card-part">
+          <p class="white-space">''</p>
+          <p class="white-space">''</p> <!-- To possibly replace with the heart or the edit icon -->
+          <p class="card-text" id="article-price">{{ dummyArticle.price }} €</p>
+        </div>
+      </div>
+    </div>
   </div>
-</ng-template>
+
+  <!-- Inputs -->
+  <h1 class="text-center mt-5">Inputs</h1>
+
+  <div class="row my-3 mt-5">
+    <div class="col">
+      <!-- Input -->
+      <label for="address" class="form-label">Rue</label>
+      <input type="text" class="form-control form-control-sm" id="address" placeholder="265 rue des pyrénées">
+    </div>
+  </div>
+  <div class="row my-3">
+    <div class="col mt-4">
+      <!-- Textarea -->
+      <label for="example-textarea" class="form-label">Ma présentation</label>
+      <textarea class="form-control form-control-sm" id="example-textarea" rows="3"></textarea>
+    </div>
+  </div>
+
+  <h1 class="text-center mt-5">Select</h1>
+
+  <div class="row row-gap-3 justify-content-center mt-4">
+    <!-- Select using ng-option and for loop -->
+    <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3">
+      <ng-select [(ngModel)]="selectedDay" class="custom mt-4" placeholder="Jours">
+        <ng-option *ngFor="let day of days" [value]="day.id">{{day.name}}</ng-option>
+      </ng-select>
+    </div>
+    <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3">
+      <!-- Multiselect -->
+      <ng-select class="custom mt-4" [items]="time" [multiple]="true" bindLabel="name" groupBy="selectedAll"
+        placeholder="Horaires" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
+        bindValue="id" [(ngModel)]="selectedTimes">
+        <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+          <input id="item-{{index}}" class="form-check-input" type="checkbox" [ngModel]="item$.selected" /> Tous les
+          créneaux
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+          <input id="item-{{index}}" class="form-check-input" type="checkbox" [ngModel]="item$.selected" />
+          {{item.name}}
+        </ng-template>
+      </ng-select>
+    </div>
+  </div>
+
+  <h1 class="text-center mt-5">Switch - Checkbox - Radiobox</h1>
+
+  <div class="row my-3 mt-4">
+    <div class="col">
+      <!-- Switch button -->
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Je souhaite recevoir des notifications par
+          email</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkbox -->
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+    <label class="form-check-label" for="flexCheckDefault">
+      Default checkbox
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+    <label class="form-check-label" for="flexCheckChecked">
+      Checked checkbox
+    </label>
+  </div>
+  <!-- Radiobox -->
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+    <label class="form-check-label" for="flexRadioDefault1">
+      Default radio
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+    <label class="form-check-label" for="flexRadioDefault2">
+      Default checked radio
+    </label>
+  </div>
+
+  <h1 class="text-center mt-5">Dropdowns</h1>
+
+  <!-- dropdown with radioboxes -->
+  <nav class="navbar">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="dropdown" id="main_navbar">
+        <button [ngClass]="{'navbar-toggler dropdown-btn': !isBigScreen, 'dropdown-btn': isBigScreen}" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <a class="dropdown-first-level dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </a>
+        </button>
+        <ul class="dropdown-menu">
+          <li id="dropdown-second-level" *ngFor="let category of categories" class="nav-item dropend">
+            <a class="nav-link dropdown-toggle text-center" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              {{ category.name }}
+            </a>
+            <ul class="dropdown-menu">
+              <li id="dropdown-third-level" *ngFor="let subCategory of category.subCategories" class="nav-item dropend">
+                <a *ngIf="subCategory.gender" class="nav-link dropdown-toggle text-center" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ subCategory.name }}
+                </a>
+                <ul class="dropdown-menu" *ngIf="subCategory.gender">
+                  <li id="dropdown-fourth-level" *ngFor="let gender of subCategory.gender" class="nav-item dropend">
+                    <a class="nav-link text-center">
+                      {{ gender.name }}
+                    </a>
+                  </li>
+                </ul>
+                <a *ngIf="!subCategory.gender" class="nav-link text-center">
+                  {{ subCategory.name }}
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </ul>
+  </nav>
+
+  <!-- dropdown with checkboxes -->
+  <nav class="navbar">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="dropdown" id="main_navbar">
+        <button [ngClass]="{'navbar-toggler dropdown-btn': !isBigScreen, 'dropdown-btn': isBigScreen}" type="button"
+          data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <a class="dropdown-first-level dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            État
+          </a>
+        </button>
+        <ul class="dropdown-menu ddmenu-with-select">
+          <li id="dropdown-second-level ddmenu-with-select mb-4" *ngFor="let state of states" class="nav-item dropend">
+            <div class="form-check px-3 div-form-check mt-2">
+              <input class="form-check-input pr-2" type="checkbox" value="" id="{{ state.id }}" name="{{ state.id }}">
+              <label class="form-check-label ddmenu-with-select text-center ms-2" for="{{ state.id }}">
+                {{ state.name }}
+              </label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </ul>
+  </nav>
+
+  <!-- Buttons -->
+  <h1 class="text-center mt-5">Buttons</h1>
+
+  <!-- Primary button -->
+  <button type="submit" class="btn-primary mt-4">primary btn</button>
+  <!-- Secondary button -->
+  <button type="submit" class="btn-secondary mt-4">other btn</button>
+  <!-- See more button -->
+  <button type="submit" class="btn-info mt-4">voir plus<img class="arrow-down-icon"
+      src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas"></button>
+  <!-- Sell button -->
+  <button type="submit" class="btn-sell mt-4"><img class="add-icon" src="/assets/icons/buttons/add-white.webp"
+      alt="icône plus">créer une annonce</button>
+  <button type="submit" class="btn-sell mt-4"><img class="add-icon" src="/assets/icons/buttons/add-white.webp"
+      alt="icône plus">vendre</button>
+  <!-- login button -->
+  <button type="submit" class="btn-connection mt-4" (click)="open(loginModal)">se connecter</button>
+  <!-- login modal -->
+  <ng-template #loginModal let-modal>
+    <button type="button" class="btn-close align-self-end m-4" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss('Cross click')"><span class="close">x</span></button>
+    <div class="modal-header justify-content-center">
+      <div class="d-inline-flex">
+        <span class="mobile-logo align-self-center">A DEUX PAS</span>
+        <img class="mobile-footsteps" src="/assets/icons/mobile-footsteps.webp" alt="icône de traces de pas">
+      </div>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="email-adress">Adresse email</label>
+          <div class="input-group mt-3">
+            <input id="email-adress" name="email-adress" type="email" class="form-control"
+              placeholder="nom@example.com">
+          </div>
+          <label class="mt-4" for="password">Mot de passe</label>
+          <div class="input-group mt-3">
+            <input id="password" name="password" type="password" class="form-control" placeholder="mon mot de passe">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button type="button" class="btn-success" (click)="modal.close('Save click')">C'est parti !</button>
+    </div>
+  </ng-template>
+  <!-- Edit button -->
+  <a class="btn-icon mt-4">
+    <img class="edit-icon" src="/assets/icons/buttons/edit-orange.webp" alt="icône crayon">
+    <span>modifier</span>
+  </a>
+  <!-- Save button -->
+  <a class="btn-icon mt-4 mb-4">
+    <img class="save-icon" src="/assets/icons/buttons/save.webp" alt="icône disquette">
+    <span>mettre à jour</span>
+  </a>
+</div>
