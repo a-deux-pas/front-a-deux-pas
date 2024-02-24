@@ -58,11 +58,11 @@ jobs:
       APP_NAME: ${{ vars.APP_NAME }}
       APP_VERSION: ${{ needs.build.outputs.APP_VERSION }}
     steps:
-      - name: Download Application Package
-        uses: actions/download-artifact@master
-        with:
-          name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}
-          path: ${{ github.workspace }}
+      # - name: Download Application Package
+      #   uses: actions/download-artifact@master
+      #   with:
+      #     name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}
+      #     path: ${{ github.workspace }}
       # Prepare docker build with buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@master
