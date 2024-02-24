@@ -8,11 +8,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./style-guide.component.scss']
 })
 export class StyleGuideComponent {
-  nextElementSibling: any;
 
   //Component to import to use a modal
   constructor(private modalService: NgbModal) { }
-
 
   // This HostListener listens for window resize events
   // When a resize event occurs, the onResize method is triggered
