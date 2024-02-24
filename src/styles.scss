@@ -632,7 +632,7 @@ ul.dropdown-menu {
   margin-top: 10px;
 }
 
-//-----------------------------------------------------------------------
+/*-----------------------------------------------------------------------*/
 
 // Desktop version
 @media (min-width: 1200px) {
@@ -656,6 +656,8 @@ ul.dropdown-menu {
     left: 100%;
   }
 }
+
+/*-----------------------------------------------------------------------*/
 
 // Importing NgSelect and Bootstrap styles
 @import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
