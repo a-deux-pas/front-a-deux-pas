@@ -1,23 +1,663 @@
 // See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
 // see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
 
-$font-sans-serif: 'Verdana', sans-serif;
+// Importing Google Fonts for the logo
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+// Setting up font families
+$font-sans-serif: "Verdana", sans-serif;
 $font-family-base: $font-sans-serif;
 
+/*-----------------------------------------------------------------------*/
+
+// Title sizes
 $h1-font-size: 2.22rem;
 $h2-font-size: 1.5rem;
 $h3-font-size: 1.125rem;
 
-$primary: #FF9F1A;
-$secondary: #FFBF6B;
-$tertiary:#CFF1EF;
-$info: #2EC2B3;
+/*-----------------------------------------------------------------------*/
 
+// Colors
+$primary: #ff9f1a;
+$secondary: #ffbf6b;
+$tertiary: #cff1ef;
+$info: #2ec2b3;
 $link-hover-color: #000;
+
+/*-----------------------------------------------------------------------*/
+
+// Mobile logo styling
+.mobile-logo-container {
+  display: inline-flex;
+}
+
+.mobile-footsteps {
+  width: 48.174px;
+  height: 49.367px;
+}
+
+.mobile-logo {
+  font-size: 40px;
+  font-family: "Roboto", sans-serif;
+  align-self: center;
+}
+
+// Desktop logo styling
+.desktop-footsteps {
+  width: 75.661px;
+  height: 75.661px;
+  float: left;
+  margin-right: 3px;
+}
+
+.desktop-logo {
+  font-size: 33.5px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  margin-bottom: -18px;
+  display: block;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Method to create personalized containers
+@mixin make-container($padding-x: $container-padding-x,
+  $padding-y: $container-padding-y) {
+  width: 100%;
+  margin-top: $padding-y;
+  padding-right: $padding-x;
+  padding-left: $padding-x;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Body margin adjustments
+body {
+  margin-left: 2vh !important;
+  margin-right: 2vh !important;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Buttons
+$btn-font-size: 0.938rem;
+$btn-padding-x: 0.625rem;
+$btn-padding-y: 1.5625rem;
+$btn-border-radius: 10px 10px 25px 10px;
+$btn-focus-shadow-rgb: 49, 132, 253;
+$color: var(--bs-btn-hover-color);
+
+button.btn {
+  padding: $btn-padding-x $btn-padding-y;
+}
+
+// Primary button styling
+.btn-primary {
+  display: flex;
+  width: 141px;
+  height: 43px;
+  padding: $btn-padding-x $btn-padding-y;
+  text-align: justify;
+  align-items: center;
+  border-radius: $btn-border-radius;
+  background-color: $primary;
+  color: white;
+  font-size: $btn-font-size;
+  border: $primary;
+
+  &:hover {
+    background-color: darken($secondary, 25%);
+  }
+}
+
+// Secondary button styling
+.btn-secondary {
+  display: flex;
+  width: 141px;
+  height: 43px;
+  padding: $btn-padding-x $btn-padding-y;
+  align-items: center;
+  border-radius: $btn-border-radius;
+  border: 2px solid $primary;
+  background-color: white;
+  color: $primary;
+  font-size: $btn-font-size;
+  justify-content: center;
+
+  &:hover {
+    background-color: darken($secondary, 15%);
+    color: white;
+  }
+}
+
+// Success button styling
+.btn-success {
+  display: flex;
+  width: 141px;
+  height: 43px;
+  padding: 0.55rem 0.55rem;
+  text-align: justify;
+  justify-content: center;
+  align-items: center;
+  background-color: $secondary;
+  color: white;
+  font-size: $btn-font-size;
+  font-weight: 700;
+  border-radius: $btn-border-radius;
+  border: 1.7px solid $primary;
+
+  &:hover {
+    background-color: darken($secondary, 10%);
+  }
+}
+
+// See more button styling
+.btn-info {
+  display: flex;
+  width: 121px;
+  height: 43px;
+  gap: 10px;
+  align-items: center;
+  border-radius: $btn-border-radius;
+  padding-left: 12px;
+  background-color: $primary;
+  color: white;
+  font-size: $btn-font-size;
+  border: $primary;
+
+  &:hover {
+    background-color: darken($secondary, 25%);
+  }
+}
+
+.arrow-down-icon {
+  width: 22px;
+}
+
+// Sell button styling
+.btn-sell {
+  display: flex;
+  height: 51px;
+  padding: $btn-padding-x $btn-padding-y;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border: 2px solid $primary;
+  background-color: $secondary;
+  box-shadow: -4px 4px 0px 0px $primary;
+  color: white;
+  font-size: $btn-font-size;
+  font-weight: 700;
+
+  &:hover {
+    background-color: darken($secondary, 10%);
+  }
+}
+
+.add-icon {
+  width: 29px;
+}
+
+// Connection button styling
+.btn-connection {
+  background-color: white;
+  width: 154px;
+  height: 43px;
+  flex-shrink: 0;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: $primary;
+  font-size: $btn-font-size;
+  border-radius: $btn-border-radius;
+  padding: $btn-padding-x $btn-padding-y;
+  border: white;
+
+  &:hover {
+    background-color: darken($secondary, 10%);
+    color: white;
+  }
+}
+
+// Buttons with icon styling
+.btn-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #000;
+  text-decoration: none;
+  width: 16vh;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+.btn-icon span {
+  margin-top: 6.29px;
+}
+
+// Edit icon size
+.edit-icon {
+  width: 32px;
+}
+
+// Save icon size
+.save-icon {
+  width: 40px;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Modal
+$btn-close-color: $primary;
+$modal-content-border-color: none;
+$modal-header-border-color: none;
+$modal-content-border-radius: 15px;
+
+// Modal Close button
+$btn-close-bg: none;
+$btn-close-focus-shadow: none;
+$btn-close-hover-opacity: none;
+$btn-close-opacity: none;
+
+span.close {
+  display: inline-block;
+  font-size: 1.3rem;
+  transform: scaleX(1.1);
+  color: $secondary;
+
+  &:hover {
+    color: black;
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Input
+$input-border-radius: 10px 10px 40px 5px;
+$focus-ring-color: transparent;
+
+input.form-control,
+textarea.form-control {
+  border-radius: $input-border-radius;
+  border-bottom: 5px solid $secondary;
+  caret-color: $primary;
+  border-top: white;
+  border-right: white;
+  border-left: white;
+  padding-bottom: 0.625rem;
+}
+
+// Placeholders color
+.form-control::placeholder {
+  color: rgba(0, 0, 0, 0.38) !important;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Select
+// Main ng-select container styling
+.ng-select .ng-select-container {
+  border: none;
+}
+
+// Custom ng-select container styling
+.ng-select.custom .ng-select-container {
+  border-radius: 10px 10px 40px 5px;
+  border-bottom: 5px solid $secondary;
+  border-top: white;
+  border-right: white;
+  border-left: white;
+  padding-bottom: 0.315rem;
+  height: 40px;
+}
+
+// Opened ng-select container bottom border radius
+.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
+  border-bottom-right-radius: 40px;
+}
+
+// Focus effects for ng-select
+.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+  border-color: $secondary;
+  box-shadow: none;
+}
+
+// Placeholder color
+.ng-select.custom .ng-value-container .ng-placeholder {
+  color: black;
+}
+
+// Arrow wrapper padding
+.ng-select .ng-arrow-wrapper {
+  padding-right: 2rem;
+}
+
+// Arrow icon color
+.ng-select.custom .ng-arrow-wrapper .ng-arrow {
+  border-color: black transparent transparent;
+}
+
+// Hover effects for arrow icon
+.ng-select .ng-arrow-wrapper:hover .ng-arrow {
+  border-color: $secondary transparent transparent;
+}
+
+// Clear icon color
+.ng-select.custom .ng-clear-wrapper .ng-clear {
+  color: black;
+}
+
+// Hover color for clear icon
+.ng-select .ng-clear-wrapper:hover .ng-clear {
+  color: $secondary;
+}
+
+// Focus color for clear icon
+.ng-select .ng-clear-wrapper:focus .ng-clear {
+  color: $secondary;
+}
+
+// Selected value label and close icon styling in multiselect
+span.ng-value-label,
+span.ng-value-icon.left {
+  background-color: white;
+  color: black;
+  border-radius: 1px;
+
+  &:hover {
+    background-color: $secondary;
+    color: white;
+  }
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+  border-right: 1px solid white;
+}
+
+// Hover effects on selected value in multiselect
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
+  background-color: $secondary;
+  color: white;
+}
+
+/*--------------------------------------*/
+
+// Dropdown panel styling
+.ng-dropdown-panel {
+  border-top: 2px solid $secondary;
+  border-right: 2px solid $secondary;
+  border-bottom: 4px solid $secondary;
+  border-left: 2px solid $secondary;
+  border-color: $secondary;
+}
+
+// Dropdown panel border styling
+.ng-dropdown-panel.ng-select-bottom {
+  border-radius: 10px;
+  border-color: $secondary;
+  margin-top: 10px;
+}
+
+// Dropdown panel First child option styling
+.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:first-child {
+  border-radius: 10px;
+  border-color: $secondary;
+}
+
+// Dropdown panel first child marked option
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked:first-child {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+// Color of the group option in the multiselect
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup {
+  color: black;
+}
+
+// Marked option styling in dropdown panel
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-marked {
+  color: white;
+  border-radius: 0;
+  background-color: $secondary;
+}
+
+// Selected option styling in dropdown panel
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+  color: $primary;
+  background-color: white;
+}
+
+// Selected option styling in multiselect
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected.ng-option-marked {
+  color: $primary;
+  background-color: white;
+  font-weight: 400;
+}
+
+// Scrollbar styling in dropdown panel
+.ng-dropdown-panel .scroll-host::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ng-dropdown-panel .scroll-host::-webkit-scrollbar-thumb {
+  background-color: #dad3d3;
+  border-radius: 4.7px;
+}
+
+.ng-dropdown-panel .scroll-host::-webkit-scrollbar-button {
+  display: none;
+}
+
+/*-----------------------------------------------------------------------*/
+
+//Switch
+
+$form-switch-checked-color: white;
+$form-switch-color: white;
+$form-switch-focus-color: white;
+
+#flexSwitchCheckDefault {
+  background-color: grey;
+  border: transparent;
+}
+
+#flexSwitchCheckDefault:checked {
+  background-color: $primary;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Checkbox and radio
+$form-check-input-checked-color: white;
+$form-check-input-checked-bg-image: url("/assets/icons/check.webp");
+$form-check-radio-checked-bg-image: url("/assets/icons/check.webp");
+
+.form-check-input[type=checkbox],
+.form-check-input[type=radio] {
+  border: 1.7px solid $secondary;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Cards
+$card-border-color: transparent;
+$card-height: 332px;
+$card-spacer-y: 3.1875rem;
+
+// Card container styling
+.card {
+  width: 253px;
+
+  &:hover {
+    .card-img-top {
+      border-bottom: 7px solid $info;
+    }
+
+    .card-colored-border {
+      border-left: 2px solid $info;
+      border-right: 2px solid $info;
+      border-bottom: 2px solid $info;
+    }
+  }
+}
+
+// Bottom part of the card styling
+.bottom-card-part {
+  display: flex;
+  justify-content: space-between;
+  height: 17.74px;
+}
+
+// Card image styling
+.card-img-top {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  z-index: 1;
+  width: 252px;
+  height: 224px;
+  border-bottom: 7px solid $secondary;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 0px;
+}
+
+// Card border styling
+.card-colored-border {
+  position: relative;
+  z-index: 0;
+  border-radius: 0px 0px 10px 10px;
+  border-left: 2px solid $secondary;
+  border-right: 2px solid $secondary;
+  border-bottom: 2px solid $secondary;
+  margin-top: 181px;
+  height: 160px;
+}
+
+// Card title styling
+.card-title {
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+// Card text styling
+.card-text {
+  font-size: 0.75rem;
+}
+
+// White space styling
+.white-space {
+  color: white;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Dropdowns
+button.dropdown-btn {
+  border: transparent;
+  background-color: transparent;
+}
+
+//Dropdown label
+.dropdown-first-level {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.625rem;
+  text-decoration: none;
+  width: 141px;
+  height: 53.993px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1.5px solid $primary;
+  color: black;
+  list-style-type: none;
+
+  &:hover {
+    background: rgba(255, 191, 107, 0.39);
+  }
+}
+
+//Select box styling
+.dropdown:hover>.dropdown-menu,
+.dropend:hover>.dropdown-menu {
+  display: block;
+  margin-left: .125em;
+  border-radius: 10px;
+  border-top: 2px solid $secondary;
+  border-right: 2px solid $secondary;
+  border-bottom: 4px solid $secondary;
+  border-left: 2px solid $secondary;
+}
+
+.div-form-check input[type="checkbox"] {
+  margin-left: 3px;
+}
+
+label.ddmenu-with-select {
+  height: 30px;
+}
+
+//Select box hover styling
+a.nav-link:hover,
+li.ddmenu-with-select:hover,
+.div-form-check:hover {
+  background-color: $secondary;
+  color: white;
+
+  .dropdown-first-level {
+    background: rgba(255, 191, 107, 0.39);
+  }
+}
+
+.dropdown .dropdown-menu {
+  display: none;
+}
+
+ul.ddmenu-with-select,
+ul.dropdown-menu {
+  margin-top: 10px;
+}
+
+/*-----------------------------------------------------------------------*/
 
 // Desktop version
 @media (min-width: 1200px) {
 
+  // Body margin adjustments
+  body {
+    margin-left: 14vh !important;
+    margin-right: 14vh !important;
+  }
+
+  // Personalized container for "my account" pages
+  // Includes tabs and page content
+  .profil-container {
+    @include make-container($padding-x: 20vh, $padding-y: 13.25vh);
+  }
+
+  //Dropdown menu styling
+  .dropend:hover>.dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
 }
 
-@import 'bootstrap/scss/bootstrap';
+/*-----------------------------------------------------------------------*/
+
+// Importing NgSelect and Bootstrap styles
+@import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import "bootstrap/scss/bootstrap";
