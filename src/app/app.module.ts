@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
+import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
     NgSelectModule,
     FormsModule,
     AppRoutingModule,
+    StyleGuideRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
