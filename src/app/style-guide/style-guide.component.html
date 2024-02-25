@@ -55,8 +55,8 @@
     <div class="col">
       <!-- Input -->
       <label for="address" class="form-label">Rue</label>
-      <input type="text" class="form-control form-control-sm" id="address" name="address"
-      autocomplete="street-address" placeholder="Numéro et nom de rue">
+      <input type="text" class="form-control form-control-sm" id="address" name="address" autocomplete="street-address"
+        placeholder="Numéro et nom de rue">
     </div>
   </div>
   <div class="row my-3">
@@ -78,15 +78,19 @@
     </div>
     <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3">
       <!-- Multiselect -->
-      <ng-select class="custom mt-4"
-        [items]="time"
-        [multiple]="true" bindLabel="name" groupBy="selectedAll"
-        placeholder="Horaires"
-        [selectableGroup]="true"
-        [selectableGroupAsModel]="false"
+      <ng-select 
+        class="custom mt-4" 
+        [items]="time" 
+        [multiple]="true" 
+        bindLabel="name" 
+        groupBy="selectedAll"
+        placeholder="Horaires" 
+        [selectableGroup]="true" 
+        [selectableGroupAsModel]="false" 
         [closeOnSelect]="false"
-        bindValue="id"
-        [(ngModel)]="selectedTimes">
+        bindValue="id" 
+        [(ngModel)]="selectedTimes"
+      >
         <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
           <input id="item-{{index}}" class="form-check-input" type="checkbox" [ngModel]="item$.selected" />
           Tous les créneaux
@@ -106,8 +110,7 @@
       <!-- Switch button -->
       <div class="form-check form-switch">
         <input class="form-check-input" name="checkbox" type="checkbox" id="notifications">
-        <label class="form-check-label" for="notifications">Je souhaite recevoir des notifications par
-          email</label>
+        <label class="form-check-label" for="notifications">Je souhaite recevoir des notifications par email</label>
       </div>
     </div>
   </div>
@@ -146,22 +149,20 @@
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <div class="dropdown" id="category-dropdown">
         <button [ngClass]="{'navbar-toggler dropdown-btn': !isBigScreen, 'dropdown-btn': isBigScreen}" type="button"
-          data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <a class="dropdown-first-level dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          aria-haspopup="true" aria-expanded="false" aria-label="Toggle navigation">
+          <a class="dropdown-first-level dropdown-toggle" role="button" aria-expanded="false">
             Categories
           </a>
         </button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" id="categoryMenu">
           <li id="dropdown-second-level" *ngFor="let category of categories" class="nav-item dropend">
-            <a class="nav-link dropdown-toggle text-center" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
+            <a class="nav-link dropdown-toggle text-center" role="button" aria-expanded="false">
               {{ category.name }}
             </a>
             <ul class="dropdown-menu">
               <li id="dropdown-third-level" *ngFor="let subCategory of category.subCategories" class="nav-item dropend">
                 <a *ngIf="subCategory.gender" class="nav-link dropdown-toggle text-center" role="button"
-                  data-bs-toggle="dropdown" aria-expanded="false">
+                  aria-expanded="false">
                   {{ subCategory.name }}
                 </a>
                 <ul class="dropdown-menu" *ngIf="subCategory.gender">
@@ -187,9 +188,8 @@
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <div class="dropdown" id="state-dropdown">
         <button [ngClass]="{'navbar-toggler dropdown-btn': !isBigScreen, 'dropdown-btn': isBigScreen}" type="button"
-          data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
           aria-expanded="false" aria-label="Toggle navigation">
-          <a class="dropdown-first-level dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="dropdown-first-level dropdown-toggle" role="button" aria-expanded="false">
             État
           </a>
         </button>
