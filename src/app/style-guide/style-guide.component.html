@@ -55,14 +55,15 @@
     <div class="col">
       <!-- Input -->
       <label for="address" class="form-label">Rue</label>
-      <input type="text" class="form-control form-control-sm" id="address" placeholder="265 rue des pyrénées">
+      <input type="text" class="form-control form-control-sm" id="address" name="address"
+      autocomplete="street-address" placeholder="Numéro et nom de rue">
     </div>
   </div>
   <div class="row my-3">
     <div class="col mt-4">
       <!-- Textarea -->
-      <label for="example-textarea" class="form-label">Ma présentation</label>
-      <textarea class="form-control form-control-sm" id="example-textarea" rows="3"></textarea>
+      <label for="bio" class="form-label">Ma présentation</label>
+      <textarea class="form-control form-control-sm" name="bio" id="bio" rows="3"></textarea>
     </div>
   </div>
 
@@ -71,18 +72,24 @@
   <div class="row row-gap-3 justify-content-center mt-4">
     <!-- Select using ng-option and for loop -->
     <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3">
-      <ng-select [(ngModel)]="selectedDay" class="custom mt-4" placeholder="Jours">
+      <ng-select [(ngModel)]="selectedDay" name="days" class="custom mt-4" placeholder="Jours">
         <ng-option *ngFor="let day of days" [value]="day.id">{{day.name}}</ng-option>
       </ng-select>
     </div>
     <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3">
       <!-- Multiselect -->
-      <ng-select class="custom mt-4" [items]="time" [multiple]="true" bindLabel="name" groupBy="selectedAll"
-        placeholder="Horaires" [selectableGroup]="true" [selectableGroupAsModel]="false" [closeOnSelect]="false"
-        bindValue="id" [(ngModel)]="selectedTimes">
+      <ng-select class="custom mt-4"
+        [items]="time"
+        [multiple]="true" bindLabel="name" groupBy="selectedAll"
+        placeholder="Horaires"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
+        [closeOnSelect]="false"
+        bindValue="id"
+        [(ngModel)]="selectedTimes">
         <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
-          <input id="item-{{index}}" class="form-check-input" type="checkbox" [ngModel]="item$.selected" /> Tous les
-          créneaux
+          <input id="item-{{index}}" class="form-check-input" type="checkbox" [ngModel]="item$.selected" />
+          Tous les créneaux
         </ng-template>
         <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
           <input id="item-{{index}}" class="form-check-input" type="checkbox" [ngModel]="item$.selected" />
@@ -98,8 +105,8 @@
     <div class="col">
       <!-- Switch button -->
       <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Je souhaite recevoir des notifications par
+        <input class="form-check-input" name="checkbox" type="checkbox" id="notifications">
+        <label class="form-check-label" for="notifications">Je souhaite recevoir des notifications par
           email</label>
       </div>
     </div>
@@ -107,27 +114,27 @@
 
   <!-- Checkbox -->
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-    <label class="form-check-label" for="flexCheckDefault">
+    <input class="form-check-input" name="default-checkbox" type="checkbox" value="" id="default-checkbox">
+    <label class="form-check-label" for="default-checkbox">
       Default checkbox
     </label>
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-    <label class="form-check-label" for="flexCheckChecked">
+    <input class="form-check-input" name="checked-checkbox" type="checkbox" value="" id="checked-checkbox" checked>
+    <label class="form-check-label" for="checked-checkbox">
       Checked checkbox
     </label>
   </div>
   <!-- Radiobox -->
   <div class="form-check">
-    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-    <label class="form-check-label" for="flexRadioDefault1">
+    <input class="form-check-input" type="radio" name="default-radio" id="default-radio">
+    <label class="form-check-label" for="default-radio">
       Default radio
     </label>
   </div>
   <div class="form-check">
-    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-    <label class="form-check-label" for="flexRadioDefault2">
+    <input class="form-check-input" type="radio" name="checked-radio" id="checked-radio" checked>
+    <label class="form-check-label" for="checked-radio">
       Default checked radio
     </label>
   </div>
@@ -137,7 +144,7 @@
   <!-- dropdown with radioboxes -->
   <nav class="navbar" aria-labelledby="dropdown-radiobox">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <div class="dropdown" id="main_navbar">
+      <div class="dropdown" id="category-dropdown">
         <button [ngClass]="{'navbar-toggler dropdown-btn': !isBigScreen, 'dropdown-btn': isBigScreen}" type="button"
           data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -178,7 +185,7 @@
   <!-- dropdown with checkboxes -->
   <nav class="navbar" aria-labelledby="dropdown-checkbox">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <div class="dropdown" id="main_navbar">
+      <div class="dropdown" id="state-dropdown">
         <button [ngClass]="{'navbar-toggler dropdown-btn': !isBigScreen, 'dropdown-btn': isBigScreen}" type="button"
           data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -209,10 +216,12 @@
   <button type="submit" class="btn-secondary mt-4">other btn</button>
   <!-- See more button -->
   <button type="submit" class="btn-info mt-4">voir plus<img class="arrow-down-icon"
-      src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas"></button>
-  <!-- Sell button -->
+      src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
+  </button>
+  <!-- Sell buttons -->
   <button type="submit" class="btn-sell mt-4"><img class="add-icon" src="/assets/icons/buttons/add-white.webp"
-      alt="icône plus">créer une annonce</button>
+      alt="icône plus">créer une annonce
+  </button>
   <button type="submit" class="btn-sell mt-4"><img class="add-icon" src="/assets/icons/buttons/add-white.webp"
       alt="icône plus">vendre</button>
   <!-- login button -->
@@ -230,9 +239,9 @@
     <div class="modal-body">
       <form>
         <div class="form-group">
-          <label for="email-adress">Adresse email</label>
+          <label for="email-address">Adresse email</label>
           <div class="input-group mt-3">
-            <input id="email-adress" name="email-adress" type="email" class="form-control"
+            <input id="email-address" name="email-address" type="email" class="form-control"
               placeholder="nom@example.com">
           </div>
           <label class="mt-4" for="password">Mot de passe</label>
