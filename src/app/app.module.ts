@@ -11,7 +11,7 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 @NgModule({
   declarations: [
     AppComponent,
-    StyleGuideComponent
+    StyleGuideComponent,
   ],
   imports: [
     BrowserModule,
