@@ -1,13 +1,14 @@
-<h2 class="text-center">Créer une annonce</h2>
+<div class="centered-elements">
+  <h2 class="text-center">Créer une annonce</h2>
 
-<h3 class="font-weight-bold">Photo(s)</h3>
+  <h3 class="font-weight-bold">Photo(s)</h3>
 
-<div class="add-picture-btn">
+  <div class="add-picture-btn">
     <img class="add-picture-icon" src="../../assets/icons/buttons/add-orange.webp" alt="icone-d-ajout-d-image">
-    <p>ajouter une photo</p>
-</div>
+    <p class="add-picture-btn-text">ajouter une photo</p>
+  </div>
 
-<div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3 center">
+  <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3 center">
     <ng-select [(ngModel)]="selectedPicNumber" name="days" class="custom mt-4" placeholder="Photo(s)">
       <ng-option *ngFor="let number of [1, 2, 3, 4, 5]" [value]="number">
         {{ number }} {{ number === 1 ? 'photo' : 'photos' }}
@@ -15,17 +16,17 @@
     </ng-select>
   </div>
 
-<h3 class="font-weight-bold">Catégorie</h3>
+  <h3 class="font-weight-bold">Catégorie</h3>
 
-<h3 class="font-weight-bold">Informations générales</h3>
+  <h3 class="font-weight-bold">Informations générales</h3>
 
-<label for="ad-title" name="ad-title">Titre</label>
-<input id="ad-title" type="text" class="form-control">
+  <label for="ad-title" name="ad-title">Titre</label>
+  <input id="ad-title" type="text" class="form-control">
 
-<label for="ad-description" class="form-label">Description</label>
-<textarea class="form-control form-control-sm" name="ad-description" id="ad-description" rows="3"></textarea>
+  <label for="ad-description" class="form-label">Description</label>
+  <textarea class="form-control form-control-sm" name="ad-description" id="ad-description" rows="3"></textarea>
 
-<div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3">
+  <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3">
     <ng-select [(ngModel)]="state" name="days" class="custom mt-4" placeholder="Etat">
       <ng-option *ngFor="let state of states" [value]="state.name">
         {{ state.name }}
@@ -36,8 +37,8 @@
   <label for="ad-price" name="ad-price">Prix</label>
   <input id="ad-price" type="number" class="form-control">
 
-  <div class="bottom-btns text-center">
+  <div class="bottom-btns">
     <button type="submit" class="btn-primary mt-4">annuler</button>
     <button type="submit" class="btn-secondary mt-4">publier</button>
   </div>
-
+</div>
