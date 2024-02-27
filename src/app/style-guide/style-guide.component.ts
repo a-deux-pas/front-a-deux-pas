@@ -54,6 +54,7 @@ export class StyleGuideComponent {
     { id: 10, name: '17h-18h', selectedAll: 'Tous' },
     { id: 11, name: '18h-19h', selectedAll: 'Tous' },
     { id: 12, name: '19h-20h', selectedAll: 'Tous' },
+    { id: 13, name: '20h-21h', selectedAll: 'Tous' },
     { id: 14, name: '21h-22h', selectedAll: 'Tous' },
   ];
 
@@ -70,7 +71,7 @@ export class StyleGuideComponent {
   categories = [
     {
       id: 1, name: 'Mode', subCategories: [
-        { id: 1, name: 'Haut', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
+        { id: 1, name: 'Hauts', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
         { id: 2, name: 'Bas', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
         { id: 3, name: 'Chaussures' },
         { id: 4, name: 'Manteau' },

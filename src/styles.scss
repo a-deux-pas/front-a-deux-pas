@@ -18,11 +18,7 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Colors
-$primary: #ff9f1a;
-$secondary: #ffbf6b;
-$tertiary: #cff1ef;
-$info: #2ec2b3;
-$link-hover-color: #000;
+@import 'style/color-variables.scss';
 
 /*-----------------------------------------------------------------------*/
 
@@ -34,6 +30,7 @@ $link-hover-color: #000;
 .mobile-footsteps {
   width: 48.174px;
   height: 49.367px;
+  margin-top: 5px;
 }
 
 .mobile-logo {
@@ -48,6 +45,7 @@ $link-hover-color: #000;
   height: 75.661px;
   float: left;
   margin-right: 3px;
+  margin-top: 27px;
 }
 
 .desktop-logo {
@@ -371,8 +369,8 @@ span.ng-value-icon.left {
   border-radius: 1px;
 
   &:hover {
-    background-color: $secondary;
-    color: white;
+    background-color: white;
+    color: $primary;
   }
 }
 
@@ -382,8 +380,8 @@ span.ng-value-icon.left {
 
 // Hover effects on selected value in multiselect
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
-  background-color: $secondary;
-  color: white;
+  background-color: white;
+  color: $primary;
 }
 
 /*--------------------------------------*/
@@ -426,9 +424,9 @@ span.ng-value-icon.left {
 // Marked option styling in dropdown panel
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked,
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-marked {
-  color: white;
+  color: $primary;
   border-radius: 0;
-  background-color: $secondary;
+  background-color: transparent;
 }
 
 // Selected option styling in dropdown panel
@@ -463,17 +461,16 @@ span.ng-value-icon.left {
 /*-----------------------------------------------------------------------*/
 
 //Switch
-
 $form-switch-checked-color: white;
 $form-switch-color: white;
 $form-switch-focus-color: white;
 
-#flexSwitchCheckDefault {
+#notifications {
   background-color: grey;
   border: transparent;
 }
 
-#flexSwitchCheckDefault:checked {
+#notifications:checked {
   background-color: $primary;
 }
 
@@ -566,12 +563,15 @@ $card-spacer-y: 3.1875rem;
 /*-----------------------------------------------------------------------*/
 
 // Dropdowns
-button.dropdown-btn {
+$navbar-toggler-focus-width: 0rem;
+
+button.dropdown-btn,
+button.navbar-toggler {
   border: transparent;
   background-color: transparent;
 }
 
-//Dropdown label
+// Dropdown label
 .dropdown-first-level {
   display: flex;
   justify-content: space-between;
@@ -590,11 +590,11 @@ button.dropdown-btn {
   }
 }
 
-//Select box styling
+// Select box styling
 .dropdown:hover>.dropdown-menu,
 .dropend:hover>.dropdown-menu {
   display: block;
-  margin-left: .125em;
+  margin-left: 0.125em;
   border-radius: 10px;
   border-top: 2px solid $secondary;
   border-right: 2px solid $secondary;
@@ -610,12 +610,11 @@ label.ddmenu-with-select {
   height: 30px;
 }
 
-//Select box hover styling
+// Select box hover styling
 a.nav-link:hover,
 li.ddmenu-with-select:hover,
 .div-form-check:hover {
-  background-color: $secondary;
-  color: white;
+  color: $primary;
 
   .dropdown-first-level {
     background: rgba(255, 191, 107, 0.39);
@@ -629,6 +628,10 @@ li.ddmenu-with-select:hover,
 ul.ddmenu-with-select,
 ul.dropdown-menu {
   margin-top: 10px;
+}
+
+a.dropdown-first-level.dropdown-toggle {
+  font-size: 16px;
 }
 
 /*-----------------------------------------------------------------------*/
