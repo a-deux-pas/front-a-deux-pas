@@ -8,11 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
+import { AdFormComponent } from './ad/ad-form.component';
+import { AdModule } from './ad/ad.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StyleGuideComponent
+    StyleGuideComponent,
+    AdFormComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +23,9 @@ import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.modul
     NgSelectModule,
     FormsModule,
     AppRoutingModule,
-    StyleGuideRoutingModule
+    StyleGuideRoutingModule,
+    AdModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
