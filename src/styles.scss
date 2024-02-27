@@ -612,6 +612,7 @@ label.ddmenu-with-select {
 
 // Select box hover styling
 a.nav-link:hover,
+input.nav-link:hover,
 li.ddmenu-with-select:hover,
 .div-form-check:hover {
   color: $primary;
@@ -632,6 +633,15 @@ ul.dropdown-menu {
 
 a.dropdown-first-level.dropdown-toggle {
   font-size: 16px;
+}
+
+//center sub categories in their boxes
+.dropdown-menu .nav-item.dropend input[type="button"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 /*-----------------------------------------------------------------------*/

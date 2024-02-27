@@ -167,14 +167,12 @@
                 </a>
                 <ul class="dropdown-menu" *ngIf="subCategory.gender">
                   <li id="dropdown-fourth-level" *ngFor="let gender of subCategory.gender" class="nav-item dropend">
-                    <a class="nav-link text-center">
-                      {{ gender.name }}
-                    </a>
+                    <input type="button" class="nav-link" (click)="methodToFilter(gender.name, subCategory.name)" value="{{ gender.name }}">
                   </li>
                 </ul>
-                <a *ngIf="!subCategory.gender" class="nav-link text-center">
-                  {{ subCategory.name }}
-                </a>
+              </li>
+              <li *ngFor="let subCategory of category.subCategories" class="nav-item dropend">
+                <input *ngIf="!subCategory.gender" type="button" class="nav-link" (click)="methodToFilter(undefined, subCategory.name)" value="{{ subCategory.name }}">
               </li>
             </ul>
           </li>
