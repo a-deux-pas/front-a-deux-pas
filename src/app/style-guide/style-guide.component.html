@@ -1,5 +1,5 @@
 <!-- Personalized container to use in "my account" pages (includes tabs and page content) -->
-<div class="profil-container">
+<div class="account-container">
 
   <div class="text-center">
     <h1 class="text-center">Logos</h1>
@@ -78,17 +78,17 @@
     </div>
     <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3">
       <!-- Multiselect -->
-      <ng-select 
-        class="custom mt-4" 
-        [items]="time" 
-        [multiple]="true" 
-        bindLabel="name" 
+      <ng-select
+        class="custom mt-4"
+        [items]="time"
+        [multiple]="true"
+        bindLabel="name"
         groupBy="selectedAll"
-        placeholder="Horaires" 
-        [selectableGroup]="true" 
-        [selectableGroupAsModel]="false" 
+        placeholder="Horaires"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
         [closeOnSelect]="false"
-        bindValue="id" 
+        bindValue="id"
         [(ngModel)]="selectedTimes"
       >
         <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
