@@ -18,7 +18,7 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Colors
-@import 'style/color-variables.scss';
+@import 'color-variables';
 
 /*-----------------------------------------------------------------------*/
 
@@ -612,6 +612,7 @@ label.ddmenu-with-select {
 
 // Select box hover styling
 a.nav-link:hover,
+input.nav-link:hover,
 li.ddmenu-with-select:hover,
 .div-form-check:hover {
   color: $primary;
@@ -634,6 +635,15 @@ a.dropdown-first-level.dropdown-toggle {
   font-size: 16px;
 }
 
+//center sub categories in their boxes
+.dropdown-menu .nav-item.dropend input[type="button"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Desktop version
@@ -647,7 +657,7 @@ a.dropdown-first-level.dropdown-toggle {
 
   // Personalized container for "my account" pages
   // Includes tabs and page content
-  .profil-container {
+  .account-container {
     @include make-container($padding-x: 20vh, $padding-y: 13.25vh);
   }
 
