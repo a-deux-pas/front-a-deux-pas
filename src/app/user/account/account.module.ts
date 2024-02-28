@@ -6,6 +6,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ScheduleComponent } from './profile/schedule/schedule.component';
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AccountComponent } from './account.component';
   imports: [
     CommonModule,
     AccountRoutingModule,
+    FullCalendarModule,
   ],
   exports: [
     AccountComponent,

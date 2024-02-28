@@ -8,6 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
+import { UserModule } from './user/user.module';
+
 
 @NgModule({
   declarations: [
@@ -19,8 +21,9 @@ import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.modul
     NgbModule,
     NgSelectModule,
     FormsModule,
+    UserModule,
     AppRoutingModule,
-    StyleGuideRoutingModule
+    StyleGuideRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
