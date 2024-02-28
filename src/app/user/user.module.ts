@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AccountComponent } from './account/account.component';
 import { AccountRoutingModule } from './account/account-routing.module';
+import { AccountModule } from './account/account.module';
 
 
 @NgModule({
   declarations: [
-    AccountComponent,
   ],
   imports: [
     CommonModule,
+    AccountModule,
     AccountRoutingModule
   ]
 })
