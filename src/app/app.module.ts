@@ -8,11 +8,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ListAdsComponent } from './pages/home-page/list-ads/list-ads.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StyleGuideComponent
+    StyleGuideComponent,
+    HomePageComponent,
+    ListAdsComponent,
   ],
   imports: [
     BrowserModule,
@@ -20,9 +25,10 @@ import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.modul
     NgSelectModule,
     FormsModule,
     AppRoutingModule,
-    StyleGuideRoutingModule
+    StyleGuideRoutingModule,
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
