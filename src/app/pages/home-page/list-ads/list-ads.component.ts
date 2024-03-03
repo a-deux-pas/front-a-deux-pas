@@ -15,7 +15,7 @@ export class ListAdsComponent implements OnInit {
 
   fetchData() {
     this.homePageService.fetchAdsList().subscribe((ads) => {
-      console.log(ads); // Handle the response data here
+      console.log(ads);
     });
   }
 }
