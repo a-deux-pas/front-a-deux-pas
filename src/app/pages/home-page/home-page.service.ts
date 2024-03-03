@@ -8,6 +8,6 @@ export class HomePageService {
   constructor(private http: HttpClient) {}
 
   fetchAdsList() {
-    return this.http.get('http://localhost:8081/api/list-ads');
+    return this.http.get('http://localhost:8081/ads/list');
   }
 }
