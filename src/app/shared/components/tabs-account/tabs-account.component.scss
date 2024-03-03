@@ -11,23 +11,23 @@
 
   #account-tabs {
     display: inline-flex;
-    border-color: white;
-  }
-
-  // Add bottom border to the account tabs
-  #account-tabs.nav-tabs {
     border-bottom: 2px solid $primary;
   }
 
+  // Add bottom border to the account tabs
+  // #account-tabs.nav-item {
+  //   border-bottom: 2px solid $primary;
+  // }
+
     // Default style for navigation links
-    #account-tabs button.nav-link {
+    #account-tabs a.nav-link {
       transition: none;
       color: black;
       padding: 20px 32px;
     }
 
   // Style for active navigation link
-  #account-tabs button.nav-link.active {
+  #account-tabs a.nav-link.active {
     border-radius: 10px 25px 0px 0px;
     background-color: $primary;
     color: white !important;
