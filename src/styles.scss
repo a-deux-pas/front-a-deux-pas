@@ -646,6 +646,41 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
+// Schedule
+
+// Header style
+.fc .fc-col-header-cell-cushion {
+  background-color: $info;
+  color:white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-size: 12px;
+}
+
+.fc .fc-col-header-cell-cushion {
+  padding: 5px 8px;
+  margin-bottom: 16px;
+}
+
+// Remove border
+.fc-theme-standard th {
+  border-right: none;
+  border-left: none;
+}
+
+// Remove border
+.fc-theme-standard .fc-scrollgrid {
+  border-top: none;
+  border-left: none;
+}
+
+// Remove today highlight
+.fc-day-today {
+  background-color:inherit !important;
+}
+
+/*-----------------------------------------------------------------------*/
+
 // Desktop version
 @media (min-width: 1200px) {
 
@@ -667,6 +702,16 @@ a.dropdown-first-level.dropdown-toggle {
     top: 0;
     left: 100%;
   }
+
+  // Schedule
+  // Header style
+  .fc .fc-col-header-cell-cushion {
+    background-color: $info;
+    color:white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 17px;
+  }
 }
 
 /*-----------------------------------------------------------------------*/
@@ -674,3 +719,5 @@ a.dropdown-first-level.dropdown-toggle {
 // Importing NgSelect and Bootstrap styles
 @import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
 @import "bootstrap/scss/bootstrap";
+
+

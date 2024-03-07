@@ -1,8 +1,8 @@
 <div class="profil-container text-center">
-  <ul ngbNav [activeId]="route.fragment | async" class="nav-tabs" id="account-tabs">
+  <ul ngbNav class="nav-tabs" id="account-tabs">
     @for (link of links; track link) {
       <li [ngbNavItem]="link.fragment">
-        <a ngbNavLink [routerLink]="[link.fragment]">{{ link.title }}</a>
+        <a ngbNavLink [routerLink]="['/compte', link.fragment]" [class.custom-active-tab]="active === link.fragment">{{ link.title }}</a>
       </li>
       }
   </ul>

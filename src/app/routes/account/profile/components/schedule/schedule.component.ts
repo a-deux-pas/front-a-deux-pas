@@ -11,6 +11,7 @@ export class ScheduleComponent {
     calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
     plugins: [timeGridPlugin],
+    themeSystem: 'bootstrap5',
     headerToolbar: false,
     dayHeaderContent: function(arg) {
       return arg.date.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase().replace(/\./g, '');
@@ -24,6 +25,7 @@ export class ScheduleComponent {
     slotMinTime: '08:00',
     slotMaxTime: '22:00',
     locale: 'fr',
+    height: 405,
   };
 
 

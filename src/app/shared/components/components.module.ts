@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     NgbNavModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [
     TabsAccountComponent
