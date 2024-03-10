@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PreferredSchedule } from '../../../shared/models/preferred-schedule.model';
 
 
 
@@ -12,8 +13,8 @@ export class ProfileService {
 
   constructor(private http: HttpClient) {}
 
-  getUserPreferredSchedule(id: number): Observable<any> {
-    return this.http.get<any>(this.apiUrl + "/compte/profil/" + id);
+  getUserPreferredSchedule(): Observable<PreferredSchedule[]> {
+    return this.http.get<PreferredSchedule[]>(this.apiUrl + "/compte/profil");
   }
 
 }

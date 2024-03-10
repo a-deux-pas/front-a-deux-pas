@@ -1,9 +1,9 @@
 export class PreferredSchedule {
   constructor(
-    public id: string,
+    public id: number,
+    public weekday: string,
     public startTime: string,
     public endTime: string,
-    public weekday: string,
     public userId: number
   ) {}
 }

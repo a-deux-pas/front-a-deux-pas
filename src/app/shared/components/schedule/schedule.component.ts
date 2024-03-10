@@ -4,7 +4,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { ProfileService } from '../../../routes/account/profile/profile.service';
-import { PreferredSchedule } from '../../models/preferred-schedule.model';
 
 @Component({
   selector: 'app-schedule',
@@ -12,8 +11,8 @@ import { PreferredSchedule } from '../../models/preferred-schedule.model';
   styleUrl: './schedule.component.scss'
 })
 export class ScheduleComponent implements OnInit {
-    //calendarVisible = signal(true);
-    calendarOptions: CalendarOptions = {
+    TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
+    calendarOptions = signal<CalendarOptions>({
     initialView: 'timeGridWeek',
     plugins: [timeGridPlugin, dayGridPlugin, interactionPlugin],
     themeSystem: 'bootstrap5',
@@ -36,6 +35,31 @@ export class ScheduleComponent implements OnInit {
       const hour = date.getHours();
       return hour.toString(); // retourne uniquement l'heure sans la lettre "h"
     },
+    initialEvents: [
+      {
+        id: this.createEventId(),
+        title: 'All-day event',
+        start: this.TODAY_STR
+      },
+      {
+        id: this.createEventId(),
+        title: 'Timed event',
+        start: this.TODAY_STR + 'T00:00:00',
+        end: this.TODAY_STR + 'T03:00:00'
+      },
+      {
+        id: this.createEventId(),
+        title: 'Timed event',
+        start: this.TODAY_STR + 'T12:00:00',
+        end: this.TODAY_STR + 'T15:00:00'
+      }
+    ],
+    // initialEvents: [this.profileService.getUserPreferredSchedule().subscribe((data) => {
+    //   data.map(preferredSchedule => ({
+    //     id: preferredSchedule.id.toString(),
+    //     start: new Date(),
+    //     end: new Date(),
+    //   }))})],
     select: this.handleTimeSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
@@ -44,9 +68,8 @@ export class ScheduleComponent implements OnInit {
     eventChange:
     eventRemove:
     */
-  };
+  });
 
-  userPreferredSchedule: PreferredSchedule[] = [];
   currentEvents = signal<EventApi[]>([]);
   eventId: number = 0;
 
@@ -54,18 +77,16 @@ export class ScheduleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profileService.getUserPreferredSchedule(3).subscribe((data: PreferredSchedule[]) => {
-      const events: EventInput[] = data.map(preferredSchedule => ({
-        id: this.createEventId(),
-        //daysOfWeek: ["7"],
-        title: 'Timed event',
-        start: new Date().toISOString().replace(/T.*$/, '') + 'T' + preferredSchedule.startTime,
-        end: new Date().toISOString().replace(/T.*$/, '') + 'T' + preferredSchedule.endTime
-      }));
-      this.calendarOptions.initialEvents = events;
-      this.changeDetector.detectChanges();
-      console.log(this.calendarOptions.initialEvents);
-    });
+    // this.profileService.getUserPreferredSchedule().subscribe((data) => {
+    //   const events: EventInput[] = data.map(preferredSchedule => ({
+    //     id: preferredSchedule.id.toString(),
+    //     start: new Date(),
+    //     end: new Date(),
+    //   }));
+    //   this.calendarOptions.initialEvents = events;
+    //   this.changeDetector.detectChanges();
+      console.log(this.currentEvents);
+    //});
   }
 
   createEventId() {
