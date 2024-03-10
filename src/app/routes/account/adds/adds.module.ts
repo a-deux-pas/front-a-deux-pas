@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AddsRoutingModule } from './adds-routing.module';
 import { AddsComponent } from './adds.component';
-import { ComponentsModule } from '../../../shared/components/components.module';
+import { SharedComponentsModule } from '../../../shared/components/shared-components.module';
 
 
 @NgModule({
@@ -13,7 +13,7 @@ import { ComponentsModule } from '../../../shared/components/components.module';
   imports: [
     CommonModule,
     AddsRoutingModule,
-    ComponentsModule
+    SharedComponentsModule
   ],
   exports: [
     AddsComponent,

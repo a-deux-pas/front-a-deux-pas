@@ -654,21 +654,21 @@ a.dropdown-first-level.dropdown-toggle {
   color:white;
   text-decoration: none;
   border-radius: 30px;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .fc .fc-col-header-cell-cushion {
-  padding: 5px 8px;
+  padding: 5px 5px;
   margin-bottom: 16px;
 }
 
-// Remove border
+// Remove header borders
 .fc-theme-standard th {
   border-right: none;
   border-left: none;
 }
 
-// Remove border
+// Remove header borders
 .fc-theme-standard .fc-scrollgrid {
   border-top: none;
   border-left: none;
@@ -678,6 +678,22 @@ a.dropdown-first-level.dropdown-toggle {
 .fc-day-today {
   background-color:inherit !important;
 }
+
+.fc { /* the calendar root */
+  width: 320px;
+  margin: 0 auto;
+}
+
+.fc-timegrid-slot-label-frame.fc-scrollgrid-shrink-frame {
+  background-color: #F2F2F2;
+  color: rgba(155, 149, 149, 0.85);
+}
+
+.fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+  font-size: 14px;
+  font-weight: 700;
+}
+
 
 /*-----------------------------------------------------------------------*/
 
@@ -703,14 +719,22 @@ a.dropdown-first-level.dropdown-toggle {
     left: 100%;
   }
 
+}
+
+@media (min-width: 768px) {
+
   // Schedule
-  // Header style
+  .fc { /* the calendar root */
+    width: calc(100% - 16px);
+    max-width: 745px;
+  }
+
   .fc .fc-col-header-cell-cushion {
-    background-color: $info;
-    color:white;
-    text-decoration: none;
-    border-radius: 30px;
-    font-size: 17px;
+    font-size: 12px;
+  }
+
+  .fc .fc-col-header-cell-cushion {
+    padding: 5px 7px;
   }
 }
 

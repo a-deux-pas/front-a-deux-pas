@@ -3,19 +3,25 @@ import { CommonModule } from '@angular/common';
 import { TabsAccountComponent } from './tabs-account/tabs-account.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
+import { ScheduleComponent } from './schedule/schedule.component';
+
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 @NgModule({
   declarations: [
-    TabsAccountComponent
+    TabsAccountComponent,
+    ScheduleComponent
   ],
   imports: [
     CommonModule,
     NgbNavModule,
     RouterModule,
+    FullCalendarModule,
   ],
   exports: [
-    TabsAccountComponent
+    TabsAccountComponent,
+    ScheduleComponent
   ]
 })
-export class ComponentsModule { }
+export class SharedComponentsModule { }

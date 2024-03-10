@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FavoritesComponent } from './favorites.component';
 import { FavoritesRoutingModule } from './favorites-routing.module';
-import { ComponentsModule } from '../../../shared/components/components.module';
+import { SharedComponentsModule } from '../../../shared/components/shared-components.module';
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import { ComponentsModule } from '../../../shared/components/components.module';
   imports: [
     CommonModule,
     FavoritesRoutingModule,
-    ComponentsModule
+    SharedComponentsModule
   ],
   exports: [
     FavoritesComponent,
