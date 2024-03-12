@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AddsRoutingModule } from './adds-routing.module';
-import { AddsComponent } from './adds.component';
+import { AdsRoutingModule } from './ads-routing.module';
+import { AdsComponent } from './ads.component';
 import { SharedComponentsModule } from '../../../shared/components/shared-components.module';
 
 
 @NgModule({
   declarations: [
-    AddsComponent
+    AdsComponent
   ],
   imports: [
     CommonModule,
-    AddsRoutingModule,
+    AdsRoutingModule,
     SharedComponentsModule
   ],
   exports: [
-    AddsComponent,
+    AdsComponent,
   ],
 })
-export class AddsModule { }
+export class AdsModule { }

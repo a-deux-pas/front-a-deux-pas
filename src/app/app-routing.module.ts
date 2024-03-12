@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: 'compte/annonces',
-    loadChildren: () => import('./routes/account/adds/adds.module').then(m => m.AddsModule)
+    loadChildren: () => import('./routes/account/ads/ads.module').then(m => m.AdsModule)
   },
   {
     path: 'compte/rdv',

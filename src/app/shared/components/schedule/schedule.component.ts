@@ -1,5 +1,5 @@
 import { Component , signal, ChangeDetectorRef, OnInit } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventInput } from '@fullcalendar/core'; // useful for typechecking
+import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core'; // useful for typechecking
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -11,8 +11,7 @@ import { ProfileService } from '../../../routes/account/profile/profile.service'
   styleUrl: './schedule.component.scss'
 })
 export class ScheduleComponent implements OnInit {
-    TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
-    calendarOptions = signal<CalendarOptions>({
+  calendarOptions: CalendarOptions = ({
     initialView: 'timeGridWeek',
     plugins: [timeGridPlugin, dayGridPlugin, interactionPlugin],
     themeSystem: 'bootstrap5',
@@ -35,36 +34,10 @@ export class ScheduleComponent implements OnInit {
       const hour = date.getHours();
       return hour.toString(); // retourne uniquement l'heure sans la lettre "h"
     },
-    initialEvents: [
-      {
-        id: this.createEventId(),
-        title: 'All-day event',
-        start: this.TODAY_STR
-      },
-      {
-        id: this.createEventId(),
-        title: 'Timed event',
-        start: this.TODAY_STR + 'T00:00:00',
-        end: this.TODAY_STR + 'T03:00:00'
-      },
-      {
-        id: this.createEventId(),
-        title: 'Timed event',
-        start: this.TODAY_STR + 'T12:00:00',
-        end: this.TODAY_STR + 'T15:00:00'
-      }
-    ],
-    // initialEvents: [this.profileService.getUserPreferredSchedule().subscribe((data) => {
-    //   data.map(preferredSchedule => ({
-    //     id: preferredSchedule.id.toString(),
-    //     start: new Date(),
-    //     end: new Date(),
-    //   }))})],
     select: this.handleTimeSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
     /* you can update a remote database when these fire:
-
     eventChange:
     eventRemove:
     */
@@ -72,21 +45,24 @@ export class ScheduleComponent implements OnInit {
 
   currentEvents = signal<EventApi[]>([]);
   eventId: number = 0;
+  Events: any[] = [];
 
   constructor(private profileService: ProfileService, private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
-    // this.profileService.getUserPreferredSchedule().subscribe((data) => {
-    //   const events: EventInput[] = data.map(preferredSchedule => ({
-    //     id: preferredSchedule.id.toString(),
-    //     start: new Date(),
-    //     end: new Date(),
-    //   }));
-    //   this.calendarOptions.initialEvents = events;
-    //   this.changeDetector.detectChanges();
-      console.log(this.currentEvents);
-    //});
+    this.profileService.getUserPreferredSchedule().subscribe((data) => {
+    this.Events = data.map(preferredSchedule => ({
+        id: preferredSchedule.id.toString(),
+        startTime: preferredSchedule.startTime,
+        endTime: preferredSchedule.endTime,
+        daysOfWeek: preferredSchedule.daysOfWeek,
+      }));
+      this.calendarOptions.events = this.Events;
+      this.changeDetector.detectChanges();
+      console.log(this.Events);
+      console.log(data);
+    });
   }
 
   createEventId() {
