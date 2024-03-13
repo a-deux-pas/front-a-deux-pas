@@ -5,12 +5,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-style-guide',
   templateUrl: './style-guide.component.html',
-  styleUrls: ['./style-guide.component.scss']
+  styleUrls: ['./style-guide.component.scss'],
 })
 export class StyleGuideComponent {
+  isLoginFormVisible = true;
 
   //Component to import to use a modal
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal) {}
 
   // This HostListener listens for window resize events
   // When a resize event occurs, the onResize method is triggered
@@ -69,32 +70,50 @@ export class StyleGuideComponent {
   // Dropdown with radiobox data
   categories = [
     {
-      id: 1, name: 'Mode', subCategories: [
-        { id: 1, name: 'Haut', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
-        { id: 2, name: 'Bas', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
+      id: 1,
+      name: 'Mode',
+      subCategories: [
+        {
+          id: 1,
+          name: 'Haut',
+          gender: [
+            { id: 1, name: 'Femme' },
+            { id: 2, name: 'Homme' },
+          ],
+        },
+        {
+          id: 2,
+          name: 'Bas',
+          gender: [
+            { id: 1, name: 'Femme' },
+            { id: 2, name: 'Homme' },
+          ],
+        },
         { id: 3, name: 'Chaussures' },
         { id: 4, name: 'Manteau' },
         { id: 5, name: 'Accessoires' },
         { id: 6, name: 'Autre' },
-      ]
+      ],
     },
     {
-      id: 2, name: 'Loisirs', subCategories: [
+      id: 2,
+      name: 'Loisirs',
+      subCategories: [
         { id: 7, name: 'Livres' },
         { id: 8, name: 'Musique' },
         { id: 9, name: 'Films' },
         { id: 10, name: 'Sport' },
         { id: 11, name: 'Autre' },
-      ]
-    }
-  ]
+      ],
+    },
+  ];
 
   // Card data
   dummyArticle: any = {
     title: 'Coque de téléphone',
     image: '/assets/pictures/mobile.webp',
     seller: 'Eri',
-    price: '30'
+    price: '30',
   };
 
   // Method to open a modal

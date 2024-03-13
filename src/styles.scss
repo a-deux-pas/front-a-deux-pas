@@ -18,6 +18,7 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Colors
+
 $primary: #ff9f1a;
 $secondary: #ffbf6b;
 $tertiary: #cff1ef;
@@ -65,8 +66,10 @@ $link-hover-color: #000;
 /*-----------------------------------------------------------------------*/
 
 // Method to create personalized containers
-@mixin make-container($padding-x: $container-padding-x,
-  $padding-y: $container-padding-y) {
+@mixin make-container(
+  $padding-x: $container-padding-x,
+  $padding-y: $container-padding-y
+) {
   width: 100%;
   margin-top: $padding-y;
   padding-right: $padding-x;
@@ -270,9 +273,82 @@ span.close {
   font-size: 1.3rem;
   transform: scaleX(1.1);
   color: $secondary;
+  z-index: 1;
 
   &:hover {
     color: black;
+  }
+}
+.modal-header {
+  z-index: 1;
+}
+// wavy backgroung modal
+.container {
+  position: absolute;
+  background: $tertiary;
+  height: 15vh;
+  z-index: 0;
+}
+
+.wave {
+  position: absolute;
+  height: 137px;
+  width: 97%;
+  background: var(--adn-color-tertiary);
+  bottom: 0;
+  right: 7px;
+}
+
+.wave::before,
+.wave::after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 50% 100%;
+}
+
+.wave::before {
+  width: 55%;
+  height: 100%;
+  background-color: $tertiary;
+  right: -1.5%;
+  top: 40%;
+}
+.wave::after {
+  width: 55%;
+  height: 109%;
+  background-color: #fff;
+  left: -1.5%;
+  top: 60%;
+}
+
+// toggle group
+.modal-btn {
+  margin: auto;
+  z-index: 1;
+  background-color: $primary;
+  border-radius: 10px;
+  padding: 2px;
+  height: 36px;
+
+  .btn {
+    background-color: $primary;
+    margin: 1px;
+    border-radius: 8px;
+    height: 30px;
+    line-height: 8px;
+    color: white;
+
+    &:hover {
+      color: $primary;
+      background-color: white;
+    }
+
+    &:active,
+    &:focus {
+      background-color: white;
+      color: $primary;
+    }
   }
 }
 
@@ -318,12 +394,12 @@ textarea.form-control {
 }
 
 // Opened ng-select container bottom border radius
-.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
+.ng-select.ng-select-opened.ng-select-bottom > .ng-select-container {
   border-bottom-right-radius: 40px;
 }
 
 // Focus effects for ng-select
-.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
   border-color: $secondary;
   box-shadow: none;
 }
@@ -376,12 +452,20 @@ span.ng-value-icon.left {
   }
 }
 
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon.left {
   border-right: 1px solid white;
 }
 
 // Hover effects on selected value in multiselect
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon:hover {
   background-color: $secondary;
   color: white;
 }
@@ -405,13 +489,17 @@ span.ng-value-icon.left {
 }
 
 // Dropdown panel First child option styling
-.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:first-child {
+.ng-dropdown-panel.ng-select-bottom
+  .ng-dropdown-panel-items
+  .ng-option:first-child {
   border-radius: 10px;
   border-color: $secondary;
 }
 
 // Dropdown panel first child marked option
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked:first-child {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-marked:first-child {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 0;
@@ -433,14 +521,18 @@ span.ng-value-icon.left {
 
 // Selected option styling in dropdown panel
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
 }
 
 // Selected option styling in multiselect
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-optgroup.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
   font-weight: 400;
@@ -484,8 +576,8 @@ $form-check-input-checked-color: white;
 $form-check-input-checked-bg-image: url("/assets/icons/check.webp");
 $form-check-radio-checked-bg-image: url("/assets/icons/check.webp");
 
-.form-check-input[type=checkbox],
-.form-check-input[type=radio] {
+.form-check-input[type="checkbox"],
+.form-check-input[type="radio"] {
   border: 1.7px solid $secondary;
 }
 
@@ -591,10 +683,10 @@ button.dropdown-btn {
 }
 
 //Select box styling
-.dropdown:hover>.dropdown-menu,
-.dropend:hover>.dropdown-menu {
+.dropdown:hover > .dropdown-menu,
+.dropend:hover > .dropdown-menu {
   display: block;
-  margin-left: .125em;
+  margin-left: 0.125em;
   border-radius: 10px;
   border-top: 2px solid $secondary;
   border-right: 2px solid $secondary;
@@ -635,7 +727,6 @@ ul.dropdown-menu {
 
 // Desktop version
 @media (min-width: 1200px) {
-
   // Body margin adjustments
   body {
     margin-left: 14vh !important;
@@ -649,7 +740,7 @@ ul.dropdown-menu {
   }
 
   //Dropdown menu styling
-  .dropend:hover>.dropdown-menu {
+  .dropend:hover > .dropdown-menu {
     position: absolute;
     top: 0;
     left: 100%;
