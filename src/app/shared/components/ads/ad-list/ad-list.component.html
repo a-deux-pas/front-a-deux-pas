@@ -1,21 +1,24 @@
-<div *ngIf="ads">
-  <div *ngFor="let ad of ads">
-    <div class="account-container">
-      <div class="card mt-4">
-        <img
-          class="card-img-top"
-          [src]="ad.articlePictureUrl"
-          alt="article à vendre"
-        />
-        <div class="card-colored-border">
-          <div class="card-body">
-            <h5 class="card-title pb-4">{{ ad.title }}</h5>
-            <p class="card-text">{{ ad.publisher }}</p>
-            <div class="bottom-card-part">
-              <p class="white-space">''</p>
-              <p class="white-space">''</p>
-              <!-- To possibly replace with the heart or the edit icon -->
-              <p class="card-text" id="article-price">{{ ad.price }} €</p>
+<div class="recent-ads-section">
+  <h2>Les dernières annonces</h2>
+  <div class="ad-list-container" *ngIf="ads">
+    <div *ngFor="let ad of ads">
+      <div>
+        <div class="card mt-4">
+          <img
+            class="card-img-top"
+            [src]="ad.articlePictureUrl"
+            alt="article à vendre"
+          />
+          <div class="card-colored-border">
+            <div class="card-body">
+              <h5 class="card-title pb-4">{{ ad.title }}</h5>
+              <p class="card-text">{{ ad.publisher }}</p>
+              <div class="bottom-card-part">
+                <p class="white-space">''</p>
+                <p class="white-space">''</p>
+                <!-- To possibly replace with the heart or the edit icon -->
+                <p class="card-text" id="article-price">{{ ad.price }} €</p>
+              </div>
             </div>
           </div>
         </div>

@@ -1,0 +1,11 @@
+.ad-list-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Create 4 columns with equal width */
+  gap: 20px; /* Add spacing between items */
+}
+
+.recent-ads-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}

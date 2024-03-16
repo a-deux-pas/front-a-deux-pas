@@ -18,7 +18,7 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Colors
-@import 'color-variables';
+@import "color-variables";
 
 /*-----------------------------------------------------------------------*/
 
@@ -63,8 +63,10 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Method to create personalized containers
-@mixin make-container($padding-x: $container-padding-x,
-  $padding-y: $container-padding-y) {
+@mixin make-container(
+  $padding-x: $container-padding-x,
+  $padding-y: $container-padding-y
+) {
   width: 100%;
   margin-top: $padding-y;
   padding-right: $padding-x;
@@ -316,12 +318,12 @@ textarea.form-control {
 }
 
 // Opened ng-select container bottom border radius
-.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
+.ng-select.ng-select-opened.ng-select-bottom > .ng-select-container {
   border-bottom-right-radius: 40px;
 }
 
 // Focus effects for ng-select
-.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
   border-color: $secondary;
   box-shadow: none;
 }
@@ -374,12 +376,20 @@ span.ng-value-icon.left {
   }
 }
 
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon.left {
   border-right: 1px solid white;
 }
 
 // Hover effects on selected value in multiselect
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon:hover {
   background-color: white;
   color: $primary;
 }
@@ -403,13 +413,17 @@ span.ng-value-icon.left {
 }
 
 // Dropdown panel First child option styling
-.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:first-child {
+.ng-dropdown-panel.ng-select-bottom
+  .ng-dropdown-panel-items
+  .ng-option:first-child {
   border-radius: 10px;
   border-color: $secondary;
 }
 
 // Dropdown panel first child marked option
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked:first-child {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-marked:first-child {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 0;
@@ -431,14 +445,18 @@ span.ng-value-icon.left {
 
 // Selected option styling in dropdown panel
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
 }
 
 // Selected option styling in multiselect
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-optgroup.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
   font-weight: 400;
@@ -481,8 +499,8 @@ $form-check-input-checked-color: white;
 $form-check-input-checked-bg-image: url("/assets/icons/check.webp");
 $form-check-radio-checked-bg-image: url("/assets/icons/check.webp");
 
-.form-check-input[type=checkbox],
-.form-check-input[type=radio] {
+.form-check-input[type="checkbox"],
+.form-check-input[type="radio"] {
   border: 1.7px solid $secondary;
 }
 
@@ -591,8 +609,8 @@ button.navbar-toggler {
 }
 
 // Select box styling
-.dropdown:hover>.dropdown-menu,
-.dropend:hover>.dropdown-menu {
+.dropdown:hover > .dropdown-menu,
+.dropend:hover > .dropdown-menu {
   display: block;
   margin-left: 0.125em;
   border-radius: 10px;
@@ -648,7 +666,6 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Desktop version
 @media (min-width: 1200px) {
-
   // Body margin adjustments
   body {
     margin-left: 14vh !important;
@@ -662,7 +679,7 @@ a.dropdown-first-level.dropdown-toggle {
   }
 
   //Dropdown menu styling
-  .dropend:hover>.dropdown-menu {
+  .dropend:hover > .dropdown-menu {
     position: absolute;
     top: 0;
     left: 100%;
