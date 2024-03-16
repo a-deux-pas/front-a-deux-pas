@@ -10,14 +10,14 @@ import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { ListAdsComponent } from './pages/home-page/list-ads/list-ads.component';
+import { AdListComponent } from './shared/components/ads/ad-list/ad-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StyleGuideComponent,
     HomePageComponent,
-    ListAdsComponent,
+    AdListComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HomePageService } from './home-page.service';
+import { AdListService } from './ad-list.service';
 
-describe('HomePageService', () => {
-  let service: HomePageService;
+describe('ListAdsService', () => {
+  let service: AdListService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(HomePageService);
+    service = TestBed.inject(AdListService);
   });
 
   it('should be created', () => {
