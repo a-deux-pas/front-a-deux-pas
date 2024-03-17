@@ -9,14 +9,14 @@ import { AppComponent } from './app.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { HomePageComponent } from './pages/home-page/home-page.component';
+import { DefaultHomeComponent } from './routes/home/default-home/default-home.component';
 import { AdListComponent } from './shared/components/ads/ad-list/ad-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StyleGuideComponent,
-    HomePageComponent,
+    DefaultHomeComponent,
     AdListComponent,
   ],
   imports: [
