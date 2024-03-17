@@ -1,1 +1,41 @@
-<p>meeting-places works!</p>
+  <div class="row">
+    <!-- First column -->
+    <div class="col-md-6">
+      <!-- Iterate over addresses for the first column -->
+      @for (meetingPlace of preferredMeetingPlaces; track meetingPlace.id; let i = $index) {
+        @if (i < 3) {
+          <address id="meeting-places">
+            <!-- Address number -->
+            <strong class="number">{{ i + 1 }}</strong>
+            <!-- Address name -->
+            <strong class="address-name">{{ preferredMeetingPlaces[i].name | titlecase }}</strong>
+            <!-- Address details -->
+            <div class="address-detail">
+              {{ preferredMeetingPlaces[i].street | titlecase }}<br>
+              {{ preferredMeetingPlaces[i].postalCode }} {{ preferredMeetingPlaces[i].city | titlecase }}
+            </div>
+          </address>
+        }
+      }
+    </div>
+
+    <!-- Second column -->
+    <div class="col-md-6">
+      <!-- Iterate over addresses for the second column -->
+      @for (meetingPlace of preferredMeetingPlaces; track meetingPlace.id; let i = $index) {
+        @if (i >= 3) {
+          <address id="meeting-places">
+            <!-- Address number -->
+            <strong class="number">{{ i + 1 }}</strong>
+            <!-- Address name -->
+            <strong class="address-name">{{ preferredMeetingPlaces[i].name | titlecase }}</strong>
+            <!-- Address details -->
+            <div class="address-detail">
+              {{ preferredMeetingPlaces[i].street | titlecase }}<br>
+              {{ preferredMeetingPlaces[i].postalCode }} {{ preferredMeetingPlaces[i].city | titlecase }}
+            </div>
+          </address>
+        }
+      }
+    </div>
+  </div>

@@ -1,0 +1,19 @@
+@import 'color-variables';
+
+#meeting-places .number {
+  background-color: $info;
+  color:white;
+  border-radius: 38px;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+#meeting-places .address-name {
+  color: $primary;
+  margin-left: 0.5rem;
+}
+
+#meeting-places .address-detail {
+  margin-top: 0.2rem;
+  margin-left: 2.2rem;
+}

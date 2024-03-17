@@ -23,7 +23,8 @@ import { EditButtonComponent } from './edit-button/edit-button.component';
   ],
   exports: [
     TabsAccountComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    EditButtonComponent
   ]
 })
 export class SharedComponentsModule { }

@@ -5,7 +5,7 @@ import { Component, EventEmitter, Output} from '@angular/core';
   templateUrl: './edit-button.component.html',
   styleUrl: './edit-button.component.scss'
 })
-export class EditButtonComponent {
+export class EditButtonComponent{
   // Output event emitter for notifying parent component about edit mode changes
   @Output() editModeChange = new EventEmitter<boolean>();
   // Flag to track edit mode
@@ -17,5 +17,6 @@ export class EditButtonComponent {
     this.editMode = !this.editMode;
     // Emit the edit mode change event with the updated edit mode value
     this.editModeChange.emit(this.editMode);
+    console.log(this.editMode);
   }
 }

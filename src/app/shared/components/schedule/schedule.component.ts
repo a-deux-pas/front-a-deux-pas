@@ -1,4 +1,4 @@
-import { Component , signal, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component , signal, ChangeDetectorRef, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core'; // useful for typechecking
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -10,7 +10,7 @@ import { ProfileService } from '../../../routes/account/profile/profile.service'
   templateUrl: './schedule.component.html',
   styleUrl: './schedule.component.scss'
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnChanges {
   // Signal for tracking current events
   currentEvents = signal<EventApi[]>([]);
   // Unique event ID counter
@@ -18,7 +18,7 @@ export class ScheduleComponent implements OnInit {
   // Array to hold events data
   Events: any[] = [];
   // Flag to track edit mode
-  editMode: boolean = false;
+  @Input() editMode!: boolean;
 
   // Calendar options configuration
   calendarOptions: CalendarOptions = ({
@@ -54,7 +54,7 @@ export class ScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     // Fetch user's preferred schedule data
-    this.profileService.getUserPreferredSchedule().subscribe((data) => {
+    this.profileService.getUserPreferredSchedules().subscribe((data) => {
     // Map fetched data to events array
     this.Events = data.map(preferredSchedule => ({
         id: preferredSchedule.id.toString(),
@@ -64,6 +64,7 @@ export class ScheduleComponent implements OnInit {
       }));
       // Set events array to calendar options
       this.calendarOptions.events = this.Events;
+      console.log("dans le schedule component " + this.editMode);
     });
   }
 
@@ -73,9 +74,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   // Handle edit mode change
-  onEditModeChange(editMode: boolean) {
-    this.editMode = editMode;
-    if (editMode) {
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.editMode) {
       // Enable calendar editing features
       this.calendarOptions.editable = true;
       this.calendarOptions.selectable = true;
