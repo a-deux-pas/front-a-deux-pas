@@ -8,6 +8,7 @@ export class HomePageAd {
     public subcategory: string,
     public articleGender: string,
     public creationDate: Date,
-    public publisher: string
+    public publisher: string,
+    public publisherCity: string
   ) {}
 }
