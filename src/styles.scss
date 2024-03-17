@@ -12,7 +12,7 @@ $font-family-base: $font-sans-serif;
 
 // Title sizes
 $h1-font-size: 2.22rem;
-$h2-font-size: 1.5rem;
+$h2-font-size: 1.4rem;
 $h3-font-size: 1.125rem;
 
 /*-----------------------------------------------------------------------*/
@@ -237,6 +237,7 @@ button.btn {
 
 .btn-icon span {
   margin-top: 6.29px;
+  text-align: center;
 }
 
 // Edit icon size
@@ -648,6 +649,12 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Schedule
 
+// Set the width of the calendar and center it
+.fc {
+  width: 320px;
+  margin: 0 auto;
+}
+
 // Header style
 .fc .fc-col-header-cell-cushion {
   background-color: $info;
@@ -662,10 +669,11 @@ a.dropdown-first-level.dropdown-toggle {
   margin-bottom: 16px;
 }
 
-// Remove header borders
+// Personalized header borders
 .fc-theme-standard th {
   border-right: none;
   border-left: none;
+  border-bottom: 2px solid var(--fc-border-color);
 }
 
 // Remove header borders
@@ -674,16 +682,17 @@ a.dropdown-first-level.dropdown-toggle {
   border-left: none;
 }
 
+// Thicken grids
+.fc-theme-standard td {
+  border: 2px solid var(--fc-border-color);
+}
+
 // Remove today highlight
 .fc-day-today {
   background-color:inherit !important;
 }
 
-.fc { /* the calendar root */
-  width: 320px;
-  margin: 0 auto;
-}
-
+// Timegrid slot styling
 .fc-timegrid-slot-label-frame.fc-scrollgrid-shrink-frame {
   background-color: #F2F2F2;
   color: rgba(155, 149, 149, 0.85);
@@ -694,6 +703,60 @@ a.dropdown-first-level.dropdown-toggle {
   font-weight: 700;
 }
 
+// Event styling
+.fc-v-event {
+  background-color: rgba(255, 191, 107, 0.705);
+  border: none;
+}
+
+.fc-event-time {
+  display: none;
+}
+
+.fc-timegrid-event {
+  border-radius: inherit;
+}
+
+// Remove margin
+.fc-event, .fc-event-main {
+  margin-bottom:0 !important;
+}
+
+.fc-direction-ltr .fc-timegrid-col-events {
+  margin: 0;
+}
+
+// .fc .fc-bg-event {
+//   background-color: $primary;
+// }
+
+/*-----------------------------------------------------------------------*/
+
+@media (min-width: 768px) {
+
+  // Schedule
+  // Adjust width and font size for larger screens
+  .fc {
+    width: calc(100% - 16px);
+    max-width: 745px;
+  }
+
+  // Header style
+  .fc .fc-col-header-cell-cushion {
+    font-size: 12px;
+  }
+
+  .fc .fc-col-header-cell-cushion {
+    padding: 5px 7px;
+  }
+
+  // Display event time
+  .fc-event-time {
+    margin: 0 auto;
+    display: inline-block;
+  }
+
+}
 
 /*-----------------------------------------------------------------------*/
 
@@ -719,23 +782,6 @@ a.dropdown-first-level.dropdown-toggle {
     left: 100%;
   }
 
-}
-
-@media (min-width: 768px) {
-
-  // Schedule
-  .fc { /* the calendar root */
-    width: calc(100% - 16px);
-    max-width: 745px;
-  }
-
-  .fc .fc-col-header-cell-cushion {
-    font-size: 12px;
-  }
-
-  .fc .fc-col-header-cell-cushion {
-    padding: 5px 7px;
-  }
 }
 
 /*-----------------------------------------------------------------------*/

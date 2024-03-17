@@ -6,12 +6,14 @@ import { RouterModule } from '@angular/router';
 import { ScheduleComponent } from './schedule/schedule.component';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { EditButtonComponent } from './edit-button/edit-button.component';
 
 
 @NgModule({
   declarations: [
     TabsAccountComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    EditButtonComponent
   ],
   imports: [
     CommonModule,

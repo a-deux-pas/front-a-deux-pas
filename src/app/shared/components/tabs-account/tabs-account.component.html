@@ -1,7 +1,9 @@
-<ul ngbNav class="nav-tabs" id="account-tabs">
-  @for (link of links; track link) {
-    <li [ngbNavItem]="link.fragment">
-      <a ngbNavLink [routerLink]="['/compte', link.fragment]" [class.custom-active-tab]="active === link.fragment">{{ link.title }}</a>
-    </li>
-    }
-</ul>
+<div class="account-container text-center">
+  <ul ngbNav class="nav-tabs" id="account-tabs">
+    @for (link of links; track link) {
+      <li [ngbNavItem]="link.fragment">
+        <a ngbNavLink [routerLink]="['/compte', link.fragment]" [class.custom-active-tab]="active === link.fragment">{{ link.title }}</a>
+      </li>
+      }
+  </ul>
+</div>

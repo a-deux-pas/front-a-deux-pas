@@ -4,10 +4,11 @@
 // Hide the account tabs on the mobile version
 #account-tabs {
   display: none;
+  font-size: 1.25rem;
 }
 
 // Desktop version style elements
-@media (min-width: 700px) {
+@media (min-width: 770px) {
 
   #account-tabs {
     display: inline-flex;
@@ -35,6 +36,7 @@
     border-radius: 10px 25px 0px 0px;
     background-color: $primary;
     color: white !important;
+    font-weight: 700;
   }
 
   // Style for hover and focus states of navigation links

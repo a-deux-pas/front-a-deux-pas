@@ -11,6 +11,16 @@ import { ProfileService } from '../../../routes/account/profile/profile.service'
   styleUrl: './schedule.component.scss'
 })
 export class ScheduleComponent implements OnInit {
+  // Signal for tracking current events
+  currentEvents = signal<EventApi[]>([]);
+  // Unique event ID counter
+  eventId: number = 0;
+  // Array to hold events data
+  Events: any[] = [];
+  // Flag to track edit mode
+  editMode: boolean = false;
+
+  // Calendar options configuration
   calendarOptions: CalendarOptions = ({
     initialView: 'timeGridWeek',
     plugins: [timeGridPlugin, dayGridPlugin, interactionPlugin],
@@ -18,84 +28,99 @@ export class ScheduleComponent implements OnInit {
     headerToolbar: false,
     dayHeaderContent: function(arg) {
       return arg.date.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase().replace(/\./g, '');
+    }, // display the day of the week
+    slotLabelContent: (arg) => {
+      const date = new Date(arg.date);
+      const hour = date.getHours();
+      return hour.toString(); // return the hour without the 'h' letter
     },
-    allDaySlot:false,
+    allDaySlot: false,
     firstDay: 1,
-    editable: true,
-    selectable: true,
-    selectMirror: true,
     slotDuration:'01:00',
     slotMinTime: '08:00',
     slotMaxTime: '22:00',
     locale: 'fr',
-    height: 395,
-    slotLabelContent: (arg) => {
-      const date = new Date(arg.date);
-      const hour = date.getHours();
-      return hour.toString(); // retourne uniquement l'heure sans la lettre "h"
-    },
+    height: 401.5,
+    contentHeight:'auto',
+    displayEventTime: true,
+    selectOverlap: false,
     select: this.handleTimeSelect.bind(this),
-    eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    /* you can update a remote database when these fire:
-    eventChange:
-    eventRemove:
-    */
+    //eventDisplay: 'background',
   });
-
-  currentEvents = signal<EventApi[]>([]);
-  eventId: number = 0;
-  Events: any[] = [];
 
   constructor(private profileService: ProfileService, private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+    // Fetch user's preferred schedule data
     this.profileService.getUserPreferredSchedule().subscribe((data) => {
+    // Map fetched data to events array
     this.Events = data.map(preferredSchedule => ({
         id: preferredSchedule.id.toString(),
         startTime: preferredSchedule.startTime,
         endTime: preferredSchedule.endTime,
         daysOfWeek: preferredSchedule.daysOfWeek,
       }));
+      // Set events array to calendar options
       this.calendarOptions.events = this.Events;
-      this.changeDetector.detectChanges();
-      console.log(this.Events);
-      console.log(data);
     });
   }
 
+  // Generate unique event ID
   createEventId() {
     return String(this.eventId++);
   }
 
-  handleEventClick(clickInfo: EventClickArg) {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
+  // Handle edit mode change
+  onEditModeChange(editMode: boolean) {
+    this.editMode = editMode;
+    if (editMode) {
+      // Enable calendar editing features
+      this.calendarOptions.editable = true;
+      this.calendarOptions.selectable = true;
+      this.calendarOptions.selectMirror = true;
+      this.calendarOptions.eventClick = this.handleEventClick.bind(this);
+    } else {
+      // Enable calendar editing features
+      this.calendarOptions.editable = false;
+      this.calendarOptions.selectable = false;
+      this.calendarOptions.selectMirror = false;
+      this.calendarOptions.eventClick = undefined;
     }
   }
 
+  // Handle event click
+  // TODO : add pop-up and send the info to the back
+  handleEventClick(clickInfo: EventClickArg) {
+      // Ask for confirmation before deleting an event
+      if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
+        clickInfo.event.remove();
+      }
+  }
+
+  // Handle time selection
+  // TODO : send the data to the back
   handleTimeSelect(selectInfo: DateSelectArg) {
     const calendarApi = selectInfo.view.calendar;
-
-    calendarApi.unselect(); // clear date selection
-
+      // clear date selection
+      calendarApi.unselect();
+       // Add a new event to the calendar
       calendarApi.addEvent({
         id: this.createEventId(),
         start: selectInfo.startStr,
         end: selectInfo.endStr,
         allDay: selectInfo.allDay,
-        color: "#ffbf6b"
       });
-
-      console.log(selectInfo);
   }
 
+   // Handle events
   handleEvents(events: EventApi[]) {
-    this.currentEvents.set(events);
-    this.changeDetector.detectChanges(); // workaround for pressionChangedAfterItHasBeenCheckedError
+      // Update current events signal
+      this.currentEvents.set(events);
+      // Trigger change detection to refresh the UI
+      this.changeDetector.detectChanges();
   }
-
 }
 
 
