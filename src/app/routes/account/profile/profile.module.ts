@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProfileRoutingModule } from './profile-routing.module';
-import { InformationComponent } from './components/information/information.component';
 import { MeetingPlacesComponent } from './components/meeting-places/meeting-places.component';
 
 import { ProfileComponent } from './profile.component';
@@ -12,7 +11,6 @@ import { SharedComponentsModule } from '../../../shared/components/shared-compon
 @NgModule({
   declarations: [
     ProfileComponent,
-    InformationComponent,
     MeetingPlacesComponent,
   ],
   imports: [

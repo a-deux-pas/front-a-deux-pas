@@ -1,0 +1,16 @@
+<div id="user-presentation">
+  <div class="row">
+    <div class="col-md-3">
+        <img class="profile-picture" src="{{ user.profilePicture }}" alt="photo de profil de {{ user.alias }}" />
+    </div>
+    <div class="col-md-9" id="user-info">
+        <!-- Informations utilisateur -->
+        <p>{{ user.alias }}</p>
+        <p>{{ user.city }}</p>
+        <p>Membre depuis le {{ user.inscriptionDate }}</p>
+    </div>
+  <div class="mt-3">
+    <strong>À propos</strong>
+    <p>{{ user.bio }}</p>
+  </div>
+</div>

@@ -7,13 +7,15 @@ import { ScheduleComponent } from './schedule/schedule.component';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { EditButtonComponent } from './edit-button/edit-button.component';
+import { UserPresentationComponent } from './user-presentation/user-presentation.component';
 
 
 @NgModule({
   declarations: [
     TabsAccountComponent,
     ScheduleComponent,
-    EditButtonComponent
+    EditButtonComponent,
+    UserPresentationComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { EditButtonComponent } from './edit-button/edit-button.component';
   exports: [
     TabsAccountComponent,
     ScheduleComponent,
-    EditButtonComponent
+    EditButtonComponent,
+    UserPresentationComponent
   ]
 })
 export class SharedComponentsModule { }

@@ -6,8 +6,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { StyleGuideComponent } from './style-guide/style-guide.component';
-import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
+import { StyleGuideComponent } from '../style/style-guide/style-guide.component';
+import { StyleGuideRoutingModule } from '../style/style-guide/style-guide-routing.module';
 import { AppRoutingModule } from './app-routing.module';
 
 

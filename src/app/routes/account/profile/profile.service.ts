@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PreferredSchedule } from '../../../shared/models/preferred-schedule.model';
 import { PreferredMeetingPlace } from '../../../shared/models/preferred-meeting-place.model';
+import { User } from '../../../shared/models/user.model';
 
 
 
@@ -19,6 +20,10 @@ export class ProfileService {
   }
 
   getPreferredMeetingPlaces(): Observable<PreferredMeetingPlace[]> {
-    return this.http.get<PreferredMeetingPlace[]>(this.apiUrl + "/lieux");
+    return this.http.get<PreferredMeetingPlace[]>(this.apiUrl + "/lieux-de-rdv");
+  }
+
+  getUserInformation(): Observable<User> {
+    return this.http.get<User>(this.apiUrl + "/présentation");
   }
 }

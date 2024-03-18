@@ -1,0 +1,15 @@
+@import 'color-variables';
+
+#user-presentation .profile-picture {
+  width: 233px;
+  border-radius: 50%;
+}
+
+#user-presentation strong {
+  color: $primary;
+}
+
+// #user-info {
+//   display: flex;
+//   align-items: center;
+// }

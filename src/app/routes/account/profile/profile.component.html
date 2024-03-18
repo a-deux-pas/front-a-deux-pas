@@ -1,7 +1,16 @@
 <div class="account-container">
   <app-tabs-account></app-tabs-account>
   <h2 class="mt-5 mb-5 text-left fw-bold">Ma présentation</h2>
-  <app-information></app-information>
+  <div class="row flex-row-reverse">
+    <div id="edit-button" class="col-12 col-md-2">
+      <div id="edit-button-container">
+    <app-edit-button (editModeChange)="onEditModeChange($event)"></app-edit-button>
+      </div>
+    </div>
+    <div class="col-12 col-md-10">
+      <app-user-presentation></app-user-presentation>
+    </div>
+  </div>
 
   <h2 class="mt-5 mb-5 text-left fw-bold">Mes disponibilités</h2>
   <div class="row flex-row-reverse">
