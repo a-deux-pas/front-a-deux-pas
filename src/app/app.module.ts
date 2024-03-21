@@ -3,13 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StyleGuideComponent } from './style-guide/style-guide.component';
-import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
-import { AdFormComponent } from './ad/ad-form.component';
-import { AdModule } from './ad/ad.module';
+import { StyleGuideComponent } from '../style/style-guide/style-guide.component';
+import { StyleGuideRoutingModule } from '../style/style-guide/style-guide-routing.module';
+import { AdFormComponent } from './routes/ads/create-ad/ad-form.component';
+import { AdModule } from './routes/ads/create-ad/ad.module';
+
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { AdModule } from './ad/ad.module';
     FormsModule,
     AppRoutingModule,
     StyleGuideRoutingModule,
-    AdModule
+    AdModule,
+    HttpClientModule,
+    NgxDropzoneModule
 
   ],
   providers: [],

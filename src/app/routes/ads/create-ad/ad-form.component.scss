@@ -1,0 +1,300 @@
+@import '../../../../style/color-variables.scss';
+
+//general
+
+
+.centered-elements {
+  text-align: center;
+}
+
+.centered-elements h3 {
+  text-align: left;
+
+  /* to cancel h3tag central alignement */
+  >label {
+    text-align: left;
+  }
+}
+
+.label-and-input {
+  // margin-right: 36%;
+  display: grid;
+  width: 600px;
+  text-align: left;
+}
+
+.title-input {
+  margin-left: 33%;
+}
+
+.description-input {
+  margin-left: 29%;
+}
+
+.input-group-addon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  padding-top: 26px;
+}
+
+#id-label {
+  margin-left: -12.875rem;
+}
+
+.input {
+  border-radius: 10px 10px 40px 5px;
+  border-bottom: 5px solid #ffbf6b;
+  border-top: white;
+  border-right: white;
+  border-left: white;
+  padding-bottom: 0.315rem;
+  height: 40px;
+}
+
+#selectPicNumber,
+.article-categorization {
+  width: 246px;
+}
+
+#price-input-field {
+  position: relative;
+}
+
+.error-msg {
+  color: $primary;
+}
+
+.bottom-btns {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// drag and drop 
+
+
+ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+  align-items: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  max-width: 70% !important;
+  min-height: 70% !important;
+  min-width: 180px !important;
+  position: relative !important;
+  margin-left: 16% !important;
+}
+
+.add-picture-icon {
+  width: 27.25px;
+  height: 27.25px;
+}
+
+.add-picture-btn-text {
+  color: $primary;
+}
+
+.photoDragAndDrop {
+  width: 859px;
+  height: 479px;
+  flex-shrink: 0;
+  border: dashed 2px grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+//dropzone styling for image selection on desktop
+
+
+.dropzone-field {
+  grid-gap: 21px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  max-width: 859px;
+  max-height: 478px;
+}
+
+//// if one dropzone
+.one-dropzone,
+.ngx-dropzone-image-preview {
+  width: 859px;
+  height: 478px;
+}
+
+//// if two dropzones
+.two-dropzones[_nghost-ng-c2040221903]:first-child,
+.ngx-dropzone-image-preview {
+  width: 423px;
+  height: 479px;
+}
+
+.two-dropzones[_nghost-ng-c2040221903]:nth-child(2) {
+  width: 423px;
+  height: 479px;
+}
+
+//// if three dropzones
+.three-dropzones[_nghost-ng-c2040221903] {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+}
+
+.three-dropzones[_nghost-ng-c2040221903]:first-child {
+  width: 523px;
+  height: 479px;
+  grid-area: 1 / 1 / 3 / 3;
+
+  &>ngx-dropzone-label>div {
+    margin-top: 100%;
+  }
+
+}
+
+.three-dropzones[_nghost-ng-c2040221903]:not(:first-child) {
+  width: 316px;
+  height: 232px;
+
+  &>ngx-dropzone-label>div {
+    margin-top: 30%;
+  }
+}
+
+.three-dropzones[_nghost-ng-c2040221903]:nth-child(2) {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.three-dropzones[_nghost-ng-c2040221903]:nth-child(3) {
+  grid-area: 2 / 3 / 3 / 4;
+}
+
+//// if four dropzones
+.four-dropzones[_nghost-ng-c2040221903] {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+}
+
+.four-dropzones[_nghost-ng-c2040221903]:first-child,
+.four-dropzones[_nghost-ng-c2040221903]:nth-child(4) {
+  width: 308px;
+  height: 479px;
+
+  &>ngx-dropzone-label>div {
+    margin-top: 87%;
+  }
+}
+
+.four-dropzones[_nghost-ng-c2040221903]:first-child {
+  grid-area: 1 / 1 / 3 / 2;
+}
+
+.four-dropzones[_nghost-ng-c2040221903]:nth-child(4) {
+  grid-area: 1 / 3 / 3 / 4;
+}
+
+.four-dropzones[_nghost-ng-c2040221903]:nth-child(2),
+.four-dropzones[_nghost-ng-c2040221903]:nth-child(3) {
+  width: 215px;
+  height: 232px;
+
+  &>ngx-dropzone-label>div {
+    margin-top: 30%;
+  }
+}
+
+//// if five dropzones
+.five-dropzones[_nghost-ng-c2040221903]:first-child {
+  width: 308px;
+  height: 479px;
+  grid-area: 1 / 1 / 3 / 2;
+}
+
+.five-dropzones[_nghost-ng-c2040221903]:not(:first-child) {
+  width: 256, 67px;
+  height: 232px;
+}
+
+@media screen and (max-width: 600px) {
+  ngx-dropzone {
+    width: 350px !important;
+    height: 349px;
+    margin: auto auto;
+  }
+
+  .carousel-item-mobile {
+    width: 350px;
+    height: 349px
+  }
+
+  #price-input-field {
+    position: relative;
+    width: 45%;
+  }
+
+  //image in dropzone preview dimension
+  // :host ::ng-deep img:not(.add-picture-icon) {
+  //   max-width: 100%;
+  //   max-height: 100%;
+  //   margin-top: 60%;
+  //   margin-left: 3%;
+  //   box-sizing: border-box;
+  // }
+
+  .add-picture-btn {
+    margin-top: 40%;
+  }
+
+  .title-input {
+    width: 320px !important;
+    height: 52px;
+    margin-left: 1%;
+    margin-bottom: 7%;
+  }
+
+  .description-input[_ngcontent-ng-c3601094463] {
+    width: 326px;
+    height: 181px;
+    margin-left: 2%;
+  }
+
+  #ad-price,
+  #ad-status {
+    width: 245.238px;
+    height: 43px;
+    margin: 0 auto;
+  }
+
+  #id-label {
+    margin-left: -11.875rem;
+  }
+
+  .ng-select.custom .ng-select-container {
+    min-width: 245.238px;
+  }
+
+  .description-input {
+    margin-left: 20%;
+    max-width: 326px;
+    height: 181px;
+  }
+
+  .state-and-price-input-correction {
+    margin-left: 25%;
+  }
+
+  .input-group-addon {
+    right: 0;
+  }
+}

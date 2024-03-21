@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { AdFormComponent } from './ad-form.component';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: 'add-form', component: AdFormComponent },
@@ -9,6 +10,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [],
   imports: [
+    FormsModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule]
