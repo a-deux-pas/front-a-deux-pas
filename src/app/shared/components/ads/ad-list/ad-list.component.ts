@@ -89,13 +89,13 @@ export class AdListComponent implements OnInit {
   private extractUniqueCitiesAndPostalCodes(ads: HomePageAd[]) {
     // using a temporary set to remove any duplicate city+postalCode string values
     const tempUniqueCitiesAndPostalCodesSet: Set<string> = new Set();
-    // populating the set with all the city+postalCode values found in our ads list
+    // weeding out the duplicate city+postalCode values, by using a set, initialized with all the values found in our ads list
     ads.forEach((ad) =>
       tempUniqueCitiesAndPostalCodesSet.add(
         ad.publisherCity.concat(' (').concat(ad.publisherPostalCode).concat(')')
       )
     );
-    // adding the unique values weeded out by the temporary set, into our array prop (to be used in the template)
+    // adding the unique values from the temporary set into our array prop (to be used in the template)
     this.uniqueCitiesAndPostalCodes = [...tempUniqueCitiesAndPostalCodesSet];
   }
 
