@@ -9,6 +9,7 @@ export class HomePageAd {
     public articleGender: string,
     public creationDate: Date,
     public publisher: string,
-    public publisherCity: string
+    public publisherCity: string,
+    public publisherPostalCode: string
   ) {}
 }

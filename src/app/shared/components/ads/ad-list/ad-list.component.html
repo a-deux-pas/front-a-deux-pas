@@ -1,7 +1,243 @@
-<div class="recent-ads-section">
+<div class="container">
   <h2>Les dernières annonces</h2>
-  <div class="ad-list-container" *ngIf="ads">
-    <div *ngFor="let ad of ads">
+  <div class="filters-container">
+    <!-- Price filter -->
+    <nav class="navbar" aria-labelledby="dropdown-checkbox">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="dropdown" id="price-dropdown">
+          <button
+            [ngClass]="{
+              'navbar-toggler dropdown-btn': !isBigScreen,
+              'dropdown-btn': isBigScreen
+            }"
+            type="button"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <a
+              class="dropdown-first-level dropdown-toggle"
+              role="button"
+              aria-expanded="false"
+            >
+              Prix
+            </a>
+          </button>
+          <ul class="dropdown-menu ddmenu-with-select">
+            <li
+              id="dropdown-second-level ddmenu-with-select mb-4"
+              *ngFor="let priceRange of priceRanges"
+              class="nav-item dropend"
+            >
+              <div class="form-check px-3 div-form-check mt-2">
+                <input
+                  class="form-check-input pr-2"
+                  type="checkbox"
+                  value=""
+                  id="{{ priceRange }}"
+                  name="{{ priceRange }}"
+                  (change)="
+                    handleFilterSelection('priceRange', priceRange, $event)
+                  "
+                />
+                <label
+                  class="form-check-label ddmenu-with-select text-center ms-2"
+                  for="{{ priceRange }}"
+                >
+                  {{ priceRange }}
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </ul>
+    </nav>
+    <!-- City filter -->
+    <nav class="navbar" aria-labelledby="dropdown-checkbox">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="dropdown" id="city-dropdown">
+          <button
+            [ngClass]="{
+              'navbar-toggler dropdown-btn': !isBigScreen,
+              'dropdown-btn': isBigScreen
+            }"
+            type="button"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <a
+              class="dropdown-first-level dropdown-toggle"
+              role="button"
+              aria-expanded="false"
+            >
+              Ville
+            </a>
+          </button>
+          <ul class="dropdown-menu ddmenu-with-select">
+            <li
+              id="dropdown-second-level ddmenu-with-select mb-4"
+              *ngFor="let cityAndPostalCode of uniqueCitiesAndPostalCodes"
+              class="nav-item dropend"
+            >
+              <div class="form-check px-3 div-form-check mt-2">
+                <input
+                  class="form-check-input pr-2"
+                  type="checkbox"
+                  value=""
+                  id="{{
+                    uniqueCitiesAndPostalCodes.indexOf(cityAndPostalCode)
+                  }}"
+                  name="{{ cityAndPostalCode }}"
+                  (change)="
+                    handleFilterSelection('city', cityAndPostalCode, $event)
+                  "
+                />
+                <label
+                  class="form-check-label ddmenu-with-select text-center ms-2"
+                  for="{{ cityAndPostalCode }}"
+                >
+                  {{ cityAndPostalCode }}
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </ul>
+    </nav>
+    <!-- Category filter -->
+    <nav class="navbar" aria-labelledby="dropdown-radiobox">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="dropdown" id="category-dropdown">
+          <button
+            [ngClass]="{
+              'navbar-toggler dropdown-btn': !isBigScreen,
+              'dropdown-btn': isBigScreen
+            }"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <a
+              class="dropdown-first-level dropdown-toggle"
+              role="button"
+              aria-expanded="false"
+            >
+              Catégorie
+            </a>
+          </button>
+          <ul class="dropdown-menu" id="categoryMenu">
+            <li
+              id="dropdown-second-level"
+              *ngFor="let category of categories"
+              class="nav-item dropend"
+            >
+              <a
+                class="nav-link dropdown-toggle text-center"
+                role="button"
+                aria-expanded="false"
+              >
+                {{ category.name }}
+              </a>
+              <ul class="dropdown-menu">
+                <li
+                  id="dropdown-third-level"
+                  *ngFor="let subCategory of category.subCategories"
+                  class="nav-item dropend"
+                >
+                  <a
+                    *ngIf="subCategory.gender"
+                    class="nav-link dropdown-toggle text-center"
+                    role="button"
+                    aria-expanded="false"
+                  >
+                    {{ subCategory.name }}
+                  </a>
+                  <ul class="dropdown-menu" *ngIf="subCategory.gender">
+                    <li
+                      id="dropdown-fourth-level"
+                      *ngFor="let gender of subCategory.gender"
+                      class="nav-item dropend"
+                    >
+                      <input
+                        type="button"
+                        class="nav-link"
+                        (click)="methodToFilter(gender.name, subCategory.name)"
+                        value="{{ gender.name }}"
+                      />
+                    </li>
+                  </ul>
+                </li>
+                <li
+                  *ngFor="let subCategory of category.subCategories"
+                  class="nav-item dropend"
+                >
+                  <input
+                    *ngIf="!subCategory.gender"
+                    type="button"
+                    class="nav-link"
+                    (click)="methodToFilter(undefined, subCategory.name)"
+                    value="{{ subCategory.name }}"
+                  />
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </ul>
+    </nav>
+    <!-- State/Condition filter -->
+    <nav class="navbar" aria-labelledby="dropdown-checkbox">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="dropdown" id="state-dropdown">
+          <button
+            [ngClass]="{
+              'navbar-toggler dropdown-btn': !isBigScreen,
+              'dropdown-btn': isBigScreen
+            }"
+            type="button"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <a
+              class="dropdown-first-level dropdown-toggle"
+              role="button"
+              aria-expanded="false"
+            >
+              État
+            </a>
+          </button>
+          <ul class="dropdown-menu ddmenu-with-select">
+            <li
+              id="dropdown-second-level ddmenu-with-select mb-4"
+              *ngFor="let state of articleStates"
+              class="nav-item dropend"
+            >
+              <div class="form-check px-3 div-form-check mt-2">
+                <input
+                  class="form-check-input pr-2"
+                  type="checkbox"
+                  value=""
+                  id="{{ state }}"
+                  name="{{ state }}"
+                  (change)="
+                    handleFilterSelection('articleState', state, $event)
+                  "
+                />
+                <label
+                  class="form-check-label ddmenu-with-select text-center ms-2"
+                  for="{{ state }}"
+                >
+                  {{ state }}
+                </label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </ul>
+    </nav>
+  </div>
+  <div class="ad-list-container" *ngIf="displayedAds">
+    <div *ngFor="let ad of displayedAds">
       <div>
         <div class="card mt-4">
           <img
@@ -24,5 +260,14 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="single-button-container mt-3 mb-3">
+    <button type="submit" class="btn-info mt-4">
+      voir plus<img
+        class="arrow-down-icon"
+        src="/assets/icons/buttons/arrow-down.webp"
+        alt="icône de flèche vers le bas"
+      />
+    </button>
   </div>
 </div>
