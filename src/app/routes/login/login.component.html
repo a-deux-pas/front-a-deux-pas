@@ -1,0 +1,122 @@
+<p>login works!</p>
+<button type="submit" class="btn-connection mt-4" (click)="open(loginModal)">
+  se connecter
+</button>
+
+<ng-template #loginModal let-modal>
+  <section class="container">
+    <div class="wave"></div>
+  </section>
+  <button
+    type="button"
+    class="btn-close align-self-end m-4"
+    data-bs-dismiss="modal"
+    aria-label="Close"
+    (click)="modal.dismiss('Cross click')"
+  >
+    <span class="close">x</span>
+  </button>
+  <div class="modal-header justify-content-center">
+    <div class="d-inline-flex">
+      <span class="mobile-logo align-self-center">A DEUX PAS</span>
+      <img
+        class="mobile-footsteps"
+        src="/assets/icons/mobile-footsteps.webp"
+        alt="icône de traces de pas"
+      />
+    </div>
+  </div>
+  <div class="modal-btn">
+    <button type="button" class="btn" (click)="(isLoginFormVisible)">
+      Se connecter
+    </button>
+
+    <button type="button" class="btn" (click)="isLoginFormVisible = false">
+      S'inscrire
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <ng-container>
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onLoginSubmit()"
+        *ngIf="isLoginFormVisible"
+      >
+        <label for="email">Adresse email</label>
+        <div class="input-group mt-3">
+          <input
+            id="email"
+            type="email"
+            name="email"
+            formControlName="email"
+            class="form-control"
+            required
+            placeholder="nom@example.com"
+          />
+          <div
+            *ngIf="
+              loginForm.get('email')?.invalid &&
+              (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
+            "
+            class="alert"
+          >
+            <div *ngIf="loginForm.get('email')?.errors">
+              L'adresse email est requise.
+            </div>
+          </div>
+        </div>
+        <label for="password">Mot de passe</label>
+        <div class="input-group mt-3">
+          <input
+            id="password"
+            type="password"
+            name="password"
+            formControlName="password"
+            class="form-control"
+            required
+            placeholder="mon mot de passe"
+          />
+          <div
+            *ngIf="
+              loginForm.get('password')?.invalid &&
+              (loginForm.get('password')?.dirty ||
+                loginForm.get('password')?.touched)
+            "
+            class="alert"
+          >
+            <div *ngIf="loginForm.get('password')?.errors">
+              Password is required.
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="submit" class="btn-success">C'est parti !</button>
+        </div>
+      </form>
+
+      <form *ngIf="!isLoginFormVisible">
+        <div class="form-group">
+          <label for="email-adress">Adresse email</label>
+          <div class="input-group mt-3">
+            <input
+              id="email-adress"
+              name="email-adress"
+              type="email"
+              class="form-control"
+              placeholder="nom@example.com"
+            />
+          </div>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ngb-alert [dismissible]="true" *ngIf="showSuccessAlert" type="success">
+  <strong>Succès !</strong> Connexion réussie.
+</ngb-alert>
+
+<ngb-alert [dismissible]="true" *ngIf="showErrorAlert" type="danger">
+  <strong>Erreur !</strong> Une erreur est survenue. Veuillez réessayer.
+</ngb-alert>
