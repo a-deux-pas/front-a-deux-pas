@@ -27,6 +27,7 @@ export class StyleGuideComponent {
   selectedDay!: number;
   selectedTimes = [];
   selectedState = [];
+  selectedCatFilter: string | undefined;
 
   // Select data
   days = [
@@ -55,6 +56,7 @@ export class StyleGuideComponent {
     { id: 10, name: '17h-18h', selectedAll: 'Tous' },
     { id: 11, name: '18h-19h', selectedAll: 'Tous' },
     { id: 12, name: '19h-20h', selectedAll: 'Tous' },
+    { id: 13, name: '20h-21h', selectedAll: 'Tous' },
     { id: 14, name: '21h-22h', selectedAll: 'Tous' },
   ];
 
@@ -75,7 +77,7 @@ export class StyleGuideComponent {
       subCategories: [
         {
           id: 1,
-          name: 'Haut',
+          name: 'Hauts',
           gender: [
             { id: 1, name: 'Femme' },
             { id: 2, name: 'Homme' },
@@ -119,5 +121,17 @@ export class StyleGuideComponent {
   // Method to open a modal
   public open(modal: any): void {
     this.modalService.open(modal);
+  }
+
+  //Méthod to select category filter
+  //Mircea : to rename once you've finalised your method as this bit of code just gives you your search terms ;)
+  methodToFilter(genderName: string | undefined, subCategoryName: string) {
+    this.selectedCatFilter = genderName ?? subCategoryName;
+    console.log(
+      ' subCategoryName ',
+      subCategoryName,
+      'genderName ',
+      genderName
+    );
   }
 }

@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { HttpClientModule } from '@angular/common/http';
+import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
 
 @NgModule({
   declarations: [AppComponent, StyleGuideComponent],
@@ -19,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     NgbAlertModule,
     ReactiveFormsModule,
+    StyleGuideRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
