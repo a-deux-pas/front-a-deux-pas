@@ -11,6 +11,7 @@ import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.modul
 import { HttpClientModule } from '@angular/common/http';
 import { DefaultHomeComponent } from './routes/home/default-home/default-home.component';
 import { AdListComponent } from './shared/components/ads/ad-list/ad-list.component';
+import { AdFilterComponent } from './shared/components/ads/ad-filter/ad-filter.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AdListComponent } from './shared/components/ads/ad-list/ad-list.compone
     StyleGuideComponent,
     DefaultHomeComponent,
     AdListComponent,
+    AdFilterComponent,
   ],
   imports: [
     BrowserModule,
