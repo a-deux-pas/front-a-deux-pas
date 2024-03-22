@@ -1,4 +1,10 @@
-import { Component, HostListener, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+} from '@angular/core';
 import { ArticleState } from '../../../models/enum/ArticleState';
 import { PriceRange } from '../../../models/enum/PriceRange';
 import { HomePageAd } from '../../../models/HomePageAd.model';
@@ -15,6 +21,9 @@ export class AdFilterComponent {
 
   @Input() displayedAds: HomePageAd[] = [];
   @Input() uniqueCitiesAndPostalCodes: string[] = [];
+  @Output() displayedAdsChange: EventEmitter<HomePageAd[]> = new EventEmitter<
+    HomePageAd[]
+  >();
 
   // selected filters
   selectedPriceRanges: string[] = [];
@@ -121,7 +130,10 @@ export class AdFilterComponent {
         this.selectedGender
       )
       .subscribe((filteredAds: HomePageAd[]) => {
+        // updates the 'displayedAds' variable
         this.displayedAds = filteredAds;
+        // signals to the parent component (ad-list) that the 'displayedAds' variable was updated
+        this.displayedAdsChange.emit(this.displayedAds);
       });
   }
 
