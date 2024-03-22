@@ -2,14 +2,12 @@
   <h2>Les dernières annonces</h2>
 
   <!--child component-->
-  <app-ad-filter>
-    <!-- passing the properties from the ad-list (parent) to the ad-filter (child) component -->
+  <app-ad-filter
     [displayedAds]="displayedAds"
     [uniqueCitiesAndPostalCodes]="uniqueCitiesAndPostalCodes"
-    <!-- establishing two-way binding between the parent and child components' displayedAds properties, 
-      allowing changes in one to be reflected in the other -->
-    [(displayedAds)]="displayedAds" ></app-ad-filter
+    [(displayedAds)]="displayedAds"
   >
+  </app-ad-filter>
 
   <div class="ad-list-container" *ngIf="displayedAds">
     <div *ngFor="let ad of displayedAds">
