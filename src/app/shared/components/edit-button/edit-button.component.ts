@@ -17,6 +17,5 @@ export class EditButtonComponent{
     this.editMode = !this.editMode;
     // Emit the edit mode change event with the updated edit mode value
     this.editModeChange.emit(this.editMode);
-    console.log(this.editMode);
   }
 }

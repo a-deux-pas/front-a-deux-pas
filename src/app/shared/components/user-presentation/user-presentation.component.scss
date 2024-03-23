@@ -1,15 +1,28 @@
 @import 'color-variables';
 
 #user-presentation .profile-picture {
-  width: 233px;
+  width: 208px;
   border-radius: 50%;
+  padding: 0;
 }
 
 #user-presentation strong {
   color: $primary;
 }
 
-// #user-info {
-//   display: flex;
-//   align-items: center;
-// }
+#user-info {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+// tablet and desktop version
+@media (min-width: 768px) {
+
+  #user-info {
+    text-align: left;
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+}

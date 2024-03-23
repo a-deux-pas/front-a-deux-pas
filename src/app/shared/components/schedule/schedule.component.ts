@@ -3,20 +3,19 @@ import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullca
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { ProfileService } from '../../../routes/account/profile/profile.service';
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrl: './schedule.component.scss'
 })
-export class ScheduleComponent implements OnInit, OnChanges {
+export class ScheduleComponent implements OnChanges {
   // Signal for tracking current events
-  currentEvents = signal<EventApi[]>([]);
+  currentSchedules = signal<EventApi[]>([]);
   // Unique event ID counter
   eventId: number = 0;
   // Array to hold events data
-  Events: any[] = [];
+  @Input() preferredSchedules!: any[];
   // Flag to track edit mode
   @Input() editMode!: boolean;
 
@@ -46,35 +45,18 @@ export class ScheduleComponent implements OnInit, OnChanges {
     selectOverlap: false,
     select: this.handleTimeSelect.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    //eventDisplay: 'background',
+    // for mobile devices
+    longPressDelay: 50,
+    eventLongPressDelay: 50,
+    selectLongPressDelay: 50,
   });
 
-  constructor(private profileService: ProfileService, private changeDetector: ChangeDetectorRef) {
-  }
-
-  ngOnInit(): void {
-    // Fetch user's preferred schedule data
-    this.profileService.getUserPreferredSchedules().subscribe((data) => {
-    // Map fetched data to events array
-    this.Events = data.map(preferredSchedule => ({
-        id: preferredSchedule.id.toString(),
-        startTime: preferredSchedule.startTime,
-        endTime: preferredSchedule.endTime,
-        daysOfWeek: preferredSchedule.daysOfWeek,
-      }));
-      // Set events array to calendar options
-      this.calendarOptions.events = this.Events;
-      console.log("dans le schedule component " + this.editMode);
-    });
-  }
-
-  // Generate unique event ID
-  createEventId() {
-    return String(this.eventId++);
+  constructor(private changeDetector: ChangeDetectorRef) {
   }
 
   // Handle edit mode change
   ngOnChanges(changes: SimpleChanges) {
+    this.calendarOptions.events = this.preferredSchedules;
     if (this.editMode) {
       // Enable calendar editing features
       this.calendarOptions.editable = true;
@@ -88,6 +70,11 @@ export class ScheduleComponent implements OnInit, OnChanges {
       this.calendarOptions.selectMirror = false;
       this.calendarOptions.eventClick = undefined;
     }
+  }
+
+  // Generate unique event ID
+  createEventId() {
+    return String(this.eventId++);
   }
 
   // Handle event click
@@ -105,7 +92,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
     const calendarApi = selectInfo.view.calendar;
       // clear date selection
       calendarApi.unselect();
-       // Add a new event to the calendar
+      // Add a new event to the calendar
       calendarApi.addEvent({
         id: this.createEventId(),
         start: selectInfo.startStr,
@@ -117,7 +104,7 @@ export class ScheduleComponent implements OnInit, OnChanges {
    // Handle events
   handleEvents(events: EventApi[]) {
       // Update current events signal
-      this.currentEvents.set(events);
+      this.currentSchedules.set(events);
       // Trigger change detection to refresh the UI
       this.changeDetector.detectChanges();
   }

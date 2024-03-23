@@ -4,8 +4,14 @@
   margin-bottom: 1rem;
 }
 
-// @media (min-width: 768px) {
-//   #edit-button-container {
-//     margin-bottom: 0;
-//   }
-// }
+#profil-page h2 {
+  text-align:center;
+}
+
+// tablet and desktop version
+@media (min-width: 768px) {
+
+  #profil-page h2 {
+    text-align:left;
+  }
+}
