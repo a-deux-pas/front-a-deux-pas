@@ -191,8 +191,7 @@ export class AdFormComponent implements OnInit {
       data.append('file', articlePic);
       data.append('upload_preset', 'adeupasProject');
       data.append('cloud_name', 'erikaadeuxpas');
-      // data.append('fetch_format', 'svg');
-      // data.append('format', 'svg')
+      // data.append("eager", "f_webp");
 
       observables.push(this.uploadPictureService.uploadImage(data));
     });
