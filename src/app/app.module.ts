@@ -13,12 +13,15 @@ import { AdFormComponent } from './routes/ads/create-ad/ad-form.component';
 import { AdModule } from './routes/ads/create-ad/ad.module';
 
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CloudinaryModule } from '@cloudinary/ng';
+import { TodeleteComponent } from './routes/ads/todelete/todelete.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StyleGuideComponent,
-    AdFormComponent
+    AdFormComponent,
+    TodeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     StyleGuideRoutingModule,
     AdModule,
     HttpClientModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    CloudinaryModule
 
   ],
   providers: [],

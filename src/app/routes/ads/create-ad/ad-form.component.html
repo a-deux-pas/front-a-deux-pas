@@ -4,8 +4,9 @@
 <div *ngIf="adForm.submitted && adForm.invalid && errorWhenSubmittingMsg" class="alert alert-danger">
   Une erreur s'est produite
 </div>
-<div class="centered-elements">
-  <form #adForm="ngForm" (ngSubmit)="onSubmit()">
+
+<form #adForm="ngForm" (ngSubmit)="onSubmit()">
+  <div class="centered-elements">
     <h2 class="text-center bold-title-700 mb-5">Créer une annonce</h2>
 
     <h3 class="bold-title-700">Photo(s)</h3>
@@ -38,6 +39,9 @@
         </ngx-dropzone-image-preview>
       </ngx-dropzone>
     </div>
+
+    <input type="file" name="" id="">
+
 
     <!-- Carrousel section for image selection on mobile device -->
     <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
@@ -95,58 +99,61 @@
         </ng-option>
       </ng-select>
     </div>
+  </div>
 
-    <!-- General information section -->
-    <h3 class="bold-title-700 mb-5 mt-3">Informations générales</h3>
+  <!-- General information section -->
+  <h3 class="bold-title-700 mb-5 mt-3">Informations générales</h3>
 
-    <div class="label-and-input title-input mx-auto">
-      <label for="ad-title" name="ad-title">Titre</label>
-      <input [(ngModel)]="ad.title" id="ad-title" name="ad-title" type="text" class="form-control mb-4" #title="ngModel"
-        required>
-    </div>
-    <div *ngIf="title.errors">
-      <span class="error-msg mb-4" *ngIf="title.touched && description.errors?.['required']">Veuillez entrer un
-        titre</span>
-    </div>
+  <div class="label-and-input title-input" [ngClass]="{'mx-auto': !isBigScreen}">
+    <label for="ad-title" name="ad-title">Titre</label>
+    <input [(ngModel)]="ad.title" id="ad-title" name="ad-title" type="text" class="form-control mb-4" #title="ngModel"
+      required>
+  </div>
+  <div *ngIf="title.errors">
+    <span class="error-msg mb-4" *ngIf="title.touched && description.errors?.['required']">Veuillez entrer un
+      titre</span>
+  </div>
 
-    <div class="label-and-input description-input mx-auto mt-5">
-      <label for="ad-description" class="form-label">Description</label>
-      <textarea [(ngModel)]="ad.articleDescription" class="form-control form-control-sm mx-auto mb-4"
-        name="ad-description" id="ad-description" rows="3" #description="ngModel" required></textarea>
-    </div>
-    <div *ngIf="description.errors">
-      <span class="error-msg mb-4" *ngIf="description.touched && description.errors?.['required']">Veuillez entrer une
-        description</span>
-    </div>
+  <div class="label-and-input description-input mt-5" [ngClass]="{'mx-auto': !isBigScreen}">
+    <label for="ad-description" class="form-label">Description</label>
+    <textarea [(ngModel)]="ad.articleDescription" class="form-control form-control-sm mx-auto mb-4"
+      name="ad-description" id="ad-description" rows="3" #description="ngModel" required></textarea>
+  </div>
+  <div *ngIf="description.errors">
+    <span class="error-msg mb-4" *ngIf="description.touched && description.errors?.['required']">Veuillez entrer une
+      description</span>
+  </div>
 
-    <div class="col-2 mt-5" [ngClass]="{'mx-auto': isBigScreen, 'state-and-price-input-correction ': !isBigScreen}">
-      <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mt-4 mb-4" placeholder="Etat" #state="ngModel"
-        required>
-        <ng-option *ngFor="let state of states" [value]="state.name" id="ad-status">
-          {{ state.name }}
-        </ng-option>
-      </ng-select>
-    </div>
-    <div *ngIf="state.errors">
-      <span class="error-msg mb-4" *ngIf="state.touched && state.errors?.['required']">Veuillez selectionner un
-        état</span>
-    </div>
+  <div class="col-2 mt-5 state-and-price-correction mx-auto">
+    <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mt-4 mb-4" placeholder="Etat" #state="ngModel"
+      required>
+      <ng-option *ngFor="let state of states" [value]="state.name" id="ad-status">
+        {{ state.name }}
+      </ng-option>
+    </ng-select>
+  </div>
+  <div *ngIf="state.errors">
+    <span class="error-msg mb-4" *ngIf="state.touched && state.errors?.['required']">Veuillez selectionner un
+      état</span>
+  </div>
 
-    <div class="col-2 flex  mt-5" id="price-input-field"
-      [ngClass]="{'mx-auto': isBigScreen, 'state-and-price-input-correction ': !isBigScreen}">
-      <label for="ad-price" name="ad-price" id="id-label" class="mt-3">Prix</label>
-      <input [(ngModel)]="ad.price" name="price" id="ad-price" type="number" class="col-8 mx-auto form-control mb-4"
-        #price="ngModel" required number min="0.1">
-      <span class="input-group-addon">&nbsp;&nbsp;&nbsp;€</span>
+  <div class="col-2 mt-5 mx-auto" id="price-input-field">
+    <label for="ad-price" name="ad-price" id="price-input-label" class="mt-3">Prix</label>
+    <div class="row">
+      <div class="col-8 mx-auto d-flex align-items-center">
+        <input [(ngModel)]="ad.price" name="price" id="ad-price" type="number" class="form-control mb-4"
+          #price="ngModel" required number min="0.1">
+        <span class="input-group-addon">&nbsp;&nbsp;&nbsp;€</span>
+      </div>
     </div>
-    <div *ngIf="price.errors">
-      <span class="error-msg mb-4" *ngIf="price.errors?.['required']">Veuillez entrer un prix</span>
-    </div>
+  </div>
+  <div *ngIf="price.errors">
+    <span class="error-msg mb-4" *ngIf="price.errors?.['required']">Veuillez entrer un prix</span>
+  </div>
 
 
-    <div class="bottom-btns mb-5 mt-5">
-      <button type="submit" class="btn-secondary mt-4">annuler</button>
-      <button type="submit" class="btn-primary mt-4">publier</button>
-    </div>
-  </form>
-</div>
+  <div class="bottom-btns mb-5 mt-5">
+    <button type="submit" class="btn-secondary mt-4">annuler</button>
+    <button type="submit" class="btn-primary mt-4">publier</button>
+  </div>
+</form>
