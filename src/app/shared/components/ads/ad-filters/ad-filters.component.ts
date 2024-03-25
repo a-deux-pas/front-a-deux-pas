@@ -64,14 +64,39 @@ export class AdFiltersComponent {
     },
     {
       id: 2,
+      name: 'Électronique',
+      subCategories: [
+        { id: 7, name: 'Ordinateur' },
+        { id: 8, name: 'Téléphone' },
+        { id: 9, name: 'Jeux vidéo' },
+        { id: 10, name: 'Autre' },
+      ],
+    },
+    {
+      id: 3,
+      name: 'Maison',
+      subCategories: [
+        { id: 11, name: 'Meubles' },
+        { id: 12, name: 'Décorations' },
+        { id: 13, name: 'Jardin' },
+        { id: 14, name: 'Autre' },
+      ],
+    },
+    {
+      id: 4,
       name: 'Loisirs',
       subCategories: [
-        { id: 7, name: 'Livres' },
-        { id: 8, name: 'Musique' },
-        { id: 9, name: 'Films' },
-        { id: 10, name: 'Sport' },
-        { id: 11, name: 'Autre' },
+        { id: 15, name: 'Livres' },
+        { id: 16, name: 'Musique' },
+        { id: 17, name: 'Films' },
+        { id: 18, name: 'Sport' },
+        { id: 19, name: 'Autre' },
       ],
+    },
+    {
+      id: 5,
+      name: 'Autre',
+      subCategories: [{ id: 20, name: 'Autre' }],
     },
   ];
 
