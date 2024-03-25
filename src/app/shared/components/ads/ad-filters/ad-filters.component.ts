@@ -87,9 +87,41 @@ export class AdFiltersComponent {
     this.fetchFilteredAds();
   }
 
-  resetCategoryFilter() {
-    this.selectedCategory = 'Catégorie';
+  // re-initializing the filters
+  resetFilter(filter: string) {
+    switch (filter) {
+      case 'price':
+        this.resetCheckboxesAndSelection(
+          '#price-dropdown input[type="checkbox"]',
+          this.selectedPriceRanges
+        );
+        break;
+      case 'city':
+        this.resetCheckboxesAndSelection(
+          '#city-dropdown input[type="checkbox"]',
+          this.selectedCities
+        );
+        break;
+      case 'articleState':
+        this.resetCheckboxesAndSelection(
+          '#state-dropdown input[type="checkbox"]',
+          this.selectedArticleStates
+        );
+        break;
+      case 'category':
+        this.selectedCategory = 'Catégorie';
+        break;
+    }
     this.fetchFilteredAds();
+  }
+
+  // clearing all checkboxes for the selected http element (by its #id) and emptying its filter array
+  private resetCheckboxesAndSelection(selector: string, selection: any[]) {
+    const checkboxes = document.querySelectorAll<HTMLInputElement>(selector);
+    checkboxes.forEach((checkbox: HTMLInputElement) => {
+      checkbox.checked = false;
+    });
+    selection.length = 0;
   }
 
   // calling the service method that makes the api call to fetch the filtered ads

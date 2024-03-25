@@ -16,6 +16,7 @@
             class="dropdown-first-level dropdown-toggle"
             role="button"
             aria-expanded="false"
+            (click)="resetFilter('price')"
           >
             Prix
           </a>
@@ -70,6 +71,7 @@
             class="dropdown-first-level dropdown-toggle"
             role="button"
             aria-expanded="false"
+            (click)="resetFilter('city')"
           >
             Ville
           </a>
@@ -125,7 +127,7 @@
             class="dropdown-first-level dropdown-toggle resize"
             role="button"
             aria-expanded="false"
-            (click)="resetCategoryFilter()"
+            (click)="resetFilter('category')"
           >
             {{ selectedCategory }}
           </a>
@@ -233,6 +235,7 @@
             class="dropdown-first-level dropdown-toggle"
             role="button"
             aria-expanded="false"
+            (click)="resetFilter('articleState')"
           >
             État
           </a>
