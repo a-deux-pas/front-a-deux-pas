@@ -9,6 +9,7 @@ import { ArticleState } from '../../../models/enum/ArticleState';
 import { PriceRange } from '../../../models/enum/PriceRange';
 import { HomePageAd } from '../../../models/HomePageAd.model';
 import { AdFiltersService } from './ad-filters.service';
+import { Categories } from '../../../utils/constants/Categories';
 
 @Component({
   selector: 'app-ad-filters',
@@ -30,80 +31,15 @@ export class AdFiltersComponent {
   selectedArticleStates: string[] = [];
   selectedCategory: string = 'Catégorie';
 
-  // extracting enum values for template use
+  // initializing values for template use
   articleStates = Object.values(ArticleState);
   priceRanges = Object.values(PriceRange);
-
-  // TODO : refactor this
-  categories = [
-    {
-      id: 1,
-      name: 'Mode',
-      subCategories: [
-        {
-          id: 1,
-          name: 'Hauts',
-          gender: [
-            { id: 1, name: 'Femme' },
-            { id: 2, name: 'Homme' },
-          ],
-        },
-        {
-          id: 2,
-          name: 'Bas',
-          gender: [
-            { id: 1, name: 'Femme' },
-            { id: 2, name: 'Homme' },
-          ],
-        },
-        { id: 3, name: 'Chaussures' },
-        { id: 4, name: 'Manteau' },
-        { id: 5, name: 'Accessoires' },
-        { id: 6, name: 'Autre' },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Électronique',
-      subCategories: [
-        { id: 7, name: 'Ordinateur' },
-        { id: 8, name: 'Téléphone' },
-        { id: 9, name: 'Jeux vidéo' },
-        { id: 10, name: 'Autre' },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Maison',
-      subCategories: [
-        { id: 11, name: 'Meubles' },
-        { id: 12, name: 'Décorations' },
-        { id: 13, name: 'Jardin' },
-        { id: 14, name: 'Autre' },
-      ],
-    },
-    {
-      id: 4,
-      name: 'Loisirs',
-      subCategories: [
-        { id: 15, name: 'Livres' },
-        { id: 16, name: 'Musique' },
-        { id: 17, name: 'Films' },
-        { id: 18, name: 'Sport' },
-        { id: 19, name: 'Autre' },
-      ],
-    },
-    {
-      id: 5,
-      name: 'Autre',
-      subCategories: [{ id: 20, name: 'Autre' }],
-    },
-  ];
+  categories = Categories;
 
   // injecting the filter service
   constructor(private adFiltersService: AdFiltersService) {}
 
-  // handling filter selection
+  // handling the checkbox filters every time any of the checkboxes are changed (checked / unchecked)
   handleCheckboxFiltersSelection(
     filterType: string,
     value: string,
@@ -112,17 +48,21 @@ export class AdFiltersComponent {
     const checkbox = event?.target as HTMLInputElement;
     switch (filterType) {
       case 'priceRange':
-        this.updateSelectedArray(
+        this.updateSelectedFilterArray(
           this.selectedPriceRanges,
           value,
           checkbox.checked
         );
         break;
       case 'city':
-        this.updateSelectedArray(this.selectedCities, value, checkbox.checked);
+        this.updateSelectedFilterArray(
+          this.selectedCities,
+          value,
+          checkbox.checked
+        );
         break;
       case 'articleState':
-        this.updateSelectedArray(
+        this.updateSelectedFilterArray(
           this.selectedArticleStates,
           value,
           checkbox.checked
@@ -132,20 +72,7 @@ export class AdFiltersComponent {
     this.fetchFilteredAds();
   }
 
-  // adding or removing values from a filter array, based on their checked or unchecked status
-  updateSelectedArray(array: string[], value: string, isChecked: boolean) {
-    if (isChecked) {
-      array.push(value);
-    } else {
-      const index = array.indexOf(value);
-      if (index !== -1) {
-        array.splice(index, 1);
-      }
-    }
-  }
-
-  //Méthod to select category filter
-  //Mircea : to rename once you've finalised your method as this bit of code just gives you your search terms ;)
+  // handling the category filter at each click on either the category, subcategory or gender value
   handleCategoryFilterSelection(
     category: string,
     subCategory: string | undefined,
@@ -165,6 +92,7 @@ export class AdFiltersComponent {
     this.fetchFilteredAds();
   }
 
+  // calling the service method that makes the api call to fetch the filtered ads
   private fetchFilteredAds() {
     this.adFiltersService
       .fetchFilteredAds(
@@ -174,11 +102,27 @@ export class AdFiltersComponent {
         this.selectedCategory
       )
       .subscribe((filteredAds: HomePageAd[]) => {
-        // updates the 'displayedAds' variable
+        // updating the 'displayedAds' variable
         this.displayedAds = filteredAds;
-        // signals to the parent component (ad-list) that the 'displayedAds' variable was updated
+        // signaling to the parent component (ad-list) that the 'displayedAds' variable was updated
         this.displayedAdsChange.emit(this.displayedAds);
       });
+  }
+
+  // adding or removing values from a filter array, based on their checked or unchecked status
+  updateSelectedFilterArray(
+    array: string[],
+    value: string,
+    isChecked: boolean
+  ) {
+    if (isChecked) {
+      array.push(value);
+    } else {
+      const index = array.indexOf(value);
+      if (index !== -1) {
+        array.splice(index, 1);
+      }
+    }
   }
 
   @HostListener('window:resize', ['$event'])
