@@ -2,12 +2,12 @@
   <h2>Les dernières annonces</h2>
 
   <!--child component-->
-  <app-ad-filter
+  <app-ad-filters
     [displayedAds]="displayedAds"
     [uniqueCitiesAndPostalCodes]="uniqueCitiesAndPostalCodes"
     [(displayedAds)]="displayedAds"
   >
-  </app-ad-filter>
+  </app-ad-filters>
 
   <div class="ad-list-container" *ngIf="displayedAds">
     <div *ngFor="let ad of displayedAds">

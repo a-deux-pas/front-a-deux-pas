@@ -34,7 +34,11 @@
                 id="{{ priceRange }}"
                 name="{{ priceRange }}"
                 (change)="
-                  handleFilterSelection('priceRange', priceRange, $event)
+                  handleCheckboxFiltersSelection(
+                    'priceRange',
+                    priceRange,
+                    $event
+                  )
                 "
               />
               <label
@@ -84,7 +88,11 @@
                 id="{{ uniqueCitiesAndPostalCodes.indexOf(cityAndPostalCode) }}"
                 name="{{ cityAndPostalCode }}"
                 (change)="
-                  handleFilterSelection('city', cityAndPostalCode, $event)
+                  handleCheckboxFiltersSelection(
+                    'city',
+                    cityAndPostalCode,
+                    $event
+                  )
                 "
               />
               <label
@@ -114,11 +122,12 @@
           aria-label="Toggle navigation"
         >
           <a
-            class="dropdown-first-level dropdown-toggle"
+            class="dropdown-first-level dropdown-toggle resize"
             role="button"
             aria-expanded="false"
+            (click)="resetCategoryFilter()"
           >
-            Catégorie
+            {{ selectedCategory }}
           </a>
         </button>
         <ul class="dropdown-menu" id="categoryMenu">
@@ -131,6 +140,13 @@
               class="nav-link dropdown-toggle text-center"
               role="button"
               aria-expanded="false"
+              (click)="
+                handleCategoryFilterSelection(
+                  category.name,
+                  undefined,
+                  undefined
+                )
+              "
             >
               {{ category.name }}
             </a>
@@ -145,6 +161,13 @@
                   class="nav-link dropdown-toggle text-center"
                   role="button"
                   aria-expanded="false"
+                  (click)="
+                    handleCategoryFilterSelection(
+                      category.name,
+                      subCategory.name,
+                      undefined
+                    )
+                  "
                 >
                   {{ subCategory.name }}
                 </a>
@@ -157,7 +180,13 @@
                     <input
                       type="button"
                       class="nav-link"
-                      (click)="methodToFilter(gender.name, subCategory.name)"
+                      (click)="
+                        handleCategoryFilterSelection(
+                          category.name,
+                          subCategory.name,
+                          gender.name
+                        )
+                      "
                       value="{{ gender.name }}"
                     />
                   </li>
@@ -171,7 +200,13 @@
                   *ngIf="!subCategory.gender"
                   type="button"
                   class="nav-link"
-                  (click)="methodToFilter(undefined, subCategory.name)"
+                  (click)="
+                    handleCategoryFilterSelection(
+                      category.name,
+                      subCategory.name,
+                      undefined
+                    )
+                  "
                   value="{{ subCategory.name }}"
                 />
               </li>
@@ -215,7 +250,9 @@
                 value=""
                 id="{{ state }}"
                 name="{{ state }}"
-                (change)="handleFilterSelection('articleState', state, $event)"
+                (change)="
+                  handleCheckboxFiltersSelection('articleState', state, $event)
+                "
               />
               <label
                 class="form-check-label ddmenu-with-select text-center ms-2"

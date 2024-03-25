@@ -8,15 +8,14 @@ import {
 import { ArticleState } from '../../../models/enum/ArticleState';
 import { PriceRange } from '../../../models/enum/PriceRange';
 import { HomePageAd } from '../../../models/HomePageAd.model';
-import { AdFilterService } from './ad-filter.service';
+import { AdFiltersService } from './ad-filters.service';
 
 @Component({
-  selector: 'app-ad-filter',
-  templateUrl: './ad-filter.component.html',
-  styleUrl: './ad-filter.component.scss',
+  selector: 'app-ad-filters',
+  templateUrl: './ad-filters.component.html',
+  styleUrl: './ad-filters.component.scss',
 })
-export class AdFilterComponent {
-  selectedCatFilter: string | undefined;
+export class AdFiltersComponent {
   isBigScreen: boolean = true;
 
   @Input() displayedAds: HomePageAd[] = [];
@@ -29,9 +28,7 @@ export class AdFilterComponent {
   selectedPriceRanges: string[] = [];
   selectedCities: string[] = [];
   selectedArticleStates: string[] = [];
-  selectedCategories: string[] = [];
-  selectedSubcategories: string[] = [];
-  selectedGender: string[] = [];
+  selectedCategory: string = 'Catégorie';
 
   // extracting enum values for template use
   articleStates = Object.values(ArticleState);
@@ -79,11 +76,15 @@ export class AdFilterComponent {
   ];
 
   // injecting the filter service
-  constructor(private adFilterService: AdFilterService) {}
+  constructor(private adFiltersService: AdFiltersService) {}
 
   // handling filter selection
-  handleFilterSelection(filterType: string, value: string, event: Event) {
-    const checkbox = event.target as HTMLInputElement;
+  handleCheckboxFiltersSelection(
+    filterType: string,
+    value: string,
+    event: Event | undefined
+  ) {
+    const checkbox = event?.target as HTMLInputElement;
     switch (filterType) {
       case 'priceRange':
         this.updateSelectedArray(
@@ -102,39 +103,8 @@ export class AdFilterComponent {
           checkbox.checked
         );
         break;
-      case 'category':
-        this.updateSelectedArray(
-          this.selectedCategories,
-          value,
-          checkbox.checked
-        );
-        break;
-      case 'subcategory':
-        this.updateSelectedArray(
-          this.selectedSubcategories,
-          value,
-          checkbox.checked
-        );
-        break;
-      case 'gender':
-        this.updateSelectedArray(this.selectedGender, value, checkbox.checked);
-        break;
     }
-    this.adFilterService
-      .fetchFilteredAds(
-        this.selectedPriceRanges,
-        this.selectedCities,
-        this.selectedArticleStates,
-        this.selectedCategories,
-        this.selectedSubcategories,
-        this.selectedGender
-      )
-      .subscribe((filteredAds: HomePageAd[]) => {
-        // updates the 'displayedAds' variable
-        this.displayedAds = filteredAds;
-        // signals to the parent component (ad-list) that the 'displayedAds' variable was updated
-        this.displayedAdsChange.emit(this.displayedAds);
-      });
+    this.fetchFilteredAds();
   }
 
   // adding or removing values from a filter array, based on their checked or unchecked status
@@ -151,14 +121,39 @@ export class AdFilterComponent {
 
   //Méthod to select category filter
   //Mircea : to rename once you've finalised your method as this bit of code just gives you your search terms ;)
-  methodToFilter(genderName: string | undefined, subCategoryName: string) {
-    this.selectedCatFilter = genderName ?? subCategoryName;
-    console.log(
-      ' subCategoryName ',
-      subCategoryName,
-      'genderName ',
-      genderName
-    );
+  handleCategoryFilterSelection(
+    category: string,
+    subCategory: string | undefined,
+    gender: string | undefined
+  ) {
+    this.selectedCategory = subCategory
+      ? gender
+        ? category + ' / ' + subCategory + ' / ' + gender
+        : category + ' / ' + subCategory
+      : category;
+
+    this.fetchFilteredAds();
+  }
+
+  resetCategoryFilter() {
+    this.selectedCategory = 'Catégorie';
+    this.fetchFilteredAds();
+  }
+
+  private fetchFilteredAds() {
+    this.adFiltersService
+      .fetchFilteredAds(
+        this.selectedPriceRanges,
+        this.selectedCities,
+        this.selectedArticleStates,
+        this.selectedCategory
+      )
+      .subscribe((filteredAds: HomePageAd[]) => {
+        // updates the 'displayedAds' variable
+        this.displayedAds = filteredAds;
+        // signals to the parent component (ad-list) that the 'displayedAds' variable was updated
+        this.displayedAdsChange.emit(this.displayedAds);
+      });
   }
 
   @HostListener('window:resize', ['$event'])
