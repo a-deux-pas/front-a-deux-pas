@@ -2,7 +2,6 @@
 
 //general
 
-
 .centered-elements {
   text-align: center;
 }
@@ -29,6 +28,32 @@
 
 #ad-price {
   grid-area: 2 / 1 / 3 / 4;
+}
+
+#ad-price,
+#ad-status {
+  width: 245.238px;
+  height: 43px;
+}
+
+
+.ng-select.custom .ng-select-container {
+  min-width: 245.238px;
+}
+
+.label-and-input {
+  width: 320px;
+  // height: 52px;
+  // margin-left: 1%;
+  margin-bottom: 7%;
+
+  >label {
+    text-align: left;
+  }
+}
+
+.state-and-price-input-correction {
+  margin: 0 auto;
 }
 
 .input {
@@ -64,6 +89,12 @@ input::-webkit-inner-spin-button {
 // drag and drop 
 
 
+ngx-dropzone {
+  width: 350px;
+  height: 349px;
+  margin: auto auto;
+}
+
 ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   align-items: center !important;
   display: flex !important;
@@ -80,14 +111,12 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   height: 27.25px;
 }
 
-.add-picture-btn-text {
-  color: $primary;
+.add-picture-btn {
+  margin-top: 40%;
 }
 
-ngx-dropzone {
-  width: 350px;
-  height: 349px;
-  margin: auto auto;
+.add-picture-btn-text {
+  color: $primary;
 }
 
 .carousel-item-mobile {
@@ -95,46 +124,6 @@ ngx-dropzone {
   height: 349px
 }
 
-
-
-//image in dropzone preview dimension
-// :host ::ng-deep img:not(.add-picture-icon) {
-//   max-width: 100%;
-//   max-height: 100%;
-//   margin-top: 60%;
-//   margin-left: 3%;
-//   box-sizing: border-box;
-// }
-
-.add-picture-btn {
-  margin-top: 40%;
-}
-
-#ad-price,
-#ad-status {
-  width: 245.238px;
-  height: 43px;
-}
-
-
-.ng-select.custom .ng-select-container {
-  min-width: 245.238px;
-}
-
-.label-and-input {
-  width: 320px;
-  // height: 52px;
-  // margin-left: 1%;
-  margin-bottom: 7%;
-
-  >label {
-    text-align: left;
-  }
-}
-
-.state-and-price-input-correction {
-  margin: 0 auto;
-}
 
 @media screen and (min-width: 1200px) {
 
@@ -144,12 +133,12 @@ ngx-dropzone {
     width: 471px;
   }
 
-  #ad-description {
-    width: 573px;
+  .ad-title {
+    margin-left: 36% !important;
   }
 
-  .ad-title {
-    margin-left: 35%;
+  #ad-description {
+    width: 573px;
   }
 
   .label-and-input {
@@ -183,22 +172,31 @@ ngx-dropzone {
   }
 
   //// if one dropzone
-  .one-dropzone,
-  .ngx-dropzone-image-preview {
+  .one-dropzone {
     width: 859px;
     height: 478px;
+
+    >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+      min-width: 70% !important;
+      min-height: 70% !important;
+      position: relative !important;
+      max-width: 859px !important;
+      max-height: 478px !important;
+    }
   }
 
   //// if two dropzones
-  .two-dropzones[_nghost-ng-c2040221903]:first-child,
-  .ngx-dropzone-image-preview {
+  .two-dropzones[_nghost-ng-c2040221903] {
     width: 423px;
     height: 479px;
-  }
 
-  .two-dropzones[_nghost-ng-c2040221903]:nth-child(2) {
-    width: 423px;
-    height: 479px;
+    >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+      min-width: 80% !important;
+      min-height: 80% !important;
+      position: relative !important;
+      max-width: 400px !important;
+      max-height: 460px !important;
+    }
   }
 
   //// if three dropzones
@@ -206,6 +204,14 @@ ngx-dropzone {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
+
+    // >img:not(.add-picture-icon) {
+    //   max-width: 400px !important;
+    //   max-height: 460px !important;
+    //   min-width: 80% !important;
+    //   min-height: 80% !important;
+    //   margin-top: 44% !important;
+    // }
   }
 
   .three-dropzones[_nghost-ng-c2040221903]:first-child {
@@ -215,6 +221,14 @@ ngx-dropzone {
 
     &>ngx-dropzone-label>div {
       margin-top: 100%;
+    }
+
+    >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+      min-width: 80% !important;
+      min-height: 80% !important;
+      position: relative !important;
+      max-width: 400px !important;
+      max-height: 460px !important;
     }
 
   }
@@ -288,3 +302,15 @@ ngx-dropzone {
   }
 
 }
+
+
+
+
+//image in dropzone preview dimension
+// :host ::ng-deep img:not(.add-picture-icon) {
+//   max-width: 100%;
+//   max-height: 100%;
+//   margin-top: 60%;
+//   margin-left: 3%;
+//   box-sizing: border-box;
+// }
