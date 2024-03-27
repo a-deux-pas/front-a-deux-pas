@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "alias": "jane doe",
+  "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "country": "France",
+  "city": "Paris",
+  "street": "10 Rue des Francs-Bourgeois",
+  "postalCode": "75001",
+  "inscriptionDate":  "2023-01-15",
+  "profilePicture": "https://img.freepik.com/premium-photo/woman-stands-front-flag-that-says-american-it_727939-6947.jpg"
+}

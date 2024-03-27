@@ -16,14 +16,14 @@ export class ProfileService {
   constructor(private http: HttpClient) {}
 
   getUserInformation(): Observable<User> {
-    return this.http.get<User>(this.apiUrl + "/présentation")
+    return this.http.get<User>(this.apiUrl + "/presentation")
     .pipe(
       catchError(this.handleError<User>('getUser'))
     );
   }
 
   getUserPreferredSchedules(): Observable<PreferredSchedule[]> {
-    return this.http.get<PreferredSchedule[]>(this.apiUrl + "/disponibilités")
+    return this.http.get<PreferredSchedule[]>(this.apiUrl + "/disponibilites")
     .pipe(
       catchError(this.handleError<PreferredSchedule[]>('preferredSchedules', []))
     );

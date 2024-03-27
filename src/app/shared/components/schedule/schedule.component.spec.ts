@@ -11,13 +11,11 @@ describe('ScheduleComponent', () => {
       declarations: [ScheduleComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ScheduleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+
 });

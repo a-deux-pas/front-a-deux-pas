@@ -1,6 +1,6 @@
 @import 'color-variables';
 
-#meeting-places .number {
+.meeting-place .number {
   background-color: $info;
   color:white;
   border-radius: 38px;
@@ -9,21 +9,21 @@
   position:relative;
 }
 
-#meeting-places .address-name {
+.meeting-place .address-name {
   font-weight: 700;
   color: $primary;
   padding-left: 0.5rem;
   position: absolute;
 }
 
-#meeting-places .address-detail {
+.meeting-place.address-detail {
   margin-top: 0.2rem;
   margin-left: 2.2rem;
 }
 
   @media (max-width: 500px) {
 
-    #meeting-places .address-detail {
+    .meeting-place .address-detail {
       margin-top: 1.2rem;
     }
 }
