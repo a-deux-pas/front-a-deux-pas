@@ -8,11 +8,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
+import { HeaderAndNavbarNotConnectedComponent } from './home/default-home/header-and-navbar-not-connected/header-and-navbar-not-connected.component';
+import { FooterComponent } from './home/default-home/footer/footer.component';
+import { HeaderAndNavabarConnectedComponent } from './home/default-home/header-and-navabar-connected/header-and-navabar-connected.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StyleGuideComponent
+    StyleGuideComponent,
+    HeaderAndNavbarNotConnectedComponent,
+    FooterComponent,
+    HeaderAndNavabarConnectedComponent,
   ],
   imports: [
     BrowserModule,
@@ -20,9 +26,9 @@ import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.modul
     NgSelectModule,
     FormsModule,
     AppRoutingModule,
-    StyleGuideRoutingModule
+    StyleGuideRoutingModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

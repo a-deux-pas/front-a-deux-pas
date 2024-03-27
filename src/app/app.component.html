@@ -1,4 +1,23 @@
-<a class="m-2" routerLink="/">Home</a>
-<a class="m-2" routerLink="/style-guide">Style Guide</a>
+<!-- Header différent en fonction que si l'utilisateur est connecté ou pas (1 composant par état), mediaQueries en fonction de la taille
+A PRÉVOIR : Renvoyer le bon composant en fonction du statut de connexion -->
 
-<router-outlet />
+<app-header-and-navbar-not-connected></app-header-and-navbar-not-connected>
+<!-- <app-header-and-navabar-connected
+  (toggleMobileNavbarMenuOutput)="mobileNavbarMenuToggle()"
+  [menuMobileIsOpenBoolean]="mobileNavbarMenuBoolean"
+>
+</app-header-and-navabar-connected> -->
+
+<!-- J'ai laissé temporairement le style-guide pour "meubler" -->
+@if (!mobileNavbarMenuBoolean) {
+<app-style-guide></app-style-guide>
+}
+
+<!-- Footer identique, connecté ou pas, mediaQueries en fonction de la taille -->
+@if (!mobileNavbarMenuBoolean) {
+<app-footer></app-footer>
+}
+
+<main>
+  <router-outlet></router-outlet>
+</main>
