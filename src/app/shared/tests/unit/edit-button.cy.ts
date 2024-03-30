@@ -1,4 +1,4 @@
-import { EditButtonComponent } from "../../components/edit-button/edit-button.component";
+import { EditButtonComponent } from "../../../routes/account/profile/components/edit-button/edit-button.component";
 
 describe('edit button component', () => {
   it('should toggle edit mode and emit editModeChange event', () => {

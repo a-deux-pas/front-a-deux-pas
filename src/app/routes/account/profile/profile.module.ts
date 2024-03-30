@@ -6,12 +6,14 @@ import { MeetingPlacesComponent } from './components/meeting-places/meeting-plac
 
 import { ProfileComponent } from './profile.component';
 import { SharedComponentsModule } from '../../../shared/components/shared-components.module';
+import { EditButtonComponent } from './components/edit-button/edit-button.component';
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
     MeetingPlacesComponent,
+    EditButtonComponent
   ],
   imports: [
     CommonModule,

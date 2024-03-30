@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { ScheduleComponent } from './schedule/schedule.component';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { EditButtonComponent } from './edit-button/edit-button.component';
 import { UserPresentationComponent } from './user-presentation/user-presentation.component';
 
 
@@ -14,7 +13,6 @@ import { UserPresentationComponent } from './user-presentation/user-presentation
   declarations: [
     TabsAccountComponent,
     ScheduleComponent,
-    EditButtonComponent,
     UserPresentationComponent
   ],
   imports: [
@@ -26,7 +24,6 @@ import { UserPresentationComponent } from './user-presentation/user-presentation
   exports: [
     TabsAccountComponent,
     ScheduleComponent,
-    EditButtonComponent,
     UserPresentationComponent
   ]
 })
