@@ -20,11 +20,10 @@
     transition: none;
     color: black;
     padding: 20px 32px;
-    border-top-color: white;
-    border-right-color:white;
-    border-left-color:white;
-    border-bottom: 2px solid $primary;
-    border: none;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid $primary;
   }
 
   #account-tabs a.nav-link.active {

@@ -1,4 +1,4 @@
-import { Component , signal, ChangeDetectorRef, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component , signal, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core'; // useful for typechecking
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -6,8 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 
 @Component({
   selector: 'app-schedule',
-  templateUrl: './schedule.component.html',
-  styleUrl: './schedule.component.scss'
+  templateUrl: './schedule.component.html'
 })
 export class ScheduleComponent implements OnChanges {
   // Signal for tracking current events
