@@ -656,15 +656,12 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 // Header style
-.fc-col-header-cell-cushion {
+.fc .fc-col-header-cell-cushion {
   background-color: $info;
   color:white;
   text-decoration: none;
   border-radius: 30px;
   font-size: 10px;
-}
-
-.fc-col-header-cell-cushion {
   padding: 5px 5px;
   margin-bottom: 16px;
 }
@@ -749,9 +746,6 @@ a.dropdown-first-level.dropdown-toggle {
   // Header style
   .fc .fc-col-header-cell-cushion {
     font-size: 13px;
-  }
-
-  .fc .fc-col-header-cell-cushion {
     padding: 9px 12px;
   }
 
