@@ -109,5 +109,3 @@ export class ScheduleComponent implements OnChanges {
       this.changeDetector.detectChanges();
   }
 }
-
-

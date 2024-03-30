@@ -45,9 +45,4 @@ describe('Profile component', () => {
     cy.get('#meeting-places #edit-button-container .save-icon').click();
     //TODO : check if data saved
   });
-
 });
-
-
-
-

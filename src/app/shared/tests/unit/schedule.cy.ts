@@ -23,8 +23,3 @@ describe('schedule component', () => {
     });
   });
 });
-
-
-
-
-
