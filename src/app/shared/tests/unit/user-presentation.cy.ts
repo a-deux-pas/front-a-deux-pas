@@ -1,4 +1,4 @@
-import { UserPresentationComponent } from "../../../components/user-presentation/user-presentation.component";
+import { UserPresentationComponent } from "../../components/user-presentation/user-presentation.component";
 
 describe('user presentation component', () => {
   it('should display user information', () => {
@@ -7,7 +7,7 @@ describe('user presentation component', () => {
     cy.mount(UserPresentationComponent,  {
       componentProperties: {
         user: user
-      }
+      },
       }).then(() => {
         cy.get('img').should('have.attr', 'src').should('contain', user.profilePicture);
         cy.get('#user-info p').eq(0).should('contain', user.alias);
@@ -15,6 +15,6 @@ describe('user presentation component', () => {
         cy.get('#user-info p').eq(2).should('contain', user.inscriptionDate);
         cy.get('p').should('contain', user.bio);
       });
-    })
-  })
-})
+    });
+  });
+});

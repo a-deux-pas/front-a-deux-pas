@@ -1,8 +1,8 @@
-import { MeetingPlacesComponent } from "../../../../routes/account/profile/components/meeting-places/meeting-places.component";
-import userMeetingPlaces from "../../../../../../cypress/fixtures/user-meeting-places.json";
+import { MeetingPlacesComponent } from "../../../routes/account/profile/components/meeting-places/meeting-places.component";
+import userMeetingPlaces from "../../../../../cypress/fixtures/user-meeting-places.json";
 
 describe('user presentation component', () => {
-  it('should display user information', () => {
+  it('should display user meeting places information', () => {
     cy.mount(MeetingPlacesComponent,  {
       componentProperties: {
         preferredMeetingPlaces: userMeetingPlaces
@@ -23,7 +23,6 @@ describe('user presentation component', () => {
           expect(meetingPlace).to.contain.text(userMeetingPlaces[index].postalCode);
           expect(meetingPlace).to.contain.text(userMeetingPlaces[index].city);
         });
-
       });
     })
   })

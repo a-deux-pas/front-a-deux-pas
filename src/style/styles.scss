@@ -1,4 +1,4 @@
-// See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
+// See more about Bootstrap hescssre : https://getbootstrap.com/docs/5.3/
 // see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
 
 // Importing Google Fonts for the logo
@@ -726,15 +726,20 @@ a.dropdown-first-level.dropdown-toggle {
   margin: 0;
 }
 
-// .fc .fc-bg-event {
-//   background-color: $primary;
-// }
-
 /*-----------------------------------------------------------------------*/
 
 @media (min-width: 768px) {
 
+  // Personalized container for "my account" pages
+  // Includes tabs and page content
+  .account-container {
+    @include make-container($padding-x: 3vh, $padding-y: 13.25vh);
+  }
+
+  /*---------------------------------*/
+
   // Schedule
+
   // Adjust width and font size for larger screens
   .fc {
     width: calc(100% - 16px);
@@ -772,8 +777,10 @@ a.dropdown-first-level.dropdown-toggle {
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .account-container {
-    @include make-container($padding-x: 20vh, $padding-y: 13.25vh);
+    @include make-container($padding-x: 8vh, $padding-y: 13.25vh);
   }
+
+  /*---------------------------------*/
 
   //Dropdown menu styling
   .dropend:hover>.dropdown-menu {
@@ -787,7 +794,7 @@ a.dropdown-first-level.dropdown-toggle {
 /*-----------------------------------------------------------------------*/
 
 // Importing NgSelect and Bootstrap styles
-@import "../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import "../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 @import "bootstrap/scss/bootstrap";
 
 

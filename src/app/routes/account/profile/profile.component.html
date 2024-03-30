@@ -1,7 +1,7 @@
 <div class="account-container" id="profil-page">
   <app-tabs-account></app-tabs-account>
   <h2 class="mt-5 mb-4 fw-bold">Ma présentation</h2>
-  <div class="row flex-row-reverse">
+  <div id="presentation" class="row flex-row-reverse">
     <div id="edit-button" class="col-12 col-md-2">
       <div id="edit-button-container">
     <app-edit-button (editModeChange)="onEditModeChange($event, 'presentation')"></app-edit-button>
@@ -13,7 +13,7 @@
   </div>
 
   <h2 class="mt-4 mb-4 fw-bold">Mes disponibilités</h2>
-  <div class="row flex-row-reverse">
+  <div id="schedule" class="row flex-row-reverse">
     <div id="edit-button" class="col-12 col-md-2">
       <div id="edit-button-container">
     <app-edit-button (editModeChange)="onEditModeChange($event, 'schedule')"></app-edit-button>
@@ -28,7 +28,7 @@
   </div>
 
   <h2 class="mt-5 mb-4 fw-bold">Mes lieux de RDV préférés</h2>
-  <div class="row flex-row-reverse">
+  <div id="meeting-places" class="row flex-row-reverse">
     <div id="edit-button" class="col-12 col-md-2">
       <div id="edit-button-container">
     <app-edit-button (editModeChange)="onEditModeChange($event, 'meeting-places')"></app-edit-button>

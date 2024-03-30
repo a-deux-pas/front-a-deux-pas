@@ -1,0 +1,75 @@
+context('account tabs testing', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:4200/compte/profil')
+
+    cy.intercept('http://localhost:8081/api/compte/profil/presentation', { fixture: 'user-profile' }).as('getUserPresentation')
+    cy.intercept('http://localhost:8081/api/compte/profil/disponibilites', { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules')
+    cy.intercept('http://localhost:8081/api/compte/profil/lieux-de-rdv', { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces')
+    // TODO add interceptor for each route one created
+
+    cy.get('ul#account-tabs li').should('have.length', 4);
+  });
+
+  it('should not be visible on mobile version', () => {
+    cy.viewport(500,500);
+    cy.get('ul#account-tabs').should('not.be.visible');
+  });
+
+  it('checks profile tab functionality', () => {
+
+    cy.get('.custom-active-tab').contains('Mon profil').click()
+
+    cy.location('pathname').should('include', '/compte/profil')
+
+    cy.go('back')
+    cy.location('pathname').should('not.include', '/compte/profil')
+
+    cy.go('forward')
+    cy.location('pathname').should('include', '/compte/profil')
+  });
+
+  it('checks adds tab functionality', () => {
+
+    cy.visit('http://localhost:4200/compte/annonces')
+
+    cy.get('.custom-active-tab').contains('Mes annonces').click()
+
+    cy.location('pathname').should('include', '/compte/annonces')
+
+    cy.go('back')
+    cy.location('pathname').should('not.include', '/compte/annonces')
+
+    cy.go('forward')
+    cy.location('pathname').should('include', '/compte/annonces')
+  });
+
+  it('checks meetings tab functionality', () => {
+
+    cy.visit('http://localhost:4200/compte/rdv')
+
+    cy.get('.custom-active-tab').contains('Mes RDV').click()
+
+    cy.location('pathname').should('include', '/compte/rdv')
+
+    cy.go('back')
+    cy.location('pathname').should('not.include', '/compte/rdv')
+
+    cy.go('forward')
+    cy.location('pathname').should('include', '/compte/rdv')
+  });
+
+  it('checks favorites tab functionality', () => {
+
+    cy.visit('http://localhost:4200/compte/favoris')
+
+    cy.get('.custom-active-tab').contains('Mes favoris').click()
+
+    cy.location('pathname').should('include', '/compte/favoris')
+
+    cy.go('back')
+    cy.location('pathname').should('not.include', '/compte/favoris')
+
+    cy.go('forward')
+    cy.location('pathname').should('include', '/compte/favoris')
+  });
+});

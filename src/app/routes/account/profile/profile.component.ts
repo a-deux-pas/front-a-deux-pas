@@ -9,7 +9,7 @@ import { PreferredMeetingPlace } from '../../../shared/models/preferred-meeting-
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent{
+export class ProfileComponent {
   user! : User;
   preferredSchedules!: PreferredSchedule[];
   preferredMeetingPlaces! : PreferredMeetingPlace[];
@@ -22,19 +22,21 @@ export class ProfileComponent{
   }
 
   ngOnInit(): void {
-    this.fetchUserInformation();
+    this.fetchUserPresentation();
     this.fetchUserPreferredSchedules();
     this.fetchPreferredMeetingPlaces();
   }
 
-  fetchUserInformation(): void {
-    this.profileService.getUserInformation().subscribe((data) => {
+  // Fetch user information from the service
+  fetchUserPresentation(): void {
+    this.profileService.getUserPresentation().subscribe((data) => {
       this.user = data;
       console.log(this.user);
     });
     console.log(this.user);
   }
 
+  // Fetch user's preferred schedules from the service
   fetchUserPreferredSchedules(): void {
     this.profileService.getUserPreferredSchedules().subscribe((data) => {
       // Map fetched data to events array
@@ -48,12 +50,14 @@ export class ProfileComponent{
     });
   }
 
+   // Fetch user's preferred meeting places from the service
   fetchPreferredMeetingPlaces():void {
       this.profileService.getPreferredMeetingPlaces().subscribe((data) => {
         this.preferredMeetingPlaces = data;
       });
   }
 
+  // Handle edit mode change for different sections of the profile
   onEditModeChange(editMode: boolean, componentId: string): void {
     if (componentId === 'presentation') {
       this.presentationEditMode = editMode;
@@ -63,5 +67,4 @@ export class ProfileComponent{
       this.meetingPlacesEditMode = editMode;
     }
   }
-
 }

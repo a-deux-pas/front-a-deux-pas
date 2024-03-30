@@ -15,13 +15,15 @@ export class ProfileService {
 
   constructor(private http: HttpClient) {}
 
-  getUserInformation(): Observable<User> {
+   // Fetch user information from the API
+  getUserPresentation(): Observable<User> {
     return this.http.get<User>(this.apiUrl + "/presentation")
     .pipe(
-      catchError(this.handleError<User>('getUser'))
+      catchError(this.handleError<User>('userPresentation'))
     );
   }
 
+  // Fetch user information from the API
   getUserPreferredSchedules(): Observable<PreferredSchedule[]> {
     return this.http.get<PreferredSchedule[]>(this.apiUrl + "/disponibilites")
     .pipe(
@@ -29,10 +31,11 @@ export class ProfileService {
     );
   }
 
+  // Fetch user information from the API
   getPreferredMeetingPlaces(): Observable<PreferredMeetingPlace[]> {
     return this.http.get<PreferredMeetingPlace[]>(this.apiUrl + "/lieux-de-rdv")
     .pipe(
-      catchError(this.handleError<PreferredMeetingPlace[]>('referredMeetingPlace', []))
+      catchError(this.handleError<PreferredMeetingPlace[]>('preferredMeetingPlaces', []))
     );
   }
 
@@ -43,15 +46,13 @@ export class ProfileService {
  * @param operation - name of the operation that failed
  * @param result - optional value to return as the observable result
  */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'profile', result?: T) {
   return (error: any): Observable<T> => {
 
-    // TODO: send the error to remote logging infrastructure
-    console.error(error); // log to console instead
+    console.error(error);
 
     // Let the app keep running by returning an empty result.
     return of(result as T);
-  };
-}
-
+    };
+  }
 }

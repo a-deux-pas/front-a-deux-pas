@@ -1,5 +1,6 @@
 @import 'color-variables';
 
+// Style for the meeting place number
 .meeting-place .number {
   background-color: $info;
   color:white;
@@ -9,6 +10,7 @@
   position:relative;
 }
 
+// Style for the meeting place address name
 .meeting-place .address-name {
   font-weight: 700;
   color: $primary;
@@ -21,6 +23,7 @@
   margin-left: 2.2rem;
 }
 
+// Media query to manage the address details on mobile screen
   @media (max-width: 500px) {
 
     .meeting-place .address-detail {

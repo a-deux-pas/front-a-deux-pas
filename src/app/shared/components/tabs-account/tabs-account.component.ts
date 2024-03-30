@@ -12,7 +12,7 @@ export class TabsAccountComponent implements OnInit {
   links = [
     { title: 'Mon profil', fragment: 'profil'},
     { title: 'Mes annonces', fragment: 'annonces' },
-    { title: 'Mon RDV', fragment: 'rdv'},
+    { title: 'Mes RDV', fragment: 'rdv'},
     { title: 'Mes favoris', fragment: 'favoris' }
   ];
 
