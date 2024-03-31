@@ -723,6 +723,16 @@ a.dropdown-first-level.dropdown-toggle {
   margin: 0;
 }
 
+// Remove "-" after new event timing
+.fc-timegrid-event-short .fc-event-time::after {
+  content: "";
+}
+
+// Center new event timing
+.fc-v-event .fc-event-title-container {
+  flex-grow: 0;
+}
+
 /*-----------------------------------------------------------------------*/
 
 @media (min-width: 768px) {

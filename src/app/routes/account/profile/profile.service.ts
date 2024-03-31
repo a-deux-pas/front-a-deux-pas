@@ -11,7 +11,7 @@ import { User } from '../../../shared/models/user.model';
   providedIn: 'root'
 })
 export class ProfileService {
-  private apiUrl = 'http://localhost:8081/api/compte/profil';
+  private apiUrl = 'http://localhost:8081/api/account/profile';
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +25,7 @@ export class ProfileService {
 
   // Fetch user information from the API
   getUserPreferredSchedules(): Observable<PreferredSchedule[]> {
-    return this.http.get<PreferredSchedule[]>(this.apiUrl + "/disponibilites")
+    return this.http.get<PreferredSchedule[]>(this.apiUrl + "/schedules")
     .pipe(
       catchError(this.handleError<PreferredSchedule[]>('preferredSchedules', []))
     );
@@ -33,7 +33,7 @@ export class ProfileService {
 
   // Fetch user information from the API
   getPreferredMeetingPlaces(): Observable<PreferredMeetingPlace[]> {
-    return this.http.get<PreferredMeetingPlace[]>(this.apiUrl + "/lieux-de-rdv")
+    return this.http.get<PreferredMeetingPlace[]>(this.apiUrl + "/meeting-places")
     .pipe(
       catchError(this.handleError<PreferredMeetingPlace[]>('preferredMeetingPlaces', []))
     );

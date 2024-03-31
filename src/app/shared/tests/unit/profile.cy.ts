@@ -4,15 +4,16 @@ import { ProfileService } from "../../../routes/account/profile/profile.service"
 import { SharedComponentsModule } from "../../components/shared-components.module";
 import { MeetingPlacesComponent } from "../../../routes/account/profile/components/meeting-places/meeting-places.component";
 import { RouterTestingModule } from "@angular/router/testing";
+import { EditButtonComponent } from "../../../routes/account/profile/components/edit-button/edit-button.component";
 
 describe('Profile component', () => {
     beforeEach(() => {
-      cy.intercept('http://localhost:8081/api/compte/profil/presentation', { fixture: 'user-profile' }).as('getUserPresentation');
-      cy.intercept('http://localhost:8081/api/compte/profil/disponibilites', { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
-      cy.intercept('http://localhost:8081/api/compte/profil/lieux-de-rdv', { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
+      cy.intercept('http://localhost:8081/api/account/profile/presentation', { fixture: 'user-profile' }).as('getUserPresentation');
+      cy.intercept('http://localhost:8081/api/account/profile/schedules', { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+      cy.intercept('http://localhost:8081/api/account/profile/meeting-places', { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
 
     cy.mount(ProfileComponent, {
-      declarations: [MeetingPlacesComponent],
+      declarations: [MeetingPlacesComponent, EditButtonComponent],
       imports: [HttpClientModule, SharedComponentsModule, RouterTestingModule],
       providers: [ProfileService],
       componentProperties: {
