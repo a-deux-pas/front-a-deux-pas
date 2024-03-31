@@ -1,15 +1,16 @@
 .filters-container {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .resize {
   width: auto;
 }
 
-/*.dropdown-menu {
+.dropdown-menu {
   position: absolute;
   z-index: 100;
 }
-*/

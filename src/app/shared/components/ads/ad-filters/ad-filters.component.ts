@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ArticleState } from '../../../models/enum/ArticleState';
 import { PriceRange } from '../../../models/enum/PriceRange';
-import { HomePageAd } from '../../../models/HomePageAd.model';
+import { AdResponse } from '../../../models/AdResponse.model';
 import { AdFiltersService } from './ad-filters.service';
 import { Categories } from '../../../utils/constants/Categories';
 
@@ -19,17 +19,26 @@ import { Categories } from '../../../utils/constants/Categories';
 export class AdFiltersComponent {
   isBigScreen: boolean = true;
 
-  @Input() displayedAds: HomePageAd[] = [];
-  @Input() uniqueCitiesAndPostalCodes: string[] = [];
-  @Output() displayedAdsChange: EventEmitter<HomePageAd[]> = new EventEmitter<
-    HomePageAd[]
+  @Input() displayedAds: AdResponse[] = [];
+  @Input() uniqueCitiesAndPostalCodes: Set<string> = new Set();
+  @Input() pageNumber: number = 0;
+  pageSize: number = 8;
+  @Output() displayedAdsChange: EventEmitter<AdResponse[]> = new EventEmitter<
+    AdResponse[]
   >();
+  @Output() pageNumberChange: EventEmitter<number> = new EventEmitter<number>();
 
   // selected filters
   selectedPriceRanges: string[] = [];
   selectedCities: string[] = [];
   selectedArticleStates: string[] = [];
   selectedCategory: string = 'Catégorie';
+  @Output() filtersUpdated: EventEmitter<any> = new EventEmitter<{
+    selectedPriceRanges: string[];
+    selectedCities: string[];
+    selectedArticleStates: string[];
+    selectedCategory: string;
+  }>();
 
   // initializing values for template use
   articleStates = Object.values(ArticleState);
@@ -45,6 +54,8 @@ export class AdFiltersComponent {
     value: string,
     event: Event | undefined
   ) {
+    this.pageNumber = 0;
+    this.pageNumberChange.emit(this.pageNumber);
     const checkbox = event?.target as HTMLInputElement;
     switch (filterType) {
       case 'priceRange':
@@ -69,6 +80,11 @@ export class AdFiltersComponent {
         );
         break;
     }
+
+    this.pageNumber = 0;
+    this.pageNumberChange.emit(this.pageNumber);
+    this.notifyFiltersUpdated();
+
     this.fetchFilteredAds();
   }
 
@@ -78,12 +94,15 @@ export class AdFiltersComponent {
     subCategory: string | undefined,
     gender: string | undefined
   ) {
+    this.pageNumber = 0;
+    this.pageNumberChange.emit(this.pageNumber);
     this.selectedCategory = subCategory
       ? gender
-        ? category + ' / ' + subCategory + ' / ' + gender
-        : category + ' / ' + subCategory
+        ? category + ' ▸ ' + subCategory + ' ▸ ' + gender
+        : category + ' ▸ ' + subCategory
       : category;
 
+    this.notifyFiltersUpdated();
     this.fetchFilteredAds();
   }
 
@@ -112,16 +131,22 @@ export class AdFiltersComponent {
         this.selectedCategory = 'Catégorie';
         break;
     }
+    this.pageNumber = 0;
+    this.pageNumberChange.emit(this.pageNumber);
+    this.notifyFiltersUpdated();
     this.fetchFilteredAds();
   }
 
   // clearing all checkboxes for the selected http element (by its #id) and emptying its filter array
-  private resetCheckboxesAndSelection(selector: string, selection: any[]) {
+  private resetCheckboxesAndSelection(
+    selector: string,
+    selectedFilterValues: string[]
+  ) {
     const checkboxes = document.querySelectorAll<HTMLInputElement>(selector);
     checkboxes.forEach((checkbox: HTMLInputElement) => {
       checkbox.checked = false;
     });
-    selection.length = 0;
+    selectedFilterValues.length = 0;
   }
 
   // calling the service method that makes the api call to fetch the filtered ads
@@ -131,9 +156,11 @@ export class AdFiltersComponent {
         this.selectedPriceRanges,
         this.selectedCities,
         this.selectedArticleStates,
-        this.selectedCategory
+        this.selectedCategory,
+        this.pageNumber,
+        this.pageSize
       )
-      .subscribe((filteredAds: HomePageAd[]) => {
+      .subscribe((filteredAds: AdResponse[]) => {
         // updating the 'displayedAds' variable
         this.displayedAds = filteredAds;
         // signaling to the parent component (ad-list) that the 'displayedAds' variable was updated
@@ -142,7 +169,7 @@ export class AdFiltersComponent {
   }
 
   // adding or removing values from a filter array, based on their checked or unchecked status
-  updateSelectedFilterArray(
+  private updateSelectedFilterArray(
     array: string[],
     value: string,
     isChecked: boolean
@@ -155,6 +182,16 @@ export class AdFiltersComponent {
         array.splice(index, 1);
       }
     }
+  }
+
+  private notifyFiltersUpdated() {
+    const eventData = {
+      selectedPriceRanges: this.selectedPriceRanges,
+      selectedCities: this.selectedCities,
+      selectedArticleStates: this.selectedArticleStates,
+      selectedCategory: this.selectedCategory,
+    };
+    this.filtersUpdated.emit(eventData);
   }
 
   @HostListener('window:resize', ['$event'])

@@ -1,4 +1,4 @@
-export class HomePageAd {
+export class AdResponse {
   constructor(
     public title: string,
     public articlePictureUrl: string,

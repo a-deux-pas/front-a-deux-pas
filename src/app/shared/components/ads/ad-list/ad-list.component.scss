@@ -1,10 +1,33 @@
-.ad-list-container {
+.container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; // Stretch children to fill container width
+}
+
+/*.ad-list-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  flex: 1; // Allow the ad-list-container to grow and fill available space 
+}*/
+
+.ad-list-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.no-ads-message {
+  text-align: center;
+  margin-top: 50px;
 }
 
 .single-button-container {
   display: flex;
   justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }

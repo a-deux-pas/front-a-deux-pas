@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AdListService } from './ad-list.service';
-import { HomePageAd } from '../../../models/HomePageAd.model';
+import { AdResponse } from '../../../models/AdResponse.model';
+import { AdFiltersService } from '../ad-filters/ad-filters.service';
+import { CityAndPostalCodeResponse } from '../../../models/CityAndPostalCodeResponse.model';
 
 @Component({
   selector: 'app-ad-list',
@@ -9,40 +11,79 @@ import { HomePageAd } from '../../../models/HomePageAd.model';
   styleUrls: ['./ad-list.component.scss'],
 })
 export class AdListComponent implements OnInit {
-  // holds all the ads fetched from the DB, at page load
-  adsList: HomePageAd[] = [];
+  pageNumber: number = 0;
+  pageSize: number = 8;
+  displayedAds: AdResponse[] = [];
+  uniqueCitiesAndPostalCodes: Set<string> = new Set();
 
-  // variables fed by 'adsList' :
-  displayedAds: HomePageAd[] = [];
-  uniqueCitiesAndPostalCodes: string[] = [];
+  selectedPriceRanges: string[] = [];
+  selectedCities: string[] = [];
+  selectedArticleStates: string[] = [];
+  selectedCategory: string = 'Catégorie';
 
-  constructor(private adListService: AdListService) {}
+  constructor(
+    private adListService: AdListService,
+    private adFiltersService: AdFiltersService
+  ) {}
 
   ngOnInit() {
-    // calling the method when the component initializes
-    this.fetchAdsList();
+    this.fetchCitiesAndPostalCodes();
+    this.fetchPaginatedAdsList();
   }
 
-  // fetching all the ads and populating template variables with the fetched data
-  fetchAdsList() {
-    this.adListService.fetchAdList().subscribe((ads: HomePageAd[]) => {
-      this.adsList = ads;
-      this.displayedAds = ads;
-      this.extractUniqueCitiesAndPostalCodes(ads);
-    });
+  fetchCitiesAndPostalCodes() {
+    this.adListService
+      .fetchCitiesAndPostalCodes()
+      .subscribe((citiesAndPostalCodes: any) => {
+        this.extractUniqueCitiesAndPostalCodes(citiesAndPostalCodes);
+      });
+    console.log(this.uniqueCitiesAndPostalCodes);
+    this.pageSize = 8;
   }
 
-  private extractUniqueCitiesAndPostalCodes(ads: HomePageAd[]) {
-    // using a temporary set to remove any duplicate city+postalCode string values
-    const tempUniqueCitiesAndPostalCodesSet: Set<string> = new Set();
-    // weeding out the duplicate city+postalCode values, by using a set, initialized with all the values found in our ads list
-    ads.forEach((ad) =>
-      tempUniqueCitiesAndPostalCodesSet.add(
+  fetchPaginatedAdsList() {
+    this.adFiltersService
+      .fetchFilteredAds(
+        this.selectedPriceRanges,
+        this.selectedCities,
+        this.selectedArticleStates,
+        this.selectedCategory,
+        this.pageNumber,
+        this.pageSize
+      )
+      .subscribe((ads: AdResponse[]) => {
+        this.displayedAds = [...this.displayedAds, ...ads];
+      });
+  }
+
+  private extractUniqueCitiesAndPostalCodes(
+    citiesAndPostalCodes: CityAndPostalCodeResponse[]
+  ) {
+    citiesAndPostalCodes.forEach((cityAndPostalCode) =>
+      this.uniqueCitiesAndPostalCodes.add(
         // formatting the string used in the 'City' filter template to display : 'City (postal code)'
-        ad.publisherCity.concat(' (').concat(ad.publisherPostalCode).concat(')')
+        cityAndPostalCode.city
+          .concat(' (')
+          .concat(cityAndPostalCode.postalCode)
+          .concat(')')
       )
     );
-    // adding the unique values from the temporary set into our array prop (to be used in the filter template)
-    this.uniqueCitiesAndPostalCodes = [...tempUniqueCitiesAndPostalCodesSet];
+  }
+
+  receiveUpdatedFilters(eventData: {
+    selectedPriceRanges: string[];
+    selectedCities: string[];
+    selectedArticleStates: string[];
+    selectedCategory: string;
+  }) {
+    this.selectedPriceRanges = eventData.selectedPriceRanges;
+    this.selectedCities = eventData.selectedCities;
+    this.selectedArticleStates = eventData.selectedArticleStates;
+    this.selectedCategory = eventData.selectedCategory;
+  }
+
+  loadMoreAds() {
+    this.pageNumber++;
+    this.fetchPaginatedAdsList();
   }
 }

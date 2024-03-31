@@ -1,15 +1,19 @@
 <div class="container">
-  <h2>Les dernières annonces</h2>
+  <h2><b>Les dernières annonces</b></h2>
 
   <!--child component-->
   <app-ad-filters
-    [displayedAds]="displayedAds"
     [uniqueCitiesAndPostalCodes]="uniqueCitiesAndPostalCodes"
+    [(pageNumber)]="pageNumber"
     [(displayedAds)]="displayedAds"
+    (filtersUpdated)="receiveUpdatedFilters($event)"
   >
   </app-ad-filters>
 
-  <div class="ad-list-container" *ngIf="displayedAds">
+  <div
+    class="ad-list-container"
+    *ngIf="displayedAds && displayedAds.length > 0; else noAdsFoundMessage"
+  >
     <div *ngFor="let ad of displayedAds">
       <div>
         <div class="card mt-4">
@@ -34,8 +38,9 @@
       </div>
     </div>
   </div>
-  <div class="single-button-container mt-3 mb-3">
-    <button type="submit" class="btn-info mt-4">
+
+  <div class="single-button-container">
+    <button type="submit" class="btn-info mt-4" (click)="loadMoreAds()">
       voir plus<img
         class="arrow-down-icon"
         src="/assets/icons/buttons/arrow-down.webp"
@@ -43,4 +48,10 @@
       />
     </button>
   </div>
+
+  <ng-template #noAdsFoundMessage>
+    <div class="no-ads-message">
+      <p>Désolé, aucun résultat ne correspond à votre recherche</p>
+    </div>
+  </ng-template>
 </div>
