@@ -71,6 +71,7 @@ export class AdListComponent implements OnInit {
     this.selectedCities = eventData.selectedCities;
     this.selectedArticleStates = eventData.selectedArticleStates;
     this.selectedCategory = eventData.selectedCategory;
+    this.noMoreAds = false;
   }
 
   private formatCitiesAndPostalCodesForDisplay(
