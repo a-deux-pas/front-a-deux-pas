@@ -19,20 +19,20 @@ import { Categories } from '../../../utils/constants/Categories';
 export class AdFiltersComponent {
   isBigScreen: boolean = true;
 
+  // selected filters
+  selectedPriceRanges: string[] = [];
+  selectedCities: string[] = [];
+  selectedArticleStates: string[] = [];
+  selectedCategory: string = 'Catégorie';
+
   @Input() displayedAds: AdResponse[] = [];
-  @Input() uniqueCitiesAndPostalCodes: Set<string> = new Set();
+  @Input() uniqueCitiesAndPostalCodes: string[] = [];
   @Input() pageNumber: number = 0;
   pageSize: number = 8;
   @Output() displayedAdsChange: EventEmitter<AdResponse[]> = new EventEmitter<
     AdResponse[]
   >();
   @Output() pageNumberChange: EventEmitter<number> = new EventEmitter<number>();
-
-  // selected filters
-  selectedPriceRanges: string[] = [];
-  selectedCities: string[] = [];
-  selectedArticleStates: string[] = [];
-  selectedCategory: string = 'Catégorie';
   @Output() filtersUpdated: EventEmitter<any> = new EventEmitter<{
     selectedPriceRanges: string[];
     selectedCities: string[];

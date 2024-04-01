@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AdFiltersService {
-  private baseUrl: string = 'http://localhost:8081/annonces/liste';
+  private baseUrl: string = 'http://localhost:8081/ads/list';
 
   constructor(private http: HttpClient) {}
 

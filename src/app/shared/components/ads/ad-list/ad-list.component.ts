@@ -14,7 +14,7 @@ export class AdListComponent implements OnInit {
   pageNumber: number = 0;
   pageSize: number = 8;
   displayedAds: AdResponse[] = [];
-  uniqueCitiesAndPostalCodes: Set<string> = new Set();
+  uniqueCitiesAndPostalCodes: string[] = [];
 
   selectedPriceRanges: string[] = [];
   selectedCities: string[] = [];
@@ -35,10 +35,13 @@ export class AdListComponent implements OnInit {
     this.adListService
       .fetchCitiesAndPostalCodes()
       .subscribe((citiesAndPostalCodes: any) => {
-        this.extractUniqueCitiesAndPostalCodes(citiesAndPostalCodes);
+        this.formatCitiesAndPostalCodesForDisplay(citiesAndPostalCodes);
       });
-    console.log(this.uniqueCitiesAndPostalCodes);
-    this.pageSize = 8;
+  }
+
+  loadMoreAds() {
+    this.pageNumber++;
+    this.fetchPaginatedAdsList();
   }
 
   fetchPaginatedAdsList() {
@@ -56,20 +59,6 @@ export class AdListComponent implements OnInit {
       });
   }
 
-  private extractUniqueCitiesAndPostalCodes(
-    citiesAndPostalCodes: CityAndPostalCodeResponse[]
-  ) {
-    citiesAndPostalCodes.forEach((cityAndPostalCode) =>
-      this.uniqueCitiesAndPostalCodes.add(
-        // formatting the string used in the 'City' filter template to display : 'City (postal code)'
-        cityAndPostalCode.city
-          .concat(' (')
-          .concat(cityAndPostalCode.postalCode)
-          .concat(')')
-      )
-    );
-  }
-
   receiveUpdatedFilters(eventData: {
     selectedPriceRanges: string[];
     selectedCities: string[];
@@ -82,8 +71,18 @@ export class AdListComponent implements OnInit {
     this.selectedCategory = eventData.selectedCategory;
   }
 
-  loadMoreAds() {
-    this.pageNumber++;
-    this.fetchPaginatedAdsList();
+  private formatCitiesAndPostalCodesForDisplay(
+    citiesAndPostalCodes: CityAndPostalCodeResponse[]
+  ) {
+    citiesAndPostalCodes.forEach((cityAndPostalCode) =>
+      this.uniqueCitiesAndPostalCodes.push(
+        // formatting the string used in the 'City' filter template to display : 'City (postal code)'
+        cityAndPostalCode.city
+          .concat(' (')
+          .concat(cityAndPostalCode.postalCode)
+          .concat(')')
+      )
+    );
+    this.uniqueCitiesAndPostalCodes.sort();
   }
 }

@@ -7,7 +7,7 @@ import { AdResponse } from '../../../models/AdResponse.model';
   providedIn: 'root',
 })
 export class AdListService {
-  private baseUrl: string = 'http://localhost:8081/utilisateurs';
+  private baseUrl: string = 'http://localhost:8081/users';
 
   constructor(private http: HttpClient) {}
 
