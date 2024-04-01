@@ -7,7 +7,7 @@
 
 <form #adForm="ngForm" (ngSubmit)="onSubmit()">
   <div class="centered-elements">
-    <h2 class="text-center bold-title-700 mb-5">Créer une annonce</h2>
+    <h2 class="text-center bold-title-700 mb-5">{{ formTitle }}</h2>
 
     <h3 class="bold-title-700">Photo(s)</h3>
 
@@ -48,9 +48,9 @@
       <ng-template ngbSlide>
         <div class="carousel-caption">
         </div>
-        <ngx-dropzone [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}"
-          class="carousel-item-mobile dropzone d-block w-50" (change)="onSelectPicture($event, picNumber)"
-          [multiple]="false" [accept]="'image/jpeg,image/jpg,image/png,image/svg,image/webp'">
+        <ngx-dropzone class="carousel-item-mobile dropzone d-block w-50" (change)="onSelectPicture($event, picNumber)"
+          [multiple]="false" [accept]="'image/jpeg,image/jpg,image/png,image/svg,image/webp'"
+          [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
           <ngx-dropzone-label class="center mx-auto">
             <div class="add-picture-btn">
               <img class="add-picture-icon" src="../../assets/icons/buttons/add-orange.webp"
@@ -66,91 +66,100 @@
     </ngb-carousel>
 
     <!-- Category choice section -->
-    <div class="mx-auto article-cagorization" style="width: 246px;">
+    <div class="mx-auto  " style="width: 246px;">
       <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom mt-4"
         placeholder="Choisissez une catégorie" #adCategory="ngModel" required>
         <ng-option *ngFor="let cat of categories" [value]="cat.name">
           {{ cat.name }}
         </ng-option>
       </ng-select>
-    </div>
-    <div *ngIf="adCategory.errors">
-      <span class="error-msg" *ngIf="adCategory.touched && adCategory.errors?.['required']">Veuillez entrer une
-        categorie</span>
+      <div *ngIf="adCategory.errors">
+        <span class="error-msg" *ngIf="adCategory.touched && adCategory.errors?.['required']">Veuillez entrer une
+          categorie</span>
+      </div>
     </div>
 
-    <div *ngIf="ad.category" class="mx-auto article-cagorization" style="width: 246px;">
+    <div *ngIf="ad.category" class="mx-auto  " style="width: 246px;">
       <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4" placeholder="une sous catégorie"
         #subcategory="ngModel" required>
         <ng-option *ngFor="let subCat of getSubCategories()" [value]="subCat.name">
           {{ subCat.name }}
         </ng-option>
       </ng-select>
+      <div *ngIf="subcategory.errors">
+        <span class="error-msg" *ngIf="subcategory.touched && subcategory.errors?.['required']">Veuillez entrer une
+          sous-categorie</span>
+      </div>
     </div>
 
-    <div *ngIf="ad.subcategory == 'Hauts' || ad.subcategory == 'Bas'" class="mx-auto mb-2 article-cagorization"
-      style="width: 246px;" required>
-      <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" placeholder="un genre">
+    <div *ngIf="ad.subcategory == 'Hauts' || ad.subcategory == 'Bas'" class="mx-auto mb-2  " style="width: 246px;">
+      <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" placeholder="un genre"
+        #gender="ngModel" required>
         <ng-option *ngFor="let subCatGender of getSubCategoriesGender()" [value]="subCatGender.name">
           {{ subCatGender.name }}
         </ng-option>
       </ng-select>
+      <div *ngIf="gender.errors">
+        <span class="error-msg"
+          *ngIf="(ad.subcategory == 'Hauts' || ad.subcategory == 'Bas') && gender.touched && gender.errors?.['required']">Veuillez
+          entrer un genre</span>
+      </div>
     </div>
   </div>
+
   <!-- General information section -->
   <h3 class="bold-title-700 mb-5 mt-3">Informations générales</h3>
 
-
-
-  <div class="label-and-input mt-5 ad-title" [ngClass]="{'mx-auto': !isBigScreen}">
+  <div class="label-and-input mt-5 mx-auto" id="ad-title">
     <label for="ad-title" class="form-label">Titre</label>
-    <textarea [(ngModel)]="ad.articleDescription" class="form-control form-control-sm mb-4" name="ad-title"
-      id="ad-title" rows="3" #title="ngModel" required></textarea>
-  </div>
-  <div *ngIf="title.errors">
-    <span class="error-msg mb-4" *ngIf="title.touched && title.errors?.['required']">Veuillez entrer
-      un
-      titre</span>
+    <textarea [(ngModel)]="ad.title" class="form-control form-control-sm mb-4" name="ad-title" rows="3" #title="ngModel"
+      required></textarea>
+    <div *ngIf="title.errors">
+      <span class="error-msg mb-2" *ngIf="title.touched && title.errors?.['required']">Veuillez entrer
+        un
+        titre</span>
+    </div>
   </div>
 
-  <div class="label-and-input mt-5" [ngClass]="{'mx-auto': !isBigScreen}">
+  <div class="label-and-input mt-5 mx-auto" id="ad-description">
     <label for="ad-description" class="form-label">Description</label>
     <textarea [(ngModel)]="ad.articleDescription" class="form-control form-control-sm mx-auto mb-4"
       name="ad-description" id="ad-description" rows="3" #description="ngModel" required></textarea>
-  </div>
-  <div *ngIf="description.errors">
-    <span class="error-msg mb-4" *ngIf="description.touched && description.errors?.['required']">Veuillez entrer
-      une
-      description</span>
+    <div *ngIf="description.errors">
+      <span class="error-msg mb-4" *ngIf="description.touched && description.errors?.['required']">Veuillez entrer
+        une
+        description</span>
+    </div>
   </div>
 
-  <div class="col-2 mt-5" [ngClass]="{'mx-auto': isBigScreen, 'state-and-price-input-correction ': !isBigScreen}">
-    <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mt-4 mb-4" placeholder="Etat" #state="ngModel"
-      required>
-      <ng-option *ngFor="let state of states" [value]="state.name" id="ad-status">
+  <div class="col-2 mt-5 mx-auto" [ngClass]="{'state-and-price-input-correction': !isBigScreen}">
+    <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mb-4" placeholder="Etat" #state="ngModel"
+      id="ad-status" required>
+      <ng-option *ngFor="let state of states" [value]="state.name">
         {{ state.name }}
       </ng-option>
     </ng-select>
-  </div>
-  <div *ngIf="state.errors">
-    <span class="error-msg mb-4" *ngIf="state.touched && state.errors?.['required']">Veuillez selectionner un
-      état</span>
-  </div>
-
-  <div class="col-2 flex  mt-5" id="price-input-field"
-    [ngClass]="{'mx-auto': isBigScreen, 'state-and-price-input-correction ': !isBigScreen}">
-    <label for="ad-price" name="ad-price" id="id-label" class="mt-3">Prix</label>
-    <input [(ngModel)]="ad.price" name="price" id="ad-price" type="number" class="col-8 mx-auto form-control mb-4"
-      #price="ngModel" required number min="0.1">
-    <span class="input-group-addon">&nbsp;&nbsp;&nbsp;€</span>
-  </div>
-  <div *ngIf="price.errors">
-    <span class="error-msg mb-4" *ngIf="price.errors?.['required']">Veuillez entrer un prix</span>
+    <div *ngIf="state.errors">
+      <span class="error-msg mb-4" *ngIf="state.touched && state.errors?.['required']">Veuillez selectionner un
+        état</span>
+    </div>
   </div>
 
+  <div class="col-2 mt-5 mx-auto" [ngClass]="{'state-and-price-input-correction': !isBigScreen}" id="price-input-field">
+    <label for="ad-price" name="ad-price" class="mb-2">Prix</label>
+    <div class="test">
+      <input [(ngModel)]="ad.price" name="price" id="ad-price" type="number"
+        class="col-8 mx-auto form-control mb-4 d-inline" #price="ngModel" required number min="0.1">
+      <span class="input-group-addon d-inline">&nbsp;&nbsp;&nbsp;€</span>
+    </div>
+    <div *ngIf="price.errors">
+      <span class="error-msg mb-4" *ngIf="price.touched && price.errors?.['required']">Veuillez entrer un prix</span>
+    </div>
+  </div>
 
   <div class="bottom-btns mb-5 mt-5">
     <button type="button" class="btn-secondary mt-4">annuler</button>
-    <button type="submit" class="btn-primary mt-4">publier</button>
+    <button type="submit" class="btn-primary mt-4" [disabled]="adForm.invalid">publier</button>
   </div>
+
 </form>

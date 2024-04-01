@@ -9,19 +9,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StyleGuideComponent } from '../style/style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from '../style/style-guide/style-guide-routing.module';
-import { AdFormComponent } from './routes/ads/create-ad/ad-form.component';
-import { AdModule } from './routes/ads/create-ad/ad.module';
-
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CloudinaryModule } from '@cloudinary/ng';
-import { ToCheckComponent } from './routes/ads/to-check/to-check.component';
+import { ComponentModule } from './shared/component/component.module';
+import { CreateAdModule } from './routes/ads/create-ad/create-ad.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     StyleGuideComponent,
-    AdFormComponent,
-    ToCheckComponent
   ],
   imports: [
     BrowserModule,
@@ -30,10 +27,12 @@ import { ToCheckComponent } from './routes/ads/to-check/to-check.component';
     FormsModule,
     AppRoutingModule,
     StyleGuideRoutingModule,
-    AdModule,
     HttpClientModule,
     NgxDropzoneModule,
-    CloudinaryModule
+    CloudinaryModule,
+    ComponentModule,
+    CreateAdModule
+
 
   ],
   providers: [],

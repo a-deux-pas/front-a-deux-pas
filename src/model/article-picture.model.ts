@@ -1,13 +1,9 @@
 import { Ad } from "./ad.model";
 
 export class ArticlePicture {
-    url: string;
-    ad?: Ad;
-    id?: number;
 
-    constructor(url: string, ad?: Ad, id?: number) {
-        this.url = url;
-        this.ad = ad;
-        this.id = id;
-    }
+    constructor(
+        public url: string,
+        public ad?: Ad,
+        public id?: number) { }
 }

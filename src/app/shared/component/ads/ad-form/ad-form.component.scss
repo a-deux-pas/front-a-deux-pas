@@ -1,4 +1,4 @@
-@import '../../../../style/color-variables.scss';
+@import '../../../../../style/color-variables.scss';
 
 //general
 
@@ -15,36 +15,37 @@
   }
 }
 
-#price-input-field {
-  position: relative;
-  width: 45%;
-  display: grid;
+.test {
+  display: inline-block;
 }
 
-#price-input-label {
-  // margin-left: -12.875rem;
-  grid-area: 1 / 1 / 2 / 2;
-}
-
-#ad-price {
-  grid-area: 2 / 1 / 3 / 4;
+#ad-title,
+#ad-description {
+  width: 320px;
 }
 
 #ad-price,
 #ad-status {
-  width: 245.238px;
+  width: 246px;
   height: 43px;
 }
 
-
-.ng-select.custom .ng-select-container {
-  min-width: 245.238px;
+#ad-price {
+  position: relative;
 }
 
+.input-group-addon {
+  margin-left: -9.5%;
+  position: absolute;
+}
+
+
+
+// .ng-select.custom .ng-select-container {
+//   min-width: 245.238px;
+// }
+
 .label-and-input {
-  width: 320px;
-  // height: 52px;
-  // margin-left: 1%;
   margin-bottom: 7%;
 
   >label {
@@ -53,7 +54,8 @@
 }
 
 .state-and-price-input-correction {
-  margin: 0 auto;
+  margin-left: -28%;
+  width: 246px;
 }
 
 .input {
@@ -121,13 +123,18 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
 
 .carousel-item-mobile {
   width: 350px;
-  height: 349px
+  height: 349px;
 }
 
 
 @media screen and (min-width: 1200px) {
 
   //General
+
+
+  .input-group-addon {
+    margin-left: -4.5%;
+  }
 
   #ad-title {
     width: 471px;
@@ -144,6 +151,7 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   .label-and-input {
     margin-left: auto;
     margin-right: 46%;
+
   }
 
   //Picture upload section
@@ -204,14 +212,6 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
-
-    // >img:not(.add-picture-icon) {
-    //   max-width: 400px !important;
-    //   max-height: 460px !important;
-    //   min-width: 80% !important;
-    //   min-height: 80% !important;
-    //   margin-top: 44% !important;
-    // }
   }
 
   .three-dropzones[_nghost-ng-c2040221903]:first-child {
@@ -297,9 +297,13 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
     height: 232px;
   }
 
-  #price-input-field {
-    display: grid;
+  .input-group-addon {
+    margin-left: -3.5%;
   }
+
+  // #price-input-field {
+  //   display: grid;
+  // }
 
 }
 

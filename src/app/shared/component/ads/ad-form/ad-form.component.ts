@@ -1,11 +1,11 @@
-import { Component, Input, HostListener, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { Ad } from '../../../../model/ad.model';
-import { User } from '../../../../model/user.model';
-import { AdService } from '../../../../services/Ad.service';
-import { UploadPictureService } from '../../../../services/upload-picture.service';
-import { ArticlePicture } from '../../../../model/article-picture.model';
-import { Observable, catchError, forkJoin, tap } from 'rxjs';
-import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Ad } from '../../../../../model/ad.model';
+import { User } from '../../../../../model/user.model';
+import { AdService } from './Ad.service';
+import { UploadPictureService } from '../../../../../services/upload-picture.service';
+import { ArticlePicture } from '../../../../../model/article-picture.model';
+import { Observable, catchError, tap } from 'rxjs';
+import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -15,6 +15,9 @@ import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/n
 })
 export class AdFormComponent implements OnInit {
 
+  @Input() formTitle!: string;
+  @Input() isCreateAdForm!: boolean;
+
   isBigScreen: boolean | undefined
   isPostAdForm: boolean | undefined;
 
@@ -23,14 +26,8 @@ export class AdFormComponent implements OnInit {
     '',
     '',
     new Date(),
-    0,
-    1,
-    [],
-    undefined,
-    undefined,
-    '',
-    undefined,
   );
+
   user!: User;
   publisher: User | undefined;
   today: Date = new Date()
@@ -100,8 +97,6 @@ export class AdFormComponent implements OnInit {
     this.isBigScreen = window.innerWidth > 1200;
   }
 
-  // @Input() thisAd: Ad | undefined
-
   ngOnInit(): void {
     this.isBigScreen = window.innerWidth > 1200;
   }
@@ -146,12 +141,19 @@ export class AdFormComponent implements OnInit {
     filesArray.splice(filesArray.indexOf(file), 1);
   }
 
-  onSelectPicture(event: { addedFiles: any; }, dropzoneNumber: number) {
+  onSelectPicture(event: { addedFiles: any; }, dropzoneNumber: number): void {
     console.log(event)
     console.log(dropzoneNumber)
-    const filesArray = this.getFilesArray(dropzoneNumber);
-    filesArray.splice(0, filesArray.length);
-    filesArray.push(...event.addedFiles);
+    const newPictureInDropzone = this.getFilesArray(dropzoneNumber);
+    newPictureInDropzone.splice(0, newPictureInDropzone.length);
+    newPictureInDropzone.push(...event.addedFiles);
+
+    const filesArrays: File[][] = [this.files1, this.files2, this.files3, this.files4, this.files5];
+    filesArrays.forEach(filesArray => {
+      if (filesArray.length > 0) {
+        this.articlePictures.push(filesArray[0]);
+      }
+    });
   }
 
   getArray(length: number): any[] {
@@ -176,36 +178,13 @@ export class AdFormComponent implements OnInit {
   }
 
   uploadArticlePictures(): Observable<any> {
-    const observables: Observable<any>[] = [];
-    const filesArrays: File[][] = [this.files1, this.files2, this.files3, this.files4, this.files5];
-
-    filesArrays.forEach(filesArray => {
-      if (filesArray.length > 0) {
-        this.articlePictures.push(filesArray[0]);
-      }
-    });
-
-    // upload of article pictures
-    this.articlePictures.forEach(articlePic => {
-      const data = new FormData();
-      data.append('file', articlePic);
-      data.append('upload_preset', 'adeupasProject');
-      data.append('cloud_name', 'erikaadeuxpas');
-      // data.append("eager", "f_webp");
-
-      observables.push(this.uploadPictureService.uploadImage(data));
-    });
-
-    console.log('@@@@@@')
-    console.table(this.articlePictures)
-    console.log('@@@@@@')
-    // forkJoin is used so that the following methods won't execute before its portion does
-    return forkJoin(observables).pipe(
+    this.ad.articlePictures = []
+    return this.uploadPictureService.uploadImages(this.articlePictures).pipe(
       tap((responses: any[]) => {
         responses.forEach(response => {
           console.log('Image uploaded successfully:', response);
           let newArticlePicture: ArticlePicture = new ArticlePicture(response.secure_url);
-          this.ad.articlePictures.push(newArticlePicture);
+          this.ad.articlePictures!.push(newArticlePicture);
         });
       }),
       catchError((error: any) => {
@@ -226,7 +205,6 @@ export class AdFormComponent implements OnInit {
             this.adSuccessfullySubmitted = true;
             setTimeout(() => {
               this.adSuccessfullySubmitted = false;
-              //this.router.navigate(['/ads/detail', ad.id]);
             }, 3000);
             console.log('Ad successfully created');
             console.table(this.ad);
@@ -248,7 +226,7 @@ export class AdFormComponent implements OnInit {
 
   // image selection carrousel for mobile device
 
-  @ViewChild('carousel', { static: true }) carousel: NgbCarousel | undefined;
+  @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
 
   paused = false;
   unpauseOnArrow = false;
