@@ -14,6 +14,7 @@ export class AdListComponent implements OnInit {
   pageNumber: number = 0;
   pageSize: number = 8;
   displayedAds: AdResponse[] = [];
+  noMoreAds: boolean = false;
   uniqueCitiesAndPostalCodes: string[] = [];
 
   selectedPriceRanges: string[] = [];
@@ -56,6 +57,7 @@ export class AdListComponent implements OnInit {
       )
       .subscribe((ads: AdResponse[]) => {
         this.displayedAds = [...this.displayedAds, ...ads];
+        this.noMoreAds = ads.length > 0 ? false : true;
       });
   }
 

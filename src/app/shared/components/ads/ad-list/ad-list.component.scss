@@ -21,8 +21,18 @@
 }
 
 .no-ads-message {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 50px;
+}
+
+.no-ads-message h2 {
+  margin-top: 20px;
+}
+
+.no-ads-message p {
+  margin-bottom: 40px;
 }
 
 .single-button-container {

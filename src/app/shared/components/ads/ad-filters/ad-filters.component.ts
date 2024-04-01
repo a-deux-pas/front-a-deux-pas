@@ -27,12 +27,15 @@ export class AdFiltersComponent {
 
   @Input() displayedAds: AdResponse[] = [];
   @Input() uniqueCitiesAndPostalCodes: string[] = [];
+  @Input() noMoreAds: boolean = false;
   @Input() pageNumber: number = 0;
   pageSize: number = 8;
   @Output() displayedAdsChange: EventEmitter<AdResponse[]> = new EventEmitter<
     AdResponse[]
   >();
   @Output() pageNumberChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() noMoreAdsChange: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
   @Output() filtersUpdated: EventEmitter<any> = new EventEmitter<{
     selectedPriceRanges: string[];
     selectedCities: string[];
@@ -161,8 +164,11 @@ export class AdFiltersComponent {
         this.pageSize
       )
       .subscribe((filteredAds: AdResponse[]) => {
+        this.noMoreAds = false;
+        this.noMoreAdsChange.emit(this.noMoreAds);
         // updating the 'displayedAds' variable
         this.displayedAds = filteredAds;
+        console.log(this.displayedAds);
         // signaling to the parent component (ad-list) that the 'displayedAds' variable was updated
         this.displayedAdsChange.emit(this.displayedAds);
       });

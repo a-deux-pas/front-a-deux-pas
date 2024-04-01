@@ -6,13 +6,14 @@
     [uniqueCitiesAndPostalCodes]="uniqueCitiesAndPostalCodes"
     [(pageNumber)]="pageNumber"
     [(displayedAds)]="displayedAds"
+    [(noMoreAds)]="noMoreAds"
     (filtersUpdated)="receiveUpdatedFilters($event)"
   >
   </app-ad-filters>
 
   <div
     class="ad-list-container"
-    *ngIf="displayedAds && displayedAds.length > 0; else noAdsFoundMessage"
+    *ngIf="displayedAds && displayedAds.length > 0"
   >
     <div *ngFor="let ad of displayedAds">
       <div>
@@ -29,7 +30,6 @@
               <div class="bottom-card-part">
                 <p class="white-space">''</p>
                 <p class="white-space">''</p>
-                <!-- To possibly replace with the heart or the edit icon -->
                 <p class="card-text" id="article-price">{{ ad.price }} €</p>
               </div>
             </div>
@@ -39,7 +39,10 @@
     </div>
   </div>
 
-  <div class="single-button-container">
+  <div
+    class="single-button-container"
+    *ngIf="displayedAds && displayedAds.length > 0 && !noMoreAds"
+  >
     <button type="submit" class="btn-info mt-4" (click)="loadMoreAds()">
       voir plus<img
         class="arrow-down-icon"
@@ -49,9 +52,16 @@
     </button>
   </div>
 
-  <ng-template #noAdsFoundMessage>
-    <div class="no-ads-message">
-      <p>Désolé, aucun résultat ne correspond à votre recherche</p>
-    </div>
-  </ng-template>
+  <div class="no-ads-message" *ngIf="displayedAds.length === 0">
+    <img
+      class="desktop-footsteps"
+      src="/assets/icons/desktop-footsteps.webp"
+      alt="icône de traces de pas"
+    />
+    <h2>Désolé, aucun résultat ne correspond à votre recherche</h2>
+  </div>
+
+  <div class="no-ads-message" *ngIf="noMoreAds">
+    <p>Fin de résultats</p>
+  </div>
 </div>
