@@ -136,6 +136,8 @@ export class AdFormComponent implements OnInit {
   files4: File[] = [];
   files5: File[] = [];
 
+  filesArrays: File[][] = [];
+
   onRemove(file: File, dropzoneNumber: number) {
     const filesArray = this.getFilesArray(dropzoneNumber);
     filesArray.splice(filesArray.indexOf(file), 1);
@@ -148,8 +150,13 @@ export class AdFormComponent implements OnInit {
     newPictureInDropzone.splice(0, newPictureInDropzone.length);
     newPictureInDropzone.push(...event.addedFiles);
 
-    const filesArrays: File[][] = [this.files1, this.files2, this.files3, this.files4, this.files5];
-    filesArrays.forEach(filesArray => {
+    this.filesArrays = [this.files1, this.files2, this.files3, this.files4, this.files5];
+    console.error('filesArrays:: ', this.filesArrays)
+
+  }
+
+  createAdPictureArray() {
+    this.filesArrays.forEach(filesArray => {
       if (filesArray.length > 0) {
         this.articlePictures.push(filesArray[0]);
       }
@@ -179,12 +186,15 @@ export class AdFormComponent implements OnInit {
 
   uploadArticlePictures(): Observable<any> {
     this.ad.articlePictures = []
+    this.createAdPictureArray()
+    console.error('this.articlePictures:: ', this.articlePictures)
     return this.uploadPictureService.uploadImages(this.articlePictures).pipe(
       tap((responses: any[]) => {
         responses.forEach(response => {
           console.log('Image uploaded successfully:', response);
           let newArticlePicture: ArticlePicture = new ArticlePicture(response.secure_url);
           this.ad.articlePictures!.push(newArticlePicture);
+          console.error('this.ad.articlePictures:: ', this.ad.articlePictures)
         });
       }),
       catchError((error: any) => {
@@ -192,36 +202,6 @@ export class AdFormComponent implements OnInit {
         throw error;
       })
     );
-  }
-
-  onSubmit(): void {
-    this.uploadArticlePictures().subscribe({
-      next: () => {
-        console.log('All images uploaded successfully');
-        this.ad.creationDate = this.today;
-        this.ad.publisherId = 1;
-        this.adService.postAd(this.ad).subscribe({
-          next: (ad: Ad) => {
-            this.adSuccessfullySubmitted = true;
-            setTimeout(() => {
-              this.adSuccessfullySubmitted = false;
-            }, 3000);
-            console.log('Ad successfully created');
-            console.table(this.ad);
-          },
-          error: (error: any) => {
-            console.error(error);
-            this.errorWhenSubmittingMsg = true;
-            setTimeout(() => {
-              this.errorWhenSubmittingMsg = false;
-            }, 3000);
-          }
-        });
-      },
-      error: (error: any) => {
-        console.error('Error occurred during image upload:', error);
-      }
-    });
   }
 
   // image selection carrousel for mobile device
@@ -254,6 +234,36 @@ export class AdFormComponent implements OnInit {
     if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
       this.togglePaused();
     }
+  }
+
+  onSubmit(): void {
+    this.uploadArticlePictures().subscribe({
+      next: () => {
+        console.log('All images uploaded successfully');
+        this.ad.creationDate = this.today;
+        this.ad.publisherId = 1;
+        this.adService.postAd(this.ad).subscribe({
+          next: (ad: Ad) => {
+            this.adSuccessfullySubmitted = true;
+            setTimeout(() => {
+              this.adSuccessfullySubmitted = false;
+            }, 3000);
+            console.log('Ad successfully created');
+            console.table(this.ad);
+          },
+          error: (error: any) => {
+            console.error(error);
+            this.errorWhenSubmittingMsg = true;
+            setTimeout(() => {
+              this.errorWhenSubmittingMsg = false;
+            }, 3000);
+          }
+        });
+      },
+      error: (error: any) => {
+        console.error('Error occurred during image upload:', error);
+      }
+    });
   }
 
 }

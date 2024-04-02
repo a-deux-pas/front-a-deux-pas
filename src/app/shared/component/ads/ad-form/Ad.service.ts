@@ -13,7 +13,7 @@ export class AdService {
         private http: HttpClient) { }
 
     postAd(ad: Ad): Observable<any> {
-        const url = `${API_URL}annonce/creer-une-annonce`
+        const url = `${API_URL}ad/create`
         return this.http.post(url, ad)
             .pipe(
                 retry(1)
