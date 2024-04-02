@@ -13,7 +13,7 @@
 
     <div class="mx-auto mb-5" id="selectPicNumber">
       <ng-select [clearable]="false" [(ngModel)]="selectedPicNumber" name="selectedPicNumber" class="custom mt-4"
-        placeholder="1 photo">
+        id="picturePick" placeholder="1 photo">
         <ng-option *ngFor="let number of [1, 2, 3, 4, 5]" [value]="number">
           {{ number }} {{ number === 1 ? 'photo' : 'photos' }}
         </ng-option>

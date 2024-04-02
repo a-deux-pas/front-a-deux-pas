@@ -1,0 +1,10 @@
+[
+    {
+        "category": "Electronique",
+        "subcategory": "Ordinateur",
+        "title": "Nouvelle annonce test",
+        "articleDescription": "Description de la nouvelle annonce test",
+        "articleState": "Bon état",
+        "price": 22
+    }
+]
