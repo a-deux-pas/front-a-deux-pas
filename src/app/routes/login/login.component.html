@@ -27,11 +27,21 @@
     </div>
   </div>
   <div class="modal-btn">
-    <button type="button" class="btn" (click)="(isLoginFormVisible)">
+    <button
+      type="button"
+      class="btn toggle"
+      (click)="toggleLoginFormVisibility()"
+      [ngClass]="{ active: isLoginFormVisible }"
+    >
       Se connecter
     </button>
 
-    <button type="button" class="btn" (click)="isLoginFormVisible = false">
+    <button
+      type="button "
+      class="btn toggle"
+      (click)="toggleRegisterFormVisibility()"
+      [ngClass]="{ active: isRegisterFormVisible }"
+    >
       S'inscrire
     </button>
   </div>
@@ -43,8 +53,8 @@
         (ngSubmit)="onLoginSubmit()"
         *ngIf="isLoginFormVisible"
       >
-        <label for="email">Adresse email</label>
-        <div class="input-group mt-3">
+        <label for="email" class="mt-3">Adresse email</label>
+        <div class="input-group">
           <input
             id="email"
             type="email"
@@ -66,8 +76,8 @@
             </div>
           </div>
         </div>
-        <label for="password">Mot de passe</label>
-        <div class="input-group mt-3">
+        <label for="password" class="mt-4">Mot de passe</label>
+        <div class="input-group">
           <input
             id="password"
             type="password"
@@ -75,7 +85,7 @@
             formControlName="password"
             class="form-control"
             required
-            placeholder="mon mot de passe"
+            placeholder="8 caractères minimum"
           />
           <div
             *ngIf="
@@ -86,7 +96,7 @@
             class="alert"
           >
             <div *ngIf="loginForm.get('password')?.errors">
-              Password is required.
+              Le mot de passe est requis.
             </div>
           </div>
         </div>
@@ -107,15 +117,57 @@
               placeholder="nom@example.com"
             />
           </div>
+          <label for="confirm-password" class="mt-4">Mot de passe</label>
+          <div class="input-group">
+            <input
+              id="password"
+              type="password"
+              name="password"
+              formControlName="password"
+              class="form-control"
+              required
+              placeholder="8 caractères minimum"
+            />
+          </div>
+          <label for="confirm-password" class="mt-4"
+            >Confirmer mon mot de passe</label
+          >
+          <div class="input-group">
+            <input
+              id="confirm-password"
+              type="confirm-password"
+              name="confirm-password"
+              formControlName="confirm-password"
+              class="form-control"
+              required
+              placeholder="répeter le mot de passe"
+            />
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              name="checked-checkbox"
+              type="checkbox"
+              value=""
+              id="checked-checkbox"
+              checked
+            />
+            <label class="form-check-label" for="checked-checkbox">
+              J'accepte les termes et conditions
+            </label>
+            <div class="modal-footer justify-content-center">
+              <button type="submit" class="btn-success">C'est parti !</button>
+            </div>
+          </div>
         </div>
       </form>
     </ng-container>
   </div>
 </ng-template>
-
+<!-- 
 <ngb-alert [dismissible]="true" *ngIf="showSuccessAlert" type="success">
   <strong>Succès !</strong> Connexion réussie.
-</ngb-alert>
+</ngb-alert> -->
 
 <ngb-alert [dismissible]="true" *ngIf="showErrorAlert" type="danger">
   <strong>Erreur !</strong> Une erreur est survenue. Veuillez réessayer.

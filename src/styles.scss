@@ -79,8 +79,8 @@ $h3-font-size: 1.125rem;
 
 // Body margin adjustments
 body {
-  margin-left: 2vh !important;
-  margin-right: 2vh !important;
+  // margin-left: 2vh !important;
+  // margin-right: 2vh !important;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -280,7 +280,7 @@ span.close {
   z-index: 1;
 }
 // wavy backgroung modal
-.container {
+.container-nav {
   position: absolute;
   background: $tertiary;
   height: 15vh;
@@ -741,8 +741,8 @@ a.dropdown-first-level.dropdown-toggle {
 @media (min-width: 1200px) {
   // Body margin adjustments
   body {
-    margin-left: 14vh !important;
-    margin-right: 14vh !important;
+    // margin-left: 14vh !important;
+    // margin-right: 14vh !important;
   }
 
   // Personalized container for "my account" pages

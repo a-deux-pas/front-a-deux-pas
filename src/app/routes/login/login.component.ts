@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoginService } from './login.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { jwtDecode } from 'jwt-decode';
 
 @Component({
@@ -9,55 +9,71 @@ import { jwtDecode } from 'jwt-decode';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
-  isLoginFormVisible: boolean = true;
+export class LoginComponent implements OnInit {
   loginData: any;
   showSuccessAlert?: boolean;
   showErrorAlert?: boolean;
+  isLoginFormVisible: boolean = true;
+  isRegisterFormVisible: boolean = false;
+
+  toggleLoginFormVisibility() {
+    this.isLoginFormVisible = true;
+    this.isRegisterFormVisible = false;
+  }
+
+  toggleRegisterFormVisibility() {
+    this.isLoginFormVisible = false;
+    this.isRegisterFormVisible = true;
+  }
 
   constructor(
     private modalService: NgbModal,
-    private loginService: LoginService,
+    private AuthService: AuthService,
     private fb: FormBuilder
   ) {}
+
+  ngOnInit(): void {}
 
   // Method to open a modal
   public open(modal: any): void {
     this.modalService.open(modal);
   }
 
+  // Define form controls and validators
   loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]], // Define form controls and validators
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
+    stayLoggedIn: [true],
   });
 
-  // Fonction pour extraire le nom d'utilisateur du token JWT
-  extractUsernameFromToken(token: string): string {
+  // Fuction to extract email of user from the JWT token
+  extractEmailFromToken(token: string): string {
     const decodedToken: any = jwtDecode(token);
-    return decodedToken.sub; // Supposons que le nom d'utilisateur soit stocké dans le champ 'sub' de la charge utile
+    return decodedToken.sub;
   }
 
   onLoginSubmit() {
-    console.log(this.loginForm.value);
-
     const { password, email } = this.loginForm.value;
+
     if (password?.length && email?.length) {
-      this.loginService.login(email, password).subscribe({
+      this.AuthService.login(email, password).subscribe({
         next: (data: any) => {
+          // Extarct Token
           this.loginData = data;
-          console.log('data', data);
 
           if (data) {
-            // Extraire le token
+            // Save Token in the localStorage
             const token = data;
             localStorage.setItem('token', token);
 
-            // Extraire le nom d'utilisateur du token et le stocker localement
-            const username = this.extractUsernameFromToken(token);
-            console.log(username);
-            localStorage.setItem('username', username);
+            // Save email in the localStorage
+            const userEmail = this.extractEmailFromToken(token);
+            localStorage.setItem('userEmail', userEmail);
 
+            // Show success alert
             this.showSuccessAlert = true;
+
+            // Close modal
             this.modalService.dismissAll('Save click');
           }
         },

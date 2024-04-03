@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 //Component to import to use a modal
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-style-guide',
