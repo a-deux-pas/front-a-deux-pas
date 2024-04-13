@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'compte/favoris',
     loadChildren: () => import('./routes/account/favorites/favorites.module').then(m => m.FavoritesModule)
+  },
+  {
+    path: 'annonce/je-cree-une-annonce',
+    loadChildren: () => import('./routes/ads/create-ad/create-ad-routing.module').then(m => m.CreateAdModule)
   }
 ];
 

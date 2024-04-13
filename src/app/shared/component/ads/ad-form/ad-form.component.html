@@ -14,7 +14,7 @@
     <div class="mx-auto mb-5" id="selectPicNumber">
       <ng-select [clearable]="false" [(ngModel)]="selectedPicNumber" name="selectedPicNumber" class="custom mt-4"
         id="picturePick" placeholder="1 photo">
-        <ng-option *ngFor="let number of [1, 2, 3, 4, 5]" [value]="number">
+        <ng-option [id]="'selectPicNumber' + selectedPicNumber" *ngFor="let number of [1, 2, 3, 4, 5]" [value]="number">
           {{ number }} {{ number === 1 ? 'photo' : 'photos' }}
         </ng-option>
       </ng-select>
@@ -53,7 +53,7 @@
           [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
           <ngx-dropzone-label class="center mx-auto">
             <div class="add-picture-btn">
-              <img class="add-picture-icon" src="../../assets/icons/buttons/add-orange.webp"
+              <img id="ad-picture-{{i}}" class="add-picture-icon" src="../../assets/icons/buttons/add-orange.webp"
                 alt="icone-d-ajout-d-image">
               <p class="add-picture-btn-text">ajouter une photo</p>
             </div>

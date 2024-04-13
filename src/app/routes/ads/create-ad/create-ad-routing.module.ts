@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'annonce/je-cree-une-annonce', component: CreateAdComponent },
+  { path: '', component: CreateAdComponent },
 ]
 
 @NgModule({
