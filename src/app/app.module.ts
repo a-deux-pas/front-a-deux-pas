@@ -22,7 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
     NgSelectModule,
     FormsModule,
     AppRoutingModule,
-    StyleGuideRoutingModule
+    StyleGuideRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

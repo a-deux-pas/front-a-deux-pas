@@ -1,0 +1,11 @@
+@if (!editMode) {
+  <a class="btn-icon" (click)="toggleEditMode()">
+    <img class="edit-icon" type="button" src="assets/icons/buttons/edit-orange.webp" alt="icône crayon">
+    <span>modifier</span>
+  </a>
+} @else {
+  <a class="btn-icon" (click)="toggleEditMode()">
+    <img class="save-icon" type="button" src="assets/icons/buttons/save.webp" alt="icône disquette">
+    <span>mettre à jour</span>
+  </a>
+}
