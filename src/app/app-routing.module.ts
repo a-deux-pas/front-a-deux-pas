@@ -21,8 +21,13 @@ const routes: Routes = [
   {
     path: 'annonce/je-cree-une-annonce',
     loadChildren: () => import('./routes/ads/create-ad/create-ad-routing.module').then(m => m.CreateAdModule)
+  },
+  {
+    path: 'compte/mon-annonce/:id',
+    loadChildren: () => import('./routes/account/ads/components/my-ad/my-ad-routine.module').then(m => m.MyAdModule)
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

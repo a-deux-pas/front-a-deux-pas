@@ -9,14 +9,25 @@ import { API_URL } from "../../../utils/constants"
 })
 export class AdService {
 
+    private contextUrl = `${API_URL}ad/`;
+
     constructor(
         private http: HttpClient) { }
 
     postAd(ad: Ad): Observable<any> {
-        const url = `${API_URL}ad/create`
+        const url = `${this.contextUrl}create`
         return this.http.post(url, ad)
             .pipe(
                 retry(1)
             )
+    }
+
+    findAdById(adId: number): Observable<Ad> {
+        console.log('adId:: ', adId)
+        const url = `${this.contextUrl}${adId}`
+        return this.http.get<Ad>(url)
+            .pipe(
+                retry(1)
+            );
     }
 }

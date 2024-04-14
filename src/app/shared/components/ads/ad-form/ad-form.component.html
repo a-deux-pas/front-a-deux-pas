@@ -1,5 +1,5 @@
-<div *ngIf="adForm.submitted && adForm.valid && adSuccessfullySubmitted" class="alert alert-success">
-  Votre annonce a bien été créée
+<div *ngIf="isCreateAdForm && adForm.submitted && adForm.valid && adSuccessfullySubmitted" class="alert alert-success">
+  Votre annonce : <strong>{{ ad.title }}</strong> a bien été créée
 </div>
 <div *ngIf="adForm.submitted && adForm.invalid && errorWhenSubmittingMsg" class="alert alert-danger">
   Une erreur s'est produite
@@ -11,10 +11,12 @@
 
     <h3 class="bold-title-700">Photo(s)</h3>
 
-    <div class="mx-auto mb-5" id="selectPicNumber">
+    <!-- number of article picture image selection -->
+    <div class="mx-auto mb-5" id="select-pic-number">
       <ng-select [clearable]="false" [(ngModel)]="selectedPicNumber" name="selectedPicNumber" class="custom mt-4"
-        id="picturePick" placeholder="1 photo">
-        <ng-option [id]="'selectPicNumber' + selectedPicNumber" *ngFor="let number of [1, 2, 3, 4, 5]" [value]="number">
+        placeholder="1 photo">
+        <ng-option [id]="'select-pic-number' + selectedPicNumber" *ngFor="let number of [1, 2, 3, 4, 5]"
+          [value]="number">
           {{ number }} {{ number === 1 ? 'photo' : 'photos' }}
         </ng-option>
       </ng-select>
@@ -79,6 +81,7 @@
       </div>
     </div>
 
+    <!-- sub Category choice section -->
     <div *ngIf="ad.category" class="mx-auto  " style="width: 246px;">
       <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4" placeholder="une sous catégorie"
         #subcategory="ngModel" required>
@@ -92,6 +95,7 @@
       </div>
     </div>
 
+    <!-- article gender choice section -->
     <div *ngIf="ad.subcategory == 'Hauts' || ad.subcategory == 'Bas'" class="mx-auto mb-2  " style="width: 246px;">
       <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" placeholder="un genre"
         #gender="ngModel" required>

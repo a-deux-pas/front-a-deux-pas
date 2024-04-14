@@ -6,6 +6,8 @@ import { UploadPictureService } from '../../../../../services/upload-picture.ser
 import { ArticlePicture } from '../../../../../model/article-picture.model';
 import { Observable, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { ViewportScroller } from '@angular/common'
 
 
 @Component({
@@ -104,6 +106,8 @@ export class AdFormComponent implements OnInit {
   constructor(
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
+    private router: Router,
+    private viewportScroller: ViewportScroller
   ) { }
 
 
@@ -250,6 +254,13 @@ export class AdFormComponent implements OnInit {
             }, 3000);
             console.log('Ad successfully created');
             console.table(this.ad);
+            this.scrollToTop()
+            setTimeout(() => {
+              (this.adSuccessfullySubmitted = true)
+            }, 3000)
+            // setTimeout(() => {
+            //   this.router.navigate(['/mon-annonce/', ad.id])
+            // }, 3000)
           },
           error: (error: any) => {
             console.error(error);
@@ -266,4 +277,7 @@ export class AdFormComponent implements OnInit {
     });
   }
 
+  scrollToTop(): void {
+    this.viewportScroller.scrollToPosition([0, 0])
+  }
 }

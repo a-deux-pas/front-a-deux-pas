@@ -39,12 +39,6 @@
   position: absolute;
 }
 
-
-
-// .ng-select.custom .ng-select-container {
-//   min-width: 245.238px;
-// }
-
 .label-and-input {
   margin-bottom: 7%;
 
@@ -68,7 +62,7 @@
   height: 40px;
 }
 
-#selectPicNumber,
+#select-pic-number,
 .article-categorization {
   width: 246px;
 }
@@ -88,9 +82,8 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+
 // drag and drop 
-
-
 ngx-dropzone {
   width: 350px;
   height: 349px;
@@ -130,7 +123,6 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
 @media screen and (min-width: 1200px) {
 
   //General
-
 
   .input-group-addon {
     margin-left: -4.5%;
@@ -300,21 +292,4 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   .input-group-addon {
     margin-left: -3.5%;
   }
-
-  // #price-input-field {
-  //   display: grid;
-  // }
-
 }
-
-
-
-
-//image in dropzone preview dimension
-// :host ::ng-deep img:not(.add-picture-icon) {
-//   max-width: 100%;
-//   max-height: 100%;
-//   margin-top: 60%;
-//   margin-left: 3%;
-//   box-sizing: border-box;
-// }
