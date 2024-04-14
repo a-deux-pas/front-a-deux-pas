@@ -4,8 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-style-guide',
-  templateUrl: './style-guide.component.html',
-  styleUrls: ['./style-guide.component.scss']
+  templateUrl: './style-guide.component.html'
 })
 export class StyleGuideComponent {
 
@@ -104,11 +103,10 @@ export class StyleGuideComponent {
     this.modalService.open(modal);
   }
 
-  //Méthod to select category filter
-  //Mircea : to rename once you've finalised your method as this bit of code just gives you your search terms ;) 
+  // Method to select category filter
+  // Mircea : to rename once you've finalised your method as this bit of code just gives you your search terms ;)
   methodToFilter(genderName: string | undefined, subCategoryName: string) {
     this.selectedCatFilter = genderName ?? subCategoryName;
     console.log(' subCategoryName ', subCategoryName, 'genderName ', genderName)
   }
-  
 }
