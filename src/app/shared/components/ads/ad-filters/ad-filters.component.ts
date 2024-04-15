@@ -4,6 +4,8 @@ import {
   HostListener,
   Input,
   Output,
+  Renderer2,
+  ViewChild,
 } from '@angular/core';
 import { ArticleState } from '../../../models/enum/ArticleState';
 import { PriceRange } from '../../../models/enum/PriceRange';
@@ -45,8 +47,22 @@ export class AdFiltersComponent {
   priceRanges = Object.values(PriceRange);
   categories = Categories;
 
-  // injecting the filter service
-  constructor(private adFiltersService: AdFiltersService) {}
+  @ViewChild('priceDropdownRef') priceDropdownRef: any;
+  @ViewChild('cityDropdownRef') cityDropdownRef: any;
+  @ViewChild('categoryDropdownRef') categoryDropdownRef: any;
+  @ViewChild('stateDropdownRef') stateDropdownRef: any;
+
+  constructor(
+    private adFiltersService: AdFiltersService,
+    private renderer: Renderer2
+  ) {}
+
+  ngAfterViewInit() {
+    this.handleDropdownMouseLeave(this.priceDropdownRef.nativeElement);
+    this.handleDropdownMouseLeave(this.cityDropdownRef.nativeElement);
+    this.handleDropdownMouseLeave(this.categoryDropdownRef.nativeElement);
+    this.handleDropdownMouseLeave(this.stateDropdownRef.nativeElement);
+  }
 
   // handling the checkbox filters every time any of the checkboxes are changed (checked / unchecked)
   handleCheckboxFiltersSelection(
@@ -193,6 +209,16 @@ export class AdFiltersComponent {
       selectedCategory: this.selectedCategory,
     };
     this.filtersUpdated.emit(eventData);
+  }
+
+  private handleDropdownMouseLeave(dropdownElement: HTMLElement) {
+    this.renderer.listen(dropdownElement, 'mouseleave', () => {
+      const dropdownMenu = dropdownElement.querySelector('.dropdown-menu');
+      this.renderer.addClass(dropdownMenu, 'keep-visible');
+      setTimeout(() => {
+        this.renderer.removeClass(dropdownMenu, 'keep-visible');
+      }, 30);
+    });
   }
 
   @HostListener('window:resize', ['$event'])

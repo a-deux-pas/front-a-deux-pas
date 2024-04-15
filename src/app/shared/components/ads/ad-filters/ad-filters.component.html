@@ -2,7 +2,7 @@
 <div class="filters-container">
   <nav class="navbar" aria-labelledby="dropdown-checkbox">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <div class="dropdown" id="price-dropdown">
+      <div class="dropdown" #priceDropdownRef id="price-dropdown">
         <button
           [ngClass]="{
             'navbar-toggler dropdown-btn': !isBigScreen,
@@ -57,7 +57,7 @@
   <!-- City filter -->
   <nav class="navbar" aria-labelledby="dropdown-checkbox">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <div class="dropdown" id="city-dropdown">
+      <div class="dropdown" #cityDropdownRef id="city-dropdown">
         <button
           [ngClass]="{
             'navbar-toggler dropdown-btn': !isBigScreen,
@@ -112,7 +112,7 @@
   <!-- Category filter -->
   <nav class="navbar" aria-labelledby="dropdown-radiobox">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <div class="dropdown" id="category-dropdown">
+      <div class="dropdown" #categoryDropdownRef id="category-dropdown">
         <button
           [ngClass]="{
             'navbar-toggler dropdown-btn': !isBigScreen,
@@ -221,7 +221,7 @@
   <!-- State/Condition filter -->
   <nav class="navbar" aria-labelledby="dropdown-checkbox">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <div class="dropdown" id="state-dropdown">
+      <div class="dropdown" #stateDropdownRef id="state-dropdown">
         <button
           [ngClass]="{
             'navbar-toggler dropdown-btn': !isBigScreen,

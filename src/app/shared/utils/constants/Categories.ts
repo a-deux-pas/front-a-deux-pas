@@ -10,7 +10,7 @@ export const Categories = [
       {
         id: 1,
         name: Subcategory.TOPS,
-        gender: [Gender.FEMALE, Gender.MALE],
+        gender: [Gender.FEMALE, Gender.MALE, Gender.UNISEX],
       },
       {
         id: 2,

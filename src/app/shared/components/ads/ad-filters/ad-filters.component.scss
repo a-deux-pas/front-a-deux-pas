@@ -14,3 +14,7 @@
   position: absolute;
   z-index: 100;
 }
+
+.keep-visible {
+  display: block; // Ensures the dropdown menu remains visible
+}
