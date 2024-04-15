@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DefaultHomeComponent } from './routes/home/default-home/default-home.component';
 import { AdListComponent } from './shared/components/ads/ad-list/ad-list.component';
 import { AdFiltersComponent } from './shared/components/ads/ad-filters/ad-filters.component';
+import { AdCardComponent } from './shared/components/ads/ad-card/ad-card.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AdFiltersComponent } from './shared/components/ads/ad-filters/ad-filter
     DefaultHomeComponent,
     AdListComponent,
     AdFiltersComponent,
+    AdCardComponent,
   ],
   imports: [
     BrowserModule,

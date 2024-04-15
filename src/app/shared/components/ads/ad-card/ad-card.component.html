@@ -1,0 +1,18 @@
+<div class="card mt-4">
+  <img
+    class="card-img-top"
+    [src]="ad.articlePictureUrl"
+    alt="article à vendre"
+  />
+  <div class="card-colored-border">
+    <div class="card-body">
+      <h5 class="card-title pb-4">{{ ad.title }}</h5>
+      <p class="card-text">{{ ad.publisher }}</p>
+      <div class="bottom-card-part">
+        <p class="white-space">''</p>
+        <p class="white-space">''</p>
+        <p class="card-text" id="article-price">{{ ad.price }} €</p>
+      </div>
+    </div>
+  </div>
+</div>
