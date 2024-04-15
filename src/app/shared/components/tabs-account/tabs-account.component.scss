@@ -1,0 +1,55 @@
+// Import color variables
+@import 'color-variables';
+
+// Hide the account tabs on the mobile version
+#account-tabs {
+  display: none;
+  font-size: 1.25rem;
+}
+
+// Desktop version style elements
+@media (min-width: 799px) {
+
+  #account-tabs {
+    display: inline-flex;
+    border-bottom: 2px solid $primary;
+  }
+
+  // Default style for navigation links
+  #account-tabs a.nav-link {
+    transition: none;
+    color: black;
+    padding: 20px 32px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid $primary;
+  }
+
+  #account-tabs a.nav-link.active {
+    border-bottom: 2px solid $primary;
+  }
+
+  // Style for active navigation link
+  #account-tabs .custom-active-tab {
+    border-radius: 10px 25px 0px 0px;
+    background-color: $primary;
+    color: white !important;
+    font-weight: 700;
+  }
+
+  // Style for hover and focus states of navigation links
+  #account-tabs.nav-tabs .nav-link:hover,
+  #account-tabs.nav-tabs .nav-link:focus {
+    border-bottom-color: $primary;
+    border-top-color: white;
+    border-right-color: white;
+    border-left-color: white;
+  }
+
+  // Text color for hover and focus states of navigation links
+  #account-tabs .nav-link:hover,
+  #account-tabs .nav-link:focus {
+    color: $primary;
+  }
+}
