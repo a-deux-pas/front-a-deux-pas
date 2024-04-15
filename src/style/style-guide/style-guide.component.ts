@@ -6,7 +6,6 @@ import { NgModel } from '@angular/forms';
 @Component({
   selector: 'app-style-guide',
   templateUrl: './style-guide.component.html',
-  styleUrls: ['./style-guide.component.scss'],
 })
 export class StyleGuideComponent {
   isLoginFormVisible = true;
@@ -124,8 +123,8 @@ export class StyleGuideComponent {
     this.modalService.open(modal);
   }
 
-  //Méthod to select category filter
-  //Mircea : to rename once you've finalised your method as this bit of code just gives you your search terms ;)
+  // Method to select category filter
+  // Mircea : to rename once you've finalised your method as this bit of code just gives you your search terms ;)
   methodToFilter(genderName: string | undefined, subCategoryName: string) {
     this.selectedCatFilter = genderName ?? subCategoryName;
     console.log(

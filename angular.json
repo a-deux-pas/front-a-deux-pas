@@ -38,7 +38,7 @@
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
-              "src/styles.scss"
+              "src/style/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -106,7 +106,7 @@
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
-              "src/styles.scss"
+              "src/style/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

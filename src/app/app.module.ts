@@ -1,26 +1,28 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StyleGuideComponent } from './style-guide/style-guide.component';
-import { HttpClientModule } from '@angular/common/http';
-import { StyleGuideRoutingModule } from './style-guide/style-guide-routing.module';
+import { StyleGuideComponent } from '../style/style-guide/style-guide.component';
+import { StyleGuideRoutingModule } from '../style/style-guide/style-guide-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent, StyleGuideComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    NgbModule,
     NgSelectModule,
     FormsModule,
     AppRoutingModule,
-    HttpClientModule,
+    StyleGuideRoutingModule,
     NgbAlertModule,
     ReactiveFormsModule,
-    StyleGuideRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
