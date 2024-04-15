@@ -10,13 +10,14 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { StyleGuideComponent } from '../style/style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from '../style/style-guide/style-guide-routing.module';
 import { AppRoutingModule } from './app-routing.module';
+import { SharedComponentsModule } from './shared/components/shared-components.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     StyleGuideComponent,
-    FooterComponent,
+    //FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,6 +27,7 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     AppRoutingModule,
     StyleGuideRoutingModule,
+    SharedComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

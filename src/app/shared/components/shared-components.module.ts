@@ -7,13 +7,17 @@ import { ScheduleComponent } from './schedule/schedule.component';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { UserPresentationComponent } from './user-presentation/user-presentation.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
   declarations: [
     TabsAccountComponent,
     ScheduleComponent,
-    UserPresentationComponent
+    UserPresentationComponent,
+    NavbarComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
@@ -24,7 +28,9 @@ import { UserPresentationComponent } from './user-presentation/user-presentation
   exports: [
     TabsAccountComponent,
     ScheduleComponent,
-    UserPresentationComponent
+    UserPresentationComponent,
+    NavbarComponent,
+    FooterComponent,
   ]
 })
 export class SharedComponentsModule { }

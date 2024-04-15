@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.scss',
 })
-export class HeaderComponent {
+export class NavbarComponent {
   @Output() toggleMobileNavbarMenuOutput: EventEmitter<void> =
     new EventEmitter<void>();
 

@@ -6,10 +6,4 @@ import { Component } from '@angular/core';
   styleUrl: './logged-in-home.component.scss'
 })
 export class LoggedInHomeComponent {
-
-  mobileNavbarMenuBoolean: boolean = false;
-
-  mobileNavbarMenuToggle() {
-    this.mobileNavbarMenuBoolean = !this.mobileNavbarMenuBoolean;
-  }
 }
