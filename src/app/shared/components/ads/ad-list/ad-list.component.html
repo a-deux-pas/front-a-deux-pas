@@ -1,7 +1,7 @@
 <div class="container">
   <h2><b>Les dernières annonces</b></h2>
 
-  <!--child component-->
+  <!--filters component-->
   <app-ad-filters
     [uniqueCitiesAndPostalCodes]="uniqueCitiesAndPostalCodes"
     [(pageNumber)]="pageNumber"
@@ -14,6 +14,7 @@
     class="ad-list-container"
     *ngIf="displayedAds && displayedAds.length > 0"
   >
+    <!--ad-card component-->
     <app-ad-card *ngFor="let ad of displayedAds" [ad]="ad"></app-ad-card>
   </div>
 
