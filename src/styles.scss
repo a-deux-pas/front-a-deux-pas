@@ -279,44 +279,47 @@ span.close {
 .modal-header {
   z-index: 1;
 }
-// wavy backgroung modal
-.container-nav {
-  position: absolute;
-  background: $tertiary;
-  height: 15vh;
-  z-index: 0;
-}
 
-.wave {
-  position: absolute;
-  height: 137px;
-  width: 97%;
-  background: var(--adn-color-tertiary);
-  bottom: 0;
-  right: 7px;
-}
+.modal-content {
+  // wavy backgroung modal
+  .container-nav {
+    position: absolute;
+    background: $tertiary;
+    height: 15vh;
+    z-index: 0;
+  }
 
-.wave::before,
-.wave::after {
-  content: "";
-  display: block;
-  position: absolute;
-  border-radius: 50% 100%;
-}
+  .wave {
+    position: absolute;
+    height: 137px;
+    width: 100%;
+    background: $tertiary;
+    top: 0;
+    right: 0;
+  }
 
-.wave::before {
-  width: 55%;
-  height: 100%;
-  background-color: $tertiary;
-  right: -1.5%;
-  top: 40%;
-}
-.wave::after {
-  width: 55%;
-  height: 109%;
-  background-color: #fff;
-  left: -1.5%;
-  top: 60%;
+  .wave::before,
+  .wave::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 50% 100%;
+  }
+
+  .wave::before {
+    width: 55%;
+    height: 100%;
+    background-color: $tertiary;
+    right: -1.5%;
+    top: 40%;
+  }
+  .wave::after {
+    width: 55%;
+    height: 109%;
+    background-color: #fff;
+    left: -1.5%;
+    top: 60%;
+  }
 }
 
 // toggle group
