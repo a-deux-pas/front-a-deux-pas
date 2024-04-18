@@ -23,8 +23,8 @@ const routes: Routes = [
     loadChildren: () => import('./routes/ads/create-ad/create-ad-routing.module').then(m => m.CreateAdModule)
   },
   {
-    path: 'compte/mon-annonce/:id',
-    loadChildren: () => import('./routes/account/ads/components/my-ad/my-ad-routine.module').then(m => m.MyAdModule)
+    path: 'compte/annonce/mon-annonce/:id',
+    loadChildren: () => import('./routes/account/ads/my-ad/my-ad-routing.module').then(m => m.MyAdModule)
   }
 ];
 

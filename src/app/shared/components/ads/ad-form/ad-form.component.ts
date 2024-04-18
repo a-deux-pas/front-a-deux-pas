@@ -5,9 +5,10 @@ import { AdService } from './Ad.service';
 import { UploadPictureService } from '../../../../../services/upload-picture.service';
 import { ArticlePicture } from '../../../../../model/article-picture.model';
 import { Observable, catchError, tap } from 'rxjs';
-import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common'
+import { AdResponse } from '../../../../../model/adResponse.model';
 
 
 @Component({
@@ -87,6 +88,7 @@ export class AdFormComponent implements OnInit {
 
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
+  disabledFields: boolean = false
 
 
   // This HostListener listens for window resize events
@@ -107,7 +109,7 @@ export class AdFormComponent implements OnInit {
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
   ) { }
 
 
@@ -122,7 +124,7 @@ export class AdFormComponent implements OnInit {
     const selectedCategory = this.categories.find(category => category.name === this.ad.category);
     if (selectedCategory) {
       const selectedSubCategory = selectedCategory.subCategories.find(subCategory => subCategory.name === this.ad.subcategory);
-      return selectedSubCategory && selectedSubCategory.gender ? selectedSubCategory.gender : [];
+      return selectedSubCategory?.gender ?? [];
     }
     return [];
   }
@@ -240,27 +242,27 @@ export class AdFormComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  onSubmit() {
     this.uploadArticlePictures().subscribe({
       next: () => {
         console.log('All images uploaded successfully');
         this.ad.creationDate = this.today;
+        // TODO: à enlever une fois la connexion implémentée
         this.ad.publisherId = 1;
         this.adService.postAd(this.ad).subscribe({
-          next: (ad: Ad) => {
+          next: (ad: AdResponse) => {
+            console.log('Ad successfully created:: ');
+            console.log(ad);
+            this.scrollToTop()
             this.adSuccessfullySubmitted = true;
+            this.disabledFields = true;
             setTimeout(() => {
               this.adSuccessfullySubmitted = false;
+              this.disabledFields = false;
             }, 3000);
-            console.log('Ad successfully created');
-            console.table(this.ad);
-            this.scrollToTop()
             setTimeout(() => {
-              (this.adSuccessfullySubmitted = true)
+              this.router.navigate(['compte/annonce/mon-annonce/', ad.id])
             }, 3000)
-            // setTimeout(() => {
-            //   this.router.navigate(['/mon-annonce/', ad.id])
-            // }, 3000)
           },
           error: (error: any) => {
             console.error(error);
@@ -279,5 +281,12 @@ export class AdFormComponent implements OnInit {
 
   scrollToTop(): void {
     this.viewportScroller.scrollToPosition([0, 0])
+  }
+
+  /**
+   * TODO: implement method to redirect to the previous page
+   */
+  goToPreviousPage(): void {
+
   }
 }

@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -13,6 +12,7 @@ import { TabsAccountComponent } from './tabs-account/tabs-account.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AdFormComponent } from '../components/ads/ad-form/ad-form.component';
 import { UserPresentationComponent } from './user-presentation/user-presentation.component';
+
 
 @NgModule({
   declarations: [

@@ -1,5 +1,3 @@
-import { API_URL } from "../../utils/constants";
-
 context('create new ad testing', () => {
     beforeEach(() => {
         cy.visit('http://localhost:4200/annonce/je-cree-une-annonce')
@@ -25,9 +23,6 @@ context('create new ad testing', () => {
         cy.wait(2000)
         cy.get('ngb-carousel img.add-picture-icon#ad-picture-1').click().selectFile('cypress/images/pic-test-2.jpg', { action: 'drag-drop' })
 
-
-
-
         cy.get('ng-select[name=cat]').click()
         cy.get('div.ng-option').should('be.visible')
         cy.fixture('new-ad').then((newAdData) => {
@@ -41,11 +36,6 @@ context('create new ad testing', () => {
             cy.get('span').contains(newAdData.articleState).click()
             cy.get('#ad-price').type(newAdData.price)
             cy.get('button[type=submit]').should('be.enabled').click()
-
-            // cy.get('button[type=submit]').click()
-            // cy.request('POST', `${API_URL}ad/create`).its('body.ad').then((response) => {
-            //     expect(response.body).to.have.property('status')
-            // })
         })
     });
 });
