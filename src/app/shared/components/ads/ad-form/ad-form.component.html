@@ -83,9 +83,9 @@
     <label class="mt-4" for="">Choisissez une catégorie</label>
     <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom" #adCategory="ngModel"
       [disabled]="disabledFields" required maxlength="100">
-      @for ( cat of categories; track cat; let i = $index) {
-      <ng-option [value]="cat.name">
-        {{ cat.name }}
+      @for (category of categories; track category) {
+      <ng-option [value]="category">
+        {{ category }}
       </ng-option>
       }
     </ng-select>
@@ -105,9 +105,9 @@
     <label class="mt-4" for="">Choisissez une sous-catégorie</label>
     <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom" #subcategory="ngModel"
       [disabled]="disabledFields" required maxlength="100">
-      @for ( subCat of getSubCategories(); track subCat; let i = $index) {
-      <ng-option class="text-center" [value]="subCat.name">
-        {{ subCat.name }}
+      @for (subCat of getSubCategories(); track subCat) {
+      <ng-option [value]="subCat">
+        {{ subCat }}
       </ng-option>
       }
     </ng-select>
@@ -128,9 +128,9 @@
     <label class="mt-4" for="">Choisissez un genre</label>
     <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom" #gender="ngModel"
       [disabled]="disabledFields" required>
-      @for ( subCatGender of getSubCategoriesGender(); track subCatGender; let i = $index) {
-      <ng-option [value]="subCatGender.name">
-        {{ subCatGender.name }}
+      @for (subCatGender of getSubCategoriesGender(); track subCatGender) {
+      <ng-option [value]="subCatGender">
+        {{ subCatGender }}
       </ng-option>
       }
     </ng-select>

@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common'
 import { AdResponse } from '../../../../../model/adResponse.model';
 import { adState } from '../../../utils/enums/ad-state.enum';
+import { adCategory } from '../../../utils/enums/ad-category.enum';
+import { modeSubCategory, electronicSubCategory, houseSubCategory, hobbySubCategory, otherSubCategory } from '../../../utils/enums/ad-sub-category.enum';
+import { modeGender } from '../../../utils/enums/ad-gender.enum';
 
 @Component({
   selector: 'app-ad-form',
@@ -36,6 +39,16 @@ export class AdFormComponent implements OnInit {
   selectedPicNumber: number = 1;
   articlePictures: File[] = [];
   states = Object.values(adState);
+  categories = Object.values(adCategory);
+  adGender = Object.values(modeGender);
+  modeSubCat = Object.values(modeSubCategory);
+  electroSubCat = Object.values(electronicSubCategory);
+  houseSubCat = Object.values(houseSubCategory);
+  hobbySubCat = Object.values(hobbySubCategory);
+  otherSubCat = Object.values(otherSubCategory);
+
+
+
   // states = [
   //   { id: 1, name: 'Neuf avec étiquette' },
   //   { id: 2, name: 'Neuf sans étiquette' },
@@ -43,48 +56,48 @@ export class AdFormComponent implements OnInit {
   //   { id: 4, name: 'Bon état' },
   //   { id: 5, name: 'Satisfaisant' },
   // ];
-  categories = [
-    {
-      id: 1, name: 'Mode', subCategories: [
-        { id: 1, name: 'Hauts', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
-        { id: 2, name: 'Bas', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
-        { id: 3, name: 'Chaussures' },
-        { id: 4, name: 'Manteau' },
-        { id: 5, name: 'Accessoires' },
-        { id: 6, name: 'Autre' },
-      ]
-    },
-    {
-      id: 2, name: 'Electronique', subCategories: [
-        { id: 7, name: 'Ordinateur' },
-        { id: 8, name: 'Téléphone' },
-        { id: 9, name: 'Jeux video' },
-        { id: 11, name: 'Autre' },
-      ]
-    },
-    {
-      id: 3, name: 'Maison', subCategories: [
-        { id: 7, name: 'Meubles' },
-        { id: 8, name: 'Décorations' },
-        { id: 9, name: 'Jardin' },
-        { id: 11, name: 'Autre' },
-      ]
-    },
-    {
-      id: 4, name: 'Loisirs', subCategories: [
-        { id: 7, name: 'Livres' },
-        { id: 8, name: 'Musique' },
-        { id: 9, name: 'Films' },
-        { id: 10, name: 'Sport' },
-        { id: 11, name: 'Autre' },
-      ]
-    },
-    {
-      id: 4, name: 'Autre', subCategories: [
-        { id: 11, name: 'Autre' },
-      ]
-    }
-  ]
+  // categories = [
+  //   {
+  //     id: 1, name: 'Mode', subCategories: [
+  //       { id: 1, name: 'Hauts', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
+  //       { id: 2, name: 'Bas', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
+  //       { id: 3, name: 'Chaussures' },
+  //       { id: 4, name: 'Manteau' },
+  //       { id: 5, name: 'Accessoires' },
+  //       { id: 6, name: 'Autre' },
+  //     ]
+  //   },
+  //   {
+  //     id: 2, name: 'Electronique', subCategories: [
+  //       { id: 7, name: 'Ordinateur' },
+  //       { id: 8, name: 'Téléphone' },
+  //       { id: 9, name: 'Jeux video' },
+  //       { id: 11, name: 'Autre' },
+  //     ]
+  //   },
+  //   {
+  //     id: 3, name: 'Maison', subCategories: [
+  //       { id: 7, name: 'Meubles' },
+  //       { id: 8, name: 'Décorations' },
+  //       { id: 9, name: 'Jardin' },
+  //       { id: 11, name: 'Autre' },
+  //     ]
+  //   },
+  //   {
+  //     id: 4, name: 'Loisirs', subCategories: [
+  //       { id: 7, name: 'Livres' },
+  //       { id: 8, name: 'Musique' },
+  //       { id: 9, name: 'Films' },
+  //       { id: 10, name: 'Sport' },
+  //       { id: 11, name: 'Autre' },
+  //     ]
+  //   },
+  //   {
+  //     id: 4, name: 'Autre', subCategories: [
+  //       { id: 11, name: 'Autre' },
+  //     ]
+  //   }
+  // ]
 
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
@@ -113,15 +126,23 @@ export class AdFormComponent implements OnInit {
 
   // article category selection section
   getSubCategories() {
-    const selectedCategory = this.categories.find(category => category.name === this.ad.category);
-    return selectedCategory ? selectedCategory.subCategories : [];
+    if (this.ad.category === adCategory.mode) {
+      return Object.values(modeSubCategory);
+    } else if (this.ad.category === adCategory.electro) {
+      return Object.values(electronicSubCategory);
+    } else if (this.ad.category === adCategory.house) {
+      return Object.values(houseSubCategory);
+    } else if (this.ad.category === adCategory.hobby) {
+      return Object.values(hobbySubCategory);
+    } else if (this.ad.category === adCategory.other) {
+      return Object.values(otherSubCategory);
+    }
+    return [];
   }
 
   getSubCategoriesGender() {
-    const selectedCategory = this.categories.find(category => category.name === this.ad.category);
-    if (selectedCategory) {
-      const selectedSubCategory = selectedCategory.subCategories.find(subCategory => subCategory.name === this.ad.subcategory);
-      return selectedSubCategory?.gender ?? [];
+    if (this.ad.subcategory === modeSubCategory.top || this.ad.subcategory === modeSubCategory.bottom) {
+      return Object.values(modeGender);
     }
     return [];
   }

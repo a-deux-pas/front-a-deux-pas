@@ -1,4 +1,4 @@
-export enum Category {
+export enum adCategory {
     mode = 'Mode',
     electro = 'Electronique',
     house = 'Maison',

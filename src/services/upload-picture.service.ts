@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
-
+import { UPLOAD_PRESET } from '../app/shared/utils/credientials';
+import { CLOUD_NAME } from '../app/shared/utils/credientials';
+import { CALL_TO_CLOUDINARY_API } from '../app/shared/utils/credientials';
 
 @Injectable({
   providedIn: 'root'
@@ -12,18 +14,10 @@ export class UploadPictureService {
 
   completeDataToUpload(file: File): Observable<any> {
     const data = new FormData();
-    const uploadPreset = process.env['UPLOAD_PRESET'] || '';
-    const cloudName = process.env['CLOUD_NAME'] || '';
-    const callCloudinaryApi = process.env['CALL_TO_CLOUDINARY_API']
-
-    if (!uploadPreset || !cloudName || !callCloudinaryApi) {
-      throw new Error('UPLOAD_PRESET or CLOUD_NAME is not defined in the environment variables');
-    }
-
     data.append('file', file);
-    data.append('upload_preset', uploadPreset);
-    data.append('cloud_name', cloudName);
-    return this.http.post(callCloudinaryApi, data);
+    data.append('upload_preset', `${UPLOAD_PRESET}`);
+    data.append('cloud_name', `${CLOUD_NAME}`);
+    return this.http.post(`${CALL_TO_CLOUDINARY_API}`, data);
   }
 
   uploadImages(files: File[]): Observable<any[]> {
