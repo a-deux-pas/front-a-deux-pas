@@ -1,5 +1,6 @@
 <br>
 
+<!-- image view on desktop device -->
 <section class="article-picture-image-section">
     @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
     <img [class.one-picture]="selectedPicNumber == 1" src="{{articlePicture}}"
@@ -9,6 +10,20 @@
         [class.five-pictures]="selectedPicNumber == 5" src="{{articlePicture}}" alt="illustration-de-l'article-n-{{i}}">
     }
 </section>
+
+
+<!-- Carrousel section for image view on mobile device -->
+<!-- <ngb-carousel #carousel [interval]="1000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
+    (slide)="onSlide($event)">
+    @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
+    <ng-template ngbSlide>
+        <div class="picsum-img-wrapper">
+            <img [src]={articlePicture} alt="" />
+        </div>
+    </ng-template>
+    }
+</ngb-carousel> -->
+
 
 
 <section class="general-info mt-3">
@@ -29,7 +44,7 @@
 </section>
 
 
-<section class="cta-encart flex-row">
+<section class="cta-encart flex-row  text-center">
     @switch (myAd?.status) {
     @case('AVAILABLE') {
     <b>En vente</b>
