@@ -1,7 +1,7 @@
 import { Component, Input, HostListener, ViewChild, OnInit } from '@angular/core';
 import { Ad } from '../../../../../model/ad.model';
 import { User } from '../../../../../model/user.model';
-import { AdService } from './Ad.service';
+import { AdService } from '../../../../routes/Ad.service';
 import { UploadPictureService } from '../../../../../services/upload-picture.service';
 import { ArticlePicture } from '../../../../../model/article-picture.model';
 import { Observable, catchError, tap } from 'rxjs';

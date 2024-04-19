@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AdService } from '../../../../shared/components/ads/ad-form/Ad.service';
+import { AdService } from '../../../Ad.service';
 import { AdResponse } from '../../../../../model/adResponse.model';
 
 
