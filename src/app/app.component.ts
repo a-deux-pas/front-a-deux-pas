@@ -6,9 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  mobileNavbarMenuBoolean: boolean = false;
+  isAccountMenuOpen: boolean = false;
 
-  mobileNavbarMenuToggle() {
-    this.mobileNavbarMenuBoolean = !this.mobileNavbarMenuBoolean;
+  accountNavbarMenuToggle() {
+    this.isAccountMenuOpen = !this.isAccountMenuOpen;
+    console.log(this.isAccountMenuOpen);
   }
 }

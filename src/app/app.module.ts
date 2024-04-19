@@ -6,7 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { FooterComponent } from './shared/components/footer/footer.component';
 import { StyleGuideComponent } from '../style/style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from '../style/style-guide/style-guide-routing.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +16,6 @@ import { SharedComponentsModule } from './shared/components/shared-components.mo
   declarations: [
     AppComponent,
     StyleGuideComponent,
-    //FooterComponent,
   ],
   imports: [
     BrowserModule,

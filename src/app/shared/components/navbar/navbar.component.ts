@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -6,27 +6,24 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-  @Output() toggleMobileNavbarMenuOutput: EventEmitter<void> =
+  @Output() accountMenuToggleOutput: EventEmitter<void> =
     new EventEmitter<void>();
+  @Input() isAccountMenuOpen: boolean;
 
-  @Input() menuMobileIsOpenBoolean: boolean;
-
-  menuDesktopIsOpenBoolean: boolean;
   navbarIconSelectedNumber: number;
 
   constructor() {
-    this.menuMobileIsOpenBoolean = false; // Valeur par défaut, avant l'arrivée de la valeur de l'input
-    this.menuDesktopIsOpenBoolean = false;
+    this.isAccountMenuOpen = false;
     this.navbarIconSelectedNumber = 1;
   }
 
-  // Méthode pour basculer la visibilité des divs
-  toggleMobileNavbarMenu() {
-    this.toggleMobileNavbarMenuOutput.emit();
+  emitToggleAccountMenu() {
+    this.accountMenuToggleOutput.emit();
+    console.log(this.isAccountMenuOpen);
   }
 
-  toggleDesktopNavbarMenu() {
-    this.menuDesktopIsOpenBoolean = !this.menuDesktopIsOpenBoolean;
+  toggleAccountMenuState() {
+    this.isAccountMenuOpen = !this.isAccountMenuOpen;
   }
 
   // Sélecteur de la navbar, par défaut a 1 (1ère icone, Accueil)

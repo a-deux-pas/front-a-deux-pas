@@ -1,22 +1,24 @@
-<!-- VERSION MOBILE -->
-<div *ngIf="!menuMobileIsOpenBoolean" id="mobileHeader">
-  <div id="mobileHeaderTopPart">
-    <div class="mobile-logo-container mt-4" id="mobileHeaderLogo">
+<!-- Mobile version -->
+<div id="mobileHeader">
+  <section class="background"></section>
+  <section class="curved-background"></section>
+  <div id="mobile-header-top">
+    <div class="mobile-logo-container mt-4 mb-2">
       <span class="mobile-logo align-self-center">A DEUX PAS</span>
       <img
         class="mobile-footsteps"
-        src="/assets/icons/mobile-footsteps.webp"
+        src="assets/icons/mobile-footsteps.webp"
         alt="icône de traces de pas"
       />
     </div>
-    <div id="mobileSearchArticle">
+    <div id="search-article">
       <input
-        id="mobileSearchArticleInput"
+        id="search-article-input"
         type="text"
         placeholder="Rechercher un article"
       />
       <img
-        id="mobileSearchArticleButton"
+        id="search-article-button"
         src="/assets/icons/navbar/search.webp"
         alt="icône de loupe de recherche"
       />
@@ -25,50 +27,51 @@
 
   <div class="mobileHeaderWave"></div>
 
-  <div id="mobileNavbar">
-    <div id="mobileNavbarIcons">
-      <div class="mobileNavbarEachIcon" (click)="navbarIconSelectedFunction(1)">
+  <div *ngIf="!isAccountMenuOpen" id="mobile-navbar">
+    <div id="mobile-navbar-icons">
+      <div class="mobile-navbar-icon" (click)="navbarIconSelectedFunction(1)">
         <img
-          class="add-icon"
-          src="../../../../assets/icons/navbar/home.webp"
+          class="icon"
+          src="assets/icons/navbar/home.webp"
           alt="icône 'Accueil'"
         />
-        <p [class.navbarIconSelected]="navbarIconSelectedNumber === 1">
+        <p [class.navbar-active-icon]="navbarIconSelectedNumber === 1">
           Accueil
         </p>
       </div>
       <div class="mobileNavbarEachIcon" (click)="navbarIconSelectedFunction(2)">
         <img
-          class="add-icon"
-          src="../../../../assets/icons/navbar/adds.webp"
+          class="icon"
+          src="assets/icons/navbar/adds.webp"
           alt="icône 'Annonces'"
         />
-        <p [class.navbarIconSelected]="navbarIconSelectedNumber === 2">
+        <p [class.navbar-active-icon]="navbarIconSelectedNumber === 2">
           Annonces
         </p>
       </div>
-      <div class="mobileNavbarEachIcon" id="mobileNavbarIconSell">
+      <div class="mobile-navbar-icon" id="mobile-sell-icon">
         <img
-          class="add-icon"
-          src="../../../../assets/icons/buttons/add-orange.webp"
+          class="icon"
+          src="assets/icons/buttons/add-orange.webp"
           alt="icône 'Vendre'"
         />
         <p>Vendre</p>
       </div>
-      <div class="mobileNavbarEachIcon" (click)="navbarIconSelectedFunction(4)">
+      <div class="mobile-navbar-icon" (click)="navbarIconSelectedFunction(4)">
         <img
-          class="add-icon"
-          src="../../../../assets/icons/navbar/favorites.webp"
+          class="icon"
+          src="assets/icons/navbar/favorites.webp"
           alt="icône 'Favoris'"
         />
-        <p [class.navbarIconSelected]="navbarIconSelectedNumber === 4">
+        <p [class.navbar-active-icon]="navbarIconSelectedNumber === 4">
           Favoris
         </p>
       </div>
-      <div class="mobileNavbarEachIcon" (click)="toggleMobileNavbarMenu()">
+      <div class="mobile-navbar-icon" (click)="toggleAccountMenuState()">
         <img
-          class="add-icon"
-          src="../../../../assets/icons/navbar/account.webp"
+          class="icon"
+          id="mobile-account-icon"
+          src="assets/icons/navbar/account.webp"
           alt="icône 'Compte'"
         />
         <p>Compte</p>
@@ -77,37 +80,39 @@
     <div class="mobileNavbarWave"></div>
   </div>
 </div>
-<div *ngIf="menuMobileIsOpenBoolean" id="mobileNavbarMenu">
-  <a id="mobileNavbarMenuClose" href="#" (click)="toggleMobileNavbarMenu()"
-    >X</a
-  >
-  <div class="mobile-logo-container mt-4" id="mobilerNavbarMenuLogo">
+
+<!-- account menu -->
+<div *ngIf="isAccountMenuOpen" id="account-menu">
+  <a href="" id="account-menu-close">
+    <span class="close" (click)="toggleAccountMenuState()">x</span>
+  </a>
+  <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo">
     <span class="mobile-logo align-self-center">A DEUX PAS</span>
     <img
       class="mobile-footsteps"
-      src="/assets/icons/mobile-footsteps.webp"
+      src="assets/icons/mobile-footsteps.webp"
       alt="icône de traces de pas"
     />
   </div>
-  <div id="mobileNavbarMenuChoices">
-    <div class="mobileNavbarMenuEachChoice">
-      <a href="/compte/profil" class="mobileNavbarMenuEachChoiceButton">Mon profil</a>
+  <div id="account-menu-items">
+    <div>
+      <a href="/compte/profil" class="account-menu-item">Mon profil</a>
     </div>
-    <div class="mobileNavbarMenuEachChoice">
-      <a href="#" class="mobileNavbarMenuEachChoiceButton">Mes annonces</a>
+    <div>
+      <a href="/compte/annonces" class="account-menu-item">Mes annonces</a>
     </div>
-    <div class="mobileNavbarMenuEachChoice">
-      <a href="#" class="mobileNavbarMenuEachChoiceButton">Mes RDV</a>
+    <div>
+      <a href="/compte/rdv" class="account-menu-item">Mes RDV</a>
     </div>
-    <div class="mobileNavbarMenuEachChoice">
-      <a href="#" class="mobileNavbarMenuEachChoiceButton">Mes favoris</a>
+    <div>
+      <a href="/compte/favoris" class="account-menu-item">Mes favoris</a>
     </div>
-  </div>
-  <div id="mobileNavbarMenuSeparatorDiv">
-    <div id="mobileNavbarMenuSeparatorLine"></div>
-  </div>
-  <div id="mobileNavbarMenuLogout">
-    <a href="#" class="mobileNavbarMenuEachChoiceButton">Se déconnecter</a>
+    <div id="account-menu-separator">
+      <div id="account-menu-line"></div>
+    </div>
+    <div>
+      <a href="#" class="account-menu-item">Se déconnecter</a>
+    </div>
   </div>
 </div>
 
@@ -117,7 +122,7 @@
     <div class="mt-2" id="desktopHeaderLogo">
       <img
         class="desktop-footsteps"
-        src="/assets/icons/desktop-footsteps.webp"
+        src="assets/icons/desktop-footsteps.webp"
         alt="icône de traces de pas"
       />
       <div>
@@ -131,20 +136,20 @@
     <button type="submit" class="btn-sell mt-4" id="desktopHeaderSellButton">
       <img
         class="add-icon"
-        src="/assets/icons/buttons/add-white.webp"
+        src="assets/icons/buttons/add-white.webp"
         alt="icône plus"
       />
       Vendre
     </button>
-    <div id="desktopSearchArticle">
+    <div id="search-article">
       <input
-        id="desktopSearchArticleInput"
+        id="search-article-input"
         type="text"
         placeholder="Rechercher un article"
       />
       <img
-        id="desktopSearchArticleButton"
-        src="/assets/icons/navbar/search.webp"
+        id="search-article-button"
+        src="assets/icons/navbar/search.webp"
         alt="icône de loupe de recherche"
       />
     </div>
@@ -155,10 +160,10 @@
       >
         <img
           class="add-icon"
-          src="../../../../assets/icons/navbar/home.webp"
+          src="assets/icons/navbar/home.webp"
           alt="icône 'Accueil'"
         />
-        <p [class.navbarIconSelected]="navbarIconSelectedNumber === 1">
+        <p [class.navbar-active-icon]="navbarIconSelectedNumber === 1">
           Accueil
         </p>
       </div>
@@ -168,10 +173,10 @@
       >
         <img
           class="add-icon"
-          src="../../../../assets/icons/navbar/adds.webp"
+          src="assets/icons/navbar/adds.webp"
           alt="icône 'Annonces'"
         />
-        <p [class.navbarIconSelected]="navbarIconSelectedNumber === 2">
+        <p [class.navbar-active-icon]="navbarIconSelectedNumber === 2">
           Annonces
         </p>
       </div>
@@ -181,26 +186,26 @@
       >
         <img
           class="add-icon"
-          src="../../../../assets/icons/navbar/favorites.webp"
+          src="assets/icons/navbar/favorites.webp"
           alt="icône 'Favoris'"
         />
-        <p [class.navbarIconSelected]="navbarIconSelectedNumber === 3">
+        <p [class.navbar-active-icon]="navbarIconSelectedNumber === 3">
           Favoris
         </p>
       </div>
       <div class="desktopNavbarAccountIcon">
         <div
           class="desktopNavbarAccountIcon"
-          (click)="toggleDesktopNavbarMenu()"
+          (click)="toggleAccountMenuState()"
         >
           <img
             class="add-icon"
-            src="../../../../assets/icons/navbar/account.webp"
+            src="assets/icons/navbar/account.webp"
             alt="icône 'Compte'"
           />
           <p>Compte</p>
         </div>
-        @if (menuDesktopIsOpenBoolean) {
+        <!-- @if (menuDesktopIsOpenBoolean) {
         <div id="desktopNavbarMenu">
           <div id="desktopNavbarMenuFlex">
             <div class="desktopNavbarMenuEachChoice">
@@ -231,7 +236,7 @@
             >
           </div>
         </div>
-        }
+        } -->
       </div>
     </div>
   </div>

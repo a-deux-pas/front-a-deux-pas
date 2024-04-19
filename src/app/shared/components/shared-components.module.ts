@@ -17,20 +17,20 @@ import { FooterComponent } from './footer/footer.component';
     ScheduleComponent,
     UserPresentationComponent,
     NavbarComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
     NgbNavModule,
     RouterModule,
-    FullCalendarModule,
+    FullCalendarModule
   ],
   exports: [
     TabsAccountComponent,
     ScheduleComponent,
     UserPresentationComponent,
     NavbarComponent,
-    FooterComponent,
+    FooterComponent
   ]
 })
 export class SharedComponentsModule { }

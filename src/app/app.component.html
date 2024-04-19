@@ -1,10 +1,11 @@
+<!-- TO DO : ajouter une condition pour afficher la navbar uniquement si l'user est connecté -->
 <app-navbar
-  (toggleMobileNavbarMenuOutput)="mobileNavbarMenuToggle()"
-  [menuMobileIsOpenBoolean]="mobileNavbarMenuBoolean">
+  [isAccountMenuOpen]="isAccountMenuOpen"
+  (toggleMobileNavbarMenuOutput)="accountNavbarMenuToggle()">
 </app-navbar>
 
 <main>
   <router-outlet />
 </main>
 
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

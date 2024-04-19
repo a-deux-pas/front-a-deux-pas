@@ -1,7 +1,8 @@
 <!-- VERSION MOBILE -->
-<div id="mobileHeader">
-  <div id="mobileHeaderTopPart">
-    <div class="mobile-logo-container mt-4" id="headerLogoMobile">
+<section class="curved-background"></section>
+<div id="mobile-header">
+  <div id="mobile-header-top">
+    <div class="mobile-logo-container mt-4 mb-2">
       <span class="mobile-logo align-self-center">A DEUX PAS</span>
       <img
         class="mobile-footsteps"
@@ -9,21 +10,21 @@
         alt="icône de traces de pas"
       />
     </div>
-    <button id="loginButton">Se connecter</button>
-    <div id="searchArticleInputAndButton">
+    <button type="submit" class="btn-connection mb-4">se connecter</button>
+    <div id="search-article">
       <input
-        id="searchArticleInput"
+        id="search-article-input"
         type="text"
         placeholder="Rechercher un article"
       />
       <img
-        id="searchArticleButton"
+        id="search-article-button"
         src="/assets/icons/navbar/search.webp"
         alt="icône de loupe de recherche"
       />
     </div>
-    <p id="headerWelcomeText">
-      Bienvenue sur "À Deux Pas", <br />une communauté où la vente entre voisins
+    <p id="mobile-welcome-text">
+      Bienvenue sur "À Deux Pas", une communauté où la vente entre voisins
       devient une expérience humaine unique. Favorisant les rencontres locales
       et les échanges authentiques, notre plateforme place l'humain au cœur de
       chaque transaction. Ensemble, créons un monde respectueux de notre
@@ -32,33 +33,31 @@
     </p>
   </div>
 
-  <div class="mobileHeaderWave"></div>
-
-  <div id="mobileHeaderCategory">
-    <h1 id="mobileCategoryTitle">Les catégories</h1>
-    <div id="mobileCategoryAll">
-      <div class="mobileCategoryEach">
+  <div id="mobile-categories">
+    <h1 id="mobile-category-title">Les catégories</h1>
+    <div id="mobile-all-categories">
+      <div class="mobile-category">
         <h2>Mode</h2>
         <p>
           Tombez sur l’ex veste préférée de Donia ou sur les chaussures trop
           petites de Mircea, chargées de souvenirs.
         </p>
       </div>
-      <div class="mobileCategoryEach">
+      <div class="mobile-category">
         <h2>Maison</h2>
         <p>
           Dénichez des pièces uniques comme la table de la famille d’Erika,
           témoin de repas partagés et de moments précieux.
         </p>
       </div>
-      <div class="mobileCategoryEach">
+      <div class="mobile-category">
         <h2>Loisirs</h2>
         <p>
           Découvrez le dernier livre captivant lu par Léa ou le vélo de Thomas,
           qui vous inciteront à explorer de nouveaux horizons.
         </p>
       </div>
-      <div class="mobileCategoryEach">
+      <div class="mobile-category">
         <h2>Électronique</h2>
         <p>
           Repérez la caméra de voyage de Julien, prête à être le témoin de
@@ -67,6 +66,7 @@
       </div>
     </div>
   </div>
+  <!-- TO DO: à remplacer par app-navbar -->
   <div id="mobileNavbar">
     <div id="mobileNavbarIconSell">
       <img
@@ -80,11 +80,14 @@
   </div>
 </div>
 
-<!-- VERSION ORDINATEUR / TABLETTE -->
-<div id="desktopHeader">
-  <div id="desktopHeaderTopPart">
-    <div id="desktopFirstRange">
-      <div class="mt-2" id="headerLogoDesktop">
+<!-- Desktop and tablet version -->
+<section class="container-nav bg-navbar">
+  <div class="wave"></div>
+</section>
+<div id="desktop-header">
+  <div id="desktop-header-top">
+    <div id="desktop-first-range">
+      <div class="mt-2" id="desktop-logo">
         <img
           class="desktop-footsteps"
           src="/assets/icons/desktop-footsteps.webp"
@@ -98,67 +101,64 @@
           </div>
         </div>
       </div>
-      <div id="searchArticleInputAndButton">
+      <div id="search-article">
         <input
-          id="searchArticleInput"
+          id="search-article-input"
           type="text"
           placeholder="Rechercher un article"
         />
         <img
-          id="searchArticleButton"
+          id="search-article-button"
           src="/assets/icons/navbar/search.webp"
           alt="icône de loupe de recherche"
+          type="button"
         />
       </div>
-      <button id="loginButton">Se connecter</button>
+      <button type="submit" class="btn-connection">se connecter</button>
     </div>
-    <div id="desktopSecondRange">
-      <p id="headerWelcomeText">
-        Bienvenue sur "À Deux Pas", <br />une communauté où la vente entre
+    <div class="d-flex justify-content-between pt-5">
+      <p id="welcome-text">
+        Bienvenue sur "À Deux Pas", une communauté où la vente entre
         voisins devient une expérience humaine unique. Favorisant les rencontres
         locales et les échanges authentiques, notre plateforme place l'humain au
         cœur de chaque transaction. Ensemble, créons un monde respectueux de
         notre planète, où chaque objet raconte une histoire et chaque
         interaction crée des liens durables.
       </p>
-      <div id="createAddButtonDiv">
-        <button type="submit" class="btn-sell mt-4" id="createAddButton">
+        <button type="submit" class="btn-sell" id="create-ad-button">
           <img
             class="add-icon"
             src="/assets/icons/buttons/add-white.webp"
             alt="icône plus"
           />Créer une annonce
         </button>
-      </div>
     </div>
   </div>
-  <div class="desktopHeaderWave"></div>
-
-  <div id="desktopHeaderCategory">
-    <h1 id="desktopCategoryTitle">Les catégories</h1>
-    <div id="desktopCategoryAll">
-      <div class="desktopCategoryEach" style="position: relative">
+  <div id="desktop-categories">
+    <h1 id="desktop-category-title">Les catégories</h1>
+    <div id="desktop-all-categories">
+      <div class="desktop-category" style="position: relative">
         <h2>Mode</h2>
         <p>
           Tombez sur l’ex veste préférée de Donia ou sur les chaussures trop
           petites de Mircea, chargées de souvenirs.
         </p>
       </div>
-      <div class="desktopCategoryEach" style="position: relative; top: -50px">
+      <div class="desktop-category" style="position: relative; top: -50px">
         <h2>Maison</h2>
         <p>
           Dénichez des pièces uniques comme la table de la famille d’Erika,
           témoin de repas partagés et de moments précieux.
         </p>
       </div>
-      <div class="desktopCategoryEach" style="position: relative; top: -100px">
+      <div class="desktop-category" style="position: relative; top: -170px">
         <h2>Loisirs</h2>
         <p>
           Découvrez le dernier livre captivant lu par Léa ou le vélo de Thomas,
           qui vous inciteront à explorer de nouveaux horizons.
         </p>
       </div>
-      <div class="desktopCategoryEach" style="position: relative; top: -150px">
+      <div class="desktop-category" style="position: relative; top: -220px">
         <h2>Électronique</h2>
         <p>
           Repérez la caméra de voyage de Julien, prête à être le témoin de
