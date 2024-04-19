@@ -1,8 +1,7 @@
-@import '../../../../../style/color-variables.scss';
-
-
+@import 'color-variables';
 
 //General info
+
 
 .title-and-price {
     font-size: 28px;
@@ -35,12 +34,17 @@
 }
 
 // CTA
-
 .cta-encart {
     border-radius: 10px 10px 25px 10px;
     background: #FFE2BC;
     width: 279.854px;
     height: 234px;
+    padding: 35px 32px;
+}
+
+.cta-btn-section {
+    display: flex;
+    justify-content: space-between;
 }
 
 .cta-btn {
@@ -58,15 +62,40 @@
     height: 26.238px;
 }
 
+.favorites {
+    display: flex;
+    gap: 8px;
+}
+
+#favorite-text {
+    text-align: left;
+    font-size: 12px;
+}
+
 @media (min-width: 1200px) {
-    .general-info {
-        max-width: 867px;
+    .main-sections {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        grid-column-gap: 56px;
+        grid-row-gap: 12px;
     }
 
+    .general-info {
+        max-width: 867px;
+        grid-area: 3 / 1 / 4 / 4;
+    }
+
+    .cta-encart {
+        border-radius: 10px 10px 25px 10px;
+        background: #FFE2BC;
+        width: 279.854px;
+        height: 234px;
+        padding: 35px 32px;
+        grid-area: 1 / 4 / 2 / 5;
+    }
 
     // Article picture image section
-
-
     img.one-picture {
         width: 870px;
         height: 476px;
@@ -78,6 +107,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
+        grid-area: 1 / 1 / 3 / 4;
     }
 
     img.two-pictures {
@@ -139,5 +169,4 @@
             height: 232px;
         }
     }
-
 }

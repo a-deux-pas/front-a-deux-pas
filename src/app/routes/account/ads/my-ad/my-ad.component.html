@@ -1,15 +1,60 @@
 <br>
 
 <!-- image view on desktop device -->
-<section class="article-picture-image-section">
-    @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
-    <img [class.one-picture]="selectedPicNumber == 1" src="{{articlePicture}}"
-        [class.two-pictures]="selectedPicNumber == 2" src="{{articlePicture}}"
-        [class.three-pictures]="selectedPicNumber == 3" src="{{articlePicture}}"
-        [class.four-pictures]="selectedPicNumber == 4" src="{{articlePicture}}"
-        [class.five-pictures]="selectedPicNumber == 5" src="{{articlePicture}}" alt="illustration-de-l'article-n-{{i}}">
-    }
-</section>
+<div class="main-sections">
+    <section class="article-picture-image-section">
+        @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
+        <img [class.one-picture]="selectedPicNumber == 1" src="{{articlePicture}}"
+            [class.two-pictures]="selectedPicNumber == 2" src="{{articlePicture}}"
+            [class.three-pictures]="selectedPicNumber == 3" src="{{articlePicture}}"
+            [class.four-pictures]="selectedPicNumber == 4" src="{{articlePicture}}"
+            [class.five-pictures]="selectedPicNumber == 5" src="{{articlePicture}}"
+            alt="illustration-de-l'article-n-{{i}}">
+        }
+    </section>
+    <section class="cta-encart flex-row  text-center">
+        @switch (myAd?.status) {
+        @case('AVAILABLE') {
+        <b>En vente</b>
+        }
+        @case('RESERVED') {
+        <b>Reservé</b>
+        }
+        @case('SOLD') {
+        <b>Vendu</b>
+        }
+        @case('SUSPENDED') {
+        <b>Suspendu</b>
+        }
+        }
+        <div class="favorites mt-2">
+            <img id="favorite-icon" src="assets/icons/navbar/favorites.webp" alt="icone-favoris">
+            <p id="favorite-text">n’a pas encore tapé dans l’oeil d’un membre</p>
+        </div>
+        <div class="cta-btn-section mt-4 mb-1">
+            <div class="flex-column">
+                <img class="cta-btn" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+                <p class="cta-btn-text">modifier</p>
+            </div>
+            <div class="flex-column">
+                <img class="cta-btn" src="assets/icons/buttons/trash.webp" alt="bouton-supprimer-annonce">
+                <p class="cta-btn-text">supprimer</p>
+            </div>
+        </div>
+    </section>
+    <section class="general-info mt-3">
+        <div class="title-and-price">
+            <p id="ad-title"><b>{{ myAd?.title }}</b></p>
+            <p id="ad-price">{{ myAd?.price }} €</p>
+        </div>
+        <div class="other-info flex-column">
+            <p id="ad-creation-date" class="mt-2"></p> Créée le {{ myAd?.creationDate }}
+            <p id="ad-state" class="mt-2"> <b>État {{ myAd?.articleState }}</b> </p>
+            <p id="ad-description" class="mt-2"></p> {{ myAd?.articleDescription }} <br>
+        </div>
+    </section>
+</div>
+
 
 
 <!-- Carrousel section for image view on mobile device -->
@@ -26,51 +71,7 @@
 
 
 
-<section class="general-info mt-3">
-    <div class="title-and-price">
-        <p id="ad-title"><b>{{ myAd?.title }}</b></p>
-        <p id="ad-price">{{ myAd?.price }} €</p>
-    </div>
-    <div class="other-info flex-column">
-        <p id="ad-creation-date" class="mt-2"></p> Créée le {{ myAd?.creationDate }}
-        <p id="ad-state" class="mt-2"> <b>État {{ myAd?.articleState }}</b> </p>
-        <p id="ad-description" class="mt-2"></p> {{ myAd?.articleDescription }} <br>
-    </div>
-
-</section>
 
 <section class="user-other-ad mt-5">
     <p id="other-ad-section-title">Mes autres annonces</p>
-</section>
-
-
-<section class="cta-encart flex-row  text-center">
-    @switch (myAd?.status) {
-    @case('AVAILABLE') {
-    <b>En vente</b>
-    }
-    @case('RESERVED') {
-    <b>Reservé</b>
-    }
-    @case('SOLD') {
-    <b>Vendu</b>
-    }
-    @case('SUSPENDED') {
-    <b>Suspendu</b>
-    }
-    }
-    <div class="favorites flex">
-        <img id="favorite-icon" src="assets/icons/navbar/favorites.webp" alt="icone-favoris">
-        <p>n’a pas encore tapé dans l’oeil d’un membre</p>
-    </div>
-    <div class="cta-btn-section flex-row">
-        <div class="flex-column">
-            <img class="cta-btn" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
-            <p class="cta-btn-text">modifier</p>
-        </div>
-        <div class="flex-column">
-            <img class="cta-btn" src="assets/icons/buttons/trash.webp" alt="bouton-supprimer-annonce">
-            <p class="cta-btn-text">supprimer</p>
-        </div>
-    </div>
 </section>

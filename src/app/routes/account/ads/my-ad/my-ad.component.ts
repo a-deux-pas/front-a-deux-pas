@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AdService } from '../../../Ad.service';
+import { AdService } from '../../../../shared/services/Ad.service';
 import { AdResponse } from '../../../../../model/adResponse.model';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,11 +12,21 @@ import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/n
   styleUrl: './my-ad.component.scss'
 })
 export class MyAdComponent implements OnInit {
-
+  isBigScreen: boolean | undefined
 
   myAd: AdResponse | undefined;
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;
+
+  // This HostListener listens for window resize events
+  // When a resize event occurs, the onResize method is triggered
+  // It takes the event object as a parameter
+  // The isBigScreen property is updated based on the inner width of the event target
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
+    this.isBigScreen = window.innerWidth > 1200;
+  }
 
   constructor(
     private route: ActivatedRoute,
