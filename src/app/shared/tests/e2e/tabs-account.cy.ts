@@ -1,3 +1,5 @@
+import { API_URL } from "../../utils/constants";
+
 context('account tabs testing', () => {
   beforeEach(() => {
     cy.visit('http://localhost:4200/compte/profil')
@@ -11,7 +13,7 @@ context('account tabs testing', () => {
   });
 
   it('should not be visible on mobile version', () => {
-    cy.viewport(500,500);
+    cy.viewport(500, 500);
     cy.get('ul#account-tabs').should('not.be.visible');
   });
 

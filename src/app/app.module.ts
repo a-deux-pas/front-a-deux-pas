@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 
 import { AppComponent } from './app.component';
@@ -25,7 +24,6 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     AppRoutingModule,
     StyleGuideRoutingModule,
-    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

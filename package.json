@@ -28,6 +28,7 @@
     "@ng-bootstrap/ng-bootstrap": "^16.0.0-rc.2",
     "@ng-select/ng-select": "^12.0.7",
     "@ngx-dropzone/cdk": "^17.2.0",
+    "@types/node": "^20.12.7",
     "bootstrap": "^5.3.2",
     "ngx-dropzone": "^3.1.0",
     "rxjs": "~7.8.0",

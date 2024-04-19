@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './create-ad.component.scss'
 })
 export class CreateAdComponent {
-
   formTitle: string = 'Créer une annonce';
   isCreateAdForm: boolean = true;
 }

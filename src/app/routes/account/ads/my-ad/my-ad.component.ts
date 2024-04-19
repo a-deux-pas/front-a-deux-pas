@@ -10,8 +10,6 @@ import { AdResponse } from '../../../../../model/adResponse.model';
   styleUrl: './my-ad.component.scss'
 })
 export class MyAdComponent implements OnInit {
-
-
   myAd: AdResponse | undefined;
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;

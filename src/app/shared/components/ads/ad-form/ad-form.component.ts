@@ -9,7 +9,7 @@ import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/n
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common'
 import { AdResponse } from '../../../../../model/adResponse.model';
-
+import { adState } from '../../../utils/enums/ad-state.enum';
 
 @Component({
   selector: 'app-ad-form',
@@ -17,7 +17,6 @@ import { AdResponse } from '../../../../../model/adResponse.model';
   styleUrl: './ad-form.component.scss',
 })
 export class AdFormComponent implements OnInit {
-
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
 
@@ -36,13 +35,14 @@ export class AdFormComponent implements OnInit {
   today: Date = new Date()
   selectedPicNumber: number = 1;
   articlePictures: File[] = [];
-  states = [
-    { id: 1, name: 'Neuf avec étiquette' },
-    { id: 2, name: 'Neuf sans étiquette' },
-    { id: 3, name: 'Très bon état' },
-    { id: 4, name: 'Bon état' },
-    { id: 5, name: 'Satisfaisant' },
-  ];
+  states = Object.values(adState);
+  // states = [
+  //   { id: 1, name: 'Neuf avec étiquette' },
+  //   { id: 2, name: 'Neuf sans étiquette' },
+  //   { id: 3, name: 'Très bon état' },
+  //   { id: 4, name: 'Bon état' },
+  //   { id: 5, name: 'Satisfaisant' },
+  // ];
   categories = [
     {
       id: 1, name: 'Mode', subCategories: [
@@ -90,7 +90,6 @@ export class AdFormComponent implements OnInit {
   adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
 
-
   // This HostListener listens for window resize events
   // When a resize event occurs, the onResize method is triggered
   // It takes the event object as a parameter
@@ -112,9 +111,7 @@ export class AdFormComponent implements OnInit {
     private viewportScroller: ViewportScroller,
   ) { }
 
-
   // article category selection section
-
   getSubCategories() {
     const selectedCategory = this.categories.find(category => category.name === this.ad.category);
     return selectedCategory ? selectedCategory.subCategories : [];
@@ -135,7 +132,6 @@ export class AdFormComponent implements OnInit {
   }
 
   // picture upload
-
   files1: File[] = [];
   files2: File[] = [];
   files3: File[] = [];
@@ -155,10 +151,8 @@ export class AdFormComponent implements OnInit {
     const newPictureInDropzone = this.getFilesArray(dropzoneNumber);
     newPictureInDropzone.splice(0, newPictureInDropzone.length);
     newPictureInDropzone.push(...event.addedFiles);
-
     this.filesArrays = [this.files1, this.files2, this.files3, this.files4, this.files5];
     console.error('filesArrays:: ', this.filesArrays)
-
   }
 
   createAdPictureArray() {
@@ -211,7 +205,6 @@ export class AdFormComponent implements OnInit {
   }
 
   // image selection carrousel for mobile device
-
   @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
 
   paused = false;
@@ -281,12 +274,5 @@ export class AdFormComponent implements OnInit {
 
   scrollToTop(): void {
     this.viewportScroller.scrollToPosition([0, 0])
-  }
-
-  /**
-   * TODO: implement method to redirect to the previous page
-   */
-  goToPreviousPage(): void {
-
   }
 }
