@@ -1,12 +1,15 @@
 import { API_URL } from "../../utils/constants";
 
+let apiUrl = `${API_URL}api/account/profile`;
+
 context('account tabs testing', () => {
   beforeEach(() => {
+
     cy.visit('http://localhost:4200/compte/profil')
 
-    cy.intercept('http://localhost:8081/api/account/profile/presentation', { fixture: 'user-profile' }).as('getUserPresentation')
-    cy.intercept('http://localhost:8081/api/account/profile/schedules', { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules')
-    cy.intercept('http://localhost:8081/api/account/profile/meeting-places', { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces')
+    cy.intercept(`${apiUrl}/presentation`, { fixture: 'user-profile' }).as('getUserPresentation')
+    cy.intercept(`${apiUrl}/schedules`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules')
+    cy.intercept(`${apiUrl}/meeting-places`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces')
     // TODO add interceptor for each route one created
 
     cy.get('ul#account-tabs li').should('have.length', 4);

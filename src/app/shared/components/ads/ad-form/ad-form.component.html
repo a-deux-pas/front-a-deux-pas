@@ -80,8 +80,9 @@
 
   <!-- Category choice section -->
   <div class="mx-auto  " style="width: 246px;">
-    <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom mt-4"
-      placeholder="Choisissez une catégorie" #adCategory="ngModel" [disabled]="disabledFields" required maxlength="100">
+    <label class="mt-4" for="">Choisissez une catégorie</label>
+    <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom" #adCategory="ngModel"
+      [disabled]="disabledFields" required maxlength="100">
       @for ( cat of categories; track cat; let i = $index) {
       <ng-option [value]="cat.name">
         {{ cat.name }}
@@ -100,11 +101,12 @@
 
   <!-- sub Category choice section -->
   @if (ad.category) {
-  <div class="mx-auto  " style="width: 246px;">
-    <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4" placeholder="une sous catégorie"
-      #subcategory="ngModel" [disabled]="disabledFields" required maxlength="100">
+  <div class="mx-auto" style="width: 246px;">
+    <label class="mt-4" for="">Choisissez une sous-catégorie</label>
+    <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom" #subcategory="ngModel"
+      [disabled]="disabledFields" required maxlength="100">
       @for ( subCat of getSubCategories(); track subCat; let i = $index) {
-      <ng-option [value]="subCat.name">
+      <ng-option class="text-center" [value]="subCat.name">
         {{ subCat.name }}
       </ng-option>
       }
@@ -123,8 +125,9 @@
   <!-- article gender choice section -->
   @if ( ad.subcategory=='Hauts' || ad.subcategory=='Bas' ) {
   <div class="mx-auto mb-2  " style="width: 246px;">
-    <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" placeholder="un genre"
-      #gender="ngModel" [disabled]="disabledFields" required>
+    <label class="mt-4" for="">Choisissez un genre</label>
+    <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom" #gender="ngModel"
+      [disabled]="disabledFields" required>
       @for ( subCatGender of getSubCategoriesGender(); track subCatGender; let i = $index) {
       <ng-option [value]="subCatGender.name">
         {{ subCatGender.name }}

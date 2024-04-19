@@ -1,7 +1,7 @@
-export enum adCategory {
-    newWithLabel = 'Neuf avec étiquette',
-    newWithoutLabel = 'Neuf sans étiquette',
-    veryGood = 'Très bon état',
-    good = 'Bon état',
-    satisfying = 'Satisfaisant'
+export enum Category {
+    mode = 'Mode',
+    electro = 'Electronique',
+    house = 'Maison',
+    hobby = 'Loisirs',
+    other = 'Autre',
 }
