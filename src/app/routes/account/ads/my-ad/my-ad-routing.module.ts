@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgSwitch, NgSwitchCase } from '@angular/common';
 import { MyAdComponent } from './my-ad.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbCarouselModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +15,7 @@ const routes: Routes = [
     NgbNavModule,
     NgbCarouselModule,
     CommonModule,
+    NgSwitch, NgSwitchCase,
     RouterModule.forChild(routes)],
   exports: [RouterModule]
 })

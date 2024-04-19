@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../Ad.service';
 import { AdResponse } from '../../../../../model/adResponse.model';
+import { NgSwitch, NgSwitchCase } from '@angular/common';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class MyAdComponent implements OnInit {
           this.myAd.fifthArticlePictureUrl
         ].filter(url => !!url);
         this.selectedPicNumber = this.articlePictures.length;
+
       },
       error: error => {
         console.error(error);
@@ -40,3 +42,4 @@ export class MyAdComponent implements OnInit {
     });
   }
 }
+
