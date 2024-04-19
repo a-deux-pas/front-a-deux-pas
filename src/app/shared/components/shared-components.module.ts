@@ -12,6 +12,7 @@ import { TabsAccountComponent } from './tabs-account/tabs-account.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { AdFormComponent } from '../components/ads/ad-form/ad-form.component';
 import { UserPresentationComponent } from './user-presentation/user-presentation.component';
+import { AdCardComponent } from './ads/ad-card/ad-card.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { UserPresentationComponent } from './user-presentation/user-presentation
     ScheduleComponent,
     UserPresentationComponent,
     AdFormComponent,
+    AdCardComponent,
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { UserPresentationComponent } from './user-presentation/user-presentation
     TabsAccountComponent,
     ScheduleComponent,
     UserPresentationComponent,
-    AdFormComponent
+    AdFormComponent,
+    AdCardComponent
   ]
 })
 export class SharedComponentsModule { }

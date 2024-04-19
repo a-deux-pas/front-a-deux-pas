@@ -74,4 +74,7 @@
 
 <section class="user-other-ad mt-5">
     <p id="other-ad-section-title">Mes autres annonces</p>
+    <app-ad-card [ad]=myAd [mine]="true"></app-ad-card>
 </section>
+
+<!-- (click)="goToMyAdPage(myAd?.id)" -->

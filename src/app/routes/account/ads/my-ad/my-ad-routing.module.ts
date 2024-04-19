@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, NgSwitch, NgSwitchCase } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MyAdComponent } from './my-ad.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbCarouselModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedComponentsModule } from '../../../../shared/components/shared-components.module';
 
 const routes: Routes = [
   {
@@ -11,11 +12,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  declarations: [
+    MyAdComponent
+  ],
   imports: [
     NgbNavModule,
     NgbCarouselModule,
     CommonModule,
-    NgSwitch, NgSwitchCase,
+    SharedComponentsModule,
     RouterModule.forChild(routes)],
   exports: [RouterModule]
 })

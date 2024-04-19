@@ -24,11 +24,19 @@ export class AdService {
     }
 
     findAdById(adId: number): Observable<AdResponse> {
-        console.log('adId:: ', adId)
         const url = `${this.contextUrl}${adId}`
         return this.http.get<AdResponse>(url)
             .pipe(
                 retry(1)
             );
     }
+
+    // getMyAds(userId: number): Observable<AdResponse[]> {
+    //     const url = `${this.contextUrl}${adId}`
+    //     return this.http.get<AdResponse>(url)
+    //         .pipe(
+    //             retry(1)
+    //         );
+    // }
+    // }
 }

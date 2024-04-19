@@ -3,8 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../../shared/services/Ad.service';
 import { AdResponse } from '../../../../../model/adResponse.model';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-ad',
@@ -30,6 +29,7 @@ export class MyAdComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private adService: AdService) { }
 
   ngOnInit(): void {
@@ -84,6 +84,10 @@ export class MyAdComponent implements OnInit {
     if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
       this.togglePaused();
     }
+  }
+
+  goToMyAdPage(adId: Number) {
+    this.router.navigate(['compte/annonce/mon-annonce/', adId])
   }
 }
 
