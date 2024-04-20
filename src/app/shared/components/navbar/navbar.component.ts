@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -8,13 +9,15 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 export class NavbarComponent {
   @Output() accountMenuToggleOutput: EventEmitter<void> =
     new EventEmitter<void>();
-  @Input() isAccountMenuOpen: boolean;
+  @Input() isAccountMenuOpen: boolean = false;
 
-  navbarIconSelectedNumber: number;
+  constructor(private router: Router) {
+  }
 
-  constructor() {
-    this.isAccountMenuOpen = false;
-    this.navbarIconSelectedNumber = 1;
+  ngOnInit() {
+    const routes = this.router.config;
+    console.log('Liste des routes :', routes);
+    console.log(routes[0]);
   }
 
   emitToggleAccountMenu() {
@@ -24,10 +27,5 @@ export class NavbarComponent {
 
   toggleAccountMenuState() {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
-  }
-
-  // Sélecteur de la navbar, par défaut a 1 (1ère icone, Accueil)
-  navbarIconSelectedFunction(iconNumber: number) {
-    this.navbarIconSelectedNumber = iconNumber;
   }
 }

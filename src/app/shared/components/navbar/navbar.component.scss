@@ -10,7 +10,7 @@
 
 // Mobile version
 
-#desktopHeader {
+#desktop-navbar {
   display: none;
 }
 
@@ -35,7 +35,7 @@
   border-bottom-right-radius: 372px 67px;
 }
 
-#mobile-header-top {
+#mobile-top-navbar {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -94,7 +94,7 @@
   background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 1200  105' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M0 77L50 72C100 68 200 58 300 39C400 20 500 -8 600 1C700 11 800 58 900 77C1000 96 1100 87 1150 82L1200 77V106H1150C1100 106 1000 106 900 106C800 106 700 106 600 106C500 106 400 106 300 106C200 106 100 106 50 106H0V77Z' fill='%23cff1ef'/></svg>");
 }
 
-#mobile-navbar {
+#mobile-bottom-navbar {
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -130,6 +130,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-decoration: none;
+  color: black;
 }
 
 // Account Menu
@@ -155,13 +157,17 @@
   padding-top: 10%;
 }
 
-#account-menu-items {
+#account-menu-items-wrapper {
   height: 100%;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
   background-color: $tertiary;
+}
+
+#account-menu-items {
+  height: 100%;
 }
 
 .account-menu-item {
@@ -182,17 +188,78 @@
 }
 
 #account-menu-line {
-  border: 1px solid $primary;
+  border: 2px solid $secondary;
   width: 90%;
 }
 
-// VERSION ORDINATEUR
+/*-----------------------------------------------------------------------*/
+
+// Desktop version
+
+#desktop-navbar-display {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: $tertiary;
+  padding-left: 3%;
+  padding-right: 3%;
+  padding-bottom: 90px;
+}
+
+#desktop-sell-icon {
+  cursor: pointer;
+
+  &:active {
+    opacity: 0.5;
+  }
+}
+
+#desktop-logo {
+  display: flex;
+}
+
+.desktopHeaderWave {
+  position: relative;
+  background-color: $tertiary;
+}
+
+.desktopHeaderWave::before {
+  content: "";
+  width: 100%;
+  height: 88px;
+  position: absolute;
+  bottom: -0.3%;
+  left: 0;
+  background-size: auto;
+  background-repeat: repeat no-repeat;
+  background-position: 47vw bottom;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 1200 105' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M0 1C19.5523 2 32.2291 4 51.5 7C104.5 15 200 34 300 52C400 70 500 87 600 80C700 73 800 42 900 24C987.526 4 1085.36 -1 1150 0C1169.54 -1 1180.49 0 1200 1V105H1150C1100 105 1000 105 900 105C800 105 700 105 600 105C500 105 400 105 300 105C200 105 100 105 50 105H0V1.98128Z' fill='%23ffffff'/></svg>");
+}
+
+#desktop-navbar-icons {
+  display: flex;
+  width: 33%;
+  justify-content: space-around;
+}
+
+.desktop-navbar-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.desktop-account-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @media screen and (min-width: 1024px) {
-  #mobileHeader {
+  #mobile-navbar {
     display: none;
   }
 
-  #desktopHeader {
+  #desktop-navbar {
     display: block;
   }
 
@@ -200,77 +267,12 @@
     display: none;
   }
 
-  #desktopHeaderTopPart {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background: $tertiary;
-    padding-left: 3%;
-    padding-right: 3%;
-    padding-bottom: 90px;
-  }
-
-  #desktopHeaderSellButton {
-    cursor: pointer;
-
-    &:active {
-      opacity: 0.5;
-    }
-  }
-
-  #desktopHeaderLogo {
-    display: flex;
-  }
-
-  .desktopHeaderWave {
-    position: relative;
-    background-color: $tertiary;
-  }
-
-  .desktopHeaderWave::before {
-    content: "";
-    width: 100%;
-    height: 88px;
-    position: absolute;
-    bottom: -0.3%;
-    left: 0;
-    background-size: auto;
-    background-repeat: repeat no-repeat;
-    background-position: 47vw bottom;
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 1200 105' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M0 1C19.5523 2 32.2291 4 51.5 7C104.5 15 200 34 300 52C400 70 500 87 600 80C700 73 800 42 900 24C987.526 4 1085.36 -1 1150 0C1169.54 -1 1180.49 0 1200 1V105H1150C1100 105 1000 105 900 105C800 105 700 105 600 105C500 105 400 105 300 105C200 105 100 105 50 105H0V1.98128Z' fill='%23ffffff'/></svg>");
-  }
-
-  #desktopNavbarIcons {
-    display: flex;
-    width: 33%;
-    justify-content: space-around;
-  }
-
-  .desktopNavbarEachIcon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .navbar-active-icon {
-    text-decoration: underline;
-    text-decoration-thickness: 5px;
-    text-decoration-color: $primary;
-  }
-
-  .desktopNavbarAccountIcon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
+  // Account Menu
   #account-menu {
-    top: 161px;
-    right: 52px;
+    top: 229px;
+    right: 68px;
     z-index: 1;
     height: 0%;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 30px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -284,10 +286,23 @@
     display: none;
   }
 
+  #account-menu-items-wrapper {
+    height: auto;
+    border-radius: 0px 0px 25px 10px;
+  }
+
   #account-menu-items {
     justify-content: center;
-    text-align: center;
     display: flex;
     flex-direction: column;
+  }
+
+  .account-menu-item {
+    font-size: 16px;
+    padding: 16px;
+  }
+
+  #logout {
+    padding-bottom: 25px
   }
 }
