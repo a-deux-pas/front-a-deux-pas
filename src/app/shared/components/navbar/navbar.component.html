@@ -10,7 +10,7 @@
       <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
     </div>
     <div id="search-article">
-      <input id="search-article-input" type="text" placeholder="Rechercher un article"/>
+      <input type="text" class="search-article-input" name="search-bar" placeholder="Rechercher un article"/>
       <img id="search-article-button" src="/assets/icons/navbar/search.webp" alt="icône de loupe de recherche"/>
     </div>
   </div>
@@ -65,7 +65,7 @@
       Vendre
     </button>
     <div id="search-article">
-      <input id="search-article-input" type="text" placeholder="Rechercher un article"/>
+      <input type="text" class="search-article-input" name="search-bar" placeholder="Rechercher un article"/>
       <img id="search-article-button" src="assets/icons/navbar/search.webp" alt="icône de loupe de recherche"/>
     </div>
     <div id="desktop-navbar-icons">
@@ -107,10 +107,9 @@
   </div>
   <div id="account-menu-items">
     <div id="account-menu-items-wrapper">
-      <a routerLink="compte/profil" class="account-menu-item" (click)="toggleAccountMenuState()">Mon profil</a>
-      <a routerLink="compte/annonces" class="account-menu-item" (click)="toggleAccountMenuState()">Mes annonces</a>
-      <a routerLink="compte/rdv" class="account-menu-item" (click)="toggleAccountMenuState()">Mes RDV</a>
-      <a routerLink="compte/favoris" class="account-menu-item" (click)="toggleAccountMenuState()">Mes favoris</a>
+      @for (route of accountRoutes[0].children; track $index) {
+        <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{ route.title }}</a>
+      }
       <div id="account-menu-separator">
         <div id="account-menu-line"></div>
       </div>

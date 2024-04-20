@@ -10,6 +10,7 @@ import { StyleGuideComponent } from '../style/style-guide/style-guide.component'
 import { StyleGuideRoutingModule } from '../style/style-guide/style-guide-routing.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedComponentsModule } from './shared/components/shared-components.module';
+import { AccountRoutingModule } from './routes/account/account-routing.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { SharedComponentsModule } from './shared/components/shared-components.mo
     FormsModule,
     AppRoutingModule,
     StyleGuideRoutingModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    AccountRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent],
