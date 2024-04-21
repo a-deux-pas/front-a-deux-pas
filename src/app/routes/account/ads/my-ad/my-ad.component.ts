@@ -86,6 +86,12 @@ export class MyAdComponent implements OnInit {
     }
   }
 
+  editAd() {
+
+  }
+
+  deleteAd() { }
+
   goToMyAdPage(adId: Number) {
     this.router.navigate(['compte/annonce/mon-annonce/', adId])
   }

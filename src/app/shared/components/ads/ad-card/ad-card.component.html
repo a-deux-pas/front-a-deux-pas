@@ -1,8 +1,8 @@
 <div class="card mt-4">
-    <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre" />
+    <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
     <div class="card-colored-border">
         <div class="card-body">
-            <h5 class="card-title pb-4">{{ ad.title }}</h5>
+            <h5 class="card-title pb-2">{{ ad.title }}</h5>
             @if (!mine) {
             <p class="card-text">{{ ad.publisher }}</p>
             }
