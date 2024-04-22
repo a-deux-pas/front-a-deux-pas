@@ -14,13 +14,13 @@
         }
     </section>
     <!-- image view on mobile device -->
-    <section class="article-picture-image-section-mobile d-block w-50">
+    <section class="article-picture-image-section-mobile center">
         <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
             (slide)="onSlide($event)">
             @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
             <ng-template ngbSlide>
-                <div class="img-wrapper">
-                    <img src="{{articlePicture}}" alt="" />
+                <div>
+                    <img class="img-wrapper" src="{{articlePicture}}" alt="" />
                 </div>
             </ng-template>
             }
