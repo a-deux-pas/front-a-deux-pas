@@ -1,7 +1,7 @@
 context('create new ad testing', () => {
     beforeEach(() => {
         cy.visit('http://localhost:4200/annonce/creation')
-        cy.url().should('include', 'je-cree');
+        cy.url().should('include', 'creation');
     });
 
     it('the publish button should stay disabled', () => {

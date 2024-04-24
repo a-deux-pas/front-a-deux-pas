@@ -9,10 +9,10 @@ import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/n
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common'
 import { AdResponse } from '../../../../../model/adResponse.model';
-import { adState } from '../../../utils/enums/ad-state.enum';
-import { adCategory } from '../../../utils/enums/ad-category.enum';
-import { modeSubCategory, electronicSubCategory, houseSubCategory, hobbySubCategory, otherSubCategory } from '../../../utils/enums/ad-sub-category.enum';
-import { modeGender } from '../../../utils/enums/ad-gender.enum';
+import { ArticleState } from '../../../models/enums/ArticleState';
+import { Category } from '../../../models/enums/Category';
+import { modeSubCategory, electronicSubCategory, houseSubCategory, hobbySubCategory, otherSubCategory } from '../../../models/enums/Subcategory';
+import { Gender } from '../../../models/enums/Gender';
 
 @Component({
   selector: 'app-ad-form',
@@ -38,66 +38,14 @@ export class AdFormComponent implements OnInit {
   today: Date = new Date()
   selectedPicNumber: number = 1;
   articlePictures: File[] = [];
-  states = Object.values(adState);
-  categories = Object.values(adCategory);
-  adGender = Object.values(modeGender);
+  states = Object.values(ArticleState);
+  categories = Object.values(Category);
+  adGender = Object.values(Gender);
   modeSubCat = Object.values(modeSubCategory);
   electroSubCat = Object.values(electronicSubCategory);
   houseSubCat = Object.values(houseSubCategory);
   hobbySubCat = Object.values(hobbySubCategory);
   otherSubCat = Object.values(otherSubCategory);
-
-
-
-  // states = [
-  //   { id: 1, name: 'Neuf avec étiquette' },
-  //   { id: 2, name: 'Neuf sans étiquette' },
-  //   { id: 3, name: 'Très bon état' },
-  //   { id: 4, name: 'Bon état' },
-  //   { id: 5, name: 'Satisfaisant' },
-  // ];
-  // categories = [
-  //   {
-  //     id: 1, name: 'Mode', subCategories: [
-  //       { id: 1, name: 'Hauts', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
-  //       { id: 2, name: 'Bas', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
-  //       { id: 3, name: 'Chaussures' },
-  //       { id: 4, name: 'Manteau' },
-  //       { id: 5, name: 'Accessoires' },
-  //       { id: 6, name: 'Autre' },
-  //     ]
-  //   },
-  //   {
-  //     id: 2, name: 'Electronique', subCategories: [
-  //       { id: 7, name: 'Ordinateur' },
-  //       { id: 8, name: 'Téléphone' },
-  //       { id: 9, name: 'Jeux video' },
-  //       { id: 11, name: 'Autre' },
-  //     ]
-  //   },
-  //   {
-  //     id: 3, name: 'Maison', subCategories: [
-  //       { id: 7, name: 'Meubles' },
-  //       { id: 8, name: 'Décorations' },
-  //       { id: 9, name: 'Jardin' },
-  //       { id: 11, name: 'Autre' },
-  //     ]
-  //   },
-  //   {
-  //     id: 4, name: 'Loisirs', subCategories: [
-  //       { id: 7, name: 'Livres' },
-  //       { id: 8, name: 'Musique' },
-  //       { id: 9, name: 'Films' },
-  //       { id: 10, name: 'Sport' },
-  //       { id: 11, name: 'Autre' },
-  //     ]
-  //   },
-  //   {
-  //     id: 4, name: 'Autre', subCategories: [
-  //       { id: 11, name: 'Autre' },
-  //     ]
-  //   }
-  // ]
 
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
@@ -126,23 +74,23 @@ export class AdFormComponent implements OnInit {
 
   // article category selection section
   getSubCategories() {
-    if (this.ad.category === adCategory.mode) {
+    if (this.ad.category === Category.FASHION) {
       return Object.values(modeSubCategory);
-    } else if (this.ad.category === adCategory.electro) {
+    } else if (this.ad.category === Category.ELECTRONICS) {
       return Object.values(electronicSubCategory);
-    } else if (this.ad.category === adCategory.house) {
+    } else if (this.ad.category === Category.HOME) {
       return Object.values(houseSubCategory);
-    } else if (this.ad.category === adCategory.hobby) {
+    } else if (this.ad.category === Category.LEISURE) {
       return Object.values(hobbySubCategory);
-    } else if (this.ad.category === adCategory.other) {
+    } else if (this.ad.category === Category.OTHER_CATEGORY) {
       return Object.values(otherSubCategory);
     }
     return [];
   }
 
   getSubCategoriesGender() {
-    if (this.ad.subcategory === modeSubCategory.top || this.ad.subcategory === modeSubCategory.bottom) {
-      return Object.values(modeGender);
+    if (this.ad.subcategory === modeSubCategory.TOPS || this.ad.subcategory === modeSubCategory.BOTTOMS) {
+      return Object.values(Gender);
     }
     return [];
   }
