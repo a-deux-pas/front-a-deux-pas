@@ -4,7 +4,7 @@ import { Observable, catchError, of } from 'rxjs';
 import { PreferredSchedule } from '../../../shared/models/preferred-schedule.model';
 import { PreferredMeetingPlace } from '../../../shared/models/preferred-meeting-place.model';
 import { User } from '../../../shared/models/user.model';
-import { API_URL } from '../../../shared/utils/constants';
+import { API_URL } from '../../../shared/utils/constants/utilsConstants';
 
 @Injectable({
   providedIn: 'root'

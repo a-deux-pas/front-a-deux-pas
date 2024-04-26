@@ -10,7 +10,7 @@ export class Ad {
         public price?: number,
         public adStatus?: string,
         public category?: string,
-        public subcategory?: string,
+        public subcategory?: any,
         public articleGender?: string,
         public publisherId?: number,
         public articlePictures?: ArticlePicture[],

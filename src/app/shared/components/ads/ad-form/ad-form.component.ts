@@ -9,10 +9,9 @@ import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/n
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common'
 import { AdResponse } from '../../../../../model/adResponse.model';
-import { ArticleState } from '../../../models/enums/ArticleState';
-import { Category } from '../../../models/enums/Category';
-import { modeSubCategory, electronicSubCategory, houseSubCategory, hobbySubCategory, otherSubCategory } from '../../../models/enums/Subcategory';
-import { Gender } from '../../../models/enums/Gender';
+import { ArticleState } from '../../../models/enum/ArticleState';
+import { Category } from '../../../models/enum/Category';
+import { Categories } from '../../../utils/constants/Categories';
 
 @Component({
   selector: 'app-ad-form',
@@ -40,12 +39,6 @@ export class AdFormComponent implements OnInit {
   articlePictures: File[] = [];
   states = Object.values(ArticleState);
   categories = Object.values(Category);
-  adGender = Object.values(Gender);
-  modeSubCat = Object.values(modeSubCategory);
-  electroSubCat = Object.values(electronicSubCategory);
-  houseSubCat = Object.values(houseSubCategory);
-  hobbySubCat = Object.values(hobbySubCategory);
-  otherSubCat = Object.values(otherSubCategory);
 
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
@@ -74,23 +67,20 @@ export class AdFormComponent implements OnInit {
 
   // article category selection section
   getSubCategories() {
-    if (this.ad.category === Category.FASHION) {
-      return Object.values(modeSubCategory);
-    } else if (this.ad.category === Category.ELECTRONICS) {
-      return Object.values(electronicSubCategory);
-    } else if (this.ad.category === Category.HOME) {
-      return Object.values(houseSubCategory);
-    } else if (this.ad.category === Category.LEISURE) {
-      return Object.values(hobbySubCategory);
-    } else if (this.ad.category === Category.OTHER_CATEGORY) {
-      return Object.values(otherSubCategory);
+    const currentCategory = Categories.find(category => category.name === this.ad.category);
+    if (currentCategory) {
+      return currentCategory.subCategories;
     }
     return [];
   }
 
   getSubCategoriesGender() {
-    if (this.ad.subcategory === modeSubCategory.TOPS || this.ad.subcategory === modeSubCategory.BOTTOMS) {
-      return Object.values(Gender);
+    const currentCategory = Categories.find(category => category.name === this.ad.category);
+    if (currentCategory) {
+      const currentSubCategory = currentCategory.subCategories.find(subCat => subCat.name === this.ad.subcategory.name);
+      if (currentSubCategory?.gender) {
+        return currentSubCategory.gender;
+      }
     }
     return [];
   }
@@ -115,13 +105,10 @@ export class AdFormComponent implements OnInit {
   }
 
   onSelectPicture(event: { addedFiles: any; }, dropzoneNumber: number): void {
-    console.log(event)
-    console.log(dropzoneNumber)
     const newPictureInDropzone = this.getFilesArray(dropzoneNumber);
     newPictureInDropzone.splice(0, newPictureInDropzone.length);
     newPictureInDropzone.push(...event.addedFiles);
     this.filesArrays = [this.files1, this.files2, this.files3, this.files4, this.files5];
-    console.error('filesArrays:: ', this.filesArrays)
   }
 
   createAdPictureArray() {
@@ -156,14 +143,11 @@ export class AdFormComponent implements OnInit {
   uploadArticlePictures(): Observable<any> {
     this.ad.articlePictures = []
     this.createAdPictureArray()
-    console.error('this.articlePictures:: ', this.articlePictures)
     return this.uploadPictureService.uploadImages(this.articlePictures).pipe(
       tap((responses: any[]) => {
         responses.forEach(response => {
-          console.log('Image uploaded successfully:', response);
           let newArticlePicture: ArticlePicture = new ArticlePicture(response.secure_url);
           this.ad.articlePictures!.push(newArticlePicture);
-          console.error('this.ad.articlePictures:: ', this.ad.articlePictures)
         });
       }),
       catchError((error: any) => {
@@ -209,12 +193,11 @@ export class AdFormComponent implements OnInit {
       next: () => {
         console.log('All images uploaded successfully');
         this.ad.creationDate = this.today;
+        this.ad.subcategory = this.ad.subcategory.name
         // TODO: à enlever une fois la connexion implémentée
         this.ad.publisherId = 1;
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdResponse) => {
-            console.log('Ad successfully created:: ');
-            console.log(ad);
             this.scrollToTop()
             this.adSuccessfullySubmitted = true;
             this.disabledFields = true;

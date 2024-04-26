@@ -5,7 +5,7 @@ import { SharedComponentsModule } from "../../components/shared-components.modul
 import { MeetingPlacesComponent } from "../../../routes/account/profile/components/meeting-places/meeting-places.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { EditButtonComponent } from "../../../routes/account/profile/components/edit-button/edit-button.component";
-import { API_URL } from "../../utils/constants";
+import { API_URL } from "../../utils/constants/utilsConstants";
 
 let apiUrl = `${API_URL}api/account/profile`;
 

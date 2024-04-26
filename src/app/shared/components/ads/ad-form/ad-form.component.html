@@ -107,7 +107,7 @@
       [disabled]="disabledFields" required maxlength="100">
       @for (subCat of getSubCategories(); track subCat) {
       <ng-option [value]="subCat">
-        {{ subCat }}
+        {{ subCat.name }}
       </ng-option>
       }
     </ng-select>
@@ -123,7 +123,8 @@
   }
 
   <!-- article gender choice section -->
-  @if ( ad.subcategory=='Hauts' || ad.subcategory=='Bas' ) {
+  @if (ad.subcategory) {
+  @if (ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') {
   <div class="mx-auto mb-2  " style="width: 246px;">
     <label class="mt-4" for="">Choisissez un genre</label>
     <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom" #gender="ngModel"
@@ -136,13 +137,15 @@
     </ng-select>
     @if (gender.errors) {
     <div>
-      @if( (ad.subcategory=='Hauts' || ad.subcategory=='Bas' ) && gender.touched && gender.errors['required'] ) {
+      @if( (ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas' ) && gender.touched &&
+      gender.errors['required'] ) {
       <span class="error-msg">Veuillez
         entrer un genre</span>
       }
     </div>
     }
   </div>
+  }
   }
 
   <!-- General information section -->
