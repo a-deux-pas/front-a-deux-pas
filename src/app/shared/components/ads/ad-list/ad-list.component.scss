@@ -6,10 +6,39 @@
 }
 
 /*.ad-list-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  flex: 1; // Allow the ad-list-container to grow and fill available space 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; // Allow items to wrap to the next line
+  justify-content: flex-start; // Align items to the start of the container
+}
+
+.item {
+  flex: 1 1 25%; // Make each item take up equal width (25% for 4 items)
+  // Adjust margin or padding if needed
+
+  flex-grow: 1; // Allow items to grow to fill the space equally
+  flex-shrink: 1;
+  max-width: 25%; // Limit each item to 25% width to maintain 4 items per row
+  // Adjust margin or padding if needed
+}
+
+//Adjust max-width for smaller screen sizes
+@media (max-width: 1200px) {
+  .item {
+    max-width: 33.33%;
+  }
+}
+
+@media (max-width: 800px) {
+  .item {
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+  .item {
+    max-width: 100%;
+  }
 }*/
 
 .ad-list-container {

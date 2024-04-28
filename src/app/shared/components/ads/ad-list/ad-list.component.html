@@ -15,7 +15,11 @@
     *ngIf="displayedAds && displayedAds.length > 0"
   >
     <!--ad-card component-->
-    <app-ad-card *ngFor="let ad of displayedAds" [ad]="ad"></app-ad-card>
+    <app-ad-card
+      class="item"
+      *ngFor="let ad of displayedAds"
+      [ad]="ad"
+    ></app-ad-card>
   </div>
 
   <div
@@ -34,7 +38,7 @@
   <div class="no-ads-message" *ngIf="displayedAds.length === 0">
     <img
       class="desktop-footsteps"
-      src="/assets/icons/magnifying-glass.webp"
+      src="/assets/icons/no-result.webp"
       alt="icône de traces de pas"
     />
     <h2>Désolé, aucun résultat ne correspond à votre recherche</h2>
