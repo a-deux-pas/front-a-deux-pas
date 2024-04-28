@@ -1,4 +1,4 @@
-export class AdResponse {
+export class AdPostResponse {
     constructor(
         public id?: number,
         public title?: string,

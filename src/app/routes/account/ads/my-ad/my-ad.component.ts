@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../Ad.service';
-import { AdResponse } from '../../../../../model/adResponse.model';
+import { AdResponse } from '../../../../../model/adPostResponse.model';
 
 
 @Component({

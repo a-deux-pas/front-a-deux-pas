@@ -8,7 +8,7 @@ import { Observable, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common'
-import { AdResponse } from '../../../../../model/adResponse.model';
+import { AdResponse } from '../../../../../model/adPostResponse.model';
 import { ArticleState } from '../../../models/enum/ArticleState';
 import { Category } from '../../../models/enum/Category';
 import { Categories } from '../../../utils/constants/Categories';
