@@ -206,7 +206,7 @@ export class AdFormComponent implements OnInit {
               this.disabledFields = false;
             }, 3000);
             setTimeout(() => {
-              this.router.navigate(['compte/annonce/mon-annonce/', ad.id])
+              this.router.navigate(['compte/annonces/mon-annonce/', ad.id])
             }, 3000)
           },
           error: (error: any) => {

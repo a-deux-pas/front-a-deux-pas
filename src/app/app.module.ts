@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { StyleGuideComponent } from '../style/style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from '../style/style-guide/style-guide-routing.module';
 import { AppRoutingModule } from './app-routing.module';
+import { AdRoutingModule } from './routes/ad/ad-routing.module';
+import { AccountRoutingModule } from './routes/account/account-routing.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     AppRoutingModule,
     StyleGuideRoutingModule,
+    AdRoutingModule,
+    AccountRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

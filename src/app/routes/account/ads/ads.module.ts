@@ -5,7 +5,6 @@ import { AdsRoutingModule } from './ads-routing.module';
 import { AdsComponent } from './ads.component';
 import { SharedComponentsModule } from '../../../shared/components/shared-components.module';
 
-
 @NgModule({
   declarations: [
     AdsComponent
@@ -16,7 +15,7 @@ import { SharedComponentsModule } from '../../../shared/components/shared-compon
     SharedComponentsModule
   ],
   exports: [
-    AdsComponent,
+    AdsComponent
   ],
 })
 export class AdsModule { }
