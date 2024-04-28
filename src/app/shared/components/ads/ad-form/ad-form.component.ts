@@ -1,6 +1,6 @@
 import { Component, Input, HostListener, ViewChild, OnInit } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
-import { User } from '../../../../../model/user.model';
+import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/Ad.service';
 import { UploadPictureService } from '../../../../../services/upload-picture.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
@@ -8,7 +8,7 @@ import { Observable, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common'
-import { AdResponse } from '../../../models/ad/adPostResponse.model';
+import { AdPostResponse } from '../../../models/ad/adPostResponse.model';
 import { ArticleState } from '../../../models/enum/ArticleState';
 import { Category } from '../../../models/enum/Category';
 import { Categories } from '../../../utils/constants/Categories';
@@ -197,7 +197,7 @@ export class AdFormComponent implements OnInit {
         // TODO: à enlever une fois la connexion implémentée
         this.ad.publisherId = 1;
         this.adService.postAd(this.ad).subscribe({
-          next: (ad: AdResponse) => {
+          next: (ad: AdPostResponse) => {
             this.scrollToTop()
             this.adSuccessfullySubmitted = true;
             this.disabledFields = true;

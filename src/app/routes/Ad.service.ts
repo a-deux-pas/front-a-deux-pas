@@ -3,7 +3,7 @@ import { Observable, retry } from "rxjs"
 import { HttpClient } from "@angular/common/http"
 import { Ad } from "../shared/models/ad/ad.model"
 import { API_URL } from "../shared/utils/constants/utilsConstants"
-import { AdResponse } from "../shared/models/ad/adPostResponse.model"
+import { AdPostResponse } from "../shared/models/ad/adPostResponse.model"
 
 @Injectable({
     providedIn: 'root'
@@ -23,10 +23,10 @@ export class AdService {
             )
     }
 
-    findAdById(adId: number): Observable<AdResponse> {
+    findAdById(adId: number): Observable<AdPostResponse> {
         console.log('adId:: ', adId)
         const url = `${this.contextUrl}${adId}`
-        return this.http.get<AdResponse>(url)
+        return this.http.get<AdPostResponse>(url)
             .pipe(
                 retry(1)
             );

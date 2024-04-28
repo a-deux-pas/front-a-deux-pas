@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../Ad.service';
-import { AdResponse } from '../../../../shared/models/ad/adPostResponse.model';
+import { AdPostResponse } from '../../../../shared/models/ad/adPostResponse.model';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { AdResponse } from '../../../../shared/models/ad/adPostResponse.model';
   styleUrl: './my-ad.component.scss'
 })
 export class MyAdComponent implements OnInit {
-  myAd: AdResponse | undefined;
+  myAd: AdPostResponse | undefined;
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;
 
@@ -21,7 +21,7 @@ export class MyAdComponent implements OnInit {
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
     this.adService.findAdById(adId).subscribe({
-      next: (ad: AdResponse) => {
+      next: (ad: AdPostResponse) => {
         this.myAd = ad;
         this.articlePictures = [
           this.myAd.firstArticlePictureUrl,
