@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AdResponse } from '../../../models/AdResponse.model';
+import { AdResponse } from '../../../models/ad-response.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

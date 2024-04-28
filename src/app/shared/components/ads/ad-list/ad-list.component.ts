@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AdListService } from './ad-list.service';
-import { AdResponse } from '../../../models/AdResponse.model';
+import { AdResponse } from '../../../models/ad-response.model';
 import { AdFiltersService } from '../ad-filters/ad-filters.service';
-import { CityAndPostalCodeResponse } from '../../../models/CityAndPostalCodeResponse.model';
+import { CityAndPostalCodeResponse } from '../../../models/city-and-postal-code-response.model';
 
 @Component({
   selector: 'app-ad-list',

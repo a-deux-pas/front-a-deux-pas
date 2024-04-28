@@ -7,9 +7,9 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { ArticleState } from '../../../models/enum/ArticleState';
-import { PriceRange } from '../../../models/enum/PriceRange';
-import { AdResponse } from '../../../models/AdResponse.model';
+import { ArticleState } from '../../../models/enum/article-state.enum';
+import { PriceRange } from '../../../models/enum/price-range.enum';
+import { AdResponse } from '../../../models/ad-response.model';
 import { AdFiltersService } from './ad-filters.service';
 import { Categories } from '../../../utils/constants/Categories';
 
