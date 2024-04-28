@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core"
 import { Observable, retry } from "rxjs"
 import { HttpClient } from "@angular/common/http"
-import { Ad } from "../../model/ad.model"
+import { Ad } from "../shared/models/ad/ad.model"
 import { API_URL } from "../shared/utils/constants/utilsConstants"
-import { AdResponse } from "../../model/adPostResponse.model"
+import { AdResponse } from "../shared/models/ad/adPostResponse.model"
 
 @Injectable({
     providedIn: 'root'

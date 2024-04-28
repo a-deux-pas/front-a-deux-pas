@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
-import { PreferredSchedule } from '../../../shared/models/preferred-schedule.model';
-import { PreferredMeetingPlace } from '../../../shared/models/preferred-meeting-place.model';
-import { User } from '../../../shared/models/user.model';
+import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
+import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
+import { User } from '../../../shared/models/user/user.model';
 import { API_URL } from '../../../shared/utils/constants/utilsConstants';
 
 @Injectable({

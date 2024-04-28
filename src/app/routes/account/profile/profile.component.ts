@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { User } from '../../../shared/models/user.model';
+import { User } from '../../../shared/models/user/user.model';
 import { ProfileService } from './profile.service';
-import { PreferredSchedule } from '../../../shared/models/preferred-schedule.model';
-import { PreferredMeetingPlace } from '../../../shared/models/preferred-meeting-place.model';
+import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
+import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
 
 @Component({
   selector: 'app-profile',

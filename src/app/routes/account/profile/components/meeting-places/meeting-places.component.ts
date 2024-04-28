@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PreferredMeetingPlace } from '../../../../../shared/models/preferred-meeting-place.model';
+import { PreferredMeetingPlace } from '../../../../../shared/models/user/preferred-meeting-place.model';
 
 @Component({
   selector: 'app-meeting-places',

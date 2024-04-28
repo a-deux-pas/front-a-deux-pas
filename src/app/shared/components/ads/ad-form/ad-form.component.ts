@@ -1,14 +1,14 @@
 import { Component, Input, HostListener, ViewChild, OnInit } from '@angular/core';
-import { Ad } from '../../../../../model/ad.model';
+import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../../../model/user.model';
 import { AdService } from '../../../../routes/Ad.service';
 import { UploadPictureService } from '../../../../../services/upload-picture.service';
-import { ArticlePicture } from '../../../../../model/article-picture.model';
+import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common'
-import { AdResponse } from '../../../../../model/adPostResponse.model';
+import { AdResponse } from '../../../models/ad/adPostResponse.model';
 import { ArticleState } from '../../../models/enum/ArticleState';
 import { Category } from '../../../models/enum/Category';
 import { Categories } from '../../../utils/constants/Categories';
