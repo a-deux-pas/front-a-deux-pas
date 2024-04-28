@@ -2,7 +2,7 @@ import { Component, Input, HostListener, ViewChild, OnInit } from '@angular/core
 import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/Ad.service';
-import { UploadPictureService } from '../../../../../services/upload-picture.service';
+import { UploadPictureService } from '../../../services/upload-picture.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';

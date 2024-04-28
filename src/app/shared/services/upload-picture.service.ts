@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, catchError, forkJoin, of, retry } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,11 @@ export class UploadPictureService {
     data.append('file', file);
     data.append('upload_preset', `adeupasProject`);
     data.append('cloud_name', `erikaadeuxpas`);
-    return this.http.post(`https://api.cloudinary.com/v1_1/erikaadeuxpas/upload/`, data);
+    return this.http.post(`https://api.cloudinary.com/v1_1/erikaadeuxpas/upload/`, data)
+        .pipe(
+            retry(1), 
+            catchError(this.handleError('completeDataToUpload'))
+        );
   }
 
   uploadImages(files: File[]): Observable<any[]> {
@@ -23,5 +27,12 @@ export class UploadPictureService {
       observables.push(this.completeDataToUpload(file));
     });
     return forkJoin(observables);
+  }
+
+  private handleError<T>(operation = 'uploadOperation', result?: T) {
+    return (error: any): Observable<T> => {
+        console.error(error); 
+        return of(result as T);
+    };
   }
 }
