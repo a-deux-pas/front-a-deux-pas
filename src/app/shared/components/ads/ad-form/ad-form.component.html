@@ -68,7 +68,7 @@
               <p class="add-picture-btn-text">ajouter une photo</p>
             </div>
           </ngx-dropzone-label>
-          @for ( f of getFilesArray(picNumber); track f; let i = $index) {
+          @for (f of getFilesArray(picNumber); track f; let i = $index) {
           <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true"
             (removed)="onRemove(f, picNumber)"></ngx-dropzone-image-preview>
           }
@@ -91,7 +91,7 @@
     </ng-select>
     @if (adCategory.errors) {
     <div>
-      @if ( adCategory.touched && adCategory.errors['required'] ) {
+      @if (adCategory.touched && adCategory.errors['required']) {
       <span class="error-msg">Veuillez entrer une
         catégorie</span>
       }
@@ -113,7 +113,7 @@
     </ng-select>
     @if (subcategory.errors) {
     <div>
-      @if( subcategory.touched && subcategory.errors['required'] ) {
+      @if(subcategory.touched && subcategory.errors['required']) {
       <span class="error-msg">Veuillez entrer une
         sous-catégorie</span>
       }
@@ -137,8 +137,8 @@
     </ng-select>
     @if (gender.errors) {
     <div>
-      @if( (ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas' ) && gender.touched &&
-      gender.errors['required'] ) {
+      @if((ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') && gender.touched &&
+      gender.errors['required']) {
       <span class="error-msg">Veuillez
         entrer un genre</span>
       }
@@ -158,12 +158,12 @@
       [disabled]="disabledFields" required maxlength="150"></textarea>
     @if (title.errors) {
     <div>
-      @if ( title.touched && title.errors['required'] ) {
+      @if (title.touched && title.errors['required']) {
       <span class="error-msg mb-2">Veuillez entrer
         un
         titre</span>
       }
-      @if ( title.touched && title.errors['maxlength'] ) {
+      @if (title.touched && title.errors['maxlength']) {
       <span class="error-msg mb-2">Veuillez entrer
         un
         titre comportant moins de 150 caractères</span>
@@ -180,7 +180,7 @@
       required></textarea>
     @if (description.errors) {
     <div>
-      @if ( description.touched && description.errors['required'] ) {
+      @if (description.touched && description.errors['required']) {
       <span class="error-msg mb-4">Veuillez entrer
         une
         description</span>
@@ -193,7 +193,7 @@
   <div class="col-2 mt-5 mx-auto" [ngClass]="{'state-and-price-input-correction': !isBigScreen}">
     <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mb-4" placeholder="État" #state="ngModel"
       id="ad-status" [disabled]="disabledFields" required maxlength="150">
-      @for ( state of states; track state; let i = $index) {
+      @for (state of states; track state; let i = $index) {
       <ng-option [value]="state">
         {{ state }}
       </ng-option>
@@ -201,7 +201,7 @@
     </ng-select>
     @if (state.errors) {
     <div>
-      @if ( state.touched && state.errors['required'] ) {
+      @if (state.touched && state.errors['required']) {
       <span class="error-msg mb-4">Veuillez selectionner un
         état</span>
       }
@@ -220,7 +220,7 @@
     </div>
     @if (price.errors) {
     <div>
-      @if ( price.touched && price.errors['required'] ) {
+      @if (price.touched && price.errors['required']) {
       <span class="error-msg mb-4">Veuillez entrer un prix</span>
       }
     </div>

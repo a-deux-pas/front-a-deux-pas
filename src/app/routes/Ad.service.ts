@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { Observable, retry } from "rxjs"
+import { Observable, retry, catchError, of } from "rxjs"
 import { HttpClient } from "@angular/common/http"
 import { Ad } from "../shared/models/ad/ad.model"
 import { API_URL } from "../shared/utils/constants/utilsConstants"
@@ -19,7 +19,8 @@ export class AdService {
         const url = `${this.contextUrl}create`
         return this.http.post(url, ad)
             .pipe(
-                retry(1)
+                retry(1),
+                catchError(this.handleError<any[]>('postAd'))
             )
     }
 
@@ -28,7 +29,25 @@ export class AdService {
         const url = `${this.contextUrl}${adId}`
         return this.http.get<AdPostResponse>(url)
             .pipe(
-                retry(1)
+                retry(1),
+                catchError(this.handleError<AdPostResponse>('getAd'))
             );
+    }
+
+/**
+* Handle Http operation that failed.
+* Let the app continue.
+*
+* @param operation - name of the operation that failed
+* @param result - optional value to return as the observable result
+*/
+    private handleError<T>(operation = 'ad', result?: T) {
+        return (error: any): Observable<T> => {
+
+            console.error(error);
+
+            // Let the app keep running by returning an empty result.
+            return of(result as T);
+        };
     }
 }
