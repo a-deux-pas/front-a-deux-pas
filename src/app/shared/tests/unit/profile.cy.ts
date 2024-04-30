@@ -1,7 +1,6 @@
 import { HttpClientModule } from "@angular/common/http";
 import { ProfileComponent } from "../../../routes/account/profile/profile.component";
 import { ProfileService } from "../../../routes/account/profile/profile.service";
-import { SharedComponentsModule } from "../../components/shared-components.module";
 import { MeetingPlacesComponent } from "../../../routes/account/profile/components/meeting-places/meeting-places.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { EditButtonComponent } from "../../../routes/account/profile/components/edit-button/edit-button.component";
@@ -16,8 +15,7 @@ describe('Profile component', () => {
     cy.intercept(`${apiUrl}/meeting-places`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
 
     cy.mount(ProfileComponent, {
-      declarations: [MeetingPlacesComponent, EditButtonComponent],
-      imports: [HttpClientModule, SharedComponentsModule, RouterTestingModule],
+      imports: [MeetingPlacesComponent, EditButtonComponent, HttpClientModule, RouterTestingModule],
       providers: [ProfileService],
       componentProperties: {
         onEditModeChange: cy.spy().as('onEditModeChange'),

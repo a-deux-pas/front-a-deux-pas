@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
+import { AdFormComponent } from '../../../shared/components/ads/ad-form/ad-form.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-create-ad',
-  templateUrl: './create-ad.component.html',
-  styleUrl: './create-ad.component.scss'
+    selector: 'app-create-ad',
+    templateUrl: './create-ad.component.html',
+    styleUrl: './create-ad.component.scss',
+    standalone: true,
+    imports: [AdFormComponent, CommonModule, FormsModule]
 })
 export class CreateAdComponent {
   formTitle: string = 'Créer une annonce';

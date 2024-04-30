@@ -1,31 +1,29 @@
 import { NgModule } from '@angular/core';
-import { AccountModule } from './account.module';
 import { RouterModule, Routes } from '@angular/router';
 
 export const accountRoutes: Routes = [
     {
         path: 'compte',
-        component: AccountModule,
         children: [
             {
                 path: 'profil',
                 title: 'Mon profil',
-                loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
+                loadChildren: () => import('./profile/profile-routing.module').then(mod => mod.ProfileRoutingModule)
             },
             {
                 path: 'annonces',
                 title: 'Mes annonces',
-                loadChildren: () => import('./ads/ads.module').then(m => m.AdsModule)
+                loadChildren: () => import('./ads/ads-routing.module').then(mod => mod.AdsRoutingModule)
             },
             {
                 path: 'rdv',
                 title: 'Mes RDV',
-                loadChildren: () => import('./meetings/meetings.module').then(m => m.MeetingsModule)
+                loadChildren: () => import('./meetings/meetings-routing.module').then(mod => mod.MeetingsRoutingModule)
             },
             {
                 path: 'favoris',
                 title: 'Mes favoris',
-                loadChildren: () => import('./favorites/favorites.module').then(m => m.FavoritesModule)
+                loadChildren: () => import('./favorites/favorites-routing.module').then(mod => mod.FavoritesRoutingModule)
             }
         ]
     },

@@ -8,7 +8,14 @@ import { Observable, catchError, forkJoin, of, retry } from 'rxjs';
 export class UploadPictureService {
 
   constructor(private http: HttpClient) { }
-
+/**
+ * This method send all the data needed in order to proceed to a call to the cloudinary API
+ * The upload preset defines a set of action to perform upon the upload of a resource 
+ * while the cloud name is a string that is used in the URLs of media delivered to Cloudinary
+ * Both these data can be public
+ * @param file 
+ * @returns 
+ */
   completeDataToUpload(file: File): Observable<any> {
     const data = new FormData();
     data.append('file', file);

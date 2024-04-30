@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
-import { AdModule } from './ad.module';
 import { RouterModule, Routes } from '@angular/router';
 
-const adsRoutes: Routes = [
+export const adsRoutes: Routes = [
     {
         path: 'annonce',
-        component: AdModule,
         children: [
             {
                 path: 'creation',
-                loadChildren: () => import('./create-ad/create-ad.module').then(m => m.CreatedAdModule)
+                loadComponent: () => import('./create-ad/create-ad.component').then(mod => mod.CreateAdComponent)
             }
         ]
     }

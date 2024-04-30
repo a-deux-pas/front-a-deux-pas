@@ -2,12 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../Ad.service';
 import { AdPostResponse } from '../../../../shared/models/ad/adPostResponse.model';
+import { NgbCarouselModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { AdFormComponent } from '../../../../shared/components/ads/ad-form/ad-form.component';
 
 
 @Component({
   selector: 'app-my-ad',
   templateUrl: './my-ad.component.html',
-  styleUrl: './my-ad.component.scss'
+  styleUrl: './my-ad.component.scss',
+  standalone: true,
+  imports: [
+    NgbNavModule,
+    NgbCarouselModule,
+    CommonModule,
+    AdFormComponent
+  ]
 })
 export class MyAdComponent implements OnInit {
   myAd: AdPostResponse | undefined;

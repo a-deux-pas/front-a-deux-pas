@@ -5,18 +5,23 @@ import { AdService } from '../../../../routes/Ad.service';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, catchError, tap } from 'rxjs';
-import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { ViewportScroller } from '@angular/common'
+import { ViewportScroller, NgClass } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/adPostResponse.model';
 import { ArticleState } from '../../../models/enum/ArticleState';
 import { Category } from '../../../models/enum/Category';
 import { Categories } from '../../../utils/constants/Categories';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ad-form',
   templateUrl: './ad-form.component.html',
   styleUrl: './ad-form.component.scss',
+  standalone: true,
+  imports: [FormsModule, NgSelectModule, NgxDropzoneModule, NgClass, NgbCarousel, NgbSlide]
 })
 export class AdFormComponent implements OnInit {
   @Input() formTitle!: string;

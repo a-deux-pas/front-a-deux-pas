@@ -81,7 +81,7 @@
   <!-- Category choice section -->
   <div class="mx-auto  " style="width: 246px;">
     <label class="mt-4" for="">Choisissez une catégorie</label>
-    <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom" #adCategory="ngModel"
+    <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom mt-4" #adCategory="ngModel"
       [disabled]="disabledFields" required maxlength="100">
       @for (category of categories; track category) {
       <ng-option [value]="category">
@@ -103,7 +103,7 @@
   @if (ad.category) {
   <div class="mx-auto" style="width: 246px;">
     <label class="mt-4" for="">Choisissez une sous-catégorie</label>
-    <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom" #subcategory="ngModel"
+    <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4" #subcategory="ngModel"
       [disabled]="disabledFields" required maxlength="100">
       @for (subCat of getSubCategories(); track subCat) {
       <ng-option [value]="subCat">
@@ -127,7 +127,7 @@
   @if (ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') {
   <div class="mx-auto mb-2  " style="width: 246px;">
     <label class="mt-4" for="">Choisissez un genre</label>
-    <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom" #gender="ngModel"
+    <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" #gender="ngModel"
       [disabled]="disabledFields" required>
       @for (subCatGender of getSubCategoriesGender(); track subCatGender) {
       <ng-option [value]="subCatGender">
@@ -191,7 +191,8 @@
 
   <!-- State -->
   <div class="col-2 mt-5 mx-auto" [ngClass]="{'state-and-price-input-correction': !isBigScreen}">
-    <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mb-4" placeholder="État" #state="ngModel"
+    <label class="mt-4" for="">Choisissez un état</label>
+    <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mb-4 mt-4" placeholder="État" #state="ngModel"
       id="ad-status" [disabled]="disabledFields" required maxlength="150">
       @for (state of states; track state; let i = $index) {
       <ng-option [value]="state">
