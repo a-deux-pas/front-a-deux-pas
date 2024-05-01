@@ -37,7 +37,7 @@
           Annonces
         </a>
       </li>
-      <a routerLink="" class="navbar-icon" id="mobile-sell-icon">
+      <a routerLink="annonce/creation" class="navbar-icon" id="mobile-sell-icon">
         <img class="icon" src="assets/icons/buttons/add-orange.webp" alt="icône 'Vendre'"/>
         Vendre
       </a>
@@ -59,26 +59,28 @@
 </nav>
 
 <!-- Account menu -->
-<div *ngIf="isAccountMenuOpen" id="account-menu">
-  <a href="" id="account-menu-close">
-    <span class="close" (click)="toggleAccountMenuState()">x</span>
-  </a>
-  <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo">
-    <span class="mobile-logo align-self-center">A DEUX PAS</span>
-    <img class="mobile-footsteps"src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
-  </div>
-  <div id="account-menu-items">
-    <div id="account-menu-items-wrapper">
-      @for (route of accountRoutes[0].children; track $index) {
-        <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{ route.title }}</a>
-      }
-      <div id="account-menu-separator">
-        <div id="account-menu-line"></div>
+@if (isAccountMenuOpen) {
+  <div id="account-menu">
+    <a href="" id="account-menu-close">
+      <span class="close" (click)="toggleAccountMenuState()">x</span>
+    </a>
+    <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo">
+      <span class="mobile-logo align-self-center">A DEUX PAS</span>
+      <img class="mobile-footsteps"src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
+    </div>
+    <div id="account-menu-items">
+      <div id="account-menu-items-wrapper">
+        @for (route of accountRoutes[0].children; track $index) {
+          <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{ route.title }}</a>
+        }
+        <div id="account-menu-separator">
+          <div id="account-menu-line"></div>
+        </div>
+        <a routerLink="" class="account-menu-item" id="logout" (click)="toggleAccountMenuState()">Se déconnecter</a>
       </div>
-      <a routerLink="" class="account-menu-item" id="logout" (click)="toggleAccountMenuState()">Se déconnecter</a>
     </div>
   </div>
-</div>
+}
 
 <!-- Desktop navbar -->
 <div id="desktop-navbar">
@@ -91,7 +93,7 @@
           <span class="desktop-logo">PAS</span>
         </div>
     </div>
-    <button routerLink="" class="btn-sell" id="desktop-sell-icon">
+    <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon">
       <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
       Vendre
     </button>

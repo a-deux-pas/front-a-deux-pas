@@ -1,38 +1,36 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AccountModule } from './account.module';
 
 export const accountRoutes: Routes = [
-  {
-    path: 'compte',
-    component:  AccountModule,
-    children: [
-      {
-        path: 'profil',
-        title: 'Mon profil',
-        loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
-      },
-      {
-        path: 'annonces',
-        title: 'Mes annonces',
-        loadChildren: () => import('./ads/ads.module').then(m => m.AdsModule)
-      },
-      {
-        path: 'rdv',
-        title: 'Mes RDV',
-        loadChildren: () => import('./meetings/meetings.module').then(m => m.MeetingsModule)
-      },
-      {
-        path: 'favoris',
-        title: 'Mes favoris',
-        loadChildren: () => import('./favorites/favorites.module').then(m => m.FavoritesModule)
-      }
-    ]
-  },
+    {
+        path: 'compte',
+        children: [
+            {
+                path: 'profil',
+                title: 'Mon profil',
+                loadChildren: () => import('./profile/profile-routing.module').then(mod => mod.ProfileRoutingModule)
+            },
+            {
+                path: 'annonces',
+                title: 'Mes annonces',
+                loadChildren: () => import('./ads/ads-routing.module').then(mod => mod.AdsRoutingModule)
+            },
+            {
+                path: 'rdv',
+                title: 'Mes RDV',
+                loadChildren: () => import('./meetings/meetings-routing.module').then(mod => mod.MeetingsRoutingModule)
+            },
+            {
+                path: 'favoris',
+                title: 'Mes favoris',
+                loadChildren: () => import('./favorites/favorites-routing.module').then(mod => mod.FavoritesRoutingModule)
+            }
+        ]
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(accountRoutes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(accountRoutes)],
+    exports: [RouterModule]
 })
 export class AccountRoutingModule { }

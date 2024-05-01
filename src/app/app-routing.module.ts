@@ -4,16 +4,20 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./routes/home/default-home/default-home.module').then(m => m.DefaultHomeModule)
+    loadChildren: () => import('./routes/home/default-home/default-home-routing.module').then(mod => mod.DefaultHomeRoutingModule)
   },
   {
     path: 'accueil',
-    loadChildren: () => import('./routes/home/logged-in-home/logged-in-home.module').then(m => m.LoggedInHomeModule)
+    loadChildren: () => import('./routes/home/logged-in-home/logged-in-home-routing.module').then(mod => mod.LoggedInHomeRoutingModule)
+  },
+  {
+    path: 'annonce',
+    loadChildren: () => import('./routes/ad/ad-routing.module').then(mod => mod.AdRoutingModule)
   },
   {
     path: 'compte',
-    loadChildren: () => import('./routes/account/account.module').then(m => m.AccountModule)
-  },
+    loadChildren: () => import('./routes/account/account-routing.module').then(mod => mod.AccountRoutingModule)
+  }
 ];
 
 @NgModule({
