@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-export const adsRoutes: Routes = [
+export const adRoutes: Routes = [
     {
         path: 'annonce',
         children: [
@@ -14,7 +14,7 @@ export const adsRoutes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(adsRoutes)],
+    imports: [RouterModule.forChild(adRoutes)],
     exports: [RouterModule]
 })
 export class AdRoutingModule { }

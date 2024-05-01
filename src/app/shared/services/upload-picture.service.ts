@@ -8,24 +8,24 @@ import { Observable, catchError, forkJoin, of, retry } from 'rxjs';
 export class UploadPictureService {
 
   constructor(private http: HttpClient) { }
-/**
- * This method send all the data needed in order to proceed to a call to the cloudinary API
- * The upload preset defines a set of action to perform upon the upload of a resource 
- * while the cloud name is a string that is used in the URLs of media delivered to Cloudinary
- * Both these data can be public
- * @param file 
- * @returns 
- */
+  /**
+   * This method send all the data needed in order to proceed to a call to the cloudinary API
+   * The upload_preset defines a set of action to perform upon the upload of a resource 
+   * while the cloud name is a string that is used in the URLs of media delivered to Cloudinary
+   * Both these data can be public
+   * @param file 
+   * @returns 
+   */
   completeDataToUpload(file: File): Observable<any> {
     const data = new FormData();
     data.append('file', file);
     data.append('upload_preset', `adeupasProject`);
     data.append('cloud_name', `erikaadeuxpas`);
     return this.http.post(`https://api.cloudinary.com/v1_1/erikaadeuxpas/upload/`, data)
-        .pipe(
-            retry(1), 
-            catchError(this.handleError('completeDataToUpload'))
-        );
+      .pipe(
+        retry(1),
+        catchError(this.handleError('completeDataToUpload'))
+      );
   }
 
   uploadImages(files: File[]): Observable<any[]> {
@@ -38,8 +38,8 @@ export class UploadPictureService {
 
   private handleError<T>(operation = 'uploadOperation', result?: T) {
     return (error: any): Observable<T> => {
-        console.error(error); 
-        return of(result as T);
+      console.error(error);
+      return of(result as T);
     };
   }
 }

@@ -34,4 +34,3 @@ export const accountRoutes: Routes = [
     exports: [RouterModule]
 })
 export class AccountRoutingModule { }
-

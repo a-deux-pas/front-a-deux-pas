@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdsComponent } from './ads.component';
 
-const routes: Routes = [
+const adsRoutes: Routes = [
   { path: '', component: AdsComponent },
   {
     path: 'mon-annonce',
@@ -16,7 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(adsRoutes)],
   exports: [RouterModule]
 })
 export class AdsRoutingModule { }
