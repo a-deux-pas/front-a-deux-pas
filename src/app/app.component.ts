@@ -10,6 +10,5 @@ export class AppComponent {
 
   accountNavbarMenuToggle() {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
-    console.log(this.isAccountMenuOpen);
   }
 }

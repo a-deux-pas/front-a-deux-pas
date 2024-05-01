@@ -5,10 +5,11 @@
   position: absolute;
   left: 0;
   width: 100%;
-  height: 162px;
+  height: 119px;
+  margin-top: -1px;
   background-color: white;
-  border-radius: 0% 0% 91% 79%;
-  z-index: 1;
+  border-radius: 0% 0% 133% 144%;
+  z-index: 0;
 }
 
 .mobile-curve {
@@ -17,13 +18,13 @@
   width: 100%;
   height: 600px;
   max-height: 686px;
-  z-index: 0;
+  z-index: -1;
 }
 
 #footer {
-  padding-top: 40px;
-  z-index: 1001;
+  padding-top: 8px;
   position: relative;
+  z-index: 0;
 }
 
 #text {
@@ -38,6 +39,11 @@
   text-align: center;
   margin-top: 20px;
   margin-bottom: 20px;
+  list-style-type: none;
+}
+
+.text-block {
+  margin-bottom: 10%;
 }
 
 .text-block a {
@@ -54,9 +60,11 @@
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+  list-style-type: none;
 }
 
 .social-networks-icon {
+  height: 38px;
   cursor: pointer;
 
   &:active {
@@ -64,52 +72,15 @@
   }
 }
 
-@media (max-width: 1023px) {
-
-  .text-block {
-    margin-bottom: 10%;
-  }
-
-  .social-networks-icon {
-    height: 38px;
-  }
-}
-
 // Desktop Version
-@media screen and (min-width: 1024px) {
+@media (min-width: 1158px) {
 
-  // .mobile-inner-curve {
-  //   display: none
-  // }
-
-  .mobile-curve {
-    //display: none
-    height: 534px;
+  .mobile-inner-curve, .mobile-curve {
+    display: none
   }
-
-  // .mobile-inner-curve {
-  //   height: 213px;
-
-  // }
-
-
-  // .curve {
-
-  // }
-
-  // .inner-curve-2 {
-  //   position: absolute;
-  //   left: 530px;
-  //   width: 59%;
-  //   height: 428px;
-  //   margin-top: 190px;
-  //   background-color: #cff1ef;
-  //   border-radius: 20% 20% 0% 0%;
-  //   z-index: 1;
-  // }
 
   #footer {
-    padding-top: 217px;
+    padding-top: 198px;
   }
 
   #text {
@@ -128,6 +99,52 @@
   }
 
   .social-networks-icon {
-    height: 50px;
+    height: 37px;
+  }
+
+  #social-networks {
+    width: 50%;
+  }
+
+  .background {
+    position:absolute;
+    bottom: 0;
+    width: 100%;
+    height: 316px;
+    background-color: $tertiary;
+    z-index: -3;
+  }
+
+  .desktop-wave-background {
+    width: 100%;
+    height: 191px;
+    margin-top: -191px;
+    position: relative;
+    z-index: -2;
+  }
+
+  .left-curved-background {
+    position: absolute;
+    background-color: white;
+    width: 90%;
+    height: 77%;
+    left: -34%;
+    top: -120%;
+    transform: rotate(9deg);
+    border-bottom-left-radius: 830px 105px;
+    border-bottom-right-radius: 877px 104px;
+    z-index: 3;
+  }
+
+    .right-curved-background {
+    position: absolute;
+    background-color: white;
+    right: 4.9px;
+    width: 65.7%;
+    height: 73%;
+    top: -93%;
+    transform: rotate(-8deg);
+    z-index: 3;
+    border-bottom-left-radius: 942px 105px;
   }
 }

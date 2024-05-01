@@ -1,5 +1,9 @@
 @import 'color-variables';
 
+main {
+  margin:0 !important;
+}
+
 //Mobile and Tablet version
 @media (max-width: 891px) {
   #desktop-header {
@@ -33,24 +37,6 @@
   flex-direction: column;
   padding-left: 3%;
   padding-right: 3%;
-}
-
-// mobile and desktop search bar
-#search-article {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-#search-article-button {
-  height: 35px;
-  margin-left: -10px;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  cursor: pointer;
-
-  &:active {
-    opacity: 0.5;
-  }
 }
 
 // categories

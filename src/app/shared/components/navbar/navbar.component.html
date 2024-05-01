@@ -1,9 +1,16 @@
-<!-- Mobile navbar -->
-<div id="mobile-navbar">
-  <section class="background"></section>
-  <section class="curved-background"></section>
+<!-- navbar background -->
+<section class="background">
+  <div class="left-curved-background"></div>
+  <div class="right-curved-background"></div>
+  <div class="fix"></div>
+</section>
 
+<!-- Mobile navbar -->
+<nav id="mobile-navbar" aria-label="barre de navigation mobile">
   <!-- Top part -->
+  <section class="background">
+    <div class="mobile-curved-background"></div>
+  </section>
   <div id="mobile-top-navbar">
     <div class="mobile-logo-container mt-4 mb-2">
       <span class="mobile-logo align-self-center">A DEUX PAS</span>
@@ -16,85 +23,40 @@
   </div>
 
   <!-- Bottom part -->
-  <div *ngIf="!isAccountMenuOpen" id="mobile-bottom-navbar">
-    <div id="mobile-navbar-icons">
-      <div routerLinkActive="navbar-active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="" class="mobile-navbar-icon">
+  <div id="mobile-bottom-navbar">
+    <ul id="mobile-navbar-icons">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
           Accueil
         </a>
-      </div>
-      <div routerLinkActive="navbar-active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="compte/annonces" class="mobile-navbar-icon">
+      </li>
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="compte/annonces" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'"/>
           Annonces
         </a>
-      </div>
-      <a routerLink="" class="mobile-navbar-icon" id="mobile-sell-icon">
+      </li>
+      <a routerLink="" class="navbar-icon" id="mobile-sell-icon">
         <img class="icon" src="assets/icons/buttons/add-orange.webp" alt="icône 'Vendre'"/>
         Vendre
       </a>
-      <div routerLinkActive="navbar-active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="compte/favoris" class="mobile-navbar-icon">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="compte/favoris" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'"/>
           Favoris
         </a>
-      </div>
-      <div class="mobile-navbar-icon" (click)="toggleAccountMenuState()">
+      </li>
+      <li class="navbar-icon" (click)="toggleAccountMenuState()">
         <img class="icon" id="mobile-account-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
         Compte
-      </div>
-    </div>
-    <div class="mobileNavbarWave"></div>
+      </li>
+    </ul>
+    <section class="wave-background">
+      <div class="mobile-wave-navbar"></div>
+    </section>
   </div>
-</div>
-
-<!-- Desktop navbar -->
-<div id="desktop-navbar">
-  <div id="desktop-navbar-display">
-    <div class="mt-2" id="desktop-logo">
-      <img class="desktop-footsteps" src="assets/icons/desktop-footsteps.webp" alt="icône de traces de pas"/>
-        <div class="text-left">
-          <span class="desktop-logo">A</span>
-          <span class="desktop-logo">DEUX</span>
-          <span class="desktop-logo">PAS</span>
-        </div>
-    </div>
-    <button routerLink="" class="btn-sell" id="desktop-sell-icon">
-      <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
-      Vendre
-    </button>
-    <div id="search-article">
-      <input type="text" class="search-article-input" name="search-bar" placeholder="Rechercher un article"/>
-      <img id="search-article-button" src="assets/icons/navbar/search.webp" alt="icône de loupe de recherche"/>
-    </div>
-    <div id="desktop-navbar-icons">
-      <div routerLinkActive="navbar-active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="" class="mobile-navbar-icon">
-          <img class="add-icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
-          Accueil
-        </a>
-      </div>
-      <div routerLinkActive="navbar-active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="compte/annonces" class="mobile-navbar-icon">
-          <img class="add-icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'"/>
-          Annonces
-        </a>
-      </div>
-      <div routerLinkActive="navbar-active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="compte/favoris" class="mobile-navbar-icon">
-          <img class="add-icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'"/>
-          Favoris
-        </a>
-      </div>
-      <div class="desktop-account-icon" (click)="toggleAccountMenuState()">
-        <img class="add-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
-        Compte
-      </div>
-    </div>
-  </div>
-  <div class="desktopHeaderWave"></div>
-</div>
+</nav>
 
 <!-- Account menu -->
 <div *ngIf="isAccountMenuOpen" id="account-menu">
@@ -117,3 +79,74 @@
     </div>
   </div>
 </div>
+
+<!-- Desktop navbar -->
+<div id="desktop-navbar">
+  <nav id="desktop-navbar-display" aria-label="barre de navigation ordinateur">
+    <div class="mt-2" id="desktop-logo">
+      <img class="desktop-footsteps" src="assets/icons/desktop-footsteps.webp" alt="icône de traces de pas"/>
+        <div class="text-left">
+          <span class="desktop-logo">A</span>
+          <span class="desktop-logo">DEUX</span>
+          <span class="desktop-logo">PAS</span>
+        </div>
+    </div>
+    <button routerLink="" class="btn-sell" id="desktop-sell-icon">
+      <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
+      Vendre
+    </button>
+    <div id="search-article">
+      <input type="text" class="search-article-input" name="search-bar" placeholder="Rechercher un article"/>
+      <img id="search-article-button" src="assets/icons/navbar/search.webp" alt="icône de loupe de recherche"/>
+    </div>
+    <ul id="desktop-navbar-icons">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="" class="navbar-icon">
+          <img class="add-icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
+          Accueil
+        </a>
+      </li>
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="compte/annonces" class="navbar-icon">
+          <img class="add-icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'"/>
+          Annonces
+        </a>
+      </li>
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="compte/favoris" class="navbar-icon">
+          <img class="add-icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'"/>
+          Favoris
+        </a>
+      </li>
+      <li>
+        <a (click)="toggleAccountMenuState()" id="desktop-account-icon" class="mb-2">
+          <img class="add-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
+          Compte
+        </a>
+        @if (isAccountMenuOpen) {
+          <div id="dropdown-content">
+            <ul>
+              @for (route of accountRoutes[0].children; track $index) {
+                  <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{ route.title }}</a>
+              }
+              <div id="account-menu-separator">
+                <div id="account-menu-line"></div>
+              </div>
+              <li><a routerLink="" class="account-menu-item" id="logout" (click)="toggleAccountMenuState()">Se déconnecter</a></li>
+            </ul>
+          </div>
+        }
+      </li>
+    </ul>
+  </nav>
+</div>
+
+
+<!-- <div class="navbar">
+  <ul>
+    <li><a href="#">Accueil</a></li>
+    <li><a href="#">À propos</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</div> -->

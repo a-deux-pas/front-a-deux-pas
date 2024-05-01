@@ -77,10 +77,11 @@ $h3-font-size: 1.125rem;
 
 /*-----------------------------------------------------------------------*/
 
-// Body margin adjustments
-body {
-  // margin-left: 2vh !important;
-  // margin-right: 2vh !important;
+// Main margin adjustments
+main {
+  margin-top: 12vh;
+  margin-left: 2vh !important;
+  margin-right: 2vh !important;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -250,6 +251,10 @@ button.btn {
 // Save icon size
 .save-icon {
   width: 40px;
+}
+
+a {
+  pointer-events: auto;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -802,15 +807,37 @@ a.dropdown-first-level.dropdown-toggle {
   }
 }
 
+#search-article {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#search-article-button {
+  height: 35px;
+  margin-left: -10px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  cursor: pointer;
+
+  &:active {
+    opacity: 0.5;
+  }
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Desktop version
 @media (min-width: 1200px) {
-  // Body margin adjustments
-  // main {
-  //   margin-left: 14vh !important;
-  //   margin-right: 14vh !important;
-  // }
+
+  // margin
+  body {
+    margin:0;
+  }
+
+  main {
+    margin-left: 14vh !important;
+    margin-right: 14vh !important;
+  }
 
   // Personalized container for "my account" pages
   // Includes tabs and page content
@@ -833,5 +860,3 @@ a.dropdown-first-level.dropdown-toggle {
 // Importing NgSelect and Bootstrap styles
 @import "../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 @import "bootstrap/scss/bootstrap";
-
-
