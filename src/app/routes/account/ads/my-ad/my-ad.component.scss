@@ -1,0 +1,19 @@
+@import 'color-variables';
+
+.title-and-price {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+#ad-price,
+#ad-state {
+    color: $secondary;
+}
+
+#ad-creation-date {
+    color: #525252;
+}
+
+.other-info {
+    font-weight: 400;
+}

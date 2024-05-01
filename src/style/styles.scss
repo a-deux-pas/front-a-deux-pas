@@ -15,6 +15,10 @@ $h1-font-size: 2.22rem;
 $h2-font-size: 1.4rem;
 $h3-font-size: 1.125rem;
 
+.bold-title-700 {
+  font-weight: 700;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Colors
@@ -86,7 +90,7 @@ body {
 // Buttons
 $btn-font-size: 0.938rem;
 $btn-padding-x: 0.625rem;
-$btn-padding-y: 1.5625rem;
+$btn-padding-y: 2.5625rem;
 $btn-border-radius: 10px 10px 25px 10px;
 $btn-focus-shadow-rgb: 49, 132, 253;
 $color: var(--bs-btn-hover-color);
@@ -314,6 +318,7 @@ textarea.form-control {
   border-left: white;
   padding-bottom: 0.315rem;
   height: 40px;
+  min-width: 245.238px;
 }
 
 // Opened ng-select container bottom border radius
@@ -658,7 +663,7 @@ a.dropdown-first-level.dropdown-toggle {
 // Header style
 .fc .fc-col-header-cell-cushion {
   background-color: $info;
-  color:white;
+  color: white;
   text-decoration: none;
   border-radius: 30px;
   font-size: 10px;
@@ -686,7 +691,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Remove today highlight
 .fc-day-today {
-  background-color:inherit !important;
+  background-color: inherit !important;
 }
 
 // Timegrid slot styling
@@ -715,8 +720,9 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 // Remove margin
-.fc-event, .fc-event-main {
-  margin-bottom:0 !important;
+.fc-event,
+.fc-event-main {
+  margin-bottom: 0 !important;
 }
 
 .fc-direction-ltr .fc-timegrid-col-events {
@@ -798,5 +804,3 @@ a.dropdown-first-level.dropdown-toggle {
 // Importing NgSelect and Bootstrap styles
 @import "../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 @import "bootstrap/scss/bootstrap";
-
-
