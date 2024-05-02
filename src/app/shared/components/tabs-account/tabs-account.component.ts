@@ -1,11 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router,NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, RouterLink } from '@angular/router';
 import { filter, map, startWith, distinctUntilChanged } from 'rxjs/operators';
+import { NgbNav, NgbNavItem, NgbNavItemRole, NgbNavLink, NgbNavLinkBase } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-tabs-account',
-  templateUrl: './tabs-account.component.html',
-  styleUrl: './tabs-account.component.scss',
+    selector: 'app-tabs-account',
+    templateUrl: './tabs-account.component.html',
+    styleUrl: './tabs-account.component.scss',
+    standalone: true,
+    imports: [
+        NgbNav,
+        NgbNavItem,
+        NgbNavItemRole,
+        NgbNavLink,
+        NgbNavLinkBase,
+        RouterLink,
+    ],
 })
 export class TabsAccountComponent implements OnInit {
   active!: string | null;

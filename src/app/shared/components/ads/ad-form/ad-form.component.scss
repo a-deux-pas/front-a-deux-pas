@@ -1,6 +1,4 @@
-@import '../../../../../style/color-variables.scss';
-
-//general
+@import 'color-variables.scss';
 
 .centered-elements {
   text-align: center;
@@ -22,12 +20,17 @@
 #ad-title,
 #ad-description {
   width: 320px;
+  overflow: hidden;
 }
 
 #ad-price,
 #ad-status {
   width: 246px;
   height: 43px;
+}
+
+.price-input-field {
+  display: grid;
 }
 
 #ad-price {
@@ -82,7 +85,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-
 // drag and drop 
 ngx-dropzone {
   width: 350px;
@@ -119,11 +121,7 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   height: 349px;
 }
 
-
 @media screen and (min-width: 1200px) {
-
-  //General
-
   .input-group-addon {
     margin-left: -4.5%;
   }
@@ -143,11 +141,9 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   .label-and-input {
     margin-left: auto;
     margin-right: 46%;
-
   }
 
-  //Picture upload section
-
+  // Picture upload section
   .photoDragAndDrop {
     width: 859px;
     height: 479px;
@@ -222,7 +218,6 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
       max-width: 400px !important;
       max-height: 460px !important;
     }
-
   }
 
   .three-dropzones[_nghost-ng-c2040221903]:not(:first-child) {

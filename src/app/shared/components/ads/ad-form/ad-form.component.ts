@@ -1,23 +1,29 @@
 import { Component, Input, HostListener, ViewChild, OnInit } from '@angular/core';
-import { Ad } from '../../../../../model/ad.model';
-import { User } from '../../../../../model/user.model';
-import { AdService } from '../../../services/Ad.service';
-import { UploadPictureService } from '../../../../../services/upload-picture.service';
-import { ArticlePicture } from '../../../../../model/article-picture.model';
+import { Ad } from '../../../models/ad/ad.model';
+import { User } from '../../../models/user/user.model';
+import { AdService } from '../../../../routes/Ad.service';
+import { UploadPictureService } from '../../../services/upload-picture.service';
+import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, catchError, tap } from 'rxjs';
-import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { ViewportScroller } from '@angular/common'
-import { AdResponse } from '../../../../../model/adResponse.model';
-
+import { ViewportScroller, NgClass } from '@angular/common'
+import { AdPostResponse } from '../../../models/ad/adPostResponse.model';
+import { ArticleState } from '../../../models/enum/ArticleState';
+import { Category } from '../../../models/enum/Category';
+import { Categories } from '../../../utils/constants/Categories';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ad-form',
   templateUrl: './ad-form.component.html',
   styleUrl: './ad-form.component.scss',
+  standalone: true,
+  imports: [FormsModule, NgSelectModule, NgxDropzoneModule, NgClass, NgbCarousel, NgbSlide]
 })
 export class AdFormComponent implements OnInit {
-
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
 
@@ -36,60 +42,12 @@ export class AdFormComponent implements OnInit {
   today: Date = new Date()
   selectedPicNumber: number = 1;
   articlePictures: File[] = [];
-  states = [
-    { id: 1, name: 'Neuf avec étiquette' },
-    { id: 2, name: 'Neuf sans étiquette' },
-    { id: 3, name: 'Très bon état' },
-    { id: 4, name: 'Bon état' },
-    { id: 5, name: 'Satisfaisant' },
-  ];
-  categories = [
-    {
-      id: 1, name: 'Mode', subCategories: [
-        { id: 1, name: 'Hauts', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
-        { id: 2, name: 'Bas', gender: [{ id: 1, name: 'Femme' }, { id: 2, name: 'Homme' }] },
-        { id: 3, name: 'Chaussures' },
-        { id: 4, name: 'Manteau' },
-        { id: 5, name: 'Accessoires' },
-        { id: 6, name: 'Autre' },
-      ]
-    },
-    {
-      id: 2, name: 'Electronique', subCategories: [
-        { id: 7, name: 'Ordinateur' },
-        { id: 8, name: 'Téléphone' },
-        { id: 9, name: 'Jeux video' },
-        { id: 11, name: 'Autre' },
-      ]
-    },
-    {
-      id: 3, name: 'Maison', subCategories: [
-        { id: 7, name: 'Meubles' },
-        { id: 8, name: 'Décorations' },
-        { id: 9, name: 'Jardin' },
-        { id: 11, name: 'Autre' },
-      ]
-    },
-    {
-      id: 4, name: 'Loisirs', subCategories: [
-        { id: 7, name: 'Livres' },
-        { id: 8, name: 'Musique' },
-        { id: 9, name: 'Films' },
-        { id: 10, name: 'Sport' },
-        { id: 11, name: 'Autre' },
-      ]
-    },
-    {
-      id: 4, name: 'Autre', subCategories: [
-        { id: 11, name: 'Autre' },
-      ]
-    }
-  ]
+  states = Object.values(ArticleState);
+  categories = Object.values(Category);
 
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
-
 
   // This HostListener listens for window resize events
   // When a resize event occurs, the onResize method is triggered
@@ -112,19 +70,22 @@ export class AdFormComponent implements OnInit {
     private viewportScroller: ViewportScroller,
   ) { }
 
-
   // article category selection section
-
   getSubCategories() {
-    const selectedCategory = this.categories.find(category => category.name === this.ad.category);
-    return selectedCategory ? selectedCategory.subCategories : [];
+    const currentCategory = Categories.find(category => category.name === this.ad.category);
+    if (currentCategory) {
+      return currentCategory.subCategories;
+    }
+    return [];
   }
 
   getSubCategoriesGender() {
-    const selectedCategory = this.categories.find(category => category.name === this.ad.category);
-    if (selectedCategory) {
-      const selectedSubCategory = selectedCategory.subCategories.find(subCategory => subCategory.name === this.ad.subcategory);
-      return selectedSubCategory?.gender ?? [];
+    const currentCategory = Categories.find(category => category.name === this.ad.category);
+    if (currentCategory) {
+      const currentSubCategory = currentCategory.subCategories.find(subCat => subCat.name === this.ad.subcategory.name);
+      if (currentSubCategory?.gender) {
+        return currentSubCategory.gender;
+      }
     }
     return [];
   }
@@ -135,7 +96,6 @@ export class AdFormComponent implements OnInit {
   }
 
   // picture upload
-
   files1: File[] = [];
   files2: File[] = [];
   files3: File[] = [];
@@ -150,15 +110,10 @@ export class AdFormComponent implements OnInit {
   }
 
   onSelectPicture(event: { addedFiles: any; }, dropzoneNumber: number): void {
-    console.log(event)
-    console.log(dropzoneNumber)
     const newPictureInDropzone = this.getFilesArray(dropzoneNumber);
     newPictureInDropzone.splice(0, newPictureInDropzone.length);
     newPictureInDropzone.push(...event.addedFiles);
-
     this.filesArrays = [this.files1, this.files2, this.files3, this.files4, this.files5];
-    console.error('filesArrays:: ', this.filesArrays)
-
   }
 
   createAdPictureArray() {
@@ -193,14 +148,11 @@ export class AdFormComponent implements OnInit {
   uploadArticlePictures(): Observable<any> {
     this.ad.articlePictures = []
     this.createAdPictureArray()
-    console.error('this.articlePictures:: ', this.articlePictures)
     return this.uploadPictureService.uploadImages(this.articlePictures).pipe(
       tap((responses: any[]) => {
         responses.forEach(response => {
-          console.log('Image uploaded successfully:', response);
           let newArticlePicture: ArticlePicture = new ArticlePicture(response.secure_url);
           this.ad.articlePictures!.push(newArticlePicture);
-          console.error('this.ad.articlePictures:: ', this.ad.articlePictures)
         });
       }),
       catchError((error: any) => {
@@ -211,7 +163,6 @@ export class AdFormComponent implements OnInit {
   }
 
   // image selection carrousel for mobile device
-
   @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
 
   paused = false;
@@ -247,12 +198,11 @@ export class AdFormComponent implements OnInit {
       next: () => {
         console.log('All images uploaded successfully');
         this.ad.creationDate = this.today;
+        this.ad.subcategory = this.ad.subcategory.name
         // TODO: à enlever une fois la connexion implémentée
         this.ad.publisherId = 1;
         this.adService.postAd(this.ad).subscribe({
-          next: (ad: AdResponse) => {
-            console.log('Ad successfully created:: ');
-            console.log(ad);
+          next: (ad: AdPostResponse) => {
             this.scrollToTop()
             this.adSuccessfullySubmitted = true;
             this.disabledFields = true;
@@ -261,7 +211,7 @@ export class AdFormComponent implements OnInit {
               this.disabledFields = false;
             }, 3000);
             setTimeout(() => {
-              this.router.navigate(['compte/annonce/mon-annonce/', ad.id])
+              this.router.navigate(['compte/annonces/mon-annonce/', ad.id])
             }, 3000)
           },
           error: (error: any) => {
@@ -281,12 +231,5 @@ export class AdFormComponent implements OnInit {
 
   scrollToTop(): void {
     this.viewportScroller.scrollToPosition([0, 0])
-  }
-
-  /**
-   * TODO: implement method to redirect to the previous page
-   */
-  goToPreviousPage(): void {
-
   }
 }

@@ -13,12 +13,13 @@
 }
 
 #ad-creation-date {
-    color: #525252;
+    color: #5252529d;
 }
 
 #ad-description,
 #ad-creation-date {
     font-weight: 400;
+    word-wrap: break-word;
 }
 
 .other-info {
@@ -33,6 +34,10 @@
 .article-picture-image-section {
     display: none;
 }
+
+// .article-picture-image-section img {
+//         margin-left: 13%;
+// }
 
 .img-wrapper {
     width: 332px;
@@ -113,6 +118,9 @@
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
         grid-area: 1 / 1 / 3 / 3;
+        img {
+            margin-left: 0;
+        }
     }
 
     .article-picture-image-section-mobile,

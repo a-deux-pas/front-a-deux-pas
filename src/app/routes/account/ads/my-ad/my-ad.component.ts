@@ -1,22 +1,27 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AdService } from '../../../../shared/services/Ad.service';
-import { AdResponse } from '../../../../../model/adResponse.model';
-import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AdService } from '../../../Ad.service';
+import { AdPostResponse } from '../../../../shared/models/ad/adPostResponse.model';
+import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-my-ad',
   templateUrl: './my-ad.component.html',
-  styleUrl: './my-ad.component.scss'
+  styleUrl: './my-ad.component.scss',
+  standalone: true,
+  imports: [
+    NgbNavModule,
+    NgbCarouselModule,
+    CommonModule,
+  ]
 })
 export class MyAdComponent implements OnInit {
   isBigScreen: boolean | undefined
-
-  myAd: AdResponse | undefined;
+  myAd: AdPostResponse | undefined;
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;
-
+//TODO : to probably put in some utils service
   // This HostListener listens for window resize events
   // When a resize event occurs, the onResize method is triggered
   // It takes the event object as a parameter
@@ -30,12 +35,14 @@ export class MyAdComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private adService: AdService) { }
+    private adService: AdService) { 
+      
+    }
 
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
     this.adService.findAdById(adId).subscribe({
-      next: (ad: AdResponse) => {
+      next: (ad: AdPostResponse) => {
         this.myAd = ad;
         this.articlePictures = [
           this.myAd.firstArticlePictureUrl,
@@ -86,13 +93,7 @@ export class MyAdComponent implements OnInit {
     }
   }
 
-  editAd() {
-
-  }
-
-  deleteAd() { }
-
-  goToMyAdPage(adId: Number) {
+  goToMyAdPage(adId: number) {
     this.router.navigate(['compte/annonce/mon-annonce/', adId])
   }
 }

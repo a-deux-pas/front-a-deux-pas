@@ -1,7 +1,6 @@
 [
   {
     "id": 1,
-    "country": "France",
     "postalCode": "75001",
     "city": "Paris",
     "street": "1 Rue de Rivoli",
@@ -10,7 +9,6 @@
   },
   {
     "id": 2,
-    "country": "France",
     "postalCode": "75001",
     "city": "Paris",
     "street": "2 Rue Montmartre",
@@ -19,7 +17,6 @@
   },
   {
     "id": 3,
-    "country": "France",
     "postalCode": "75001",
     "city": "Paris",
     "street": "3 Rue des Francs-Bourgeois",
@@ -28,7 +25,6 @@
   },
   {
     "id": 4,
-    "country": "France",
     "postalCode": "75001",
     "city": "Paris",
     "street": "4 Place du Parvis Notre-Dame",
@@ -37,7 +33,6 @@
   },
   {
     "id": 5,
-    "country": "France",
     "postalCode": "75001",
     "city": "Paris",
     "street": "5 Quai de la Tournelle",

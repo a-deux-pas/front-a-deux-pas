@@ -1,18 +1,26 @@
 import { Component } from '@angular/core';
-import { User } from '../../../shared/models/user.model';
+import { User } from '../../../shared/models/user/user.model';
 import { ProfileService } from './profile.service';
-import { PreferredSchedule } from '../../../shared/models/preferred-schedule.model';
-import { PreferredMeetingPlace } from '../../../shared/models/preferred-meeting-place.model';
+import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
+import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
+import { MeetingPlacesComponent } from './components/meeting-places/meeting-places.component';
+import { ScheduleComponent } from '../../../shared/components/schedule/schedule.component';
+import { UserPresentationComponent } from '../../../shared/components/user-presentation/user-presentation.component';
+import { EditButtonComponent } from './components/edit-button/edit-button.component';
+import { TabsAccountComponent } from '../../../shared/components/tabs-account/tabs-account.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  styleUrl: './profile.component.scss',
+  standalone: true,
+  imports: [TabsAccountComponent, EditButtonComponent, UserPresentationComponent, ScheduleComponent, MeetingPlacesComponent, CommonModule]
 })
 export class ProfileComponent {
-  user! : User;
+  user!: User;
   preferredSchedules!: PreferredSchedule[];
-  preferredMeetingPlaces! : PreferredMeetingPlace[];
+  preferredMeetingPlaces!: PreferredMeetingPlace[];
 
   presentationEditMode: boolean = false;
   scheduleEditMode: boolean = false;
@@ -41,20 +49,20 @@ export class ProfileComponent {
     this.profileService.getUserPreferredSchedules().subscribe((data) => {
       // Map fetched data to events array
       this.preferredSchedules = data.map(preferredSchedule => ({
-          id: preferredSchedule.id,
-          startTime: preferredSchedule.startTime,
-          endTime: preferredSchedule.endTime,
-          daysOfWeek: preferredSchedule.daysOfWeek,
-          userId: preferredSchedule.userId
-        }));
+        id: preferredSchedule.id,
+        startTime: preferredSchedule.startTime,
+        endTime: preferredSchedule.endTime,
+        daysOfWeek: preferredSchedule.daysOfWeek,
+        userId: preferredSchedule.userId
+      }));
     });
   }
 
-   // Fetch user's preferred meeting places from the service
-  fetchPreferredMeetingPlaces():void {
-      this.profileService.getPreferredMeetingPlaces().subscribe((data) => {
-        this.preferredMeetingPlaces = data;
-      });
+  // Fetch user's preferred meeting places from the service
+  fetchPreferredMeetingPlaces(): void {
+    this.profileService.getPreferredMeetingPlaces().subscribe((data) => {
+      this.preferredMeetingPlaces = data;
+    });
   }
 
   // Handle edit mode change for different sections of the profile
