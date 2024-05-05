@@ -1,0 +1,235 @@
+@if (adSuccessfullySubmitted) {
+<div class="alert alert-success">
+  Votre annonce : <strong>{{ ad.title }}</strong> a bien été créée
+</div>
+}
+@if (errorWhenSubmittingMsg) {
+<div class="alert alert-danger">
+  Une erreur s'est produite, veuillez réessayer plus tard
+</div>
+}
+<form #adForm="ngForm" (ngSubmit)="onSubmit()">
+  <div class="centered-elements">
+    <h2 class="text-center bold-title-700 mb-5">{{ formTitle }}</h2>
+
+    <h3 class="bold-title-700">Photo(s)</h3>
+
+    <!-- number of article picture image selection -->
+    <div class="mx-auto mb-5" id="select-pic-number">
+      <ng-select [clearable]="false" [(ngModel)]="selectedPicNumber" name="selectedPicNumber" class="custom mt-4"
+        placeholder="1 photo" [disabled]="disabledFields">
+        @for (number of [1, 2, 3, 4, 5]; track number; let i = $index) {
+        <ng-option [id]="'select-pic-number' + selectedPicNumber" [value]="number">
+          {{ number }} {{ number === 1 ? 'photo' : 'photos' }}
+        </ng-option>
+        }
+      </ng-select>
+    </div>
+
+    <!-- image selection section on desktop device -->
+    <div class="dropzone-field mx-auto mb-5">
+      @for (n of getArray(selectedPicNumber); track n; let i = $index) {
+      <ngx-dropzone #dropzoneEl name="article-picture" class="dropzone"
+        [ngClass]="{'d-none': isBigScreen == false, 'block': isBigScreen == true}" id="dropzone{{i}}"
+        (change)="onSelectPicture($event, i)" [multiple]="false" [class.one-dropzone]="selectedPicNumber === 1"
+        [class.two-dropzones]="selectedPicNumber === 2" [class.three-dropzones]="selectedPicNumber === 3"
+        [class.four-dropzones]="selectedPicNumber === 4" [class.five-dropzones]="selectedPicNumber === 5"
+        accept="image/jpeg,image/jpg,image/png,image/svg,image/webp">
+        <ngx-dropzone-label class="center mx-auto">
+          <div class="add-picture-btn">
+            <img class="add-picture-icon" src="assets/icons/buttons/add-orange.webp" alt="icone-d-ajout">
+            <p class="add-picture-btn-text">ajouter une photo</p>
+          </div>
+        </ngx-dropzone-label>
+        @for (f of getFilesArray(i); track f) {
+        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [removable]="true" [file]="f"
+          (removed)="onRemove(f, i)">
+        </ngx-dropzone-image-preview>
+        }
+      </ngx-dropzone>
+      }
+    </div>
+
+    <!-- Carrousel section for image selection on mobile device -->
+    <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
+      (slide)="onSlide($event)" class="center"
+      [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
+      @for (picNumber of getArray(selectedPicNumber); track picNumber; let i = $index) {
+      <ng-template ngbSlide>
+        <div class="carousel-caption">
+        </div>
+        <ngx-dropzone class="carousel-item-mobile dropzone d-block w-50" (change)="onSelectPicture($event, picNumber)"
+          [multiple]="false" [accept]="'image/jpeg,image/jpg,image/png,image/svg,image/webp'"
+          [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
+          <ngx-dropzone-label class="center mx-auto">
+            <div class="add-picture-btn">
+              <img id="ad-picture-{{i}}" class="add-picture-icon" src="assets/icons/buttons/add-orange.webp"
+                alt="icone-d-ajout">
+              <p class="add-picture-btn-text">ajouter une photo</p>
+            </div>
+          </ngx-dropzone-label>
+          @for (f of getFilesArray(picNumber); track f; let i = $index) {
+          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true"
+            (removed)="onRemove(f, picNumber)"></ngx-dropzone-image-preview>
+          }
+        </ngx-dropzone>
+      </ng-template>
+      }
+    </ngb-carousel>
+  </div>
+
+  <!-- Category choice section -->
+  <div class="mx-auto  " style="width: 246px;">
+    <label class="mt-4" for="cat">Choisissez une catégorie</label>
+    <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom mt-4" #adCategory="ngModel"
+      [disabled]="disabledFields" required maxlength="100">
+      @for (category of categories; track category) {
+      <ng-option [value]="category">
+        {{ category }}
+      </ng-option>
+      }
+    </ng-select>
+    @if (adCategory.errors) {
+    <div>
+      @if (adCategory.touched && adCategory.errors['required']) {
+      <span class="error-msg">Veuillez entrer une
+        catégorie</span>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- sub Category choice section -->
+  @if (ad.category) {
+  <div class="mx-auto" style="width: 246px;">
+    <label class="mt-4" for="sub-cat">Choisissez une sous-catégorie</label>
+    <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4" #subcategory="ngModel"
+      [disabled]="disabledFields" required maxlength="100">
+      @for (subCat of getSubCategories(); track subCat) {
+      <ng-option [value]="subCat">
+        {{ subCat.name }}
+      </ng-option>
+      }
+    </ng-select>
+    @if (subcategory.errors) {
+    <div>
+      @if(subcategory.touched && subcategory.errors['required']) {
+      <span class="error-msg">Veuillez entrer une
+        sous-catégorie</span>
+      }
+    </div>
+    }
+  </div>
+  }
+
+  <!-- article gender choice section -->
+  @if (ad.subcategory) {
+  @if (ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') {
+  <div class="mx-auto mb-2" style="width: 246px;">
+    <label class="mt-4" for="sub-cat-gender">Choisissez un genre</label>
+    <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" #gender="ngModel"
+      [disabled]="disabledFields" required>
+      @for (subCatGender of getSubCategoriesGender(); track subCatGender) {
+      <ng-option [value]="subCatGender">
+        {{ subCatGender }}
+      </ng-option>
+      }
+    </ng-select>
+    @if (gender.errors) {
+    <div>
+      @if((ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') && gender.touched &&
+      gender.errors['required']) {
+      <span class="error-msg">Veuillez
+        entrer un genre</span>
+      }
+    </div>
+    }
+  </div>
+  }
+  }
+
+  <!-- General information section -->
+  <h3 class="bold-title-700 mb-5 mt-3">Informations générales</h3>
+
+  <!-- Title -->
+  <div class="label-and-input mt-5 mx-auto" id="ad-title">
+    <label for="ad-title" class="form-label">Titre</label>
+    <textarea [(ngModel)]="ad.title" class="form-control form-control-sm mb-4" name="ad-title" rows="3" #title="ngModel"
+      [disabled]="disabledFields" required maxlength="150"></textarea>
+    @if (title.errors) {
+    <div>
+      @if (title.touched && title.errors['required']) {
+      <span class="error-msg mb-2">Veuillez entrer
+        un
+        titre</span>
+      }
+      @if (title.touched && title.errors['maxlength']) {
+      <span class="error-msg mb-2">Veuillez entrer
+        un
+        titre comportant moins de 150 caractères</span>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- Description -->
+  <div class="label-and-input mt-5 mx-auto" id="ad-description">
+    <label for="ad-description" class="form-label">Description</label>
+    <textarea [(ngModel)]="ad.articleDescription" class="form-control form-control-sm mx-auto mb-4"
+      name="ad-description" id="ad-description" rows="3" #description="ngModel" [disabled]="disabledFields"
+      required></textarea>
+    @if (description.errors) {
+    <div>
+      @if (description.touched && description.errors['required']) {
+      <span class="error-msg mb-4">Veuillez entrer
+        une
+        description</span>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- State -->
+  <div class="col-2 mt-5 mx-auto" [ngClass]="{'state-and-price-input-correction': !isBigScreen}">
+    <label class="mt-4" for="state">Choisissez un état</label>
+    <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mb-4 mt-4" placeholder="État" #state="ngModel"
+      id="ad-status" [disabled]="disabledFields" required maxlength="150">
+      @for (state of states; track state; let i = $index) {
+      <ng-option [value]="state">
+        {{ state }}
+      </ng-option>
+      }
+    </ng-select>
+    @if (state.errors) {
+    <div>
+      @if (state.touched && state.errors['required']) {
+      <span class="error-msg mb-4">Veuillez selectionner un
+        état</span>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- Price -->
+  <div class="col-2 mt-5 mx-auto" [ngClass]="{'state-and-price-input-correction': !isBigScreen}" id="price-input-field">
+    <label for="ad-price" name="ad-price" class="mb-2">Prix</label>
+    <div class="test">
+      <input [(ngModel)]="ad.price" name="price" id="ad-price" type="number"
+        class="col-8 mx-auto form-control mb-4 d-inline" #price="ngModel" required number min="0.1"
+        [disabled]="disabledFields">
+      <span class="input-group-addon d-inline">&nbsp;&nbsp;&nbsp;€</span>
+    </div>
+    @if (price.errors) {
+    <div>
+      @if (price.touched && price.errors['required']) {
+      <span class="error-msg mb-4">Veuillez entrer un prix</span>
+      }
+    </div>
+    }
+  </div>
+
+  <div class="bottom-btns mb-5 mt-5">
+    <button type="button" class="btn-secondary mt-4">annuler</button>
+    <button type="submit" class="btn-primary mt-4" [disabled]="adForm.invalid">publier</button>
+  </div>
+</form>

@@ -2,10 +2,15 @@ import { Component, HostListener } from '@angular/core';
 //Component to import to use a modal
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgModel } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-style-guide',
   templateUrl: './style-guide.component.html',
+  standalone: true,
+  imports: [NgSelectModule, FormsModule, CommonModule]
 })
 export class StyleGuideComponent {
   isLoginFormVisible = true;

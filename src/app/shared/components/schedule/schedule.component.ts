@@ -3,10 +3,13 @@ import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullca
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @Component({
-  selector: 'app-schedule',
-  templateUrl: './schedule.component.html'
+    selector: 'app-schedule',
+    templateUrl: './schedule.component.html',
+    standalone: true,
+    imports: [FullCalendarModule]
 })
 export class ScheduleComponent implements OnChanges {
   // Signal for tracking current events

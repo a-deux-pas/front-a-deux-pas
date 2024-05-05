@@ -21,32 +21,40 @@ const routes: Routes = [
   //   loadChildren: () =>
   //     import('./routes/register/register.module').then((m) => m.RegisterModule),
   // },
+  // {
+  //   path: 'compte/profil',
+  //   loadChildren: () =>
+  //     import('./routes/account/profile/profile.module').then(
+  //       (m) => m.ProfileModule
+  //     ),
+  // },
+  // {
+  //   path: 'compte/annonces',
+  //   loadChildren: () =>
+  //     import('./routes/account/ads/ads.module').then((m) => m.AdsModule),
+  // },
+  // {
+  //   path: 'compte/rdv',
+  //   loadChildren: () =>
+  //     import('./routes/account/meetings/meetings.module').then(
+  //       (m) => m.MeetingsModule
+  //     ),
+  // },
+  // {
+  //   path: 'compte/favoris',
+  //   loadChildren: () =>
+  //     import('./routes/account/favorites/favorites.module').then(
+  //       (m) => m.FavoritesModule
+  //     ),
+  // },
   {
-    path: 'compte/profil',
-    loadChildren: () =>
-      import('./routes/account/profile/profile.module').then(
-        (m) => m.ProfileModule
-      ),
+    path: 'annonce',
+    loadChildren: () => import('./routes/ad/ad-routing.module').then(mod => mod.AdRoutingModule)
   },
   {
-    path: 'compte/annonces',
-    loadChildren: () =>
-      import('./routes/account/ads/ads.module').then((m) => m.AdsModule),
-  },
-  {
-    path: 'compte/rdv',
-    loadChildren: () =>
-      import('./routes/account/meetings/meetings.module').then(
-        (m) => m.MeetingsModule
-      ),
-  },
-  {
-    path: 'compte/favoris',
-    loadChildren: () =>
-      import('./routes/account/favorites/favorites.module').then(
-        (m) => m.FavoritesModule
-      ),
-  },
+    path: 'compte',
+    loadChildren: () => import('./routes/account/account-routing.module').then(mod => mod.AccountRoutingModule)
+  }
 ];
 
 @NgModule({

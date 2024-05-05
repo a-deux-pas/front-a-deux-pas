@@ -1,0 +1,11 @@
+<section class="general-info">
+    <div class="title-and-price flex space-between">
+        <p id="ad-title"><b>{{ myAd?.title }}</b></p>
+        <p id="ad-price">{{ myAd?.price }} €</p>
+    </div>
+    <div class="other-info flex-column">
+        <p id="ad-creation-date"></p> Créée le {{ myAd?.creationDate }} <br>
+        <p id="ad-state">État {{ myAd?.articleState }}</p> <br>
+        {{ myAd?.articleDescription }} <br>
+    </div>
+</section>

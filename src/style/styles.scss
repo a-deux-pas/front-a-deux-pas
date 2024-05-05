@@ -15,6 +15,10 @@ $h1-font-size: 2.22rem;
 $h2-font-size: 1.4rem;
 $h3-font-size: 1.125rem;
 
+.bold-title-700 {
+  font-weight: 700;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Colors
@@ -88,7 +92,7 @@ body {
 // Buttons
 $btn-font-size: 0.938rem;
 $btn-padding-x: 0.625rem;
-$btn-padding-y: 1.5625rem;
+$btn-padding-y: 2.5625rem;
 $btn-border-radius: 10px 10px 25px 10px;
 $btn-focus-shadow-rgb: 49, 132, 253;
 $color: var(--bs-btn-hover-color);
@@ -402,6 +406,7 @@ textarea.form-control {
   border-left: white;
   padding-bottom: 0.315rem;
   height: 40px;
+  min-width: 245.238px;
 }
 
 // Opened ng-select container bottom border radius
