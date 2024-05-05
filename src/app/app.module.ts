@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { StyleGuideComponent } from '../style/style-guide/style-guide.component';
 import { StyleGuideRoutingModule } from '../style/style-guide/style-guide-routing.module';
 import { AppRoutingModule } from './app-routing.module';
+import { SharedComponentsModule } from './shared/components/shared-components.module';
 
 @NgModule({
   declarations: [AppComponent, StyleGuideComponent],
@@ -23,6 +24,7 @@ import { AppRoutingModule } from './app-routing.module';
     StyleGuideRoutingModule,
     NgbAlertModule,
     ReactiveFormsModule,
+    SharedComponentsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

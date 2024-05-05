@@ -311,15 +311,21 @@ span.close {
     width: 55%;
     height: 100%;
     background-color: $tertiary;
-    right: -1.5%;
+    right: 0;
     top: 40%;
   }
   .wave::after {
     width: 55%;
     height: 109%;
     background-color: #fff;
-    left: -1.5%;
+    left: 0;
     top: 60%;
+  }
+
+  .alert {
+    display: block;
+    width: 100%;
+    color: red;
   }
 }
 
@@ -346,9 +352,13 @@ span.close {
     }
 
     &:active,
-    &:focus {
+    &:focus,
+    &.active {
       background-color: white;
       color: $primary;
+    }
+    &.toggle {
+      width: 175px;
     }
   }
 }
@@ -752,7 +762,7 @@ a.dropdown-first-level.dropdown-toggle {
 // Header style
 .fc .fc-col-header-cell-cushion {
   background-color: $info;
-  color:white;
+  color: white;
   text-decoration: none;
   border-radius: 30px;
   font-size: 10px;
@@ -780,12 +790,12 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Remove today highlight
 .fc-day-today {
-  background-color:inherit !important;
+  background-color: inherit !important;
 }
 
 // Timegrid slot styling
 .fc-timegrid-slot-label-frame.fc-scrollgrid-shrink-frame {
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   color: rgba(155, 149, 149, 0.85);
 }
 
@@ -809,8 +819,9 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 // Remove margin
-.fc-event, .fc-event-main {
-  margin-bottom:0 !important;
+.fc-event,
+.fc-event-main {
+  margin-bottom: 0 !important;
 }
 
 .fc-direction-ltr .fc-timegrid-col-events {
@@ -830,7 +841,6 @@ a.dropdown-first-level.dropdown-toggle {
 /*-----------------------------------------------------------------------*/
 
 @media (min-width: 768px) {
-
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .account-container {
@@ -891,5 +901,3 @@ a.dropdown-first-level.dropdown-toggle {
 // Importing NgSelect and Bootstrap styles
 @import "../../node_modules/@ng-select/ng-select/themes/default.theme.css";
 @import "bootstrap/scss/bootstrap";
-
-

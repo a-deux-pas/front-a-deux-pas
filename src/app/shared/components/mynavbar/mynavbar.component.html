@@ -1,0 +1,81 @@
+<p>mynavbar works!</p>
+<button
+  type="submit"
+  class="btn-connection mt-4"
+  (click)="open(loginModal)"
+  style="z-index: 1001; position: relative"
+>
+  se connecter
+</button>
+
+<ng-template #loginModal let-modal>
+  <section class="container">
+    <div class="wave"></div>
+  </section>
+  <button
+    type="button"
+    class="btn-close align-self-end m-4"
+    data-bs-dismiss="modal"
+    aria-label="Close"
+    (click)="modal.dismiss('Cross click')"
+  >
+    <span class="close">x</span>
+  </button>
+  <div class="modal-header justify-content-center">
+    <div class="d-inline-flex">
+      <span class="mobile-logo align-self-center">A DEUX PAS</span>
+      <img
+        class="mobile-footsteps"
+        src="/assets/icons/mobile-footsteps.webp"
+        alt="icône de traces de pas"
+      />
+    </div>
+  </div>
+  <div class="modal-btn">
+    <button
+      type="button"
+      class="btn toggle"
+      (click)="loginFormVisibil()"
+      [ngClass]="{ active: isLoginFormVisible }"
+    >
+      Se connecter
+    </button>
+
+    <button
+      type="button"
+      class="btn toggle"
+      (click)="registerFormVisibil()"
+      [ngClass]="{ active: isRegisterFormVisible }"
+    >
+      S'inscrire
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <ng-container>
+      <app-login *ngIf="isLoginFormVisible"></app-login>
+      <app-register *ngIf="!isLoginFormVisible"></app-register>
+    </ng-container>
+  </div>
+  <div class="social-networks-modal">
+    <p>Autres options de connexion</p>
+    <a href="#"
+      ><img
+        src="../../../../assets/icons/social-networks/facebook-login.webp"
+        alt="facebook"
+        width="50px"
+    /></a>
+    <a href="#"
+      ><img
+        src="../../../../assets/icons/social-networks/google.webp"
+        alt="google"
+        width="50px"
+    /></a>
+    <a href="#"
+      ><img
+        src="../../../../assets/icons/social-networks/apple.webp"
+        alt="apple"
+        width="50px"
+    /></a>
+  </div>
+</ng-template>

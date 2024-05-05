@@ -13,18 +13,6 @@ export class LoginComponent implements OnInit {
   loginData: any;
   showSuccessAlert?: boolean;
   showErrorAlert?: boolean;
-  isLoginFormVisible: boolean = true;
-  isRegisterFormVisible: boolean = false;
-
-  toggleLoginFormVisibility() {
-    this.isLoginFormVisible = true;
-    this.isRegisterFormVisible = false;
-  }
-
-  toggleRegisterFormVisibility() {
-    this.isLoginFormVisible = false;
-    this.isRegisterFormVisible = true;
-  }
 
   constructor(
     private modalService: NgbModal,
@@ -33,11 +21,6 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
-
-  // Method to open a modal
-  public open(modal: any): void {
-    this.modalService.open(modal);
-  }
 
   // Define form controls and validators
   loginForm = this.fb.group({
@@ -60,7 +43,7 @@ export class LoginComponent implements OnInit {
         next: (data: any) => {
           // Extarct Token
           this.loginData = data;
-
+          console.log(data);
           if (data) {
             // Save Token in the localStorage
             const token = data;

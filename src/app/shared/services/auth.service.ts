@@ -20,7 +20,7 @@ export class AuthService {
       .pipe(
         tap((data: any) => {
           const token = data;
-
+          console.log(token);
           // If token received, store it in local storage and navigate to 'homeconnecte'
           if (token) {
             localStorage.setItem('token', token);

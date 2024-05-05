@@ -11,11 +11,16 @@ const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
-  {
-    path: 'login',
-    loadChildren: () =>
-      import('./routes/login/login.module').then((m) => m.LoginModule),
-  },
+  // {
+  //   path: 'connexion',
+  //   loadChildren: () =>
+  //     import('./routes/login/login.module').then((m) => m.LoginModule),
+  // },
+  // {
+  //   path: 'inscription',
+  //   loadChildren: () =>
+  //     import('./routes/register/register.module').then((m) => m.RegisterModule),
+  // },
   {
     path: 'compte/profil',
     loadChildren: () =>

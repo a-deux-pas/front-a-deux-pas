@@ -1,0 +1,56 @@
+<form>
+  <div class="form-group">
+    <label for="email-adress">Adresse email</label>
+    <div class="input-group mt-3">
+      <input
+        id="email-adress"
+        name="email-adress"
+        type="email"
+        class="form-control"
+        placeholder="nom@example.com"
+      />
+    </div>
+    <label for="confirm-password" class="mt-4">Mot de passe</label>
+    <div class="input-group">
+      <input
+        id="password"
+        type="password"
+        name="password"
+        formControlName="password"
+        class="form-control"
+        required
+        placeholder="8 caractères minimum"
+      />
+    </div>
+    <label for="confirm-password" class="mt-4"
+      >Confirmer mon mot de passe</label
+    >
+    <div class="input-group">
+      <input
+        id="confirm-password"
+        type="confirm-password"
+        name="confirm-password"
+        formControlName="confirm-password"
+        class="form-control"
+        required
+        placeholder="répeter le mot de passe"
+      />
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        name="checked-checkbox"
+        type="checkbox"
+        value=""
+        id="checked-checkbox"
+        checked
+      />
+      <label class="form-check-label" for="checked-checkbox">
+        J'accepte les termes et conditions
+      </label>
+      <div class="modal-footer justify-content-center">
+        <button type="submit" class="btn-success">C'est parti !</button>
+      </div>
+    </div>
+  </div>
+</form>
