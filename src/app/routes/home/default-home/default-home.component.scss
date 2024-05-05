@@ -1,0 +1,13 @@
+#home-body {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+@media (min-width: 1250px) {
+#home-body  {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 126px;
+    margin-right: 3%;
+  }
+}

@@ -1,8 +1,8 @@
 <!-- navbar background -->
 <section class="background">
   <div class="left-curved-background"></div>
-  <div class="right-curved-background"></div>
-  <div class="fix"></div>
+    <div class="right-curved-background"></div>
+    <div class="fix"></div>
 </section>
 
 <!-- Mobile navbar -->
@@ -16,10 +16,7 @@
       <span class="mobile-logo align-self-center">A DEUX PAS</span>
       <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
     </div>
-    <div id="search-article">
-      <input type="text" class="search-article-input" name="search-bar" placeholder="Rechercher un article"/>
-      <img id="search-article-button" src="/assets/icons/navbar/search.webp" alt="icône de loupe de recherche"/>
-    </div>
+    <app-search-bar></app-search-bar>
   </div>
 
   <!-- Bottom part -->
@@ -37,10 +34,12 @@
           Annonces
         </a>
       </li>
-      <a routerLink="annonce/creation" class="navbar-icon" id="mobile-sell-icon">
-        <img class="icon" src="assets/icons/buttons/add-orange.webp" alt="icône 'Vendre'"/>
-        Vendre
-      </a>
+      <li>
+        <a routerLink="annonce/creation" class="navbar-icon" id="mobile-sell-icon">
+          <img class="icon" src="assets/icons/navbar/add-orange-green.webp" alt="icône 'Vendre'"/>
+          Vendre
+        </a>
+      </li>
       <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
         <a routerLink="compte/favoris" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'"/>
@@ -61,7 +60,7 @@
 <!-- Account menu -->
 @if (isAccountMenuOpen) {
   <div id="account-menu">
-    <a href="" id="account-menu-close">
+    <a id="account-menu-close">
       <span class="close" (click)="toggleAccountMenuState()">x</span>
     </a>
     <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo">
@@ -97,10 +96,7 @@
       <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
       Vendre
     </button>
-    <div id="search-article">
-      <input type="text" class="search-article-input" name="search-bar" placeholder="Rechercher un article"/>
-      <img id="search-article-button" src="assets/icons/navbar/search.webp" alt="icône de loupe de recherche"/>
-    </div>
+    <app-search-bar></app-search-bar>
     <ul id="desktop-navbar-icons">
       <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
         <a routerLink="" class="navbar-icon">
@@ -143,12 +139,3 @@
   </nav>
 </div>
 
-
-<!-- <div class="navbar">
-  <ul>
-    <li><a href="#">Accueil</a></li>
-    <li><a href="#">À propos</a></li>
-    <li><a href="#">Services</a></li>
-    <li><a href="#">Contact</a></li>
-  </ul>
-</div> -->

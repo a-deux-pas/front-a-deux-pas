@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { SearchBarComponent } from '../../../../../shared/components/navbar/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
-  standalone: true
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [SearchBarComponent]
 })
 export class HeaderComponent {}
