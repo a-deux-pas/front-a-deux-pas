@@ -81,7 +81,7 @@
   <!-- Category choice section -->
   <div class="mx-auto  " style="width: 246px;">
     <label class="mt-4" for="cat">Choisissez une catégorie</label>
-    <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom mt-4" #adCategory="ngModel"
+    <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom mb-3 mt-4" #adCategory="ngModel"
       [disabled]="disabledFields" required maxlength="100">
       @for (category of categories; track category) {
       <ng-option [value]="category">
@@ -103,7 +103,7 @@
   @if (ad.category) {
   <div class="mx-auto" style="width: 246px;">
     <label class="mt-4" for="sub-cat">Choisissez une sous-catégorie</label>
-    <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4" #subcategory="ngModel"
+    <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mb-3 mt-4" #subcategory="ngModel"
       [disabled]="disabledFields" required maxlength="100">
       @for (subCat of getSubCategories(); track subCat) {
       <ng-option [value]="subCat">
@@ -112,7 +112,7 @@
       }
     </ng-select>
     @if (subcategory.errors) {
-    <div>
+    <div style="width: max-content;">
       @if(subcategory.touched && subcategory.errors['required']) {
       <span class="error-msg">Veuillez entrer une
         sous-catégorie</span>
@@ -127,7 +127,7 @@
   @if (ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') {
   <div class="mx-auto mb-2" style="width: 246px;">
     <label class="mt-4" for="sub-cat-gender">Choisissez un genre</label>
-    <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" #gender="ngModel"
+    <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mb-3 mt-4" #gender="ngModel"
       [disabled]="disabledFields" required>
       @for (subCatGender of getSubCategoriesGender(); track subCatGender) {
       <ng-option [value]="subCatGender">
@@ -136,7 +136,7 @@
       }
     </ng-select>
     @if (gender.errors) {
-    <div>
+    <div style="width: max-content;">
       @if((ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') && gender.touched &&
       gender.errors['required']) {
       <span class="error-msg">Veuillez
@@ -149,7 +149,7 @@
   }
 
   <!-- General information section -->
-  <h3 class="bold-title-700 mb-5 mt-3">Informations générales</h3>
+  <h3 class="bold-title-700 mb-5 mt-5">Informations générales</h3>
 
   <!-- Title -->
   <div class="label-and-input mt-5 mx-auto" id="ad-title">
@@ -192,7 +192,7 @@
   <!-- State -->
   <div class="col-2 mt-5 mx-auto" [ngClass]="{'state-and-price-input-correction': !isBigScreen}">
     <label class="mt-4" for="state">Choisissez un état</label>
-    <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mb-4 mt-4" placeholder="État" #state="ngModel"
+    <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mb-3 mt-4" placeholder="État" #state="ngModel"
       id="ad-status" [disabled]="disabledFields" required maxlength="150">
       @for (state of states; track state; let i = $index) {
       <ng-option [value]="state">
@@ -228,7 +228,7 @@
     }
   </div>
 
-  <div class="bottom-btns mb-5 mt-5">
+  <div class="bottom-btns mb-2 mt-5">
     <button type="button" class="btn-secondary mt-4">annuler</button>
     <button type="submit" class="btn-primary mt-4" [disabled]="adForm.invalid">publier</button>
   </div>

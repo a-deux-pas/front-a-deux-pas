@@ -81,8 +81,12 @@ $h3-font-size: 1.125rem;
 
 /*-----------------------------------------------------------------------*/
 
-// Main margin adjustments
-main {
+// Margin adjustments
+html, body {
+  overflow-x:hidden;
+}
+
+.main-container {
   margin-top: 12vh;
   margin-left: 2vh !important;
   margin-right: 2vh !important;
@@ -212,7 +216,6 @@ button.btn {
 // Connection button styling
 .btn-connection {
   background-color: white;
-  width: 154px;
   height: 43px;
   flex-shrink: 0;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -797,50 +800,15 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
-// Navbar searchbar
-.search-article-input {
-  width: 287px;
-  text-align: left;
-  border: none;
-  height: 40px;
-  caret-color: $primary;
-  padding-left: 20px;
-  background: radial-gradient(circle 10px at 100% 50%, transparent 0, transparent 20px, white);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-
-  &:focus-visible {
-  outline: none;
-  }
-}
-
-#search-article {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-#search-article-button {
-  height: 35px;
-  margin-left: -10px;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  cursor: pointer;
-
-  &:active {
-    opacity: 0.5;
-  }
-}
-
-/*-----------------------------------------------------------------------*/
-
 // Desktop version
 @media (min-width: 1200px) {
 
   // margin
   body {
-    margin:0;
+    margin: 0;
   }
 
-  main {
+  .main-container {
     margin-left: 14vh !important;
     margin-right: 14vh !important;
   }

@@ -1,24 +1,14 @@
-<!-- VERSION MOBILE -->
+<!-- Mobile version -->
 <section class="curved-background"></section>
 <div id="mobile-header">
+  <!-- top part -->
   <div id="mobile-header-top">
     <div class="mobile-logo-container mt-4 mb-2">
       <span class="mobile-logo align-self-center">A DEUX PAS</span>
-      <img
-        class="mobile-footsteps"
-        src="/assets/icons/mobile-footsteps.webp"
-        alt="icône de traces de pas"
-      />
+      <img class="mobile-footsteps"src="/assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
     </div>
     <button type="submit" class="btn-connection mb-4">se connecter</button>
-    <div id="search-article">
-      <input type="text" class="search-article-input" name="search-bar" placeholder="Rechercher un article"/>
-      <img
-        id="search-article-button"
-        src="/assets/icons/navbar/search.webp"
-        alt="icône de loupe de recherche"
-      />
-    </div>
+    <app-search-bar></app-search-bar>
     <p id="mobile-welcome-text">
       Bienvenue sur "À Deux Pas", une communauté où la vente entre voisins
       devient une expérience humaine unique. Favorisant les rencontres locales
@@ -28,134 +18,62 @@
       des liens durables.
     </p>
   </div>
-
-  <div id="mobile-categories">
-    <h1 id="mobile-category-title">Les catégories</h1>
-    <div id="mobile-all-categories">
-      <div class="mobile-category">
-        <h2>Mode</h2>
-        <p>
-          Tombez sur l’ex veste préférée de Donia ou sur les chaussures trop
-          petites de Mircea, chargées de souvenirs.
-        </p>
-      </div>
-      <div class="mobile-category">
-        <h2>Maison</h2>
-        <p>
-          Dénichez des pièces uniques comme la table de la famille d’Erika,
-          témoin de repas partagés et de moments précieux.
-        </p>
-      </div>
-      <div class="mobile-category">
-        <h2>Loisirs</h2>
-        <p>
-          Découvrez le dernier livre captivant lu par Léa ou le vélo de Thomas,
-          qui vous inciteront à explorer de nouveaux horizons.
-        </p>
-      </div>
-      <div class="mobile-category">
-        <h2>Électronique</h2>
-        <p>
-          Repérez la caméra de voyage de Julien, prête à être le témoin de
-          nouvelles aventures.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div id="mobileNavbar">
-    <div id="mobileNavbarIconSell">
-      <img
-        class="add-icon"
-        src="../../../../assets/icons/buttons/add-orange.webp"
-        alt="icône 'A vendre'"
-      />
-      <p>Vendre</p>
-    </div>
-    <div class="mobileNavbarWave"></div>
-  </div>
 </div>
+
+<!-- Bottom mobile navbar -->
+<div id="mobile-bottom-navbar">
+  <ul id="mobile-navbar-icons">
+    <li>
+      <a routerLink="annonce/creation" class="navbar-icon" id="mobile-sell-icon">
+        <img class="icon" src="assets/icons/navbar/add-orange-green.webp" alt="icône 'Vendre'"/>
+        Vendre
+      </a>
+    </li>
+  </ul>
+  <section class="wave-background">
+    <div class="mobile-wave-navbar"></div>
+  </section>
+</div>
+
 
 <!-- Desktop and tablet version -->
-<section class="container-nav bg-navbar">
-  <div class="wave"></div>
-</section>
-<div id="desktop-header">
-  <div id="desktop-header-top">
-    <div id="desktop-first-range">
-      <div class="mt-2" id="desktop-logo">
-        <img
-          class="desktop-footsteps"
-          src="/assets/icons/desktop-footsteps.webp"
-          alt="icône de traces de pas"
-        />
-        <div>
-          <div class="text-left">
-            <span class="desktop-logo">A</span>
-            <span class="desktop-logo">DEUX</span>
-            <span class="desktop-logo">PAS</span>
+<section class="nav-container">
+  <div id="desktop-header">
+
+    <div id="desktop-header-top">
+      <div id="desktop-first-range">
+        <div class="mt-2" id="desktop-logo">
+          <img class="desktop-footsteps"src="/assets/icons/desktop-footsteps.webp"alt="icône de traces de pas"/>
+          <div>
+            <div class="text-left">
+              <span class="desktop-logo">A</span>
+              <span class="desktop-logo">DEUX</span>
+              <span class="desktop-logo">PAS</span>
+            </div>
           </div>
         </div>
+        <app-search-bar></app-search-bar>
+        <button type="submit" class="btn-connection">se connecter</button>
       </div>
-      <div id="search-article">
-        <input type="text" class="search-article-input" name="search-bar" placeholder="Rechercher un article"/>
-        <img
-          id="search-article-button"
-          src="/assets/icons/navbar/search.webp"
-          alt="icône de loupe de recherche"
-          type="button"
-        />
-      </div>
-      <button type="submit" class="btn-connection">se connecter</button>
-    </div>
-    <div class="d-flex justify-content-between pt-5">
-      <p id="welcome-text">
-        Bienvenue sur "À Deux Pas", une communauté où la vente entre
-        voisins devient une expérience humaine unique. Favorisant les rencontres
-        locales et les échanges authentiques, notre plateforme place l'humain au
-        cœur de chaque transaction. Ensemble, créons un monde respectueux de
-        notre planète, où chaque objet raconte une histoire et chaque
-        interaction crée des liens durables.
-      </p>
-        <button type="submit" class="btn-sell" id="create-ad-button">
-          <img
-            class="add-icon"
-            src="/assets/icons/buttons/add-white.webp"
-            alt="icône plus"
-          />Créer une annonce
-        </button>
-    </div>
-  </div>
-  <div id="desktop-categories">
-    <h1 id="desktop-category-title">Les catégories</h1>
-    <div id="desktop-all-categories">
-      <div class="desktop-category" style="position: relative">
-        <h2>Mode</h2>
-        <p>
-          Tombez sur l’ex veste préférée de Donia ou sur les chaussures trop
-          petites de Mircea, chargées de souvenirs.
+      <div class="d-flex justify-content-between pt-5">
+        <p id="welcome-text">
+          Bienvenue sur "À Deux Pas", une communauté où la vente entre
+          voisins devient une expérience humaine unique. Favorisant les rencontres
+          locales et les échanges authentiques, notre plateforme place l'humain au
+          cœur de chaque transaction. Ensemble, créons un monde respectueux de
+          notre planète, où chaque objet raconte une histoire et chaque
+          interaction crée des liens durables.
         </p>
-      </div>
-      <div class="desktop-category" style="position: relative; top: -50px">
-        <h2>Maison</h2>
-        <p>
-          Dénichez des pièces uniques comme la table de la famille d’Erika,
-          témoin de repas partagés et de moments précieux.
-        </p>
-      </div>
-      <div class="desktop-category" style="position: relative; top: -170px">
-        <h2>Loisirs</h2>
-        <p>
-          Découvrez le dernier livre captivant lu par Léa ou le vélo de Thomas,
-          qui vous inciteront à explorer de nouveaux horizons.
-        </p>
-      </div>
-      <div class="desktop-category" style="position: relative; top: -220px">
-        <h2>Électronique</h2>
-        <p>
-          Repérez la caméra de voyage de Julien, prête à être le témoin de
-          nouvelles aventures.
-        </p>
+          <button type="submit" class="btn-sell" id="create-ad-button">
+            <img class="add-icon" src="/assets/icons/buttons/add-white.webp" alt="icône plus"/>Créer une annonce
+          </button>
       </div>
     </div>
   </div>
-</div>
+  <div class="wave-container">
+    <div class="wave-before"></div>
+    <div class="wave-after"></div>
+  </div>
+</section>
+
+
