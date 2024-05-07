@@ -53,7 +53,6 @@ export class LoginComponent {
         next: (data: any) => {
           // Extarct Token
           this.loginData = data;
-          console.log(data);
           if (data) {
             // Save Token in the localStorage
             const token = data;

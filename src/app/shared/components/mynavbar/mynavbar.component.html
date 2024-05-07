@@ -55,8 +55,9 @@
     <ng-container>
       @if (isLoginFormVisible) {
       <app-login></app-login>
+      } @if (!isLoginFormVisible) {
+      <app-register></app-register>
       }
-      <!-- <app-register *ngIf="!isLoginFormVisible"></app-register> -->
     </ng-container>
   </div>
   <div class="social-networks-modal">
