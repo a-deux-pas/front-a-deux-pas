@@ -10,7 +10,7 @@ import { AdPostResponse } from "../shared/models/ad/adPostResponse.model"
 })
 export class AdService {
 
-    private contextUrl = `${API_URL}ad/`;
+    private contextUrl = `${API_URL}ads/`;
 
     constructor(
         private http: HttpClient) { }
