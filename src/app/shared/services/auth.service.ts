@@ -34,6 +34,9 @@ export class AuthService {
         // Log error and return it as observable
         catchError((error: HttpErrorResponse) => {
           console.error('Error:', error);
+          if (error.status === 401) {
+            return throwError(() => 'Email et/ou mot de passe incorrect(s).');
+          }
           return throwError(() => error);
         })
       );

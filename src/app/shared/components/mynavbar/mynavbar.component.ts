@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from '../../../routes/login/login.component';
 
 @Component({
   selector: 'app-mynavbar',
   templateUrl: './mynavbar.component.html',
   styleUrl: './mynavbar.component.scss',
+  standalone: true,
+  imports: [NgbModule, LoginComponent],
 })
 export class MynavbarComponent {
   isLoginFormVisible: boolean = false;

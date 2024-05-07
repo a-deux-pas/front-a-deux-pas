@@ -1,15 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../shared/services/auth.service';
 import { jwtDecode } from 'jwt-decode';
+import { LoginRoutingModule } from './login-routing.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    LoginRoutingModule,
+    ReactiveFormsModule,
+    NgbModule,
+    FormsModule,
+  ],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginData: any;
   showSuccessAlert?: boolean;
   showErrorAlert?: boolean;
@@ -20,8 +32,6 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {}
-
   // Define form controls and validators
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -29,7 +39,7 @@ export class LoginComponent implements OnInit {
     stayLoggedIn: [true],
   });
 
-  // Fuction to extract email of user from the JWT token
+  // Function to extract email of user from the JWT token
   extractEmailFromToken(token: string): string {
     const decodedToken: any = jwtDecode(token);
     return decodedToken.sub;
