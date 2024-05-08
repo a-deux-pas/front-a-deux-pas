@@ -198,12 +198,13 @@ export class AdFormComponent implements OnInit {
       next: () => {
         console.log('All images uploaded successfully');
         this.ad.creationDate = this.today;
-        this.ad.subcategory = this.ad.subcategory.name
-        // TODO: à enlever une fois la connexion implémentée
-        this.ad.publisherId = 1;
         if (this.ad.category == "Autre") {
           this.ad.subcategory = "Autre"
         }
+        this.ad.subcategory = this.ad.subcategory.name
+        // TODO: à enlever une fois la connexion implémentée
+        this.ad.publisherId = 1;
+
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdPostResponse) => {
             this.disabledFields = true;

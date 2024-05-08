@@ -33,8 +33,9 @@ export class MyAdComponent implements OnInit {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
+        this.adSuccessfullySubmitted = true;
         setTimeout(() => {
-          this.adSuccessfullySubmitted = true;
+          this.adSuccessfullySubmitted = false;
         }, 3000);
       }
     });
