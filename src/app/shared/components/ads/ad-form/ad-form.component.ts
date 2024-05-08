@@ -201,18 +201,17 @@ export class AdFormComponent implements OnInit {
         this.ad.subcategory = this.ad.subcategory.name
         // TODO: à enlever une fois la connexion implémentée
         this.ad.publisherId = 1;
+        if (this.ad.category == "Autre") {
+          this.ad.subcategory = "Autre"
+        }
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdPostResponse) => {
-            this.scrollToTop()
-            this.adSuccessfullySubmitted = true;
             this.disabledFields = true;
             setTimeout(() => {
-              this.adSuccessfullySubmitted = false;
-              this.disabledFields = false;
-            }, 3000);
-            setTimeout(() => {
-              this.router.navigate(['compte/annonces/mon-annonce/', ad.id])
-            }, 3000)
+              this.router.navigate(['compte/annonces/mon-annonce/', ad.id], {
+                queryParams: { success: true }
+              });
+            }, 1000);
           },
           error: (error: any) => {
             console.error(error);
@@ -227,9 +226,5 @@ export class AdFormComponent implements OnInit {
         console.error('Error occurred during image upload:', error);
       }
     });
-  }
-
-  scrollToTop(): void {
-    this.viewportScroller.scrollToPosition([0, 0])
   }
 }

@@ -1,3 +1,10 @@
+@if (adSuccessfullySubmitted) {
+<div class="d-flex justify-content-center">
+    <div class="alert alert-success text-center mb-5">
+        Votre annonce "<strong>{{ myAd?.title }}</strong>" a bien été créée
+    </div>
+</div>
+}
 <section class="general-info">
     <div class="title-and-price flex space-between">
         <p id="ad-title"><b>{{ myAd?.title }}</b></p>

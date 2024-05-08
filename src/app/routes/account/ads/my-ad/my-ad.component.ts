@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../Ad.service';
 import { AdPostResponse } from '../../../../shared/models/ad/adPostResponse.model';
@@ -20,6 +20,7 @@ import { AdFormComponent } from '../../../../shared/components/ads/ad-form/ad-fo
   ]
 })
 export class MyAdComponent implements OnInit {
+  @Input() adSuccessfullySubmitted!: boolean;
   myAd: AdPostResponse | undefined;
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;
@@ -30,6 +31,13 @@ export class MyAdComponent implements OnInit {
 
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
+    this.route.queryParams.subscribe(params => {
+      if (params['success'] === 'true') {
+        setTimeout(() => {
+          this.adSuccessfullySubmitted = true;
+        }, 3000);
+      }
+    });
     this.adService.findAdById(adId).subscribe({
       next: (ad: AdPostResponse) => {
         this.myAd = ad;
