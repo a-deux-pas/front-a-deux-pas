@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdService } from '../../../Ad.service';
 import { AdPostResponse } from '../../../../shared/models/ad/adPostResponse.model';
@@ -18,10 +18,11 @@ import { CommonModule } from '@angular/common';
 })
 export class MyAdComponent implements OnInit {
   isBigScreen: boolean | undefined
+  @Input() adSuccessfullySubmitted!: boolean;
   myAd: AdPostResponse | undefined;
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;
-//TODO : to probably put in some utils service
+  //TODO : to probably put in some utils service
   // This HostListener listens for window resize events
   // When a resize event occurs, the onResize method is triggered
   // It takes the event object as a parameter
@@ -35,12 +36,20 @@ export class MyAdComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private adService: AdService) { 
-      
-    }
+    private adService: AdService) {
+
+  }
 
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
+    this.route.queryParams.subscribe(params => {
+      if (params['success'] === 'true') {
+        this.adSuccessfullySubmitted = true;
+        setTimeout(() => {
+          this.adSuccessfullySubmitted = false;
+        }, 3000);
+      }
+    });
     this.adService.findAdById(adId).subscribe({
       next: (ad: AdPostResponse) => {
         this.myAd = ad;

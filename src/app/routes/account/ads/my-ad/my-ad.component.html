@@ -1,5 +1,10 @@
-<br>
-
+@if (adSuccessfullySubmitted) {
+<div class="d-flex justify-content-center">
+    <div class="alert alert-success text-center mb-5">
+        Votre annonce "<strong>{{ myAd?.title }}</strong>" a bien été créée
+    </div>
+</div>
+}
 
 <div class="main-sections">
     <!-- image view on desktop device -->
@@ -33,7 +38,7 @@
             <p id="ad-price">{{ myAd?.price }} €</p>
         </div>
         <div class="other-info flex-column">
-            <p id="ad-creation-date" class="mt-2">Créée le {{ myAd?.creationDate | date: 'dd/MM/yyyy'}}</p> 
+            <p id="ad-creation-date" class="mt-2">Créée le {{ myAd?.creationDate | date: 'dd/MM/yyyy'}}</p>
             <p id="ad-state" class="mt-2"><b>État {{ myAd?.articleState }}</b></p>
             <p id="ad-description" class="mt-2">{{ myAd?.articleDescription }}</p><br>
         </div>
