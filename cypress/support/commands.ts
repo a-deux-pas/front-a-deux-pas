@@ -13,13 +13,17 @@
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
 //
+//-- data-cy attribute shortcut --
+//Cypress.Commands.add('getSel', (selector, ...args) => { return cy.get(`[data-cy=${selector}]`, ...args) })
+//-- click link shortcut --
+//Cypress.Commands.add('clickLink', (label) => { cy.get('button').contains(label).click() })
 //
 // -- This is a child command --
 // Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
 //
 //
 // -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
+//Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
 //
 //
 // -- This will overwrite an existing command --
