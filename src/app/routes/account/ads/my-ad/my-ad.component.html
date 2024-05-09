@@ -81,7 +81,7 @@
         annonces</p>
     <div class="user-other-ads">
         @for (otherAd of myOtherAds; track otherAd) {
-        <a (click)="goToMyAdPage(otherAd.id!)" (keydown)="handleKeyPress($event, otherAd.id!)" role="link">
+        <a href="/compte/annonces/mon-annonce/{{otherAd.id}}">
             <app-ad-card [ad]="otherAd" [mine]="true"></app-ad-card>
         </a>
         }

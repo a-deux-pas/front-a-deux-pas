@@ -15,7 +15,7 @@ import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-ca
     NgbNavModule,
     NgbCarouselModule,
     CommonModule,
-    AdCardComponent,
+    AdCardComponent
   ]
 })
 export class MyAdComponent implements OnInit {
@@ -40,11 +40,10 @@ export class MyAdComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private adService: AdService) {
-
-  }
+    private adService: AdService) { }
 
   ngOnInit(): void {
+    this.isBigScreen = window.innerWidth > 1200;
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
@@ -105,16 +104,6 @@ export class MyAdComponent implements OnInit {
     }
     if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
       this.togglePaused();
-    }
-  }
-
-  goToMyAdPage(adId: number) {
-    this.router.navigate(['compte/annonces/mon-annonce/', adId])
-  }
-
-  handleKeyPress(event: KeyboardEvent, adId: number): void {
-    if (event.key === 'Enter' || event.key === ' ') {
-      this.goToMyAdPage(adId);
     }
   }
 }
