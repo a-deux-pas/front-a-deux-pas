@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdService } from '../../../Ad.service';
-import { AdPostResponse } from '../../../../shared/models/ad/adPostResponse.model';
+import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.model';
 import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';

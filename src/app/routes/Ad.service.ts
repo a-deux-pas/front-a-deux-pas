@@ -3,7 +3,7 @@ import { Observable, catchError, of } from "rxjs"
 import { HttpClient } from "@angular/common/http"
 import { Ad } from "../shared/models/ad/ad.model"
 import { API_URL } from "../shared/utils/constants/utilsConstants"
-import { AdPostResponse } from "../shared/models/ad/adPostResponse.model"
+import { AdPostResponse } from "../shared/models/ad/ad-post-response.model"
 
 @Injectable({
     providedIn: 'root'

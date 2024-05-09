@@ -3,7 +3,7 @@ import { Observable, retry } from "rxjs"
 import { HttpClient } from "@angular/common/http"
 import { Ad } from "../models/ad/ad.model";
 import { API_URL } from "../utils/constants/utilsConstants";
-import { AdPostResponse } from "../models/ad/adPostResponse.model";
+import { AdPostResponse } from "../models/ad/ad-post-response.model";
 
 @Injectable({
     providedIn: 'root'
