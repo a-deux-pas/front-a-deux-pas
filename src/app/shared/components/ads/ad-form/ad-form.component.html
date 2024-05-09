@@ -113,7 +113,7 @@
   <div class="mx-auto" style="width: 246px;">
     <label class="mt-4" for="sub-cat">Choisissez une sous-catégorie</label>
     <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4" #subcategory="ngModel"
-      [disabled]="disabledFields" required maxlength="100">
+      [disabled]="disabledFields" [required]="ad.category !== 'Autre'" maxlength="100">
       @for (subCat of getSubCategories(); track subCat) {
       <ng-option [value]="subCat">
         {{ subCat.name }}

@@ -12,6 +12,7 @@ import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
 import { Categories } from '../../../utils/constants/Categories';
+import { Subcategory } from '../../../models/enum/subcategory.enum';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -199,9 +200,12 @@ export class AdFormComponent implements OnInit {
         console.log('All images uploaded successfully');
         this.ad.creationDate = this.today;
         if (this.ad.category == "Autre") {
-          this.ad.subcategory = "Autre"
+          console.log('ici')
+          this.ad.subcategory = Subcategory.OTHER_SUBCATEGORY;
+          console.log(' this.ad.subcategory:: ', this.ad.subcategory)
+        } else {
+          this.ad.subcategory = this.ad.subcategory.name
         }
-        this.ad.subcategory = this.ad.subcategory.name
         // TODO: à enlever une fois la connexion implémentée
         this.ad.publisherId = 1;
         this.adService.postAd(this.ad).subscribe({

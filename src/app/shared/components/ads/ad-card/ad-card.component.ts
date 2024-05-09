@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class AdCardComponent {
   @Input() ad: any;
+  // TO DO : logique à changer une fois le processus de connexion implémenté
   @Input() mine: boolean = false;
   @Input() sellerAd: boolean = false;
   @Input() unLogged: boolean = false;
