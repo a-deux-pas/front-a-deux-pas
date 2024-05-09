@@ -4,6 +4,7 @@ import { AdService } from '../../../Ad.service';
 import { AdPostResponse } from '../../../../shared/models/ad/adPostResponse.model';
 import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
+import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
 
 @Component({
   selector: 'app-my-ad',
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
     NgbNavModule,
     NgbCarouselModule,
     CommonModule,
+    AdCardComponent,
   ]
 })
 export class MyAdComponent implements OnInit {
@@ -22,6 +24,8 @@ export class MyAdComponent implements OnInit {
   myAd: AdPostResponse | undefined;
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;
+  myOtherAds: AdPostResponse[] = []
+
   //TODO : to probably put in some utils service
   // This HostListener listens for window resize events
   // When a resize event occurs, the onResize method is triggered
@@ -61,14 +65,19 @@ export class MyAdComponent implements OnInit {
           this.myAd.fifthArticlePictureUrl
         ].filter(url => !!url);
         this.selectedPicNumber = this.articlePictures.length;
-
+        this.adService.findMyAds(this.myAd.publisherId!).subscribe({
+          next: (myOtherAds: AdPostResponse[]) => {
+            this.myOtherAds = myOtherAds.filter(ad => ad.id !== this.myAd!.id);
+            console.log("myotherAds")
+            console.table(this.myOtherAds)
+          }
+        })
       },
       error: error => {
         console.error(error);
       }
     });
   }
-
 
   // image carrousel for mobile device
 

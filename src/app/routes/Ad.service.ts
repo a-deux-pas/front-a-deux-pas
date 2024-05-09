@@ -24,13 +24,21 @@ export class AdService {
     }
 
     findAdById(adId: number): Observable<AdPostResponse> {
-        console.log('adId:: ', adId)
         const url = `${this.contextUrl}${adId}`
         return this.http.get<AdPostResponse>(url)
             .pipe(
                 catchError(this.handleError<AdPostResponse>('getAd'))
             );
     }
+
+    findMyAds(userId: number): Observable<AdPostResponse[]> {
+        const url = `${this.contextUrl}list/${userId}`
+        return this.http.get<AdPostResponse[]>(url)
+            .pipe(
+                catchError(this.handleError<any[]>('getAdsList'))
+            )
+    }
+
     //TODO : we'll be probably put in some utilsService
     /**
     * Handle Http operation that failed.

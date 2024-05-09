@@ -76,20 +76,9 @@
     </section>
 </div>
 
-
-
-
-
-
-
-
-
-<!-- 
 <section class="user-other-ad mt-5">
     <p id="other-ad-section-title">Mes autres annonces</p>
-    <app-ad-card [ad]=myAd [mine]="true"></app-ad-card>
-</section> -->
-
-
-
-<!-- (click)="goToMyAdPage(myAd?.id)" -->
+    @for (otherAd of myOtherAds; track otherAd) {
+    <app-ad-card (click)="goToMyAdPage(otherAd.id!)" [ad]=otherAd [mine]="true"></app-ad-card>
+    }
+</section>
