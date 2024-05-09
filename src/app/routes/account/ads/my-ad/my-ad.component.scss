@@ -35,13 +35,10 @@
     display: none;
 }
 
-// .article-picture-image-section img {
-//         margin-left: 13%;
-// }
-
 .img-wrapper {
     width: 332px;
     height: 333px;
+    margin-left: 16%;
 }
 
 // CTA
@@ -83,6 +80,10 @@
     font-size: 12px;
 }
 
+app-ad-card {
+    display: ruby-text;
+}
+
 @media (min-width: 1200px) {
     .main-sections {
         display: grid;
@@ -118,6 +119,7 @@
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
         grid-area: 1 / 1 / 3 / 3;
+
         img {
             margin-left: 0;
         }
@@ -186,5 +188,15 @@
             width: 256.67px;
             height: 232px;
         }
+    }
+
+    // User's other ads section
+    .user-other-ads {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    app-ad-card {
+        display: inline;
     }
 }

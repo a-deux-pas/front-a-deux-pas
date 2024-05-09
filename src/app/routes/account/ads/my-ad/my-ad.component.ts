@@ -68,8 +68,6 @@ export class MyAdComponent implements OnInit {
         this.adService.findMyAds(this.myAd.publisherId!).subscribe({
           next: (myOtherAds: AdPostResponse[]) => {
             this.myOtherAds = myOtherAds.filter(ad => ad.id !== this.myAd!.id);
-            console.log("myotherAds")
-            console.table(this.myOtherAds)
           }
         })
       },
@@ -80,7 +78,6 @@ export class MyAdComponent implements OnInit {
   }
 
   // image carrousel for mobile device
-
   @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
 
   paused = false;
@@ -112,7 +109,12 @@ export class MyAdComponent implements OnInit {
   }
 
   goToMyAdPage(adId: number) {
-    this.router.navigate(['compte/annonce/mon-annonce/', adId])
+    this.router.navigate(['compte/annonces/mon-annonce/', adId])
+  }
+
+  handleKeyPress(event: KeyboardEvent, adId: number): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.goToMyAdPage(adId);
+    }
   }
 }
-

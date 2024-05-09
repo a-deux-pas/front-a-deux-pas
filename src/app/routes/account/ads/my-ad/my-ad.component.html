@@ -14,7 +14,7 @@
             [class.two-pictures]="selectedPicNumber == 2" src="{{articlePicture}}"
             [class.three-pictures]="selectedPicNumber == 3" src="{{articlePicture}}"
             [class.four-pictures]="selectedPicNumber == 4" src="{{articlePicture}}"
-            [class.five-pictures]="selectedPicNumber == 5" src="{{articlePicture}}"
+            [class.five-pictures]="selectedPicNumber == 5" src="{{articlePicture}}" class="center"
             alt="illustration-de-l'article-n-{{i}}">
         }
     </section>
@@ -75,10 +75,15 @@
         </div>
     </section>
 </div>
-
-<section class="user-other-ad mt-5">
-    <p id="other-ad-section-title">Mes autres annonces</p>
-    @for (otherAd of myOtherAds; track otherAd) {
-    <app-ad-card (click)="goToMyAdPage(otherAd.id!)" [ad]=otherAd [mine]="true"></app-ad-card>
-    }
+<!-- current user other ads section -->
+<section class="mt-5 mb-5 other-ads-list-section">
+    <p id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">Mes autres
+        annonces</p>
+    <div class="user-other-ads">
+        @for (otherAd of myOtherAds; track otherAd) {
+        <a (click)="goToMyAdPage(otherAd.id!)" (keydown)="handleKeyPress($event, otherAd.id!)" role="link">
+            <app-ad-card [ad]="otherAd" [mine]="true"></app-ad-card>
+        </a>
+        }
+    </div>
 </section>
