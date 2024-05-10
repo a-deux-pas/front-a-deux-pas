@@ -87,9 +87,94 @@ html, body {
 }
 
 .main-container {
-  margin-top: 12vh;
+  margin-top: 11vh;
   margin-left: 2vh !important;
   margin-right: 2vh !important;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Bottom mobile navbar
+#mobile-bottom-navbar .mobile-wave-bottom-background {
+  background-color:$tertiary;
+  width: 100%;
+  height: 62px;
+  margin-top: 14px;
+}
+
+.mobile-wave-bottom-navbar {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 85px;
+  z-index: 2;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color:$tertiary;
+    z-index: -1;
+  }
+
+  &::before {
+    width: 50%;
+    height: 79px;
+    right: -4px;
+    transform: rotate(-8deg);
+    border-top-right-radius: 542px 18px;
+  }
+
+  &::after {
+    width: 50%;
+    height: 88%;
+    left: -1%;
+    transform: rotate(8deg);
+    border-top-left-radius: 542px 18px;
+  }
+}
+
+#mobile-bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 65px;
+  z-index: 3;
+}
+
+#mobile-bottom-navbar-icons {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  font-size: 12px;
+  z-index: 3;
+}
+
+ul#mobile-bottom-navbar-icons {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon .icon {
+  width: 29px;
+  margin-bottom: 3px;
+}
+
+#mobile-bottom-navbar-icons #mobile-sell-icon {
+  margin-top: -10px;
+  color: $primary;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: black;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -278,7 +363,7 @@ $btn-close-focus-shadow: none;
 $btn-close-hover-opacity: none;
 $btn-close-opacity: none;
 
-span.close {
+span.close, a.close {
   display: inline-block;
   font-size: 1.3rem;
   transform: scaleX(1.1);
@@ -772,7 +857,7 @@ a.dropdown-first-level.dropdown-toggle {
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .account-container {
-    @include make-container($padding-x: 3vh, $padding-y: 13.25vh);
+    @include make-container($padding-x: 1.3vh, $padding-y: 7.25vh);
   }
 
   /*---------------------------------*/
@@ -796,6 +881,17 @@ a.dropdown-first-level.dropdown-toggle {
     margin: 0 auto;
     display: inline-block;
   }
+
+  /*---------------------------------*/
+
+  // Bottom navbar
+  #mobile-bottom-navbar .mobile-wave-bottom-background {
+    margin-top: 21px;
+  }
+
+  #mobile-bottom-navbar-icons #mobile-sell-icon {
+    margin-top: 0px;
+  }
 }
 
 /*-----------------------------------------------------------------------*/
@@ -809,6 +905,7 @@ a.dropdown-first-level.dropdown-toggle {
   }
 
   .main-container {
+    margin-top: 8vh;
     margin-left: 14vh !important;
     margin-right: 14vh !important;
   }
@@ -816,7 +913,7 @@ a.dropdown-first-level.dropdown-toggle {
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .account-container {
-    @include make-container($padding-x: 8vh, $padding-y: 13.25vh);
+    @include make-container($padding-x: 8vh, $padding-y: 0.25vh);
   }
 
   /*---------------------------------*/

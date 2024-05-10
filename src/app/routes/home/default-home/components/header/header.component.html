@@ -1,47 +1,19 @@
-<!-- Mobile version -->
-<section class="curved-background"></section>
-<div id="mobile-header">
-  <!-- top part -->
-  <div id="mobile-header-top">
-    <div class="mobile-logo-container mt-4 mb-2">
-      <span class="mobile-logo align-self-center">A DEUX PAS</span>
-      <img class="mobile-footsteps"src="/assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
-    </div>
-    <button type="submit" class="btn-connection mb-4">se connecter</button>
-    <app-search-bar></app-search-bar>
-    <p id="mobile-welcome-text">
-      Bienvenue sur "À Deux Pas", une communauté où la vente entre voisins
-      devient une expérience humaine unique. Favorisant les rencontres locales
-      et les échanges authentiques, notre plateforme place l'humain au cœur de
-      chaque transaction. Ensemble, créons un monde respectueux de notre
-      planète, où chaque objet raconte une histoire et chaque interaction crée
-      des liens durables.
-    </p>
-  </div>
-</div>
-
-<!-- Bottom mobile navbar -->
-<div id="mobile-bottom-navbar">
-  <ul id="mobile-navbar-icons">
-    <li>
-      <a routerLink="annonce/creation" class="navbar-icon" id="mobile-sell-icon">
-        <img class="icon" src="assets/icons/navbar/add-orange-green.webp" alt="icône 'Vendre'"/>
-        Vendre
-      </a>
-    </li>
-  </ul>
-  <section class="wave-background">
-    <div class="mobile-wave-navbar"></div>
-  </section>
-</div>
-
-
-<!-- Desktop and tablet version -->
-<section class="nav-container">
-  <div id="desktop-header">
-
-    <div id="desktop-header-top">
-      <div id="desktop-first-range">
+<section class="header-container">
+  <div id="header">
+    <div id="header-top">
+      <!-- Mobile version -->
+        <div id="mobile-first-part" class="text-center">
+          <div class="mobile-logo-container mt-4 mb-2">
+            <span class="mobile-logo align-self-center">A DEUX PAS</span>
+            <img class="mobile-footsteps"src="/assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
+          </div>
+          <div>
+            <button type="submit" class="btn-connection mb-4">se connecter</button>
+            <app-search-bar></app-search-bar>
+          </div>
+        </div>
+      <!-- Desktop version -->
+      <div id="desktop-first-part">
         <div class="mt-2" id="desktop-logo">
           <img class="desktop-footsteps"src="/assets/icons/desktop-footsteps.webp"alt="icône de traces de pas"/>
           <div>
@@ -55,25 +27,39 @@
         <app-search-bar></app-search-bar>
         <button type="submit" class="btn-connection">se connecter</button>
       </div>
-      <div class="d-flex justify-content-between pt-5">
+      <div id="desktop-second-part">
         <p id="welcome-text">
-          Bienvenue sur "À Deux Pas", une communauté où la vente entre
-          voisins devient une expérience humaine unique. Favorisant les rencontres
-          locales et les échanges authentiques, notre plateforme place l'humain au
-          cœur de chaque transaction. Ensemble, créons un monde respectueux de
-          notre planète, où chaque objet raconte une histoire et chaque
-          interaction crée des liens durables.
+          Bienvenue sur "À Deux Pas", une communauté où la vente entre voisins
+          devient une expérience humaine unique. Favorisant les rencontres locales
+          et les échanges authentiques, notre plateforme place l'humain au cœur de
+          chaque transaction. Ensemble, créons un monde respectueux de notre
+          planète, où chaque objet raconte une histoire et chaque interaction crée
+          des liens durables.
         </p>
-          <button type="submit" class="btn-sell" id="create-ad-button">
-            <img class="add-icon" src="/assets/icons/buttons/add-white.webp" alt="icône plus"/>Créer une annonce
-          </button>
+        <button type="submit" class="btn-sell" id="create-ad-button">
+          <img class="add-icon" src="/assets/icons/buttons/add-white.webp" alt="icône plus"/>Créer une annonce
+        </button>
       </div>
     </div>
   </div>
-  <div class="wave-container">
-    <div class="wave-before"></div>
-    <div class="wave-after"></div>
+  <div class="desktop-wave-container">
+    <div class="desktop-wave-before"></div>
+    <div class="desktop-wave-after"></div>
   </div>
 </section>
+<!-- Mobile header background -->
+<section class="mobile-curved-background"></section>
 
-
+<!-- Bottom mobile navbar -->
+<nav id="mobile-bottom-navbar">
+  <ul id="mobile-bottom-navbar-icons">
+    <li>
+      <a routerLink="annonce/creation" class="navbar-icon" id="mobile-sell-icon">
+        <img class="icon" src="assets/icons/navbar/add-orange-green.webp" alt="icône 'Vendre'"/>
+        Vendre
+      </a>
+    </li>
+  </ul>
+  <div class="mobile-wave-bottom-background"></div>
+  <div class="mobile-wave-bottom-navbar"></div>
+</nav>
