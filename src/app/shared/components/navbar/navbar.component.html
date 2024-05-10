@@ -1,27 +1,21 @@
-<!-- navbar background -->
-<section class="background">
-  <div class="left-curved-background"></div>
-    <div class="right-curved-background"></div>
-    <div class="fix"></div>
-</section>
-
 <!-- Mobile navbar -->
 <nav id="mobile-navbar" aria-label="barre de navigation mobile">
   <!-- Top part -->
-  <section class="background">
+  <section class="mobile-top-nav-container">
+    <div id="mobile-top-navbar">
+      <div class="mobile-logo-container mt-4 mb-2">
+        <span class="mobile-logo align-self-center">A DEUX PAS</span>
+        <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
+      </div>
+      <app-search-bar></app-search-bar>
+    </div>
+    <div class="mobile-top-nav-background"></div>
     <div class="mobile-curved-background"></div>
   </section>
-  <div id="mobile-top-navbar">
-    <div class="mobile-logo-container mt-4 mb-2">
-      <span class="mobile-logo align-self-center">A DEUX PAS</span>
-      <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
-    </div>
-    <app-search-bar></app-search-bar>
-  </div>
 
   <!-- Bottom part -->
-  <div id="mobile-bottom-navbar">
-    <ul id="mobile-navbar-icons">
+  <section id="mobile-bottom-navbar">
+    <ul id="mobile-bottom-navbar-icons">
       <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
         <a routerLink="" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
@@ -46,23 +40,22 @@
           Favoris
         </a>
       </li>
-      <li class="navbar-icon" (click)="toggleAccountMenuState()">
-        <img class="icon" id="mobile-account-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
-        Compte
+      <li>
+        <a (click)="toggleAccountMenuState()" class="navbar-icon">
+          <img class="icon" id="mobile-account-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
+          Compte
+        </a>
       </li>
     </ul>
-    <section class="wave-background">
-      <div class="mobile-wave-navbar"></div>
-    </section>
-  </div>
+    <div class="mobile-wave-bottom-background"></div>
+    <div class="mobile-wave-bottom-navbar"></div>
+  </section>
 </nav>
 
 <!-- Account menu -->
 @if (isAccountMenuOpen) {
-  <div id="account-menu">
-    <a id="account-menu-close">
-      <span class="close" (click)="toggleAccountMenuState()">x</span>
-    </a>
+  <section id="account-menu">
+    <a id="account-menu-close" class="close" (click)="toggleAccountMenuState()">x</a>
     <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo">
       <span class="mobile-logo align-self-center">A DEUX PAS</span>
       <img class="mobile-footsteps"src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
@@ -78,64 +71,69 @@
         <a routerLink="" class="account-menu-item" id="logout" (click)="toggleAccountMenuState()">Se déconnecter</a>
       </div>
     </div>
-  </div>
+  </section>
 }
 
 <!-- Desktop navbar -->
-<div id="desktop-navbar">
-  <nav id="desktop-navbar-display" aria-label="barre de navigation ordinateur">
-    <div class="mt-2" id="desktop-logo">
-      <img class="desktop-footsteps" src="assets/icons/desktop-footsteps.webp" alt="icône de traces de pas"/>
-        <div class="text-left">
-          <span class="desktop-logo">A</span>
-          <span class="desktop-logo">DEUX</span>
-          <span class="desktop-logo">PAS</span>
-        </div>
-    </div>
-    <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon">
-      <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
-      Vendre
-    </button>
-    <app-search-bar></app-search-bar>
-    <ul id="desktop-navbar-icons">
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="" class="navbar-icon">
-          <img class="add-icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
-          Accueil
-        </a>
-      </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="compte/annonces" class="navbar-icon">
-          <img class="add-icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'"/>
-          Annonces
-        </a>
-      </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="compte/favoris" class="navbar-icon">
-          <img class="add-icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'"/>
-          Favoris
-        </a>
-      </li>
-      <li>
-        <a (click)="toggleAccountMenuState()" id="desktop-account-icon" class="mb-2">
-          <img class="add-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
-          Compte
-        </a>
-        @if (isAccountMenuOpen) {
-          <div id="dropdown-content">
-            <ul>
-              @for (route of accountRoutes[0].children; track $index) {
-                  <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{ route.title }}</a>
-              }
-              <div id="account-menu-separator">
-                <div id="account-menu-line"></div>
-              </div>
-              <li><a routerLink="" class="account-menu-item" id="logout" (click)="toggleAccountMenuState()">Se déconnecter</a></li>
-            </ul>
+<nav class="desktop-nav-container" aria-label="barre de navigation ordinateur">
+  <div id="desktop-navbar">
+    <div id="desktop-navbar-display">
+      <div class="mt-2" id="desktop-logo">
+        <img class="desktop-footsteps" src="assets/icons/desktop-footsteps.webp" alt="icône de traces de pas"/>
+          <div class="text-left">
+            <span class="desktop-logo">A</span>
+            <span class="desktop-logo">DEUX</span>
+            <span class="desktop-logo">PAS</span>
           </div>
-        }
-      </li>
-    </ul>
-  </nav>
-</div>
-
+      </div>
+      <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon">
+        <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
+        Vendre
+      </button>
+      <app-search-bar></app-search-bar>
+      <ul id="desktop-navbar-icons">
+        <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="" class="navbar-icon">
+            <img class="add-icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
+            Accueil
+          </a>
+        </li>
+        <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="compte/annonces" class="navbar-icon">
+            <img class="add-icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'"/>
+            Annonces
+          </a>
+        </li>
+        <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="compte/favoris" class="navbar-icon">
+            <img class="add-icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'"/>
+            Favoris
+          </a>
+        </li>
+        <li>
+          <a (click)="toggleAccountMenuState()" id="desktop-account-icon" class="mb-2">
+            <img class="add-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
+            Compte
+          </a>
+          @if (isAccountMenuOpen) {
+            <div id="dropdown-content">
+              <ul>
+                @for (route of accountRoutes[0].children; track $index) {
+                    <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{ route.title }}</a>
+                }
+                <div id="account-menu-separator">
+                  <div id="account-menu-line"></div>
+                </div>
+                <li><a routerLink="" class="account-menu-item" id="logout" (click)="toggleAccountMenuState()">Se déconnecter</a></li>
+              </ul>
+            </div>
+          }
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="desktop-curve-container">
+    <div class="left-curved-background"></div>
+    <div class="right-curved-background"></div>
+  </div>
+</nav>

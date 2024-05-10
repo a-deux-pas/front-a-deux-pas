@@ -6,12 +6,12 @@
   margin-right: 0 !important;
 }
 
-#desktop-header, .nav-container {
+#desktop-first-part, #create-ad-button {
   display: none;
 }
 
-// Header background
-.curved-background {
+// Mobile header
+.mobile-curved-background {
   position: absolute;
   background-color: $tertiary;
   width: 100%;
@@ -19,13 +19,16 @@
   max-height: 686px;
   border-bottom-left-radius: 400px 283px;
   border-bottom-right-radius: 400px 283px;
+  top: 0;
+  z-index: -1;
 }
 
-#mobile-header {
+
+#header {
   position: relative;
 }
 
-#mobile-header-top {
+#header-top {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -33,156 +36,71 @@
   padding-right: 3%;
 }
 
-#mobile-welcome-text {
+#welcome-text {
   font-size: 17px;
+  width: 300px;
+  min-width: 300px;
   text-align: center;
+  margin-right: auto;
+  margin-left: auto;
   margin-top: 2rem;
   padding: 0 1rem 0 1rem;
-  width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-// Bottom mobile navbar
-#mobile-bottom-navbar .wave-background {
-  background-color:$tertiary;
-  width: 100%;
-  height: 90px;
-  margin-top: 14px;
-}
-
-.mobile-wave-navbar {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  height: 85px;
-  z-index: 2;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color:$tertiary;
-    z-index: -1;
-  }
-
-  &::before {
-    width: 50%;
-    height: 79px;
-    right: -4px;
-    transform: rotate(-8deg);
-    border-top-right-radius: 542px 18px;
-  }
-
-  &::after {
-    width: 50%;
-    height: 88%;
-    left: -1%;
-    transform: rotate(8deg);
-    border-top-left-radius: 542px 18px;
-  }
-}
-
-#mobile-bottom-navbar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 65px;
-  z-index: 3;
-}
-
-#mobile-navbar-icons {
-  position: fixed;
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
-  font-size: 12px;
-  z-index: 3;
-}
-
-ul#mobile-navbar-icons {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.navbar-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-}
-
-.icon {
-  width: 29px;
-  margin-bottom: 3px;
-}
-
-#mobile-sell-icon {
-  margin-top: -10px;
-  color: $primary;
 }
 
 /*-----------------------------------------------------------------------*/
 
 // Desktop version
-.nav-container {
-  position: relative;
-  background: $tertiary;
-  height: 399px;
-}
-
-.wave-container {
-  position: absolute;
-  width: 100%;
-  height:  213px;
-  background: $tertiary;
-  bottom: 0;
-}
-
-.wave-before, .wave-after {
-  position: absolute;
-  width: 55%;
-  border-radius: 100% 50%;
-}
-
-.wave-before {
-  height: 109%;
-  background-color: #fff;
-  right: 0;
-  top: 65%;
-}
-
-.wave-after {
-  height: 100%;
-  background-color: $tertiary;
-  left: 0;
-  top: 34%;
-}
-
 @media (min-width: 892px) {
 
-  #desktop-header, .nav-container {
-    display: block;
-  }
-
-  #mobile-header, #mobile-bottom-navbar, .curved-background {
+  #mobile-first-part, .mobile-curved-background, #mobile-bottom-navbar {
     display: none;
   }
 
-  #desktop-header {
-    z-index: 1001;
+  // Desktop background header
+  .header-container {
     position: relative;
+    background-color: $tertiary;
+    height: 399px;
   }
 
-  #desktop-header-top {
-    padding-left: 3%;
-    padding-right: 3%;
+  .desktop-wave-container {
+    position: absolute;
+    width: 100%;
+    height: 213px;
+    background-color: $tertiary;
+    bottom: 0;
   }
 
-  #desktop-first-range {
+  .desktop-wave-before, .desktop-wave-after {
+    position: absolute;
+    width: 55%;
+    border-radius: 100% 50%;
+  }
+
+  .desktop-wave-before {
+    height: 109%;
+    background-color: white;
+    right: 0;
+    top: 65%;
+  }
+
+  .desktop-wave-after {
+    height: 100%;
+    background-color: $tertiary;
+    left: 0;
+    top: 34%;
+  }
+
+  // Desktop header
+  #header {
+    z-index: 1001;
+  }
+
+  #header-top {
+    display: block;
+  }
+
+  #desktop-first-part {
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -193,14 +111,25 @@ ul#mobile-navbar-icons {
     display: flex;
   }
 
+  #desktop-second-part {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 3rem;
+  }
+
   #welcome-text {
+    font-size: 18px;
     width: 525px;
     min-width: 639px;
-    font-size: 18px;
+    text-align: left;
     margin-right: 20px;
+    margin-left: 0;
+    margin-top: 0;
+    padding: 0;
   }
 
   #create-ad-button {
+    display: flex;
     margin-right: 15rem;
     min-width: 208px;
     cursor: pointer;
@@ -221,4 +150,3 @@ ul#mobile-navbar-icons {
     margin-left: 38px;
   }
 }
-
