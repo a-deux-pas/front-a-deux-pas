@@ -8,17 +8,6 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-<<<<<<< HEAD
-          "standalone": false,
-          "skipTests": true
-        },
-        "@schematics/angular:directive": {
-          "standalone": false,
-          "skipTests": true
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-=======
           "standalone": true,
           "skipTests": true
         },
@@ -28,7 +17,6 @@
         },
         "@schematics/angular:pipe": {
           "standalone": true,
->>>>>>> S01US03/post-ad
           "skipTests": true
         },
         "@schematics/angular:class": {
@@ -40,12 +28,6 @@
         "@schematics/angular:interceptor": {
           "skipTests": true
         },
-<<<<<<< HEAD
-        "@schematics/angular:resolver": {
-          "skipTests": true
-        },
-=======
->>>>>>> S01US03/post-ad
         "@schematics/angular:service": {
           "skipTests": true
         }
