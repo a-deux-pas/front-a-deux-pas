@@ -207,43 +207,43 @@ ul#desktop-navbar-icons {
   /*--------------------------------------*/
 
  // Background
-.desktop-nav-container {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  background-color: $tertiary;
-}
+  .desktop-nav-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background-color: $tertiary;
+  }
 
-.desktop-curve-container {
-  position: absolute;
-  width: 100%;
-  height: 175px;
-  background-color: $tertiary;
-  bottom: 0;
-}
+  .desktop-curve-container {
+    position: absolute;
+    width: 100%;
+    height: 175px;
+    background-color: $tertiary;
+    bottom: 0;
+  }
 
-.left-curved-background, .right-curved-background {
-  position: absolute;
-  background-color: white;
-}
+  .left-curved-background, .right-curved-background {
+    position: absolute;
+    background-color: white;
+  }
 
-.left-curved-background {
-  width: 90%;
-  height: 65%;
-  bottom: -41%;
-  left: -27%;
-  transform: rotate(-6deg);
-  border-top-left-radius: 830px 105px;
-  border-top-right-radius: 877px 104px;
-}
+  .left-curved-background {
+    width: 90%;
+    height: 65%;
+    bottom: -41%;
+    left: -27%;
+    transform: rotate(-6deg);
+    border-top-left-radius: 830px 105px;
+    border-top-right-radius: 877px 104px;
+  }
 
   .right-curved-background {
-  bottom: -16%;
-  left: 35%;
-  width: 65.7%;
-  height: 57%;
-  transform: rotate(6deg);
-  border-top-left-radius: 942px 105px;
+    bottom: -16%;
+    left: 35%;
+    width: 65.7%;
+    height: 57%;
+    transform: rotate(6deg);
+    border-top-left-radius: 942px 105px;
   }
 
   /*--------------------------------------*/
@@ -288,7 +288,6 @@ ul#desktop-navbar-icons {
 }
 
   /*--------------------------------------*/
-
 
 @media (min-width: 1580px) {
   .right-curved-background {
