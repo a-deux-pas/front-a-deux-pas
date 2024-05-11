@@ -12,7 +12,7 @@ import { NgClass } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
-import { Categories } from '../../../utils/constants/Categories';
+import { Categories } from '../../../utils/constants/categories';
 import { Subcategory } from '../../../models/enum/subcategory.enum';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -61,7 +61,7 @@ export class AdFormComponent implements OnInit {
   }
 
   checkWindowSize(): boolean {
-    return this.isBigScreen = this.utilsService.onResize();
+    return this.isBigScreen == this.utilsService.onResize();
   }
 
   constructor(

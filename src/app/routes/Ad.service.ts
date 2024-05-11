@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { Observable, catchError, of } from "rxjs"
+import { Observable, catchError } from "rxjs"
 import { HttpClient } from "@angular/common/http"
 import { Ad } from "../shared/models/ad/ad.model"
 import { API_URL } from "../shared/utils/constants/utils-constants"

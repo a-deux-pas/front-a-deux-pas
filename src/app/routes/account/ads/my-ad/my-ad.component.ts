@@ -74,7 +74,7 @@ export class MyAdComponent implements OnInit {
   }
 
   checkWindowSize(): boolean {
-    return this.isBigScreen = this.utilsService.onResize();
+    return this.isBigScreen == this.utilsService.onResize();
   }
 
   // image carrousel for mobile device

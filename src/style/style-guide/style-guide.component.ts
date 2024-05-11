@@ -30,7 +30,7 @@ export class StyleGuideComponent {
   }
 
   checkWindowSize(): boolean {
-    return this.isBigScreen = this.utilsService.onResize();
+    return this.isBigScreen == this.utilsService.onResize();
   }
 
   isBigScreen: boolean = true;
