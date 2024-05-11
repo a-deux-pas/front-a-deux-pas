@@ -12,7 +12,7 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
-//
+//TO DO : to elaborate when connexion process is implemented
 //-- data-cy attribute shortcut --
 //Cypress.Commands.add('getSel', (selector, ...args) => { return cy.get(`[data-cy=${selector}]`, ...args) })
 //-- click link shortcut --
