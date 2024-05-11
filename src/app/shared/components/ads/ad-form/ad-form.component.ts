@@ -73,7 +73,7 @@ export class AdFormComponent implements OnInit {
 
   // article category selection section
   getSubCategories() {
-    const currentCategory = Categories.find(category => category.name === this.ad.category);
+    const currentCategory = Categories.find((category) => category.name === this.ad.category);
     if (currentCategory) {
       return currentCategory.subCategories;
     }
@@ -81,9 +81,9 @@ export class AdFormComponent implements OnInit {
   }
 
   getSubCategoriesGender() {
-    const currentCategory = Categories.find(category => category.name === this.ad.category);
+    const currentCategory = Categories.find((category) => category.name === this.ad.category);
     if (currentCategory) {
-      const currentSubCategory = currentCategory.subCategories.find(subCat => subCat.name === this.ad.subcategory.name);
+      const currentSubCategory = currentCategory.subCategories.find((subCat) => subCat.name === this.ad.subcategory.name);
       if (currentSubCategory?.gender) {
         return currentSubCategory.gender;
       }
