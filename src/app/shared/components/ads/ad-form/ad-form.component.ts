@@ -12,7 +12,7 @@ import { NgClass } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
-import { Categories } from '../../../utils/constants/categories';
+import { Categories } from '../../../utils/constants/categories-arrangement';
 import { Subcategory } from '../../../models/enum/subcategory.enum';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
