@@ -144,7 +144,7 @@
       }
     </ng-select>
     @if (gender.errors) {
-    <div>
+    <div style="width: max-content;">
       @if((ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') && gender.touched &&
       gender.errors['required']) {
       <span class="error-msg">Veuillez
