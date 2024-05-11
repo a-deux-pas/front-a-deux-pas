@@ -21,10 +21,11 @@
   z-index: -1;
 }
 
-#footer {
+#footer-container {
   padding-top: 8px;
-  position: relative;
-  z-index: 0;
+  position: absolute;
+  background-color: $tertiary;
+  z-index: 1;
 }
 
 #text {
@@ -33,6 +34,8 @@
   align-items: center;
   flex-direction: column;
   margin-top: 137px;
+  position: relative;
+  z-index: 1001;
 }
 
 #titles {
@@ -79,23 +82,75 @@
     display: none
   }
 
-  #footer {
-    padding-top: 198px;
+  #footer-container {
+    //padding-top: 80px;
+    width: 100%;
+    height: 237px;
+    //padding-bottom: 28px;
+    bottom: 0;
+  }
+
+
+  // .background {
+  //   position:absolute;
+  //   bottom: 0;
+  //   width: 100%;
+  //   height: 312px;
+  //   background-color: $tertiary;
+  //   z-index: -3;
+  // }
+
+  .desktop-wave-background {
+    position: absolute;
+    width: 100%;
+    height: 290px;
+    top: 0;
+    background-color: $tertiary;
+    z-index: 0;
+  }
+
+  .left-curved-background, .right-curved-background {
+    position: absolute;
+    background-color: white;
+    height: 49%;
+  }
+
+  .left-curved-background {
+    width: 90%;
+    left: -37%;
+    bottom: 95%;
+    transform: rotate(9deg);
+    border-bottom-left-radius: 830px 105px;
+    border-bottom-right-radius: 877px 104px;
+  }
+
+    .right-curved-background {
+    width: 65.7%;
+    right: 0;
+    //left: 45%;
+    bottom: 78%;
+    transform: rotate(-8deg);
+    border-bottom-left-radius: 942px 105px;
   }
 
   #text {
-    margin-top: 0px;
+    padding-top: 24px;
+    margin-top: 0;
   }
 
   #titles {
     width: 100%;
     display: flex;
+    margin-top: 0;
+    margin-bottom: 0;
     justify-content: space-evenly;
   }
 
   .text-block {
-    margin-top: 3%;
-    margin-bottom: 3%;
+    //padding-top: 3%;
+    // margin-bottom: 3%;
+    margin-bottom: 0;
+    padding-bottom: 39px;
   }
 
   .social-networks-icon {
@@ -105,54 +160,10 @@
   #social-networks {
     width: 50%;
   }
-
-  .background {
-    position:absolute;
-    bottom: 0;
-    width: 100%;
-    height: 312px;
-    background-color: $tertiary;
-    z-index: -3;
-  }
-
-  .desktop-wave-background {
-    width: 100%;
-    height: 196px;
-    margin-top: -191px;
-    position: relative;
-    z-index: -2;
-  }
-
-  .left-curved-background {
-    position: absolute;
-    background-color: white;
-    width: 90%;
-    height: 77%;
-    left: -34%;
-    top: -116%;
-    transform: rotate(9deg);
-    border-bottom-left-radius: 830px 105px;
-    border-bottom-right-radius: 877px 104px;
-    z-index: 3;
-  }
-
-    .right-curved-background {
-    position: absolute;
-    background-color: white;
-    right: 4.9px;
-    width: 65.7%;
-    height: 73%;
-    top: -87%;
-    transform: rotate(-8deg);
-    z-index: 3;
-    border-bottom-left-radius: 942px 105px;
-  }
 }
 
 @media (min-width: 1941px) {
   .left-curved-background, .right-curved-background  {
     display: none;
   }
-
-
 }
