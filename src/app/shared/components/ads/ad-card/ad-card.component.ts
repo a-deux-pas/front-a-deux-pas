@@ -1,9 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-ad-card',
   templateUrl: './ad-card.component.html',
   standalone: true,
+  imports: [CommonModule]
 })
 export class AdCardComponent {
   @Input() ad: any;

@@ -1,0 +1,33 @@
+.tab-title-mobile {
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    width: 40%;
+}
+
+button[type="submit"] {
+    margin: 0 auto;
+    margin-right: 3% !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+app-ad-card {
+    display: ruby-text;
+}
+
+
+@media (min-width: 1200px) {
+
+    .myAdsList {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-row-gap: 52px;
+    }
+
+    button[type="submit"] {
+        margin-right: 0px;
+    }
+}

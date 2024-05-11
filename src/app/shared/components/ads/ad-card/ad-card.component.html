@@ -1,5 +1,8 @@
 <div class="card mt-4">
-    <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
+    <div class="ad-image">
+        <img class="card-img-top" [ngClass]="{'reserved': ad.status == 'RESERVED', 'sold': ad.status == 'SOLD' }"
+            [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
+    </div>
     <div class="card-colored-border">
         <div class="card-body">
             <h5 class="card-title pb-2">{{ ad.title }}</h5>
