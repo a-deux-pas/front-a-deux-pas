@@ -9,6 +9,4 @@ import { CategoriesComponent } from './components/categories/categories.componen
   standalone: true,
   imports: [HeaderComponent, CategoriesComponent]
 })
-export class DefaultHomeComponent {
-
-}
+export class DefaultHomeComponent {}

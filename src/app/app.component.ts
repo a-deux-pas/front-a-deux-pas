@@ -10,6 +10,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
   imports: [RouterOutlet, NavbarComponent, FooterComponent]
 })
 export class AppComponent {
+  title = 'front';
   isAccountMenuOpen: boolean = false;
 
   accountNavbarMenuToggle() {
