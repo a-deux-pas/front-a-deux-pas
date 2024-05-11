@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { UtilsService } from '../../app/shared/services/utils-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-style-guide',
@@ -18,19 +19,10 @@ export class StyleGuideComponent {
   constructor(
     private modalService: NgbModal,
     private utilsService: UtilsService
-  ) { }
-
-  ngOnInit(): void {
-    this.checkWindowSize();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.checkWindowSize();
-  }
-
-  checkWindowSize(): boolean {
-    return this.isBigScreen == this.utilsService.onResize();
+  ) {
+    this.windowSizeSubscription = this.utilsService.isBigScreen$.subscribe(isBigScreen => {
+      this.isBigScreen = isBigScreen;
+    });
   }
 
   isBigScreen: boolean = true;
@@ -38,6 +30,7 @@ export class StyleGuideComponent {
   selectedTimes = [];
   selectedState = [];
   selectedCatFilter: string | undefined;
+  windowSizeSubscription: Subscription;
 
   // Select data
   days = [
@@ -120,5 +113,9 @@ export class StyleGuideComponent {
   methodToFilter(genderName: string | undefined, subCategoryName: string) {
     this.selectedCatFilter = genderName ?? subCategoryName;
     console.log(' subCategoryName ', subCategoryName, 'genderName ', genderName)
+  }
+
+  ngOnDestroy(): void {
+    this.windowSizeSubscription.unsubscribe();
   }
 }

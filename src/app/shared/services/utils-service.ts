@@ -1,5 +1,5 @@
-import { HostListener, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -7,15 +7,20 @@ import { Observable, of } from 'rxjs';
 export class UtilsService {
     isBigScreen: boolean | undefined;
 
-    // This HostListener listens for window resize events
+    // This subscription listens for window resize events
     // When a resize event occurs, the onResize method is triggered
     // It takes the event object as a parameter
     // The isBigScreen property is updated based on the inner width of the event target
-    @HostListener('window:resize', ['$event'])
-    onResize(): boolean {
-        // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
-        this.isBigScreen = window.innerWidth > 1200;
-        return this.isBigScreen;
+    private isBigScreenSubject = new BehaviorSubject<boolean>(false);
+    isBigScreen$ = this.isBigScreenSubject.asObservable();
+
+    constructor() {
+        this.checkWindowSize();
+        window.addEventListener('resize', () => this.checkWindowSize());
+    }
+
+    private checkWindowSize(): void {
+        this.isBigScreenSubject.next(window.innerWidth > 1200);
     }
 
     /**

@@ -1,11 +1,11 @@
-import { Component, Input, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/Ad.service';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { UtilsService } from '../../../services/utils-service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
-import { Observable, catchError, tap } from 'rxjs';
+import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { NgClass } from '@angular/common'
@@ -25,7 +25,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [FormsModule, NgSelectModule, NgxDropzoneModule, NgClass, NgbCarousel, NgbSlide]
 })
-export class AdFormComponent implements OnInit {
+export class AdFormComponent {
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
 
@@ -50,26 +50,18 @@ export class AdFormComponent implements OnInit {
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
-
-  ngOnInit(): void {
-    this.checkWindowSize();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.checkWindowSize();
-  }
-
-  checkWindowSize(): boolean {
-    return this.isBigScreen == this.utilsService.onResize();
-  }
+  windowSizeSubscription: Subscription;
 
   constructor(
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
     private utilsService: UtilsService,
-  ) { }
+  ) {
+    this.windowSizeSubscription = this.utilsService.isBigScreen$.subscribe(isBigScreen => {
+      this.isBigScreen = isBigScreen;
+    });
+  }
 
   // article category selection section
   getSubCategories() {
@@ -83,7 +75,7 @@ export class AdFormComponent implements OnInit {
   getSubCategoriesGender() {
     const currentCategory = Categories.find((category: { name: Category }) => category.name === this.ad.category);
     if (currentCategory) {
-      const currentSubCategory = currentCategory.subCategories.find((subCat: { name: Subcategory}) => subCat.name === this.ad.subcategory.name);
+      const currentSubCategory = currentCategory.subCategories.find((subCat: { name: Subcategory }) => subCat.name === this.ad.subcategory.name);
       if (currentSubCategory?.gender) {
         return currentSubCategory.gender;
       }
@@ -227,5 +219,9 @@ export class AdFormComponent implements OnInit {
         console.error('Error occurred during image upload:', error);
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.windowSizeSubscription.unsubscribe();
   }
 }

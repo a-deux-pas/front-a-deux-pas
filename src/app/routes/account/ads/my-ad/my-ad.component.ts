@@ -1,11 +1,12 @@
-import { Component, HostListener, OnInit, ViewChild, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../Ad.service';
 import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.model';
 import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
 import { UtilsService } from '../../../../shared/services/utils-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-my-ad',
@@ -26,16 +27,19 @@ export class MyAdComponent implements OnInit {
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;
   myOtherAds: AdPostResponse[] = []
+  windowSizeSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private adService: AdService,
     private utilsService: UtilsService
-  ) { }
+  ) {
+    this.windowSizeSubscription = this.utilsService.isBigScreen$.subscribe(isBigScreen => {
+      this.isBigScreen = isBigScreen;
+    });
+  }
 
   ngOnInit(): void {
-    this.checkWindowSize();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
@@ -68,15 +72,6 @@ export class MyAdComponent implements OnInit {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.checkWindowSize();
-  }
-
-  checkWindowSize(): boolean {
-    return this.isBigScreen == this.utilsService.onResize();
-  }
-
   // image carrousel for mobile device
   @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
 
@@ -106,5 +101,9 @@ export class MyAdComponent implements OnInit {
     if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
       this.togglePaused();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.windowSizeSubscription.unsubscribe();
   }
 }
