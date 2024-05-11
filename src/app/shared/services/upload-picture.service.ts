@@ -38,11 +38,4 @@ export class UploadPictureService {
     });
     return forkJoin(observables);
   }
-
-  // private handleError<T>(operation = 'uploadOperation', result?: T) {
-  //   return (error: any): Observable<T> => {
-  //     console.error(error);
-  //     return of(result as T);
-  //   };
-  // }
 }
