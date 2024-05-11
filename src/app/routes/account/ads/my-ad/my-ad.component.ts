@@ -5,8 +5,8 @@ import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.mo
 import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
-import { UtilsService } from '../../../../shared/services/utils-service';
 import { Subscription } from 'rxjs';
+import { WindowSizeService } from '../../../../shared/services/window-size.service';
 
 @Component({
   selector: 'app-my-ad',
@@ -32,9 +32,9 @@ export class MyAdComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private adService: AdService,
-    private utilsService: UtilsService
+    private windowSizeService: WindowSizeService
   ) {
-    this.windowSizeSubscription = this.utilsService.isBigScreen$.subscribe(isBigScreen => {
+    this.windowSizeSubscription = this.windowSizeService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
     });
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, forkJoin, of, retry } from 'rxjs';
-import { UtilsService } from './utils-service';
+import { HandleErrorService } from './handle-error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class UploadPictureService {
 
   constructor(
     private http: HttpClient,
-    private utilsService: UtilsService) { }
+    private handleErrorService: HandleErrorService) { }
   /**
    * This method send all the data needed in order to proceed to a call to the cloudinary API
    * The upload_preset defines a set of action to perform upon the upload of a resource 
@@ -27,7 +27,7 @@ export class UploadPictureService {
     return this.http.post(`https://api.cloudinary.com/v1_1/erikaadeuxpas/upload/`, data)
       .pipe(
         retry(1),
-        catchError(this.utilsService.handleError('completeDataToUpload'))
+        catchError(this.handleErrorService.handleError('completeDataToUpload'))
       );
   }
 

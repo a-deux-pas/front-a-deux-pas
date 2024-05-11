@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http"
 import { Ad } from "../shared/models/ad/ad.model"
 import { API_URL } from "../shared/utils/constants/utils-constants"
 import { AdPostResponse } from "../shared/models/ad/ad-post-response.model"
-import { UtilsService } from "../shared/services/utils-service"
+import { HandleErrorService } from "../shared/services/handle-error.service"
 
 @Injectable({
     providedIn: 'root'
@@ -15,13 +15,13 @@ export class AdService {
 
     constructor(
         private http: HttpClient,
-        private utilsService: UtilsService) { }
+        private handleErrorService: HandleErrorService) { }
 
     postAd(ad: Ad): Observable<any> {
         const url = `${this.contextUrl}create`
         return this.http.post(url, ad)
             .pipe(
-                catchError(this.utilsService.handleError<any[]>('postAd'))
+                catchError(this.handleErrorService.handleError<any[]>('postAd'))
             )
     }
 
@@ -29,7 +29,7 @@ export class AdService {
         const url = `${this.contextUrl}${adId}`
         return this.http.get<AdPostResponse>(url)
             .pipe(
-                catchError(this.utilsService.handleError<AdPostResponse>('getAd'))
+                catchError(this.handleErrorService.handleError<AdPostResponse>('getAd'))
             );
     }
 
@@ -37,7 +37,7 @@ export class AdService {
         const url = `${this.contextUrl}list/${userId}`
         return this.http.get<AdPostResponse[]>(url)
             .pipe(
-                catchError(this.utilsService.handleError<any[]>('getAdsList'))
+                catchError(this.handleErrorService.handleError<any[]>('getAdsList'))
             )
     }
 }

@@ -5,7 +5,7 @@ import { PreferredSchedule } from '../../../shared/models/user/preferred-schedul
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
 import { User } from '../../../shared/models/user/user.model';
 import { API_URL } from '../../../shared/utils/constants/utils-constants';
-import { UtilsService } from '../../../shared/services/utils-service';
+import { HandleErrorService } from '../../../shared/services/handle-error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +15,13 @@ export class ProfileService {
 
   constructor(
     private http: HttpClient,
-    private utilsService: UtilsService) { }
+    private handleErrorService: HandleErrorService) { }
 
   // Fetch user information from the API
   getUserPresentation(): Observable<User> {
     return this.http.get<User>(this.apiUrl + "/presentation")
       .pipe(
-        catchError(this.utilsService.handleError<User>('userPresentation'))
+        catchError(this.handleErrorService.handleError<User>('userPresentation'))
       );
   }
 
@@ -29,7 +29,7 @@ export class ProfileService {
   getUserPreferredSchedules(): Observable<PreferredSchedule[]> {
     return this.http.get<PreferredSchedule[]>(this.apiUrl + "/schedules")
       .pipe(
-        catchError(this.utilsService.handleError<PreferredSchedule[]>('preferredSchedules', []))
+        catchError(this.handleErrorService.handleError<PreferredSchedule[]>('preferredSchedules', []))
       );
   }
 
@@ -37,7 +37,7 @@ export class ProfileService {
   getPreferredMeetingPlaces(): Observable<PreferredMeetingPlace[]> {
     return this.http.get<PreferredMeetingPlace[]>(this.apiUrl + "/meeting-places")
       .pipe(
-        catchError(this.utilsService.handleError<PreferredMeetingPlace[]>('preferredMeetingPlaces', []))
+        catchError(this.handleErrorService.handleError<PreferredMeetingPlace[]>('preferredMeetingPlaces', []))
       );
   }
 }

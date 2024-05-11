@@ -3,7 +3,7 @@ import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/Ad.service';
 import { UploadPictureService } from '../../../services/upload-picture.service';
-import { UtilsService } from '../../../services/utils-service';
+import { WindowSizeService } from '../../../services/window-size.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
@@ -56,9 +56,9 @@ export class AdFormComponent {
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
-    private utilsService: UtilsService,
+    private windowSizeService: WindowSizeService,
   ) {
-    this.windowSizeSubscription = this.utilsService.isBigScreen$.subscribe(isBigScreen => {
+    this.windowSizeSubscription = this.windowSizeService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
     });
   }

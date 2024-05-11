@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class UtilsService {
+export class WindowSizeService {
     isBigScreen: boolean | undefined;
 
     // This subscription listens for window resize events
@@ -21,22 +21,5 @@ export class UtilsService {
 
     private checkWindowSize(): void {
         this.isBigScreenSubject.next(window.innerWidth > 1200);
-    }
-
-    /**
-    * Handle Http operation that failed.
-    * Let the app continue.
-    *
-    * @param operation - name of the operation that failed
-    * @param result - optional value to return as the observable result
-    */
-    public handleError<T>(operation = 'opération', result?: T) {
-        return (error: any): Observable<T> => {
-
-            console.error(error);
-
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
-        };
     }
 }
