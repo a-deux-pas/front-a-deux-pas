@@ -31,8 +31,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-left: 3%;
-  padding-right: 3%;
+  padding: 0 3%;
 }
 
 #welcome-text {
@@ -43,7 +42,7 @@
   margin-right: auto;
   margin-left: auto;
   margin-top: 2rem;
-  padding: 0 1rem 0 1rem;
+  padding: 0 1rem;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -142,7 +141,7 @@
 @media (min-width: 1250px) {
   #welcome-text {
     padding-left: 5rem;
-    padding-right: 0px;
+    padding-right: 0rem;
   }
 
   #create-ad-button {

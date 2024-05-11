@@ -2,22 +2,21 @@
 
 #categories-title {
   position: relative;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: bold;
   color: $primary;
   text-align: center;
-  margin: 10px;
+  margin-top: 10px;
 }
 
 #all-categories {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 3rem;
+  margin-top: 56px;
 }
 
 .category {
   width: 50%;
-  padding: 3%;
 
   & h2 {
     font-size: 18px;
@@ -32,22 +31,26 @@
   }
 }
 
+#home, #electronic {
+  padding-left: 4%;
+}
+
 @media (min-width: 892px) {
 
   #categories-section {
-    margin: -17px auto 4rem auto;
+    margin: -17px auto 0px auto;
   }
 
   #categories-title {
     font-size: 2.22rem;
     text-align: left;
-    margin: 0 0 8% 0;
+    margin: 0 auto 8%;
   }
 
   #all-categories {
     display: flex;
     justify-content: space-between;
-    margin-top: 7rem;
+    margin-top: 112px;
   }
 
   .category {
@@ -60,12 +63,13 @@
     }
 
     & p {
-      font-size: 16px;
+      font-size: 1rem;
     }
   }
 
   #home {
     top: -50px;
+    padding-left: 0;
   }
 
   #leisure {
@@ -73,6 +77,7 @@
   }
 
   #electronic {
-    top: -186px
+    top: -186px;
+    padding-left: 0;
   }
 }
