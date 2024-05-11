@@ -50,7 +50,6 @@
     </div>
     }
 
-
     <!-- Carrousel section for image selection on mobile device -->
     <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
       (slide)="onSlide($event)" class="center"
@@ -85,7 +84,6 @@
     }
   </div>
 
-
   <!-- Category choice section -->
   <div class="mx-auto  " style="width: 246px;">
     <label class="mt-4" for="cat">Choisissez une catégorie</label>
@@ -112,7 +110,7 @@
   @if (ad.category && ad.category !== 'Autre') {
   <div class="mx-auto" style="width: 246px;">
     <label class="mt-4" for="sub-cat">Choisissez une sous-catégorie</label>
-    <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4" #subcategory="ngModel"
+    <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4 mb-4" #subcategory="ngModel"
       [disabled]="disabledFields" [required]="ad.category !== 'Autre'" maxlength="100">
       @for (subCat of getSubCategories(); track subCat) {
       <ng-option [value]="subCat">
@@ -121,7 +119,7 @@
       }
     </ng-select>
     @if (subcategory.errors) {
-    <div>
+    <div style="width: max-content;">
       @if(subcategory.touched && subcategory.errors['required'] || adForm.submitted == true && adForm.invalid == true &&
       subcategory.errors!['required']) {
       <span class="error-msg">Veuillez entrer une
@@ -159,7 +157,7 @@
   }
 
   <!-- General information section -->
-  <h3 class="bold-title-700 mb-5 mt-3">Informations générales</h3>
+  <h3 class="bold-title-700 mb-5 mt-5">Informations générales</h3>
 
   <!-- Title -->
   <div class="label-and-input mt-5 mx-auto" id="ad-title">
@@ -181,6 +179,10 @@
       un
       titre comportant moins de 150 caractères</span>
     }
+    @if (ad.title && ad.title.length < 4) { <span class="error-msg mb-2">Veuillez entrer
+      un
+      titre comportant au moins 4 caractères</span>
+      }
   </div>
 
   <!-- Description -->

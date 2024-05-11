@@ -3,11 +3,12 @@ import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/Ad.service';
 import { UploadPictureService } from '../../../services/upload-picture.service';
+import { UtilsService } from '../../../services/utils-service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { ViewportScroller, NgClass } from '@angular/common'
+import { NgClass } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
@@ -28,7 +29,7 @@ export class AdFormComponent implements OnInit {
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
 
-  isBigScreen: boolean | undefined
+  isBigScreen!: boolean;
   isPostAdForm: boolean | undefined;
 
   ad: Ad = new Ad(
@@ -50,25 +51,24 @@ export class AdFormComponent implements OnInit {
   adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
 
-  // This HostListener listens for window resize events
-  // When a resize event occurs, the onResize method is triggered
-  // It takes the event object as a parameter
-  // The isBigScreen property is updated based on the inner width of the event target
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
-    this.isBigScreen = window.innerWidth > 1200;
+  ngOnInit(): void {
+    this.checkWindowSize();
   }
 
-  ngOnInit(): void {
-    this.isBigScreen = window.innerWidth > 1200;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkWindowSize();
+  }
+
+  checkWindowSize(): boolean {
+    return this.isBigScreen = this.utilsService.onResize();
   }
 
   constructor(
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
-    private viewportScroller: ViewportScroller,
+    private utilsService: UtilsService,
   ) { }
 
   // article category selection section
@@ -197,12 +197,9 @@ export class AdFormComponent implements OnInit {
   onSubmit() {
     this.uploadArticlePictures().subscribe({
       next: () => {
-        console.log('All images uploaded successfully');
         this.ad.creationDate = this.today;
         if (this.ad.category == "Autre") {
-          console.log('ici')
           this.ad.subcategory = Subcategory.OTHER_SUBCATEGORY;
-          console.log(' this.ad.subcategory:: ', this.ad.subcategory)
         } else {
           this.ad.subcategory = this.ad.subcategory.name
         }

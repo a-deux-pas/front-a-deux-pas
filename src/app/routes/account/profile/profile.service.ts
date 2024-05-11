@@ -4,7 +4,8 @@ import { Observable, catchError, of } from 'rxjs';
 import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
 import { User } from '../../../shared/models/user/user.model';
-import { API_URL } from '../../../shared/utils/constants/utilsConstants';
+import { API_URL } from '../../../shared/utils/constants/utils-constants';
+import { UtilsService } from '../../../shared/services/utils-service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,15 @@ import { API_URL } from '../../../shared/utils/constants/utilsConstants';
 export class ProfileService {
   private apiUrl = `${API_URL}api/account/profile`;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private utilsService: UtilsService) { }
 
   // Fetch user information from the API
   getUserPresentation(): Observable<User> {
     return this.http.get<User>(this.apiUrl + "/presentation")
       .pipe(
-        catchError(this.handleError<User>('userPresentation'))
+        catchError(this.utilsService.handleError<User>('userPresentation'))
       );
   }
 
@@ -26,7 +29,7 @@ export class ProfileService {
   getUserPreferredSchedules(): Observable<PreferredSchedule[]> {
     return this.http.get<PreferredSchedule[]>(this.apiUrl + "/schedules")
       .pipe(
-        catchError(this.handleError<PreferredSchedule[]>('preferredSchedules', []))
+        catchError(this.utilsService.handleError<PreferredSchedule[]>('preferredSchedules', []))
       );
   }
 
@@ -34,24 +37,7 @@ export class ProfileService {
   getPreferredMeetingPlaces(): Observable<PreferredMeetingPlace[]> {
     return this.http.get<PreferredMeetingPlace[]>(this.apiUrl + "/meeting-places")
       .pipe(
-        catchError(this.handleError<PreferredMeetingPlace[]>('preferredMeetingPlaces', []))
+        catchError(this.utilsService.handleError<PreferredMeetingPlace[]>('preferredMeetingPlaces', []))
       );
-  }
-
-  /**
- * Handle Http operation that failed.
- * Let the app continue.
- *
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
-  private handleError<T>(operation = 'profile', result?: T) {
-    return (error: any): Observable<T> => {
-
-      console.error(error);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
   }
 }

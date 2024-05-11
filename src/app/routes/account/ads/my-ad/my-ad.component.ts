@@ -5,6 +5,7 @@ import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.mo
 import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
+import { UtilsService } from '../../../../shared/services/utils-service';
 
 @Component({
   selector: 'app-my-ad',
@@ -26,24 +27,15 @@ export class MyAdComponent implements OnInit {
   selectedPicNumber: number = 1;
   myOtherAds: AdPostResponse[] = []
 
-  //TODO : to probably put in some utils service
-  // This HostListener listens for window resize events
-  // When a resize event occurs, the onResize method is triggered
-  // It takes the event object as a parameter
-  // The isBigScreen property is updated based on the inner width of the event target
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
-    this.isBigScreen = window.innerWidth > 1200;
-  }
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private adService: AdService) { }
+    private adService: AdService,
+    private utilsService: UtilsService
+  ) { }
 
   ngOnInit(): void {
-    this.isBigScreen = window.innerWidth > 1200;
+    this.checkWindowSize();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
@@ -74,6 +66,15 @@ export class MyAdComponent implements OnInit {
         console.error(error);
       }
     });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkWindowSize();
+  }
+
+  checkWindowSize(): boolean {
+    return this.isBigScreen = this.utilsService.onResize();
   }
 
   // image carrousel for mobile device

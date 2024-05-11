@@ -84,6 +84,8 @@ a {
     text-decoration: none;
 }
 
+// traditionally used for interlinear annotations
+// ruby-text can also be used in order to dynamically center an element
 app-ad-card {
     display: ruby-text;
 }

@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { UtilsService } from '../../app/shared/services/utils-service';
 
 @Component({
   selector: 'app-style-guide',
@@ -14,16 +15,22 @@ import { NgSelectModule } from '@ng-select/ng-select';
 export class StyleGuideComponent {
 
   //Component to import to use a modal
-  constructor(private modalService: NgbModal) { }
+  constructor(
+    private modalService: NgbModal,
+    private utilsService: UtilsService
+  ) { }
 
-  // This HostListener listens for window resize events
-  // When a resize event occurs, the onResize method is triggered
-  // It takes the event object as a parameter
-  // The isBigScreen property is updated based on the inner width of the event target
+  ngOnInit(): void {
+    this.checkWindowSize();
+  }
+
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
-    this.isBigScreen = event.target.innerWidth > 1200;
+  onResize() {
+    this.checkWindowSize();
+  }
+
+  checkWindowSize(): boolean {
+    return this.isBigScreen = this.utilsService.onResize();
   }
 
   isBigScreen: boolean = true;
