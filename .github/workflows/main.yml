@@ -39,6 +39,8 @@ jobs:
         with:
           # we have already installed everything
           install: false
+          build: npm run build
+          start: npm start
       - name: Run Component Testing
         uses: cypress-io/github-action@v6
         with:
