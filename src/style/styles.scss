@@ -116,7 +116,7 @@ html, body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color:$tertiary;
+    background-color: $tertiary;
     z-index: -1;
   }
 
@@ -849,10 +849,9 @@ a.dropdown-first-level.dropdown-toggle {
 /*-----------------------------------------------------------------------*/
 
 @media (min-width: 768px) {
-
   // Personalized container for "my account" pages
   // Includes tabs and page content
-  .account-container {
+  .custom-container {
     @include make-container($padding-x: 1.3vh, $padding-y: 7.25vh);
   }
 
@@ -894,7 +893,6 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Desktop version
 @media (min-width: 1200px) {
-
   // margin
   body {
     margin: 0;
@@ -908,7 +906,7 @@ a.dropdown-first-level.dropdown-toggle {
 
   // Personalized container for "my account" pages
   // Includes tabs and page content
-  .account-container {
+  .custom-container {
     @include make-container($padding-x: 8vh, $padding-y: 0.25vh);
   }
 
