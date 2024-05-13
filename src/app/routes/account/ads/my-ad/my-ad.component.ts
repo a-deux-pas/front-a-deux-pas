@@ -65,10 +65,8 @@ export class MyAdComponent implements OnInit {
         this.adService.findMyAds(this.myAd.publisherId!).subscribe({
           next: (myOtherAds: AdPostResponse[]) => {
             this.myOtherAds = myOtherAds.filter(ad => ad.id !== this.myAd!.id);
-            console.log(this.myOtherAds);
           }
         })
-        console.log("ext méthode" + this.myOtherAds);
       },
       error: error => {
         console.error(error);

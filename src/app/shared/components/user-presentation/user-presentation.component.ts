@@ -7,10 +7,6 @@ import { User } from '../../models/user/user.model';
     styleUrl: './user-presentation.component.scss',
     standalone: true
 })
-export class UserPresentationComponent implements OnInit{
+export class UserPresentationComponent {
   @Input() user!: User;
-
-  ngOnInit(): void {
-    console.log(this.user)
-  }
 }

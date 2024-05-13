@@ -39,9 +39,7 @@ export class ProfileComponent {
   fetchUserPresentation(): void {
     this.profileService.getUserPresentation().subscribe((data) => {
       this.user = data;
-      console.log(this.user);
     });
-    console.log(this.user);
   }
 
   // Fetch user's preferred schedules from the service

@@ -18,7 +18,6 @@ export class TabsAccountComponent implements OnInit {
   constructor(public route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    console.log(this.router.events);
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => this.router.url.split('/')[2]), // Extract the segment after '/compte/'
