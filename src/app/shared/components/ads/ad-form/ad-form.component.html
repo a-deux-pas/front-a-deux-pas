@@ -194,16 +194,16 @@
       name="ad-description" id="ad-description" rows="3" #description="ngModel" [disabled]="disabledFields"
       required></textarea>
     @if (description.errors) {
-    <div>
-      @if (description.touched && description.errors['required'] || adForm.submitted == true && adForm.invalid == true
-      &&
-      description.errors!['required']) {
-      <span class="error-msg mb-4">Veuillez entrer
-        une
-        description</span>
-      }
-    </div>
+      <div>
+        @if (description.touched && description.errors['required'] || adForm.submitted == true && adForm.invalid == true &&
+        description.errors!['required']) {
+        <span class="error-msg mb-2">Veuillez entrer une description</span>
+        }
+      </div>
     }
+    @if (ad.articleDescription && ad.articleDescription.length < 4) {
+      <span class="error-msg mb-2">Veuillez entrer une description comportant au moins 4 caractères</span>
+      }
   </div>
 
   <!-- State -->
@@ -245,7 +245,7 @@
       }
     </div>
     }
-    @if (ad.price && 0 > ad.price) {
+    @if (ad.price && ad.price! <= 0 ) {
     <span class="error-msg mb-2">Veuillez entrer
       un
       prix valide</span>

@@ -8,7 +8,7 @@ import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { ViewportScroller, NgClass } from '@angular/common'
+import { NgClass } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
@@ -56,8 +56,7 @@ export class AdFormComponent {
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
-    private displayManagementService: DisplayManagementService,
-    private viewportScroller: ViewportScroller,
+    private displayManagementService: DisplayManagementService
   ) {
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
@@ -197,7 +196,6 @@ export class AdFormComponent {
           this.ad.subcategory = this.ad.subcategory.name
         }
         // TODO: à enlever une fois la connexion implémentée
-        this.scrollToTop()
         this.ad.publisherId = 1;
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdPostResponse) => {
@@ -221,10 +219,6 @@ export class AdFormComponent {
         console.error('Error occurred during image upload:', error);
       }
     });
-  }
-
-  scrollToTop(): void {
-    this.viewportScroller.scrollToPosition([0, 0])
   }
 
   ngOnDestroy(): void {
