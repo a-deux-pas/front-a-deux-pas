@@ -1,17 +1,19 @@
-import { Component, Input, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/Ad.service';
 import { UploadPictureService } from '../../../services/upload-picture.service';
+import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
-import { Observable, catchError, tap } from 'rxjs';
+import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { ViewportScroller, NgClass } from '@angular/common'
-import { AdPostResponse } from '../../../models/ad/adPostResponse.model';
-import { ArticleState } from '../../../models/enum/ArticleState';
-import { Category } from '../../../models/enum/Category';
-import { Categories } from '../../../utils/constants/Categories';
+import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
+import { ArticleState } from '../../../models/enum/article-state.enum';
+import { Category } from '../../../models/enum/category.enum';
+import { Categories } from '../../../utils/constants/categories-arrangement';
+import { Subcategory } from '../../../models/enum/subcategory.enum';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -23,11 +25,11 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [FormsModule, NgSelectModule, NgxDropzoneModule, NgClass, NgbCarousel, NgbSlide]
 })
-export class AdFormComponent implements OnInit {
+export class AdFormComponent {
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
 
-  isBigScreen: boolean | undefined
+  isBigScreen!: boolean;
   isPostAdForm: boolean | undefined;
 
   ad: Ad = new Ad(
@@ -48,31 +50,23 @@ export class AdFormComponent implements OnInit {
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
-
-  // This HostListener listens for window resize events
-  // When a resize event occurs, the onResize method is triggered
-  // It takes the event object as a parameter
-  // The isBigScreen property is updated based on the inner width of the event target
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
-    this.isBigScreen = window.innerWidth > 1200;
-  }
-
-  ngOnInit(): void {
-    this.isBigScreen = window.innerWidth > 1200;
-  }
+  windowSizeSubscription: Subscription;
 
   constructor(
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
+    private displayManagementService: DisplayManagementService,
     private viewportScroller: ViewportScroller,
-  ) { }
+  ) {
+    this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
+      this.isBigScreen = isBigScreen;
+    });
+  }
 
   // article category selection section
   getSubCategories() {
-    const currentCategory = Categories.find(category => category.name === this.ad.category);
+    const currentCategory = Categories.find((category: { name: Category }) => category.name === this.ad.category);
     if (currentCategory) {
       return currentCategory.subCategories;
     }
@@ -80,9 +74,9 @@ export class AdFormComponent implements OnInit {
   }
 
   getSubCategoriesGender() {
-    const currentCategory = Categories.find(category => category.name === this.ad.category);
+    const currentCategory = Categories.find((category: { name: Category }) => category.name === this.ad.category);
     if (currentCategory) {
-      const currentSubCategory = currentCategory.subCategories.find(subCat => subCat.name === this.ad.subcategory.name);
+      const currentSubCategory = currentCategory.subCategories.find((subCat: { name: Subcategory }) => subCat.name === this.ad.subcategory.name);
       if (currentSubCategory?.gender) {
         return currentSubCategory.gender;
       }
@@ -196,23 +190,23 @@ export class AdFormComponent implements OnInit {
   onSubmit() {
     this.uploadArticlePictures().subscribe({
       next: () => {
-        console.log('All images uploaded successfully');
         this.ad.creationDate = this.today;
-        this.ad.subcategory = this.ad.subcategory.name
+        if (this.ad.category == "Autre") {
+          this.ad.subcategory = Subcategory.OTHER_SUBCATEGORY;
+        } else {
+          this.ad.subcategory = this.ad.subcategory.name
+        }
         // TODO: à enlever une fois la connexion implémentée
+        this.scrollToTop()
         this.ad.publisherId = 1;
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdPostResponse) => {
-            this.scrollToTop()
-            this.adSuccessfullySubmitted = true;
             this.disabledFields = true;
             setTimeout(() => {
-              this.adSuccessfullySubmitted = false;
-              this.disabledFields = false;
-            }, 3000);
-            setTimeout(() => {
-              this.router.navigate(['compte/annonces/mon-annonce/', ad.id])
-            }, 3000)
+              this.router.navigate(['compte/annonces/mon-annonce/', ad.id], {
+                queryParams: { success: true }
+              });
+            }, 1000);
           },
           error: (error: any) => {
             console.error(error);
@@ -231,5 +225,9 @@ export class AdFormComponent implements OnInit {
 
   scrollToTop(): void {
     this.viewportScroller.scrollToPosition([0, 0])
+  }
+
+  ngOnDestroy(): void {
+    this.windowSizeSubscription.unsubscribe();
   }
 }

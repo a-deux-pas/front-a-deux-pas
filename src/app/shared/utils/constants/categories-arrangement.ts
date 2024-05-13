@@ -1,6 +1,6 @@
-import { Category } from '../../models/enum/Category';
-import { Gender } from '../../models/enum/Gender';
-import { Subcategory } from '../../models/enum/Subcategory';
+import { Category } from '../../models/enum/category.enum';
+import { Gender } from '../../models/enum/gender.enum';
+import { Subcategory } from '../../models/enum/subcategory.enum';
 
 export const Categories = [
     {
