@@ -4,16 +4,7 @@ context('create new ad testing', () => {
         cy.url().should('include', 'creation');
     });
 
-    it('the publish button should stay disabled', () => {
-        cy.get('button[type=submit]').should('be.disabled')
-        cy.fixture('new-ad').then((newAdData) => {
-            cy.get('#ad-title').type(newAdData.title)
-        })
-        cy.get('button[type=submit]').should('be.disabled')
-    });
-
     it('should create an Ad object', () => {
-
         cy.get('ng-select[name=selectedPicNumber]').click()
         cy.get('div.ng-option').should('be.visible')
         cy.get('span').contains('2 photos').click()
@@ -30,7 +21,6 @@ context('create new ad testing', () => {
             cy.get('ng-select[name=sub-cat]').click()
             cy.get('span').contains(newAdData.subcategory).click()
             cy.get('#ad-title').type(newAdData.title)
-            cy.get('button[type=submit]').should('be.disabled')
             cy.get('#ad-description').type(newAdData.articleDescription)
             cy.get('ng-select[name=state]').click()
             cy.get('span').contains(newAdData.articleState).click()

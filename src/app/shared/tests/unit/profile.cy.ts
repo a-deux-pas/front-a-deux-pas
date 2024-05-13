@@ -4,7 +4,7 @@ import { ProfileService } from "../../../routes/account/profile/profile.service"
 import { MeetingPlacesComponent } from "../../../routes/account/profile/components/meeting-places/meeting-places.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { EditButtonComponent } from "../../../routes/account/profile/components/edit-button/edit-button.component";
-import { API_URL } from "../../utils/constants/utilsConstants";
+import { API_URL } from "../../utils/constants/utils-constants";
 
 let apiUrl = `${API_URL}api/account/profile`;
 
