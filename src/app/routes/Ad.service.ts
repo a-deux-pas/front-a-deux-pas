@@ -40,4 +40,8 @@ export class AdService {
                 catchError(this.handleErrorService.handleError<any[]>('getAdsList'))
             )
     }
+
+    // fetchMoreAds(userId: number): Observable<AdPostResponse[]> {
+
+    // }
 }

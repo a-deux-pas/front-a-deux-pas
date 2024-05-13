@@ -103,6 +103,34 @@ export class MyAdComponent implements OnInit {
     }
   }
 
+  pageNumber: number = 0;
+
+  // fetchCitiesAndPostalCodes() {
+  //   this.adService
+  //     .fetchCitiesAndPostalCodes()
+  //     .subscribe((citiesAndPostalCodes: any) => {
+  //       this.formatCitiesAndPostalCodesForDisplay(citiesAndPostalCodes);
+  //     });
+  // }
+
+  // fetchPaginatedAdsList() {
+  //   this.adService
+  //     .fetchFilteredAds(
+  //       this.pageNumber,
+  //       this.pageSize,
+  //       1
+  //     )
+  //     .subscribe((ads: AdResponse[]) => {
+  //       this.displayedAds = [...this.displayedAds, ...ads];
+  //       this.noMoreAds = ads.length > 0 ? false : true;
+  //     });
+  // }
+
+  // loadMoreAds() {
+  //   this.pageNumber++;
+  //   this.fetchPaginatedAdsList();
+  // }
+
   ngOnDestroy(): void {
     this.windowSizeSubscription.unsubscribe();
   }
