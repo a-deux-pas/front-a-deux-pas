@@ -1,4 +1,4 @@
-import { API_URL } from "../../utils/constants/utilsConstants";
+import { API_URL } from "../../utils/constants/utils-constants"; 
 
 let apiUrl = `${API_URL}api/account/profile`;
 
