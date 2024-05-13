@@ -907,7 +907,7 @@ a.dropdown-first-level.dropdown-toggle {
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .custom-container {
-    @include make-container($padding-x: 8vh, $padding-y: 0.25vh);
+    @include make-container($padding-x: 8vh, $padding-y: 88px);
   }
 
   /*---------------------------------*/
