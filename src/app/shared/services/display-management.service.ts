@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class WindowSizeService {
+export class DisplayManagementService {
     isBigScreen: boolean | undefined;
 
     // This subscription listens for window resize events

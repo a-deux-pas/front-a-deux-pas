@@ -6,7 +6,7 @@ import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEv
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
 import { Subscription } from 'rxjs';
-import { WindowSizeService } from '../../../../shared/services/window-size.service';
+import { DisplayManagementService } from '../../../../shared/services/display-management.service';
 
 @Component({
   selector: 'app-my-ad',
@@ -32,9 +32,9 @@ export class MyAdComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private adService: AdService,
-    private windowSizeService: WindowSizeService
+    private displayManagementService: DisplayManagementService
   ) {
-    this.windowSizeSubscription = this.windowSizeService.isBigScreen$.subscribe(isBigScreen => {
+    this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
     });
   }

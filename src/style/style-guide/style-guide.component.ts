@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { WindowSizeService } from '../../app/shared/services/window-size.service';
+import { DisplayManagementService } from '../../app/shared/services/display-management.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,9 +18,9 @@ export class StyleGuideComponent {
   //Component to import to use a modal
   constructor(
     private modalService: NgbModal,
-    private windowSizeService: WindowSizeService
+    private displayManagementService: DisplayManagementService
   ) {
-    this.windowSizeSubscription = this.windowSizeService.isBigScreen$.subscribe(isBigScreen => {
+    this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
     });
   }
