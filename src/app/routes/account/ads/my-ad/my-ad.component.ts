@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AdService } from '../../../Ad.service';
+import { AdService } from '../../../ad/ad.service';
 import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.model';
 import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule, ViewportScroller } from '@angular/common';
