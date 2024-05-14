@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core"
 import { Observable, catchError } from "rxjs"
 import { HttpClient } from "@angular/common/http"
-import { Ad } from "../shared/models/ad/ad.model"
-import { API_URL } from "../shared/utils/constants/utils-constants"
-import { AdPostResponse } from "../shared/models/ad/ad-post-response.model"
-import { HandleErrorService } from "../shared/services/handle-error.service"
+import { Ad } from "../../shared/models/ad/ad.model"
+import { API_URL } from "../../shared/utils/constants/utils-constants"
+import { AdPostResponse } from "../../shared/models/ad/ad-post-response.model"
+import { HandleErrorService } from "../../shared/services/handle-error.service"
 
 @Injectable({
     providedIn: 'root'

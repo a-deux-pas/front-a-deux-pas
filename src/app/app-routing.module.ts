@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'accueil',
+    loadComponent: () => import('./routes/home/logged-in-home/logged-in-home.component').then(mod => mod.LoggedInHomeComponent)
+  },
+  {
     path: 'annonce',
     loadChildren: () => import('./routes/ad/ad-routing.module').then(mod => mod.AdRoutingModule)
   },
@@ -13,6 +17,10 @@ const routes: Routes = [
   {
     path: 'inscription',
     loadComponent: () => import('./routes/register/register.component').then(mod => mod.RegisterComponent)
+  },
+  {
+    path: '',
+    loadComponent: () => import('./routes/home/default-home/default-home.component').then(mod => mod.DefaultHomeComponent)
   }
 ];
 
