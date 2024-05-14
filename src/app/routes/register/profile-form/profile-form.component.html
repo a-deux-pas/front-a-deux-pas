@@ -1,0 +1,74 @@
+<h2 class="bold-title-700 text-center">Créer mon compte</h2>
+
+<form [formGroup]="profileForm" class="custom-container" (ngSubmit)="onSubmit()">
+    <div class="row my-3 mt-5">
+      <div class="col">
+        <label for="profile-picture">ajouter une photo
+          <input type="file" formControlName="profilePicture" id="profile-picture" name="profile-picture" accept="image/jpeg, image/jpg, image/png, image/svg, image/webp" required/>
+        </label>
+      </div>
+      @if(profileForm.controls['profilePicture'].errors && profileForm.controls['profilePicture'].touched) {
+        <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous reconnaître lors des rdv</div>
+      }
+    </div>
+    <div class="row my-3 mt-5">
+      <div class="col-4">
+        <label for="alias">Mon pseudo</label>
+        <input type="text" formControlName="alias" id="alias" name="alias" class="form-control" minlength="3" required/>
+      </div>
+      @if(profileForm.controls['alias'].errors && profileForm.controls['alias'].touched) {
+        <div [hidden]="!profileForm.controls['alias'].errors['required']" class="error-msg">Veuillez renseigner votre pseudo</div>
+        <div [hidden]="!profileForm.controls['alias'].errors['minlength']" class="error-msg">Votre pseudo doit comporter au moins 3 caractères</div>
+      }
+      <!-- TO DO : ajouter vérification back pour checker que le pseudo n'existe pas déjà -->
+    </div>
+    <div class="row my-3">
+      <div class="col-6 mt-4">
+        <label for="bio" class="form-label">Ma présentation</label>
+        <textarea formControlName="bio" class="form-control form-control-sm" name="bio" id="bio" rows="3" minlength="10"></textarea>
+      </div>
+      @if(profileForm.controls['bio'].errors && profileForm.controls['bio'].touched) {
+        <div class="error-msg">Votre présentation doit comporter au moins 10 caractères</div>
+      }
+    </div>
+
+  <h3 class="mt-4 bold-title-700 text-left">Mon adresse</h3>
+  <div formGroupName="address">
+    <div class="row my-3 mt-5">
+      <div class="col">
+        <label for="street">Rue</label>
+        <input type="text" formControlName="street" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue" required/>
+      </div>
+      @if(profileForm.controls['address'].controls['street'].errors && profileForm.controls['address'].controls['street'].touched) {
+        <div class="error-msg">Veuillez renseigner votre rue</div>
+      }
+      <!-- TO DO : ajouter appel API front pour vérification adresse et autocomplétion -->
+    </div>
+    <div class="row my-3 mt-5">
+      <div class="col-4">
+        <label for="zip-code">Code postal</label>
+        <input type="number" formControlName="zipCode" id="zip-code" name="zip-code" class="form-control" required/>
+        @if(profileForm.controls['address'].controls['zipCode'].errors && profileForm.controls['address'].controls['zipCode'].touched) {
+          <div class="error-msg">Veuillez renseigner votre code postal</div>
+        }
+      </div>
+      <div class="col-4">
+        <label for="city">Ville</label>
+        <input type="text" formControlName="city" id="city" name="city" class="form-control" required/>
+        @if(profileForm.controls['address'].controls['city'].errors && profileForm.controls['address'].controls['city'].touched) {
+          <div class="error-msg">Veuillez renseigner votre ville</div>
+        }
+      </div>
+    </div>
+  </div>
+  <h3 class="mt-4 bold-title-700 text-left">Mes lieux de RDV préférés</h3>
+
+  <h3 class="mt-4 bold-title-700 text-left">Mes disponibilités</h3>
+
+  <h3 class="mt-4 bold-title-700 text-left">Mes informations bancaires</h3>
+
+  <h3 class="mt-4 bold-title-700 text-left">Mes notifications</h3>
+
+  <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+
+</form>

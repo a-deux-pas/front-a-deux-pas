@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { RegisterDetailsFormComponent } from './register-details-form/register-details-form.component';
+import { ProfileFormComponent } from './profile-form/profile-form.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RegisterDetailsFormComponent],
+  imports: [ProfileFormComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
