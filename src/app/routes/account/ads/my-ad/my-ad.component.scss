@@ -203,6 +203,17 @@ app-ad-card {
         }
     }
 
+    as-split-area > img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .resizable-pictures {
+        width: 880px; 
+        height: 300px; 
+        background: grey;
+    }
+
     // User's other ads section
     .user-other-ads {
         // display: grid;

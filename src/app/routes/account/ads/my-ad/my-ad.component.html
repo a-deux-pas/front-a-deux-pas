@@ -6,26 +6,33 @@
 </div>
 }
 <div class="main-sections">
+
     <!-- image view on desktop device -->
     <section class="article-picture-image-section">
-        @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
-        <img [class.one-picture]="selectedPicNumber == 1" src="{{articlePicture}}"
-            [class.two-pictures]="selectedPicNumber == 2" src="{{articlePicture}}"
-            [class.three-pictures]="selectedPicNumber == 3" src="{{articlePicture}}"
-            [class.four-pictures]="selectedPicNumber == 4" src="{{articlePicture}}"
-            [class.five-pictures]="selectedPicNumber == 5" src="{{articlePicture}}"
-            alt="illustration-de-l'article-n-{{i}}">
-        }
+        <div class="resizable-pictures">
+            <as-split direction="horizontal" #mySplitA>
+                <as-split-area [size]="40" *ngIf="articlePictures[0]">
+                    <img src="{{articlePictures[0]}}" alt="img1" />
+                </as-split-area>
+                <as-split-area *ngIf="articlePictures[3]" #mySplitB>
+                    <img src="{{articlePictures[3]}}" alt="img4" />
+                </as-split-area>
+                <as-split-area *ngIf="articlePictures[4]" #mySplitC>
+                    <img src="{{articlePictures[4]}}" alt="img5" />
+                </as-split-area>
+                <as-split-area [size]="60">
+                    <as-split *ngIf="articlePictures[1]" direction="vertical" restrictMove="true">
+                        <as-split-area *ngIf="articlePictures[1]" [attr.size]="50">
+                            <img src="{{articlePictures[1]}}" alt="img2" />
+                        </as-split-area>
+                        <as-split-area *ngIf="articlePictures[2]" [attr.size]="50">
+                            <img src="{{articlePictures[2]}}" alt="img3" />
+                        </as-split-area>
+                    </as-split>
+                </as-split-area>
+            </as-split>
+        </div>
     </section>
-
-
-
-   
-
-
-
-
-
 
     <!-- image view on mobile device -->
     <section class="article-picture-image-section-mobile w-80">
@@ -40,6 +47,7 @@
             }
         </ngb-carousel>
     </section>
+
     <!-- ad's general information section -->
     <section class="general-info mt-3">
         <div class="title-and-price">
@@ -84,6 +92,38 @@
         </div>
     </section>
 </div>
+
+
+<div class="split-example">
+    <as-split direction="vertical">
+        <div as-split-area size="20">
+            <as-split direction="horizontal" #mySplitA>
+                <div as-split-area [size]="sizes[0]">A 1</div>
+                <as-split-area [size]="sizes[1]"><img
+                        src="https://www.pexels.com/fr-fr/photo/femme-modele-debout-portrait-19674420/"
+                        alt="Dinosaur" /></as-split-area>
+            </as-split>
+        </div>
+        <div as-split-area size="20">
+            <as-split direction="horizontal" #mySplitB>
+                <div as-split-area [size]="sizes[0]">B 1</div>
+                <as-split-area [size]="sizes[1]">B 2</as-split-area>
+            </as-split>
+        </div>
+        <as-split-area size="60">
+            <as-split direction="horizontal" #mySplitC>
+                <as-split-area [size]="sizes[0]">C 1</as-split-area>
+                <div as-split-area [size]="sizes[1]">
+                    C 2<br />
+                    Open devTools to view console.log() statements.<br />
+                    <button class="btn btn-warning" (click)="test()">Trigger change detection</button>
+                </div>
+            </as-split>
+        </as-split-area>
+    </as-split>
+</div>
+
+
 <!-- current user other ads section -->
 <section class="mt-5 mb-5 other-ads-list-section">
     <p id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">Mes autres
@@ -99,106 +139,5 @@
 
 <!-- See more button -->
 <button type="submit" class="btn-info mt-4 mx-auto">voir plus<img class="arrow-down-icon"
-    src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
+        src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
 </button>
-
-
-
-<div class="container mt-4">
-    <div class="split-example">
-      <as-split direction="vertical">
-        <div as-split-area size="20">
-          <as-split direction="horizontal" #mySplitA>
-            <div as-split-area [size]="sizes[0]">A 1</div>
-            <as-split-area [size]="sizes[1]"><img src="https://www.pexels.com/fr-fr/photo/femme-modele-debout-portrait-19674420/" alt="Dinosaur" /></as-split-area>
-          </as-split>
-        </div>
-        <div as-split-area size="20">
-          <as-split direction="horizontal" #mySplitB>
-            <div as-split-area [size]="sizes[0]">B 1</div>
-            <as-split-area [size]="sizes[1]">B 2</as-split-area>
-          </as-split>
-        </div>
-        <as-split-area size="60">
-          <as-split direction="horizontal" #mySplitC>
-            <as-split-area [size]="sizes[0]">C 1</as-split-area>
-            <div as-split-area [size]="sizes[1]">
-              C 2<br />
-              Open devTools to view console.log() statements.<br />
-              <button class="btn btn-warning" (click)="test()">Trigger change detection</button>
-            </div>
-          </as-split>
-        </as-split-area>
-      </as-split>
-    </div>
-  </div> 
-
-<p>here</p>
-  <div style="width: 800px; height: 300px; background: grey;">
-    <as-split direction="horizontal">
-      <as-split-area [size]="40" *ngIf="articlePictures[0]">
-        <img src="{{articlePictures[0]}}" alt="Dinosaur" />
-      </as-split-area>
-      <as-split-area *ngIf="articlePictures[3]">
-        <img src="{{articlePictures[3]}}" alt="img1" />
-    </as-split-area>
-    <as-split-area *ngIf="articlePictures[4]">
-        <img src="{{articlePictures[4]}}" alt="img1" />
-    </as-split-area>
-      <as-split-area [size]="60">
-        <as-split *ngIf="articlePictures[1]" direction="vertical" restrictMove="true">
-            <as-split-area *ngIf="articlePictures[1]" [attr.size]="50">
-                <img src="{{articlePictures[1]}}" alt="Dinosaur" />
-            </as-split-area>
-            <as-split-area *ngIf="articlePictures[2]" [attr.size]="50">
-                <img src="{{articlePictures[2]}}" alt="img1" />
-            </as-split-area>
-        </as-split>
-      </as-split-area>
-    </as-split>
-  </div>
-
-
-  <div class="container mt-2 mb-2">
-    <div class="split-example" style="height: 800px;">
-      <as-split direction="horizontal" restrictMove="true" [useTransition]="true">
-        <as-split-area size="40">
-          <as-split direction="vertical" restrictMove="true">
-            <as-split-area>
-                <img src="{{articlePictures[0]}}" alt="img1" />
-            </as-split-area>
-            <as-split-area>
-                <img src="{{articlePictures[1]}}" alt="img1" />
-            </as-split-area>
-            <as-split-area>
-                <img src="{{articlePictures[2]}}" alt="img1" />
-            </as-split-area>
-          </as-split>
-        </as-split-area>
-        <as-split-area size="60">
-          <as-split direction="vertical" restrictMove="true">
-            <as-split-area size="25">
-                <img src="{{articlePictures[3]}}" alt="img1" />
-            </as-split-area>
-            <as-split-area size="75">
-                <img src="{{articlePictures[4]}}" alt="img1" />
-            </as-split-area>
-          </as-split>
-        </as-split-area>
-      </as-split>
-    </div>
-  </div>
-
-
-  <div class="container mt-2 mb-2">
-    <div class="split-example" style="height: 500px;">
-      <as-split direction="horizontal" restrictMove="true" [useTransition]="true">
-        <as-split-area *ngFor="let picture of articlePictures; let i = index" [size]="100 / articlePictures.length">
-          <img src="{{ picture }}" alt="img{{ i + 1 }}" />
-        </as-split-area>
-      </as-split>
-    </div>
-  </div>
-
-
-  

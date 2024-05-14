@@ -177,7 +177,7 @@ export class MyAdComponent implements OnInit {
     })
   }
 
-  test() {}
+  test() { }
 
   ngOnDestroy(): void {
     this.windowSizeSubscription.unsubscribe();
