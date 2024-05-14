@@ -5,7 +5,7 @@ import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEv
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
 import { DisplayManagementService } from '../../../../shared/services/display-management.service';
-import { Component, ChangeDetectionStrategy, ViewChild, AfterViewInit, OnDestroy, HostBinding, OnInit, Input } from '@angular/core'
+import { Component, ChangeDetectionStrategy, ViewChild, HostBinding, OnInit, Input } from '@angular/core'
 import { Subscription, merge } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { SplitComponent } from 'angular-split'
@@ -140,42 +140,14 @@ export class MyAdComponent implements OnInit {
   //   this.fetchPaginatedAdsList();
   // }
 
-  @ViewChild('mySplitA') mySplitAEl!: SplitComponent
-  @ViewChild('mySplitB') mySplitBEl!: SplitComponent
-  @ViewChild('mySplitC') mySplitCEl!: SplitComponent
-  @HostBinding('class') class = 'split-example-page';
+  @ViewChild('splitAreaA') splitAreaA!: SplitComponent
+  @ViewChild('splitAreaB') splitAreaB!: SplitComponent
+  // @ViewChild('mySplitC') mySplitCEl!: SplitComponent
+  //@HostBinding('class') class = 'split-example-page';
 
   sizes = [25, 75]
   sub!: Subscription
 
-  ngAfterViewInit() {
-    this.sub = merge(
-      this.mySplitAEl.dragProgress$.pipe(map((data) => ({ name: 'A', data }))),
-      this.mySplitBEl.dragProgress$.pipe(map((data) => ({ name: 'B', data }))),
-      this.mySplitCEl.dragProgress$.pipe(map((data) => ({ name: 'C', data }))),
-    ).subscribe((d) => {
-      if (d.name === 'A') {
-        // If split A changed > update BC
-        const sizesSplitA = this.mySplitAEl.getVisibleAreaSizes() //d.data.sizes; <-- Could have use these values too
-
-        this.mySplitBEl.setVisibleAreaSizes(sizesSplitA)
-        this.mySplitCEl.setVisibleAreaSizes(sizesSplitA)
-      } else if (d.name === 'B') {
-        // Else if split B changed > update AC
-        const sizesSplitB = this.mySplitBEl.getVisibleAreaSizes() //d.data.sizes; <-- Could have use these values too
-
-        this.mySplitAEl.setVisibleAreaSizes(sizesSplitB)
-        this.mySplitCEl.setVisibleAreaSizes(sizesSplitB)
-      } else if (d.name === 'C') {
-        // Else if split C changed > update AB
-        const sizesSplitC = this.mySplitCEl.getVisibleAreaSizes() //d.data.sizes; <-- Could have use these values too
-
-        this.mySplitAEl.setVisibleAreaSizes(sizesSplitC)
-        this.mySplitBEl.setVisibleAreaSizes(sizesSplitC)
-      }
-
-    })
-  }
 
   test() { }
 
