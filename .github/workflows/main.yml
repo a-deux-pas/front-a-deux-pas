@@ -33,8 +33,18 @@ jobs:
       # Installs the dependencies using npm ci
       - run: npm ci
       - run: npm run build:ci
-      - run: npm run test:ci
-        continue-on-error: true
+      # Run all Cypress tests
+      - name: Run E2E tests
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          build: npm run build
+          start: npm start
+      - name: Run Component Testing
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          component: true
         # Get application version from pom.xml to variable
       - name: Retrieve Application Version
         id: set_app_version
