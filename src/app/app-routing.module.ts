@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path: 'compte',
     loadChildren: () => import('./routes/account/account-routing.module').then(mod => mod.AccountRoutingModule)
+  },
+  {
+    path: 'inscription',
+    loadComponent: () => import('./routes/register/register.component').then(mod => mod.RegisterComponent)
   }
 ];
 
