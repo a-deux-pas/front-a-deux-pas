@@ -1,8 +1,8 @@
 import { ActivatedRoute } from '@angular/router';
-import { AdService } from '../../../Ad.service';
+import { AdService } from '../../../ad/ad.service';
 import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.model';
 import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
 import { DisplayManagementService } from '../../../../shared/services/display-management.service';
 import { Component, ViewChild, OnInit, Input, ElementRef, ChangeDetectorRef } from '@angular/core'
@@ -39,8 +39,8 @@ export class MyAdComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private adService: AdService,
-    private displayManagementService: DisplayManagementService,
-    private cdr: ChangeDetectorRef
+    private viewportScroller: ViewportScroller,
+    private displayManagementService: DisplayManagementService
   ) {
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
@@ -48,6 +48,7 @@ export class MyAdComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
@@ -79,6 +80,10 @@ export class MyAdComponent implements OnInit {
         console.error(error);
       }
     });
+  }
+
+  scrollToTop(): void {
+    this.viewportScroller.scrollToPosition([0, 0])
   }
 
   // image carrousel for mobile device

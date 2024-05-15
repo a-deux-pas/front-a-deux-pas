@@ -5,8 +5,7 @@
     </div>
 </div>
 }
-<div class="main-sections">
-
+<div class="main-sections custom-container">
     <!-- image view on desktop device -->
     <section class="article-picture-image-section">
         @if (articlePictures.length > 1) {
@@ -51,17 +50,19 @@
     </section>
 
     <!-- image view on mobile device -->
-    <section class="article-picture-image-section-mobile w-80">
-        <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
-            (slide)="onSlide($event)">
-            @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
-            <ng-template ngbSlide>
-                <div>
-                    <img class="img-wrapper" src="{{articlePicture}}" alt="" />
-                </div>
-            </ng-template>
-            }
-        </ngb-carousel>
+    <section class="article-picture-image-section-mobile mx-auto">
+        <div class="mx-auto">
+            <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
+                (slide)="onSlide($event)" class="mx-auto">
+                @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
+                <ng-template ngbSlide>
+                    <div>
+                        <img class="img-wrapper" src="{{articlePicture}}" alt="" />
+                    </div>
+                </ng-template>
+                }
+            </ngb-carousel>
+        </div>
     </section>
 
     <!-- ad's general information section -->
@@ -76,6 +77,7 @@
             <p id="ad-description" class="mt-2">{{ myAd?.articleDescription }}</p><br>
         </div>
     </section>
+
     <!-- CTA encart -->
     <section class="cta-encart flex-row  text-center" [ngClass]="{'mx-auto': !isBigScreen}">
         @switch (myAd?.status) {

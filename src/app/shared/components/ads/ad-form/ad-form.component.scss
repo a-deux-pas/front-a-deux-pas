@@ -74,6 +74,10 @@ label {
   width: 246px;
 }
 
+.error-container {
+  width: max-content;
+}
+
 .error-msg {
   color: $primary;
 }
@@ -89,7 +93,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-// drag and drop 
+// drag and drop
 ngx-dropzone {
   width: 350px;
   height: 349px;

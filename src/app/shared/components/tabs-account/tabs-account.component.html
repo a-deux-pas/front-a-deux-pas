@@ -1,8 +1,8 @@
 <div class="text-center">
   <ul ngbNav class="nav-tabs" id="account-tabs">
-    @for (link of links; track link) {
-      <li [ngbNavItem]="link.fragment">
-        <a ngbNavLink [routerLink]="['/compte', link.fragment]" [class.custom-active-tab]="active === link.fragment">{{ link.title }}</a>
+    @for (route of accountRoutes[0].children; track $index) {
+      <li [ngbNavItem]="route.path">
+        <a ngbNavLink [routerLink]="['/compte', route.path]" [class.custom-active-tab]="active === route.path">{{ route.title }}</a>
       </li>
       }
   </ul>

@@ -5,7 +5,7 @@
   </div>
 </div>
 }
-<form #adForm="ngForm" (ngSubmit)="onSubmit()">
+<form #adForm="ngForm" (ngSubmit)="onSubmit()" class="custom-container">
   <div class="centered-elements">
     <h2 class="text-center bold-title-700 mb-5">{{ formTitle }}</h2>
 
@@ -45,7 +45,7 @@
       </ngx-dropzone>
       }
     </div>
-    @if (files2.length == 0 && adForm.submitted) {
+    @if (files2.length==0 && adForm.submitted) {
     <div>
       <span class="error-msg">Veuillez ajouter au moins deux photos</span>
     </div>
@@ -78,16 +78,16 @@
       }
     </ngb-carousel>
     @if (files1.length == 0 && adForm.submitted) {
-    <div>
-      <span [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}" class="error-msg">Veuillez
+    <div class="mt-4">
+      <span class="error-msg">Veuillez
         ajouter au moins une photo</span>
     </div>
     }
   </div>
 
   <!-- Category choice section -->
-  <div class="mx-auto  " style="width: 246px;">
-    <label class="mt-4" for="cat">Choisissez une catégorie</label>
+  <div class="mx-auto mt-5" style="width: 246px;">
+    <label for="cat">Choisissez une catégorie</label>
     <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom mt-4 mb-4"
       #adCategory="ngModel" [disabled]="disabledFields" required maxlength="100">
       @for (category of categories; track category) {
@@ -97,7 +97,7 @@
       }
     </ng-select>
     @if (adCategory.errors) {
-    <div>
+    <div class="error-container">
       @if (adCategory.touched && adCategory.errors!['required'] || adForm.submitted == true && adForm.invalid == true &&
       adCategory.errors!['required']) {
       <span class="error-msg">Veuillez entrer une
@@ -120,7 +120,7 @@
       }
     </ng-select>
     @if (subcategory.errors) {
-    <div style="width: max-content;">
+    <div class="error-container">
       @if(subcategory.touched && subcategory.errors['required'] || adForm.submitted == true && adForm.invalid == true &&
       subcategory.errors!['required']) {
       <span class="error-msg">Veuillez entrer une
@@ -145,7 +145,7 @@
       }
     </ng-select>
     @if (gender.errors) {
-    <div style="width: max-content;">
+    <div class="error-container">
       @if((ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') && gender.touched &&
       gender.errors['required']) {
       <span class="error-msg">Veuillez
@@ -166,7 +166,7 @@
     <textarea [(ngModel)]="ad.title" class="form-control form-control-sm mb-4" name="ad-title" rows="3" #title="ngModel"
       [disabled]="disabledFields" required></textarea>
     @if (title.errors) {
-    <div>
+    <div class="error-container">
       @if (title.touched && title.errors['required'] || adForm.submitted == true && adForm.invalid == true &&
       title.errors!['required']) {
       <span class="error-msg mb-2">Veuillez entrer
@@ -193,7 +193,7 @@
       name="ad-description" id="ad-description" rows="3" #description="ngModel" [disabled]="disabledFields"
       required></textarea>
     @if (description.errors) {
-    <div>
+    <div class="error-container">
       @if (description.touched && description.errors['required'] || adForm.submitted == true && adForm.invalid == true
       &&
       description.errors!['required']) {
@@ -218,7 +218,7 @@
       }
     </ng-select>
     @if (state.errors) {
-    <div>
+    <div class="error-container">
       @if (state.touched && state.errors['required'] || adForm.submitted == true && adForm.invalid == true &&
       state.errors!['required']) {
       <span class="error-msg mb-4">Veuillez selectionner un
@@ -238,21 +238,21 @@
       <span class="input-group-addon d-inline">&nbsp;&nbsp;&nbsp;€</span>
     </div>
     @if (price.errors) {
-    <div>
+    <div class="error-container">
       @if (price.touched && price.errors['required'] || adForm.submitted == true && adForm.invalid == true &&
       price.errors!['required']) {
       <span class="error-msg mb-4">Veuillez entrer un prix</span>
       }
     </div>
     }
-    @if (ad.price && ad.price <= 0 ) { <span class="error-msg mb-2">Veuillez entrer
-      un prix valide</span>
-      }
+    @if (ad.price && ad.price <= 0) { <div class="error-container">
+      <span class="error-msg mb-2">Veuillez entrer un prix valide</span>
+  </div>
+  }
   </div>
 
-  {{ 'ad price:: ' + ad.price }}
-  {{ "ad.price <= 0" + (ad.price! <=0)}} <div class="bottom-btns mb-5 mt-5">
+  <div class="bottom-btns mb-5 mt-5">
     <button type="button" class="btn-secondary mt-4">annuler</button>
     <button type="submit" class="btn-primary mt-4">publier</button>
-    </div>
+  </div>
 </form>

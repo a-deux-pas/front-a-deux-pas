@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../models/user/user.model';
-import { AdService } from '../../../../routes/Ad.service';
+import { AdService } from '../../../../routes/ad/ad.service';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
@@ -56,7 +56,7 @@ export class AdFormComponent {
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
-    private displayManagementService: DisplayManagementService
+    private displayManagementService: DisplayManagementService,
   ) {
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
