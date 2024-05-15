@@ -41,7 +41,8 @@ export class AdService {
             )
     }
 
-    // fetchMoreAds(userId: number): Observable<AdPostResponse[]> {
-
-    // }
+    fetchMoreAds(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
+        const url = `${this.contextUrl}list/${userId}/${pageSize}/${pageNumber}`
+        return this.http.get<AdPostResponse[]>(url);
+    }
 }

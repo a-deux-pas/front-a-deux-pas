@@ -5,9 +5,8 @@ import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEv
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
 import { DisplayManagementService } from '../../../../shared/services/display-management.service';
-import { Component, ChangeDetectionStrategy, ViewChild, HostBinding, OnInit, Input } from '@angular/core'
-import { Subscription, merge } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { Component, ViewChild, OnInit, Input, ElementRef, ChangeDetectorRef } from '@angular/core'
+import { Subscription } from 'rxjs'
 import { SplitComponent } from 'angular-split'
 import { AngularSplitModule } from 'angular-split'
 import { UiModule } from '../../../../shared/module/ui/ui.module';
@@ -19,7 +18,6 @@ import { UiModule } from '../../../../shared/module/ui/ui.module';
   templateUrl: './my-ad.component.html',
   styleUrl: './my-ad.component.scss',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgbNavModule,
     NgbCarouselModule,
@@ -41,7 +39,8 @@ export class MyAdComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private adService: AdService,
-    private displayManagementService: DisplayManagementService
+    private displayManagementService: DisplayManagementService,
+    private cdr: ChangeDetectorRef
   ) {
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
@@ -69,6 +68,7 @@ export class MyAdComponent implements OnInit {
           this.myAd.fifthArticlePictureUrl
         ].filter(url => !!url);
         this.selectedPicNumber = this.articlePictures.length;
+        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
         this.adService.findMyAds(this.myAd.publisherId!).subscribe({
           next: (myOtherAds: AdPostResponse[]) => {
             this.myOtherAds = myOtherAds.filter(ad => ad.id !== this.myAd!.id);
@@ -113,6 +113,7 @@ export class MyAdComponent implements OnInit {
   }
 
   pageNumber: number = 0;
+  pageSize: number = 0;
 
   // fetchCitiesAndPostalCodes() {
   //   this.adService
@@ -140,14 +141,39 @@ export class MyAdComponent implements OnInit {
   //   this.fetchPaginatedAdsList();
   // }
 
+  loadMoreAds() {
+    // TO DO :: changer la generation du 1er param une fois le processus de connexion implémentée
+    this.adService.fetchMoreAds(1, this.pageNumber, this.pageSize).subscribe((filteredAds: AdPostResponse[]) => {
+      // updating the 'displayedAds' variable
+      // this.displayedAds = filteredAds;
+      // console.log(this.displayedAds);
+      // // signaling to the parent component (ad-list) that the 'displayedAds' variable was updated
+      // this.displayedAdsChange.emit(this.displayedAds);
+    });
+  }
+
+
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
-  // @ViewChild('mySplitC') mySplitCEl!: SplitComponent
-  //@HostBinding('class') class = 'split-example-page';
 
-  sizes = [25, 75]
+  areaSizeA!: number
+  areaSizeB!: number
+  sizesSAA = [30, 25, 15, 50]
+  sizesSAB = [70, 75, 85, 50]
   sub!: Subscription
 
+  setSplitAreasSizes(nPictures: number) {
+    switch (nPictures) {
+      case 3:
+        return [this.sizesSAA[0], this.sizesSAB[0]]
+      case 4:
+        return [this.sizesSAA[1], this.sizesSAB[1]]
+      case 5:
+        return [this.sizesSAA[2], this.sizesSAB[2]]
+      default:
+        return [this.sizesSAA[3], this.sizesSAB[3]]
+    }
+  }
 
   test() { }
 

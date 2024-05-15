@@ -42,7 +42,7 @@ export class AdFormComponent {
   user!: User;
   publisher: User | undefined;
   today: Date = new Date()
-  selectedPicNumber: number = 1;
+  selectedPicNumber: number = 2;
   articlePictures: File[] = [];
   states = Object.values(ArticleState);
   categories = Object.values(Category);

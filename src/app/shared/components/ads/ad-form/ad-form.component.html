@@ -14,10 +14,10 @@
     <!-- number of article picture image selection -->
     <div class="mx-auto mb-5" id="select-pic-number">
       <ng-select [clearable]="false" [(ngModel)]="selectedPicNumber" name="selectedPicNumber" class="custom mt-4"
-        placeholder="1 photo" [disabled]="disabledFields">
-        @for (number of [1, 2, 3, 4, 5]; track number; let i = $index) {
+        placeholder="2 photos" [disabled]="disabledFields">
+        @for (number of [2, 3, 4, 5]; track number; let i = $index) {
         <ng-option [id]="'select-pic-number' + selectedPicNumber" [value]="number">
-          {{ number }} {{ number === 1 ? 'photo' : 'photos' }}
+          {{ number }} photos
         </ng-option>
         }
       </ng-select>
@@ -28,10 +28,9 @@
       @for (n of getArray(selectedPicNumber); track n; let i = $index) {
       <ngx-dropzone #dropzoneEl name="article-picture" class="dropzone"
         [ngClass]="{'d-none': isBigScreen == false, 'block': isBigScreen == true}" id="dropzone{{i}}"
-        (change)="onSelectPicture($event, i)" [multiple]="false" [class.one-dropzone]="selectedPicNumber === 1"
-        [class.two-dropzones]="selectedPicNumber === 2" [class.three-dropzones]="selectedPicNumber === 3"
-        [class.four-dropzones]="selectedPicNumber === 4" [class.five-dropzones]="selectedPicNumber === 5"
-        accept="image/jpeg,image/jpg,image/png,image/svg,image/webp">
+        (change)="onSelectPicture($event, i)" [multiple]="false" [class.two-dropzones]="selectedPicNumber === 2"
+        [class.three-dropzones]="selectedPicNumber === 3" [class.four-dropzones]="selectedPicNumber === 4"
+        [class.five-dropzones]="selectedPicNumber === 5" accept="image/jpeg,image/jpg,image/png,image/svg,image/webp">
         <ngx-dropzone-label class="center mx-auto">
           <div class="add-picture-btn">
             <img class="add-picture-icon" src="assets/icons/buttons/add-orange.webp" alt="icone-d-ajout">
@@ -46,9 +45,9 @@
       </ngx-dropzone>
       }
     </div>
-    @if (files1.length == 0 && adForm.submitted) {
+    @if (files2.length == 0 && adForm.submitted) {
     <div>
-      <span class="error-msg">Veuillez ajouter au moins une photo</span>
+      <span class="error-msg">Veuillez ajouter au moins deux photos</span>
     </div>
     }
 
@@ -194,15 +193,16 @@
       name="ad-description" id="ad-description" rows="3" #description="ngModel" [disabled]="disabledFields"
       required></textarea>
     @if (description.errors) {
-      <div>
-        @if (description.touched && description.errors['required'] || adForm.submitted == true && adForm.invalid == true &&
-        description.errors!['required']) {
-        <span class="error-msg mb-2">Veuillez entrer une description</span>
-        }
-      </div>
+    <div>
+      @if (description.touched && description.errors['required'] || adForm.submitted == true && adForm.invalid == true
+      &&
+      description.errors!['required']) {
+      <span class="error-msg mb-2">Veuillez entrer une description</span>
+      }
+    </div>
     }
-    @if (ad.articleDescription && ad.articleDescription.length < 4) {
-      <span class="error-msg mb-2">Veuillez entrer une description comportant au moins 4 caractères</span>
+    @if (ad.articleDescription && ad.articleDescription.length < 4) { <span class="error-msg mb-2">Veuillez entrer une
+      description comportant au moins 4 caractères</span>
       }
   </div>
 
@@ -245,15 +245,14 @@
       }
     </div>
     }
-    @if (ad.price && ad.price <= 0 ) {
-    <span class="error-msg mb-2">Veuillez entrer
-      un
-      prix valide</span>
-    }
+    @if (ad.price && ad.price <= 0 ) { <span class="error-msg mb-2">Veuillez entrer
+      un prix valide</span>
+      }
   </div>
 
-  <div class="bottom-btns mb-5 mt-5">
+  {{ 'ad price:: ' + ad.price }}
+  {{ "ad.price <= 0" + (ad.price! <=0)}} <div class="bottom-btns mb-5 mt-5">
     <button type="button" class="btn-secondary mt-4">annuler</button>
     <button type="submit" class="btn-primary mt-4">publier</button>
-  </div>
+    </div>
 </form>

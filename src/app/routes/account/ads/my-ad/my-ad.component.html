@@ -9,46 +9,46 @@
 
     <!-- image view on desktop device -->
     <section class="article-picture-image-section">
-        <!-- @if (articlePictures.length > 1) { -->
-        <div class="container">
-            <div class="split-example" style="height: 300px; width: 960px;">
-                <as-split #partgauche direction="horizontal" restrictMove="true">
-                    <as-split-area size="40" #splitAreaA>
-                        <as-split direction="vertical" restrictMove="true">
-                            <as-split-area>
-                                <img src="{{articlePictures[1]}}" alt="{{ myAd?.title }} 2" />
-                            </as-split-area>
-                            @if (articlePictures[2]) {
-                            <as-split-area>
-                                <img src="{{articlePictures[2]}}" alt="{{ myAd?.title }} 3" />
-                            </as-split-area>
-                            }
-                        </as-split>
-                    </as-split-area>
-                    <as-split-area size="60" #splitAreaB>
-                        <as-split direction="horizontal" restrictMove="true">
-                            <as-split-area>
-                                <img src="{{articlePictures[0]}}" alt="{{ myAd?.title }} 1" />
-                            </as-split-area>
-                            @if (articlePictures[3]) {
-                            <as-split-area>
-                                <img src="{{articlePictures[3]}}" alt="{{ myAd?.title }} 4" />
-                            </as-split-area>
-                            }
-                            @if (articlePictures[4]) {
-                            <as-split-area>
-                                <img src="{{articlePictures[4]}}" alt="{{ myAd?.title }} 5" />
-                            </as-split-area>
-                            }
-                        </as-split>
-                    </as-split-area>
-                </as-split>
-            </div>
+        @if (articlePictures.length > 1) {
+        <div style="height: 300px; width: 860px;">
+            <as-split direction="horizontal">
+                <as-split-area [size]="areaSizeA" #splitAreaA>
+                    <as-split direction="vertical">
+                        <as-split-area>
+                            <img src="{{articlePictures[1]}}" alt="{{ myAd?.title }} 2" />
+                        </as-split-area>
+                        @if (articlePictures[2]) {
+                        <as-split-area>
+                            <img src="{{articlePictures[2]}}" alt="{{ myAd?.title }} 3" />
+                        </as-split-area>
+                        }
+                    </as-split>
+                </as-split-area>
+                <as-split-area [size]="areaSizeB" #splitAreaB>
+                    <as-split direction="horizontal">
+                        <as-split-area>
+                            <img src="{{articlePictures[0]}}" alt="{{ myAd?.title }} 1" />
+                        </as-split-area>
+                        @if (articlePictures[3]) {
+                        <as-split-area>
+                            <img src="{{articlePictures[3]}}" alt="{{ myAd?.title }} 4" />
+                        </as-split-area>
+                        }
+                        @if (articlePictures[4]) {
+                        <as-split-area>
+                            <img src="{{articlePictures[4]}}" alt="{{ myAd?.title }} 5" />
+                        </as-split-area>
+                        }
+                    </as-split>
+                </as-split-area>
+            </as-split>
         </div>
-        <!-- } -->
+        }
+        @else {
+        <img class="mx-auto" style="max-height: 300px; max-width: 860px;" src="{{articlePictures[0]}}"
+            alt="{{ myAd?.title }} 1" />
+        }
     </section>
-
-
 
     <!-- image view on mobile device -->
     <section class="article-picture-image-section-mobile w-80">

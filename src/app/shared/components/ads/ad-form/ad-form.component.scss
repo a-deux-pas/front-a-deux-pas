@@ -172,18 +172,18 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   }
 
   //// if one dropzone
-  .one-dropzone {
-    width: 859px;
-    height: 478px;
+  // .one-dropzone {
+  //   width: 859px;
+  //   height: 478px;
 
-    >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
-      min-width: 70% !important;
-      min-height: 70% !important;
-      position: relative !important;
-      max-width: 859px !important;
-      max-height: 478px !important;
-    }
-  }
+  //   >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+  //     min-width: 70% !important;
+  //     min-height: 70% !important;
+  //     position: relative !important;
+  //     max-width: 859px !important;
+  //     max-height: 478px !important;
+  //   }
+  // }
 
   //// if two dropzones
   .two-dropzones[_nghost-ng-c2040221903] {
