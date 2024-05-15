@@ -1,5 +1,5 @@
-<!-- Price filter -->
 <div class="filters-container">
+  <!-- Price filter -->
   <nav class="navbar" aria-labelledby="dropdown-checkbox">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <div class="dropdown" #priceDropdownRef id="price-dropdown">
@@ -47,61 +47,6 @@
                 for="{{ priceRange }}"
               >
                 {{ priceRange }}
-              </label>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </ul>
-  </nav>
-  <!-- City filter -->
-  <nav class="navbar" aria-labelledby="dropdown-checkbox">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <div class="dropdown" #cityDropdownRef id="city-dropdown">
-        <button
-          [ngClass]="{
-            'navbar-toggler dropdown-btn': !isBigScreen,
-            'dropdown-btn': isBigScreen
-          }"
-          type="button"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <a
-            class="dropdown-first-level dropdown-toggle"
-            role="button"
-            aria-expanded="false"
-            (click)="resetFilter('city')"
-          >
-            Ville
-          </a>
-        </button>
-        <ul class="dropdown-menu ddmenu-with-select">
-          <li
-            id="dropdown-second-level ddmenu-with-select mb-4"
-            *ngFor="let cityAndPostalCode of uniqueCitiesAndPostalCodes"
-            class="nav-item dropend"
-          >
-            <div class="form-check px-3 div-form-check mt-2">
-              <input
-                class="form-check-input pr-2"
-                type="checkbox"
-                value=""
-                id="{{ cityAndPostalCode }}"
-                name="{{ cityAndPostalCode }}"
-                (change)="
-                  handleCheckboxFiltersSelection(
-                    'city',
-                    cityAndPostalCode,
-                    $event
-                  )
-                "
-              />
-              <label
-                class="form-check-label ddmenu-with-select text-center ms-2"
-                for="{{ cityAndPostalCode }}"
-              >
-                {{ cityAndPostalCode }}
               </label>
             </div>
           </li>
@@ -213,6 +158,61 @@
                 />
               </li>
             </ul>
+          </li>
+        </ul>
+      </div>
+    </ul>
+  </nav>
+  <!-- City filter -->
+  <nav class="navbar" aria-labelledby="dropdown-checkbox">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="dropdown" #cityDropdownRef id="city-dropdown">
+        <button
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
+          type="button"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <a
+            class="dropdown-first-level dropdown-toggle"
+            role="button"
+            aria-expanded="false"
+            (click)="resetFilter('city')"
+          >
+            Ville
+          </a>
+        </button>
+        <ul class="dropdown-menu ddmenu-with-select">
+          <li
+            id="dropdown-second-level ddmenu-with-select mb-4"
+            *ngFor="let cityAndPostalCode of uniqueCitiesAndPostalCodes"
+            class="nav-item dropend"
+          >
+            <div class="form-check px-3 div-form-check mt-2">
+              <input
+                class="form-check-input pr-2"
+                type="checkbox"
+                value=""
+                id="{{ cityAndPostalCode }}"
+                name="{{ cityAndPostalCode }}"
+                (change)="
+                  handleCheckboxFiltersSelection(
+                    'city',
+                    cityAndPostalCode,
+                    $event
+                  )
+                "
+              />
+              <label
+                class="form-check-label ddmenu-with-select text-center ms-2"
+                for="{{ cityAndPostalCode }}"
+              >
+                {{ cityAndPostalCode }}
+              </label>
+            </div>
           </li>
         </ul>
       </div>
