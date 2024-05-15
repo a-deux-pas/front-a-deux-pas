@@ -28,13 +28,13 @@ import { UiModule } from '../../../../shared/module/ui/ui.module';
   ]
 })
 export class MyAdComponent implements OnInit {
-  isBigScreen: boolean | undefined
   @Input() adSuccessfullySubmitted!: boolean;
+  isBigScreen: boolean | undefined;
+  windowSizeSubscription: Subscription;
   myAd: AdPostResponse | undefined;
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;
-  myOtherAds: AdPostResponse[] = []
-  windowSizeSubscription: Subscription;
+  myOtherAds: AdPostResponse[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -117,47 +117,6 @@ export class MyAdComponent implements OnInit {
     }
   }
 
-  pageNumber: number = 0;
-  pageSize: number = 0;
-
-  // fetchCitiesAndPostalCodes() {
-  //   this.adService
-  //     .fetchCitiesAndPostalCodes()
-  //     .subscribe((citiesAndPostalCodes: any) => {
-  //       this.formatCitiesAndPostalCodesForDisplay(citiesAndPostalCodes);
-  //     });
-  // }
-
-  // fetchPaginatedAdsList() {
-  //   this.adService
-  //     .fetchFilteredAds(
-  //       this.pageNumber,
-  //       this.pageSize,
-  //       1
-  //     )
-  //     .subscribe((ads: AdResponse[]) => {
-  //       this.displayedAds = [...this.displayedAds, ...ads];
-  //       this.noMoreAds = ads.length > 0 ? false : true;
-  //     });
-  // }
-
-  // loadMoreAds() {
-  //   this.pageNumber++;
-  //   this.fetchPaginatedAdsList();
-  // }
-
-  loadMoreAds() {
-    // TO DO :: changer la generation du 1er param une fois le processus de connexion implémentée
-    this.adService.fetchMoreAds(1, this.pageNumber, this.pageSize).subscribe((filteredAds: AdPostResponse[]) => {
-      // updating the 'displayedAds' variable
-      // this.displayedAds = filteredAds;
-      // console.log(this.displayedAds);
-      // // signaling to the parent component (ad-list) that the 'displayedAds' variable was updated
-      // this.displayedAdsChange.emit(this.displayedAds);
-    });
-  }
-
-
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
 
@@ -181,6 +140,25 @@ export class MyAdComponent implements OnInit {
   }
 
   test() { }
+
+  pageNumber: number = 0;
+  pageSize: number = 8;
+  // displayedAds: AdPostResponse[] = [];
+  noMoreAds: boolean = false;
+
+  loadMoreAds() {
+    this.pageNumber++;
+    this.fetchPaginatedAdsList();
+  }
+
+  fetchPaginatedAdsList() {
+    this.adService.fetchMoreAds(1, this.pageNumber, this.pageSize).subscribe({
+      next: (ads: AdPostResponse[]) => {
+        this.myOtherAds = [...this.myOtherAds, ...ads];
+        this.noMoreAds = ads.length > 0 ? false : true;
+      }
+    });
+  }
 
   ngOnDestroy(): void {
     this.windowSizeSubscription.unsubscribe();

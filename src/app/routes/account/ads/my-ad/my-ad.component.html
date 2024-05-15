@@ -5,6 +5,7 @@
     </div>
 </div>
 }
+
 <div class="main-sections custom-container">
     <!-- image view on desktop device -->
     <section class="article-picture-image-section">
@@ -51,18 +52,16 @@
 
     <!-- image view on mobile device -->
     <section class="article-picture-image-section-mobile mx-auto">
-        <div class="mx-auto">
-            <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
-                (slide)="onSlide($event)" class="mx-auto">
-                @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
-                <ng-template ngbSlide>
-                    <div>
-                        <img class="img-wrapper" src="{{articlePicture}}" alt="" />
-                    </div>
-                </ng-template>
-                }
-            </ngb-carousel>
-        </div>
+        <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
+            (slide)="onSlide($event)" class="mx-auto">
+            @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
+            <ng-template ngbSlide>
+                <div>
+                    <img class="img-wrapper" src="{{articlePicture}}" alt="" />
+                </div>
+            </ng-template>
+            }
+        </ngb-carousel>
     </section>
 
     <!-- ad's general information section -->
@@ -111,7 +110,6 @@
     </section>
 </div>
 
-
 <!-- current user other ads section -->
 <section class="mt-5 mb-5 other-ads-list-section">
     <p id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">Mes autres
@@ -126,6 +124,14 @@
 </section>
 
 <!-- See more button -->
-<button type="submit" class="btn-info mt-4 mx-auto">voir plus<img class="arrow-down-icon"
+@if (!noMoreAds) {
+<button type="submit" class="btn-info mt-4 mx-auto" (click)="loadMoreAds()">voir plus<img class="arrow-down-icon"
         src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
 </button>
+}
+
+@if (noMoreAds) {
+<div class="no-ads-message">
+    <p><i>Fin des résultats</i></p>
+</div>
+}
