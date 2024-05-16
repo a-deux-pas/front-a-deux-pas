@@ -32,43 +32,88 @@
       }
     </div>
 
-  <h3 class="mt-4 bold-title-700 text-left">Mon adresse</h3>
-  <div formGroupName="address">
+  <h3 class="mt-5 bold-title-700 text-left">Mon adresse</h3>
+  <div formGroupName="address" id="address">
     <div class="row my-3 mt-5">
-      <div class="col">
+      <div class="col-8">
         <label for="street">Rue</label>
-        <input type="text" formControlName="street" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue" required/>
-      </div>
+        <mapbox-address-autofill>
+          <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue" required/>
+        </mapbox-address-autofill>
+        </div>
       @if(profileForm.controls['address'].controls['street'].errors && profileForm.controls['address'].controls['street'].touched) {
         <div class="error-msg">Veuillez renseigner votre rue</div>
       }
-      <!-- TO DO : ajouter appel API front pour vérification adresse et autocomplétion -->
     </div>
     <div class="row my-3 mt-5">
       <div class="col-4">
-        <label for="zip-code">Code postal</label>
-        <input type="number" formControlName="zipCode" id="zip-code" name="zip-code" class="form-control" required/>
-        @if(profileForm.controls['address'].controls['zipCode'].errors && profileForm.controls['address'].controls['zipCode'].touched) {
+        <label for="postal-code">Code postal</label>
+        <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control" required/>
+        @if(profileForm.controls['address'].controls['postalCode'].errors && profileForm.controls['address'].controls['postalCode'].touched) {
           <div class="error-msg">Veuillez renseigner votre code postal</div>
         }
       </div>
       <div class="col-4">
         <label for="city">Ville</label>
-        <input type="text" formControlName="city" id="city" name="city" class="form-control" required/>
+        <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
         @if(profileForm.controls['address'].controls['city'].errors && profileForm.controls['address'].controls['city'].touched) {
           <div class="error-msg">Veuillez renseigner votre ville</div>
         }
       </div>
     </div>
   </div>
-  <h3 class="mt-4 bold-title-700 text-left">Mes lieux de RDV préférés</h3>
 
-  <h3 class="mt-4 bold-title-700 text-left">Mes disponibilités</h3>
+  <h3 class="mt-5 bold-title-700 text-left">Mes lieux de RDV préférés</h3>
+  <div formArrayName="favoriteMeetingPlaces" id="favorite-meeting-places">
+    <div *ngFor="let meetingPlaceForm of favoriteMeetingPlaceForms.controls; let i = index, let c = count">
+      @if(i < 5) {
+        <div [formGroupName]="i" class="favorite-meeting-place">
+          <div class="row my-3 mt-5">
+            <div class="col-8">
+              <label for="name">Nom</label>
+              <input type="text" formControlName="name" id="name" name="name" class="form-control" placeholder="Nom du lieu" required/>
+            </div>
+          </div>
+          <div class="row my-3 mt-5">
+            <div class="col-8">
+              <label for="street">Rue</label>
+              <mapbox-address-autofill>
+                <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue" required/>
+              </mapbox-address-autofill>
+              </div>
+          </div>
+          <div class="row my-3 mt-5">
+            <div class="col-4">
+              <label for="postal-code">Code postal</label>
+              <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control" required/>
+              <!-- TO DO : ajouter message d'erreur si le code postal n'est pas le même que l'adresse ? ou un message informatif ? -->
+            </div>
+            <div class="col-4">
+              <label for="city">Ville</label>
+              <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    @if(profileForm.controls['favoriteMeetingPlaces'].errors) {
+      <div [hidden]="!profileForm.controls['favoriteMeetingPlaces'].errors['required'] && profileForm.controls['favoriteMeetingPlaces'].touched" class="error-msg">Veuillez renseigner au moins une adresse</div>
+      <div [hidden]="!profileForm.controls['favoriteMeetingPlaces'].errors['maxlength']" class="error-msg">Vous ne pouvez pas renseigner plus de 5 adresses</div>
+    }
+  </div>
 
-  <h3 class="mt-4 bold-title-700 text-left">Mes informations bancaires</h3>
+  <a type="button" id="add-address-icon" (click)="addFavoriteMeetingPlace()">
+    <img class="add-icon" src="assets/icons/buttons/add-orange.webp" alt="icône ajout">
+    <p class="add-text">ajouter un lieu</p>
+  </a>
 
-  <h3 class="mt-4 bold-title-700 text-left">Mes notifications</h3>
+  <h3 class="mt-5 bold-title-700 text-left">Mes disponibilités</h3>
+
+  <h3 class="mt-5 bold-title-700 text-left">Mes informations bancaires</h3>
+
+  <h3 class="mt-5 bold-title-700 text-left">Mes notifications</h3>
 
   <button type="submit" [disabled]="!profileForm.valid">Submit</button>
 
 </form>
+
