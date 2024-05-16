@@ -1,13 +1,3 @@
-<p>mynavbar works!</p>
-<button
-  type="submit"
-  class="btn-connection mt-4"
-  (click)="open(loginModal)"
-  style="z-index: 1001; position: relative"
->
-  se connecter
-</button>
-
 <ng-template #loginModal let-modal>
   <section class="container">
     <div class="wave"></div>
@@ -35,7 +25,7 @@
     <button
       type="button"
       class="btn toggle"
-      (click)="loginFormVisibil()"
+      (click)="loginFormVisibile()"
       [class.active]="isLoginFormVisible"
     >
       Se connecter
@@ -44,7 +34,7 @@
     <button
       type="button"
       class="btn toggle"
-      (click)="registerFormVisibil()"
+      (click)="registerFormVisibile()"
       [class.active]="isRegisterFormVisible"
     >
       S'inscrire
@@ -64,19 +54,19 @@
     <p>Autres options de connexion</p>
     <a href="#"
       ><img
-        src="../../../../assets/icons/social-networks/facebook-login.webp"
+        src="/assets/icons/social-networks/facebook-login.webp"
         alt="facebook"
         width="50px"
     /></a>
     <a href="#"
       ><img
-        src="../../../../assets/icons/social-networks/google.webp"
+        src="/assets/icons/social-networks/google.webp"
         alt="google"
         width="50px"
     /></a>
     <a href="#"
       ><img
-        src="../../../../assets/icons/social-networks/apple.webp"
+        src="/assets/icons/social-networks/apple.webp"
         alt="apple"
         width="50px"
     /></a>

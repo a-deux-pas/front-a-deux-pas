@@ -10,17 +10,14 @@
       required
       placeholder="nom@example.com"
     />
-    <div
-      *ngIf="
-        loginForm.get('email')?.invalid &&
-        (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)
-      "
-      class="alert"
-    >
-      <div *ngIf="loginForm.get('email')?.errors">
-        L'adresse email est requise.
-      </div>
+    @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty ||
+    loginForm.get('email')?.touched)) {
+    <div class="alert">
+      @if (loginForm.get('email')?.errors) {
+      <div>L'adresse email est requise.</div>
+      }
     </div>
+    }
   </div>
   <label for="password" class="mt-4">Mot de passe</label>
   <div class="input-group">
@@ -33,27 +30,21 @@
       required
       placeholder="8 caractères minimum"
     />
-    <div
-      *ngIf="
-        loginForm.get('password')?.invalid &&
-        (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)
-      "
-      class="alert"
-    >
-      <div *ngIf="loginForm.get('password')?.errors">
-        Le mot de passe est requis.
-      </div>
+    @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty
+    || loginForm.get('password')?.touched)) {
+    <div class="alert">
+      @if (loginForm.get('password')?.errors) {
+      <div>Le mot de passe est requis.</div>
+      }
     </div>
+    }
   </div>
   <div class="modal-footer justify-content-center">
     <button type="submit" class="btn-success">C'est parti !</button>
   </div>
 </form>
-<!-- 
-<ngb-alert [dismissible]="true" *ngIf="showSuccessAlert" type="success">
-  <strong>Succès !</strong> Connexion réussie.
-</ngb-alert> -->
-
-<!-- <ngb-alert [dismissible]="true" *ngIf="showErrorAlert" type="danger">
+@if(showErrorAlert) {
+<ngb-alert [dismissible]="true" type="danger">
   <strong>Erreur !</strong> Une erreur est survenue. Veuillez réessayer.
-</ngb-alert> -->
+</ngb-alert>
+}

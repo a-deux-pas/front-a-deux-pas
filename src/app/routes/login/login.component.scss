@@ -1,8 +1,4 @@
-$primary: #ff9f1a;
-$secondary: #ffbf6b;
-$tertiary: #cff1ef;
-$info: #2ec2b3;
-$link-hover-color: #000;
+@import "color-variables";
 
 .modal-btn .btn:active,
 .modal-btn .btn:first-child:active {
@@ -18,6 +14,7 @@ $link-hover-color: #000;
 .modal-btn .btn.toggle:focus-visible {
   outline: none;
 }
+
 .modal-body {
   .input-group > .form-control,
   .input-group > .form-select,
@@ -35,6 +32,7 @@ $link-hover-color: #000;
   border-color: white;
   background-color: white;
 }
+
 .btn-check:checked + .btn,
 :not(.btn-check) + .btn:active,
 .btn:first-child:active,
@@ -43,3 +41,15 @@ $link-hover-color: #000;
   background-color: white !important;
   color: #ff9f1a !important;
 }
+
+// :not(.btn-check) + &:active,
+//   &:first-child:active,
+//   &.active,
+//   &.show {
+//     color: var(--#{$prefix}btn-active-color);
+//     background-color: var(--#{$prefix}btn-active-bg);
+//     // Remove CSS gradients if they're enabled
+//     background-image: if($enable-gradients, none, null);
+//     border-color: var(--#{$prefix}btn-active-border-color);
+//     @include box-shadow(var(--#{$prefix}btn-active-shadow));
+//   }

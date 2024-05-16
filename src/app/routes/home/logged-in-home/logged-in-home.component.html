@@ -1,5 +1,9 @@
-<p>logged-in-home works!</p>
+<div>
+  <a routerLink="/login">Acheter</a>
+</div>
 
-<ngb-alert [dismissible]="true" *ngIf="showSuccessAlert" type="success">
+@if (showSuccessAlert) {
+<ngb-alert [dismissible]="true" type="success">
   <strong>Succès !</strong> Connexion réussie.
 </ngb-alert>
+}
