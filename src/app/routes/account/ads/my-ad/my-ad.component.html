@@ -7,10 +7,11 @@
 }
 
 <div class="main-sections custom-container">
+
     <!-- image view on desktop device -->
     <section class="article-picture-image-section">
         @if (articlePictures.length > 1) {
-        <div style="height: 300px; width: 860px;">
+        <div class="split-article-pictures-section">
             <as-split direction="horizontal">
                 <as-split-area [size]="areaSizeA" #splitAreaA>
                     <as-split direction="vertical">
@@ -45,8 +46,7 @@
         </div>
         }
         @else {
-        <img class="mx-auto" style="max-height: 300px; max-width: 860px;" src="{{articlePictures[0]}}"
-            alt="{{ myAd?.title }} 1" />
+        <img class="single-picture-section mx-auto" src="{{articlePictures[0]}}" alt="{{ myAd?.title }} 1" />
         }
     </section>
 
@@ -124,7 +124,7 @@
 </section>
 
 <!-- See more button -->
-@if (!noMoreAds) {
+@if (!noMoreAds && showSeeMorBtn) {
 <button type="submit" class="btn-info mt-4 mx-auto" (click)="loadMoreAds()">voir plus<img class="arrow-down-icon"
         src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
 </button>

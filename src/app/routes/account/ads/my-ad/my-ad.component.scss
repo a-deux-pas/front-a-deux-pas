@@ -108,6 +108,16 @@ app-ad-card {
     // margin-top: 50px;
 }
 
+.split-article-pictures-section {
+    height: 300px;
+    width: 860px;
+}
+
+.single-picture-section {
+    max-height: 300px;
+    max-width: 860px;
+}
+
 @media (min-width: 1200px) and (max-width: 1540px) {
     .main-sections {
         margin: 0 auto;
@@ -200,9 +210,9 @@ app-ad-card {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-between;
         justify-content: flex-start;
         gap: 20px;
+        width: 80%;
     }
 
     app-ad-card {

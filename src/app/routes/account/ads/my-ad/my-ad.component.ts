@@ -5,10 +5,9 @@ import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEv
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
 import { DisplayManagementService } from '../../../../shared/services/display-management.service';
-import { Component, ViewChild, OnInit, Input, ElementRef, ChangeDetectorRef } from '@angular/core'
+import { Component, ViewChild, OnInit, Input } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { SplitComponent } from 'angular-split'
-import { AngularSplitModule } from 'angular-split'
+import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { UiModule } from '../../../../shared/module/ui/ui.module';
 
 
@@ -35,6 +34,8 @@ export class MyAdComponent implements OnInit {
   articlePictures: (string | undefined)[] = [];
   selectedPicNumber: number = 1;
   myOtherAds: AdPostResponse[] = [];
+  showSeeMorBtn!: boolean
+  adCount!: number
 
   constructor(
     private route: ActivatedRoute,
@@ -70,9 +71,17 @@ export class MyAdComponent implements OnInit {
         ].filter(url => !!url);
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
-        this.adService.findMyAds(this.myAd.publisherId!).subscribe({
-          next: (myOtherAds: AdPostResponse[]) => {
-            this.myOtherAds = myOtherAds.filter(ad => ad.id !== this.myAd!.id);
+        // this.adService.findMyAds(this.myAd.publisherId!).subscribe({
+        //   next: (myOtherAds: AdPostResponse[]) => {
+        //     this.myOtherAds = myOtherAds.filter(ad => ad.id !== this.myAd!.id);
+        //   }
+        // })
+        this.fetchPaginatedAdsList()
+        this.adService.getMyAdsCount(1).subscribe({
+          next: (adCount: number) => {
+            this.adCount = adCount
+            this.showSeeMorBtn = this.adCount > 9
+            console.log('this.adCount:: ', this.adCount)
           }
         })
       },
@@ -142,7 +151,7 @@ export class MyAdComponent implements OnInit {
   test() { }
 
   pageNumber: number = 0;
-  pageSize: number = 8;
+  pageSize: number = 9;
   // displayedAds: AdPostResponse[] = [];
   noMoreAds: boolean = false;
 
@@ -151,11 +160,17 @@ export class MyAdComponent implements OnInit {
     this.fetchPaginatedAdsList();
   }
 
+  // TO DO :: à changer quand le processus de connexion sera implémenté
   fetchPaginatedAdsList() {
     this.adService.fetchMoreAds(1, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdPostResponse[]) => {
         this.myOtherAds = [...this.myOtherAds, ...ads];
-        this.noMoreAds = ads.length > 0 ? false : true;
+        this.myOtherAds = this.myOtherAds.filter(ad => ad.id !== this.myAd!.id);
+        this.noMoreAds = this.myOtherAds.length >= (this.adCount - 1)
+        console.log('this.myOtherAds.length:: ', this.myOtherAds.length, 'this.adCount::', this.adCount)
+        console.log('this.pageNumber ::', this.pageNumber, 'this.pageSize:: ', this.pageSize)
+        console.log('myOtherAds')
+        console.table(this.myOtherAds)
       }
     });
   }

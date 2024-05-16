@@ -42,7 +42,18 @@ export class AdService {
     }
 
     fetchMoreAds(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
-        const url = `${this.contextUrl}list/${userId}&pageSize=${pageSize}?pageNumber=${pageNumber}`
-        return this.http.get<AdPostResponse[]>(url);
+        const url = `${this.contextUrl}list/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+        return this.http.get<AdPostResponse[]>(url)
+            .pipe(
+                catchError(this.handleErrorService.handleError<any[]>('getAdsPage'))
+            )
+    }
+
+    getMyAdsCount(userId: number): Observable<number> {
+        const url = `${this.contextUrl}count/${userId}`;
+        return this.http.get<number>(url)
+            .pipe(
+                catchError(this.handleErrorService.handleError<any>('getAdsCount'))
+            )
     }
 }
