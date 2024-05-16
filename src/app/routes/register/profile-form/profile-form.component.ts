@@ -1,7 +1,9 @@
-import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
+import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { CommonModule } from '@angular/common';
+import { conditionallyRequiredValidator } from './custom.validator';
+import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
 
 @Component({
   selector: 'app-profile-form',
@@ -24,8 +26,10 @@ export class ProfileFormComponent implements AfterViewInit {
     }),
     favoriteMeetingPlaces: this.formBuilder.array(
       [this.favoriteMeetingPlaceForm()],
-      [Validators.minLength(1), Validators.maxLength(5)]),
+      [Validators.minLength(2), Validators.maxLength(5)]), // TO DO: adapater validator
   });
+
+  favoriteMeetingPlaces: PreferredMeetingPlace[] = [];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -49,16 +53,23 @@ export class ProfileFormComponent implements AfterViewInit {
       name: [''],
       street: [''],
       postalCode: [''],
-      city: ['']
-    })
+      city: [''],
+    });
   }
 
-  addFavoriteMeetingPlace() {
-    this.favoriteMeetingPlaceForms.push(this.favoriteMeetingPlaceForm());
+  addFavoriteMeetingPlace(favoriteMeetingPlace: PreferredMeetingPlace) {
+    console.log(favoriteMeetingPlace);
+    if (favoriteMeetingPlace.name != '') {
+      this.favoriteMeetingPlaceForms.push(this.favoriteMeetingPlaceForm());
+      this.favoriteMeetingPlaces.push(favoriteMeetingPlace);
+      this.deleteMeetingPlaceForm(0);
+    }
+     // TODO: push le favoriteMeetingPlace dans le profileForm
   }
 
   deleteMeetingPlaceForm(meetingPlaceIndex: number) {
     this.favoriteMeetingPlaceForms.removeAt(meetingPlaceIndex);
+    // TODO: remove le favoriteMeetingPlace du profileForm
   }
 
   // Form Submit
@@ -68,8 +79,11 @@ export class ProfileFormComponent implements AfterViewInit {
   }
 
   // TO DO :
-  // - differenciation autocomplétion
+  // - differenciation autocomplétion ?
+  // - ajouter validations conditionnelles après que le nom de du meeting place soit rempli
   // - verification que l'adresse n'a pas déjà été ajoutée
   // - composant schedule
   // - composant informations bancaires
+  // - tester si l'on peut refactoriser avec le meeting place component du profil
+  // - tenter de refactoriser le form
 }

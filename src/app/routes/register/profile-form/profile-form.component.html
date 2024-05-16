@@ -7,7 +7,7 @@
           <input type="file" formControlName="profilePicture" id="profile-picture" name="profile-picture" accept="image/jpeg, image/jpg, image/png, image/svg, image/webp" required/>
         </label>
       </div>
-      @if(profileForm.controls['profilePicture'].errors && profileForm.controls['profilePicture'].touched) {
+      @if (profileForm.controls['profilePicture'].errors && profileForm.controls['profilePicture'].touched) {
         <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous reconnaître lors des rdv</div>
       }
     </div>
@@ -16,7 +16,7 @@
         <label for="alias">Mon pseudo</label>
         <input type="text" formControlName="alias" id="alias" name="alias" class="form-control" minlength="3" required/>
       </div>
-      @if(profileForm.controls['alias'].errors && profileForm.controls['alias'].touched) {
+      @if (profileForm.controls['alias'].errors && profileForm.controls['alias'].touched) {
         <div [hidden]="!profileForm.controls['alias'].errors['required']" class="error-msg">Veuillez renseigner votre pseudo</div>
         <div [hidden]="!profileForm.controls['alias'].errors['minlength']" class="error-msg">Votre pseudo doit comporter au moins 3 caractères</div>
       }
@@ -27,7 +27,7 @@
         <label for="bio" class="form-label">Ma présentation</label>
         <textarea formControlName="bio" class="form-control form-control-sm" name="bio" id="bio" rows="3" minlength="10"></textarea>
       </div>
-      @if(profileForm.controls['bio'].errors && profileForm.controls['bio'].touched) {
+      @if (profileForm.controls['bio'].errors && profileForm.controls['bio'].touched) {
         <div class="error-msg">Votre présentation doit comporter au moins 10 caractères</div>
       }
     </div>
@@ -41,7 +41,7 @@
           <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue" required/>
         </mapbox-address-autofill>
         </div>
-      @if(profileForm.controls['address'].controls['street'].errors && profileForm.controls['address'].controls['street'].touched) {
+      @if (profileForm.controls['address'].controls['street'].errors && profileForm.controls['address'].controls['street'].touched) {
         <div class="error-msg">Veuillez renseigner votre rue</div>
       }
     </div>
@@ -49,14 +49,14 @@
       <div class="col-4">
         <label for="postal-code">Code postal</label>
         <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control" required/>
-        @if(profileForm.controls['address'].controls['postalCode'].errors && profileForm.controls['address'].controls['postalCode'].touched) {
+        @if (profileForm.controls['address'].controls['postalCode'].errors && profileForm.controls['address'].controls['postalCode'].touched) {
           <div class="error-msg">Veuillez renseigner votre code postal</div>
         }
       </div>
       <div class="col-4">
         <label for="city">Ville</label>
         <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
-        @if(profileForm.controls['address'].controls['city'].errors && profileForm.controls['address'].controls['city'].touched) {
+        @if (profileForm.controls['address'].controls['city'].errors && profileForm.controls['address'].controls['city'].touched) {
           <div class="error-msg">Veuillez renseigner votre ville</div>
         }
       </div>
@@ -64,8 +64,29 @@
   </div>
 
   <h3 class="mt-5 bold-title-700 text-left">Mes lieux de RDV préférés</h3>
+
+  @for (favoriteMeetingPlace of favoriteMeetingPlaces; track favoriteMeetingPlace.name; let i = $index) {
+    <address class="meeting-place">
+      <!-- Address number -->
+      <strong class="number">{{ i + 1 }}</strong>
+      <!-- Address name -->
+      <strong class="address-name">{{ favoriteMeetingPlace.name }}</strong>
+      <!-- Address details -->
+      <div class="address-detail">
+        {{ favoriteMeetingPlace.street }}<br>
+        {{ favoriteMeetingPlace.postalCode }} {{ favoriteMeetingPlace.city | titlecase }}
+      </div>
+    </address>
+    <a type="button" id="remove-address-icon" (click)="addFavoriteMeetingPlace(favoriteMeetingPlaceForms.controls[0].value)">
+      <img class="remove-icon" src="assets/icons/buttons/remove-grey.webp" alt="icône supprimer">
+    </a>
+  }
+
   <div formArrayName="favoriteMeetingPlaces" id="favorite-meeting-places">
-    <div *ngFor="let meetingPlaceForm of favoriteMeetingPlaceForms.controls; let i = index, let c = count">
+    @for (meetingPlaceForm of favoriteMeetingPlaceForms.controls; track meetingPlaceForm; let i = $index) {
+      <div [hidden]="!favoriteMeetingPlaceForms.controls[i].get('name')?.dirty" class="error-msg">
+        Veuillez renseigner au moins une adresse
+      </div>
       @if(i < 5) {
         <div [formGroupName]="i" class="favorite-meeting-place">
           <div class="row my-3 mt-5">
@@ -78,15 +99,20 @@
             <div class="col-8">
               <label for="street">Rue</label>
               <mapbox-address-autofill>
-                <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue" required/>
+                <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue"/>
               </mapbox-address-autofill>
-              </div>
+                @if(favoriteMeetingPlaceForms.controls[i].get('street')?.errors && favoriteMeetingPlaceForms.controls[i].get('street')?.errors?.['conditionallyRequired']) {
+                  <div class="error-msg">Veuillez renseigner une rue</div>
+                }
+            </div>
           </div>
           <div class="row my-3 mt-5">
             <div class="col-4">
               <label for="postal-code">Code postal</label>
-              <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control" required/>
-              <!-- TO DO : ajouter message d'erreur si le code postal n'est pas le même que l'adresse ? ou un message informatif ? -->
+              <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control"/>
+              @if(favoriteMeetingPlaceForms.controls[i].get('postalCode')?.errors?.['conditionallyRequired']) {
+                <div class="error-msg">Veuillez renseigner un code postal</div>
+              }
             </div>
             <div class="col-4">
               <label for="city">Ville</label>
@@ -95,14 +121,16 @@
           </div>
         </div>
       }
-    </div>
-    @if(profileForm.controls['favoriteMeetingPlaces'].errors) {
-      <div [hidden]="!profileForm.controls['favoriteMeetingPlaces'].errors['required'] && profileForm.controls['favoriteMeetingPlaces'].touched" class="error-msg">Veuillez renseigner au moins une adresse</div>
-      <div [hidden]="!profileForm.controls['favoriteMeetingPlaces'].errors['maxlength']" class="error-msg">Vous ne pouvez pas renseigner plus de 5 adresses</div>
+      <!-- <p>{{ favoriteMeetingPlaceForms.controls[i].get('name')?.value }}</p>
+      <p>{{ favoriteMeetingPlaceForms.controls[i].get('street')?.value }}</p>
+      <p>{{ favoriteMeetingPlaceForms.controls[i].get('street')?.errors | json }}</p> -->
+    <!-- </div> -->
     }
   </div>
-
-  <a type="button" id="add-address-icon" (click)="addFavoriteMeetingPlace()">
+  @if(profileForm.controls['favoriteMeetingPlaces'].errors) {
+    <div [hidden]="!profileForm.controls['favoriteMeetingPlaces'].errors['maxlength']" class="error-msg">Vous ne pouvez pas renseigner plus de 5 adresses</div>
+  }
+  <a type="button" id="add-address-icon" (click)="addFavoriteMeetingPlace(favoriteMeetingPlaceForms.controls[0].value)">
     <img class="add-icon" src="assets/icons/buttons/add-orange.webp" alt="icône ajout">
     <p class="add-text">ajouter un lieu</p>
   </a>
@@ -116,4 +144,3 @@
   <button type="submit" [disabled]="!profileForm.valid">Submit</button>
 
 </form>
-
