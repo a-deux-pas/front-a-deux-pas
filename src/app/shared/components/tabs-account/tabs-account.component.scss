@@ -5,6 +5,8 @@
 #account-tabs {
   display: none;
   font-size: 1.25rem;
+  position: relative;
+  z-index: 3;
 }
 
 // Desktop version style elements

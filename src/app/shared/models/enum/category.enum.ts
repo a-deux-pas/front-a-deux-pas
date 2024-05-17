@@ -1,6 +1,6 @@
 export enum Category {
   FASHION = 'Mode',
-  ELECTRONICS = 'Electronique',
+  ELECTRONICS = 'Électronique',
   HOME = 'Maison',
   LEISURE = 'Loisirs',
   OTHER_CATEGORY = 'Autre',

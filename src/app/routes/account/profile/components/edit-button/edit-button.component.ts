@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-edit-button',
-  templateUrl: './edit-button.component.html'
+    selector: 'app-edit-button',
+    templateUrl: './edit-button.component.html',
+    standalone: true
 })
 export class EditButtonComponent {
   // Output event emitter for notifying parent component about edit mode changes

@@ -3,12 +3,12 @@ export enum Subcategory {
   TOPS = 'Hauts',
   BOTTOMS = 'Bas',
   SHOES = 'Chaussures',
-  COATS = 'Manteau',
+  COATS = 'Manteaux',
   ACCESSORIES = 'Accessoires',
 
   // Electronics subcategories
-  COMPUTERS = 'Ordinateur',
-  PHONES = 'Téléphone',
+  COMPUTERS = 'Ordinateurs',
+  PHONES = 'Téléphones',
   VIDEO_GAMES = 'Jeux vidéo',
 
   // Home subcategories
@@ -22,6 +22,6 @@ export enum Subcategory {
   MOVIES = 'Films',
   SPORT = 'Sport',
 
-  // Other subcategories
+  // Other categories or subcategories
   OTHER_SUBCATEGORY = 'Autre',
 }

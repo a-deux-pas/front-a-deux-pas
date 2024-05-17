@@ -15,6 +15,10 @@ $h1-font-size: 2.22rem;
 $h2-font-size: 1.5rem;
 $h3-font-size: 1.125rem;
 
+.bold-title-700 {
+  font-weight: 700;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Colors
@@ -77,10 +81,95 @@ $h3-font-size: 1.125rem;
 
 /*-----------------------------------------------------------------------*/
 
-// Body margin adjustments
+// Margin adjustments
+html,
 body {
-  margin-left: 2vh !important;
-  margin-right: 2vh !important;
+  overflow-x: hidden;
+}
+
+.main-container {
+  margin: 11vh 2vh 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Bottom mobile navbar
+#mobile-bottom-navbar .mobile-wave-bottom-background {
+  background-color: $tertiary;
+  width: 100%;
+  height: 62px;
+  margin-top: 14px;
+}
+
+.mobile-wave-bottom-navbar {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 85px;
+  z-index: 2;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 79px;
+    background-color: $tertiary;
+    z-index: -1;
+  }
+
+  &::before {
+    right: -6px;
+    transform: rotate(-8deg);
+    border-top-right-radius: 542px 18px;
+  }
+
+  &::after {
+    left: -6px;
+    transform: rotate(8deg);
+    border-top-left-radius: 542px 18px;
+  }
+}
+
+#mobile-bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 65px;
+  z-index: 3;
+}
+
+#mobile-bottom-navbar-icons {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  font-size: 0.75rem;
+  z-index: 3;
+}
+
+ul#mobile-bottom-navbar-icons {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon .icon {
+  width: 29px;
+  margin-bottom: 3px;
+}
+
+#mobile-bottom-navbar-icons #mobile-sell-icon {
+  margin-top: -10px;
+  color: $primary;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: black;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -88,7 +177,7 @@ body {
 // Buttons
 $btn-font-size: 0.938rem;
 $btn-padding-x: 0.625rem;
-$btn-padding-y: 1.5625rem;
+$btn-padding-y: 2.5625rem;
 $btn-border-radius: 10px 10px 25px 10px;
 $btn-focus-shadow-rgb: 49, 132, 253;
 $color: var(--bs-btn-hover-color);
@@ -207,7 +296,6 @@ button.btn {
 // Connection button styling
 .btn-connection {
   background-color: white;
-  width: 154px;
   height: 43px;
   flex-shrink: 0;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -265,7 +353,8 @@ $btn-close-focus-shadow: none;
 $btn-close-hover-opacity: none;
 $btn-close-opacity: none;
 
-span.close {
+span.close,
+a.close {
   display: inline-block;
   font-size: 1.3rem;
   transform: scaleX(1.1);
@@ -315,6 +404,7 @@ textarea.form-control {
   border-left: white;
   padding-bottom: 0.315rem;
   height: 40px;
+  min-width: 245.238px;
 }
 
 // Opened ng-select container bottom border radius
@@ -664,18 +754,153 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
+// Schedule
+
+// Set the width of the calendar and center it
+.fc {
+  width: 320px;
+  margin: 0 auto;
+}
+
+// Header style
+.fc .fc-col-header-cell-cushion {
+  background-color: $info;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-size: 10px;
+  padding: 5px 5px;
+  margin-bottom: 16px;
+}
+
+// Personalized header borders
+.fc-theme-standard th {
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid var(--fc-border-color);
+}
+
+// Remove header borders
+.fc-theme-standard .fc-scrollgrid {
+  border-top: none;
+  border-left: none;
+}
+
+// Thicken grids
+.fc-theme-standard td {
+  border: 2px solid var(--fc-border-color);
+}
+
+// Remove today highlight
+.fc-day-today {
+  background-color: inherit !important;
+}
+
+// Timegrid slot styling
+.fc-timegrid-slot-label-frame.fc-scrollgrid-shrink-frame {
+  background-color: #f2f2f2;
+  color: rgba(155, 149, 149, 0.85);
+}
+
+.fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+// Event styling
+.fc-v-event {
+  background-color: rgba(255, 191, 107, 0.705);
+  border: none;
+}
+
+.fc-event-time {
+  display: none;
+}
+
+.fc-timegrid-event {
+  border-radius: inherit;
+}
+
+// Remove margin
+.fc-event,
+.fc-event-main {
+  margin-bottom: 0 !important;
+}
+
+.fc-direction-ltr .fc-timegrid-col-events {
+  margin: 0;
+}
+
+// Remove "-" after new event timing
+.fc-timegrid-event-short .fc-event-time::after {
+  content: "";
+}
+
+// Center new event timing
+.fc-v-event .fc-event-title-container {
+  flex-grow: 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+@media (min-width: 768px) {
+  // Personalized container for "my account" pages
+  // Includes tabs and page content
+  .custom-container {
+    @include make-container($padding-x: 1.3vh, $padding-y: 7.25vh);
+  }
+
+  /*---------------------------------*/
+
+  // Schedule
+
+  // Adjust width and font size for larger screens
+  .fc {
+    width: calc(100% - 16px);
+    max-width: 745px;
+  }
+
+  // Header style
+  .fc .fc-col-header-cell-cushion {
+    font-size: 13px;
+    padding: 9px 12px;
+  }
+
+  // Display event time
+  .fc-event-time {
+    margin: 0 auto;
+    display: inline-block;
+  }
+
+  /*---------------------------------*/
+
+  // Bottom navbar
+  #mobile-bottom-navbar .mobile-wave-bottom-background {
+    margin-top: 21px;
+  }
+
+  #mobile-bottom-navbar-icons #mobile-sell-icon {
+    margin-top: 0px;
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+
 // Desktop version
 @media (min-width: 1200px) {
-  // Body margin adjustments
+  // margin
   body {
-    margin-left: 14vh !important;
-    margin-right: 14vh !important;
+    margin: 0;
+  }
+
+  .main-container {
+    margin: 8vh 14vh 0;
   }
 
   // Personalized container for "my account" pages
   // Includes tabs and page content
-  .account-container {
-    @include make-container($padding-x: 20vh, $padding-y: 13.25vh);
+  .custom-container {
+    @include make-container($padding-x: 8vh, $padding-y: 88px);
   }
 
   //Dropdown menu styling

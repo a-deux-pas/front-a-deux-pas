@@ -1,20 +1,21 @@
 import { HttpClientModule } from "@angular/common/http";
 import { ProfileComponent } from "../../../routes/account/profile/profile.component";
 import { ProfileService } from "../../../routes/account/profile/profile.service";
-import { SharedComponentsModule } from "../../components/shared-components.module";
 import { MeetingPlacesComponent } from "../../../routes/account/profile/components/meeting-places/meeting-places.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { EditButtonComponent } from "../../../routes/account/profile/components/edit-button/edit-button.component";
+import { API_URL } from "../../utils/constants/utils-constants";
+
+let apiUrl = `${API_URL}api/account/profile`;
 
 describe('Profile component', () => {
-    beforeEach(() => {
-      cy.intercept('http://localhost:8081/api/account/profile/presentation', { fixture: 'user-profile' }).as('getUserPresentation');
-      cy.intercept('http://localhost:8081/api/account/profile/schedules', { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
-      cy.intercept('http://localhost:8081/api/account/profile/meeting-places', { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
+  beforeEach(() => {
+    cy.intercept(`${apiUrl}/presentation`, { fixture: 'user-profile' }).as('getUserPresentation');
+    cy.intercept(`${apiUrl}/schedules`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+    cy.intercept(`${apiUrl}/meeting-places`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
 
     cy.mount(ProfileComponent, {
-      declarations: [MeetingPlacesComponent, EditButtonComponent],
-      imports: [HttpClientModule, SharedComponentsModule, RouterTestingModule],
+      imports: [MeetingPlacesComponent, EditButtonComponent, HttpClientModule, RouterTestingModule],
       providers: [ProfileService],
       componentProperties: {
         onEditModeChange: cy.spy().as('onEditModeChange'),
@@ -37,7 +38,7 @@ describe('Profile component', () => {
     cy.get('#schedule #edit-button-container .btn-icon').click();
     cy.get('@onEditModeChange').should('have.been.calledOnceWith', true, 'schedule');
     cy.get('#schedule #edit-button-container .save-icon').click();
-     //TODO : check if data saved
+    //TODO : check if data saved
   });
 
   it('should trigger edit mode change event for meeting places section', () => {

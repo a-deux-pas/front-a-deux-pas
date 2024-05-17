@@ -1,0 +1,290 @@
+@import 'color-variables.scss';
+
+.centered-elements {
+  text-align: center;
+}
+
+.centered-elements h3 {
+  text-align: left;
+
+  /* to cancel h3tag central alignement */
+  >label {
+    text-align: left;
+  }
+}
+
+.test {
+  display: inline-block;
+}
+
+#ad-title,
+#ad-description {
+  width: 320px;
+  overflow: hidden;
+}
+
+#ad-price,
+#ad-status {
+  width: 246px;
+  height: 43px;
+}
+
+.price-input-field {
+  display: grid;
+}
+
+#ad-price {
+  position: relative;
+}
+
+.input-group-addon {
+  margin-left: -9.5%;
+  position: absolute;
+}
+
+.label-and-input {
+  margin-bottom: 7%;
+
+  >label {
+    text-align: left;
+  }
+}
+
+.state-and-price-input-correction {
+  margin-left: -28%;
+  width: 246px;
+}
+
+.input {
+  border-radius: 10px 10px 40px 5px;
+  border-bottom: 5px solid #ffbf6b;
+  border-top: white;
+  border-right: white;
+  border-left: white;
+  padding-bottom: 0.315rem;
+  height: 40px;
+}
+
+#select-pic-number,
+.article-categorization {
+  width: 246px;
+}
+
+.error-container {
+  width: max-content;
+}
+
+.error-msg {
+  color: $primary;
+}
+
+.bottom-btns {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// drag and drop
+ngx-dropzone {
+  width: 350px;
+  height: 349px;
+  margin: auto auto;
+}
+
+ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+  align-items: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  max-width: 70% !important;
+  min-height: 70% !important;
+  min-width: 180px !important;
+  position: relative !important;
+  margin-left: 16% !important;
+}
+
+.add-picture-icon {
+  width: 27.25px;
+  height: 27.25px;
+}
+
+.add-picture-btn {
+  margin-top: 40%;
+}
+
+.add-picture-btn-text {
+  color: $primary;
+}
+
+.carousel-item-mobile {
+  width: 350px;
+  height: 349px;
+}
+
+@media screen and (min-width: 1200px) {
+  .input-group-addon {
+    margin-left: -4.5%;
+  }
+
+  #ad-title {
+    width: 471px;
+  }
+
+  .ad-title {
+    margin-left: 36% !important;
+  }
+
+  #ad-description {
+    width: 573px;
+  }
+
+  .label-and-input {
+    margin-left: auto;
+    margin-right: 46%;
+  }
+
+  // Picture upload section
+  .photoDragAndDrop {
+    width: 859px;
+    height: 479px;
+    flex-shrink: 0;
+    border: dashed 2px grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .add-picture-btn {
+    margin-top: 0;
+  }
+
+  .dropzone-field {
+    grid-gap: 21px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    max-width: 859px;
+    max-height: 478px;
+  }
+
+  //// if one dropzone
+  .one-dropzone {
+    width: 859px;
+    height: 478px;
+
+    >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+      min-width: 70% !important;
+      min-height: 70% !important;
+      position: relative !important;
+      max-width: 859px !important;
+      max-height: 478px !important;
+    }
+  }
+
+  //// if two dropzones
+  .two-dropzones[_nghost-ng-c2040221903] {
+    width: 423px;
+    height: 479px;
+
+    >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+      min-width: 80% !important;
+      min-height: 80% !important;
+      position: relative !important;
+      max-width: 400px !important;
+      max-height: 460px !important;
+    }
+  }
+
+  //// if three dropzones
+  .three-dropzones[_nghost-ng-c2040221903] {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .three-dropzones[_nghost-ng-c2040221903]:first-child {
+    width: 523px;
+    height: 479px;
+    grid-area: 1 / 1 / 3 / 3;
+
+    &>ngx-dropzone-label>div {
+      margin-top: 100%;
+    }
+
+    >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+      min-width: 80% !important;
+      min-height: 80% !important;
+      position: relative !important;
+      max-width: 400px !important;
+      max-height: 460px !important;
+    }
+  }
+
+  .three-dropzones[_nghost-ng-c2040221903]:not(:first-child) {
+    width: 316px;
+    height: 232px;
+
+    &>ngx-dropzone-label>div {
+      margin-top: 30%;
+    }
+  }
+
+  .three-dropzones[_nghost-ng-c2040221903]:nth-child(2) {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+
+  .three-dropzones[_nghost-ng-c2040221903]:nth-child(3) {
+    grid-area: 2 / 3 / 3 / 4;
+  }
+
+  //// if four dropzones
+  .four-dropzones[_nghost-ng-c2040221903] {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .four-dropzones[_nghost-ng-c2040221903]:first-child,
+  .four-dropzones[_nghost-ng-c2040221903]:nth-child(4) {
+    width: 308px;
+    height: 479px;
+
+    &>ngx-dropzone-label>div {
+      margin-top: 87%;
+    }
+  }
+
+  .four-dropzones[_nghost-ng-c2040221903]:first-child {
+    grid-area: 1 / 1 / 3 / 2;
+  }
+
+  .four-dropzones[_nghost-ng-c2040221903]:nth-child(4) {
+    grid-area: 1 / 3 / 3 / 4;
+  }
+
+  .four-dropzones[_nghost-ng-c2040221903]:nth-child(2),
+  .four-dropzones[_nghost-ng-c2040221903]:nth-child(3) {
+    width: 215px;
+    height: 232px;
+
+    &>ngx-dropzone-label>div {
+      margin-top: 30%;
+    }
+  }
+
+  //// if five dropzones
+  .five-dropzones[_nghost-ng-c2040221903]:first-child {
+    width: 308px;
+    height: 479px;
+    grid-area: 1 / 1 / 3 / 2;
+  }
+
+  .five-dropzones[_nghost-ng-c2040221903]:not(:first-child) {
+    width: 256.67px;
+    height: 232px;
+  }
+}
