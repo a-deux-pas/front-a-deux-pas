@@ -6,10 +6,6 @@
     align-items: center;
 }
 
-ngb-carousel {
-    width: 335px;
-}
-
 .title-and-price {
     font-size: 28px;
     font-weight: 700;
@@ -43,11 +39,6 @@ ngb-carousel {
 
 .article-picture-image-section {
     display: none;
-}
-
-.img-wrapper {
-    width: 335px;
-    height: 333px;
 }
 
 // CTA
@@ -181,11 +172,6 @@ app-ad-card {
     img {
         max-width: 100%;
         max-height: 100%;
-    }
-
-    .article-picture-image-section-mobile,
-    ngb-carousel {
-        display: none !important;
     }
 
     as-split-area>img {
