@@ -32,7 +32,7 @@ export class MyAdComponent implements OnInit {
   windowSizeSubscription: Subscription;
   myAd: AdPostResponse | undefined;
   articlePictures: (string | undefined)[] = [];
-  selectedPicNumber: number = 1;
+  selectedPicNumber: number = 2;
   myOtherAds: AdPostResponse[] = [];
   showSeeMorBtn!: boolean
   adCount!: number
@@ -72,11 +72,11 @@ export class MyAdComponent implements OnInit {
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
         this.fetchPaginatedAdsList()
+        // TO DO : à changer une fois la connexion implémentée
         this.adService.getMyAdsCount(1).subscribe({
           next: (adCount: number) => {
             this.adCount = adCount
             this.showSeeMorBtn = this.adCount > 9
-            console.log('this.adCount:: ', this.adCount)
           }
         })
       },
@@ -147,7 +147,6 @@ export class MyAdComponent implements OnInit {
 
   pageNumber: number = 0;
   pageSize: number = 8;
-  // displayedAds: AdPostResponse[] = [];
   noMoreAds: boolean = false;
 
   loadMoreAds() {
@@ -162,10 +161,6 @@ export class MyAdComponent implements OnInit {
         this.myOtherAds = [...this.myOtherAds, ...ads];
         this.myOtherAds = this.myOtherAds.filter(ad => ad.id !== this.myAd!.id);
         this.noMoreAds = this.myOtherAds.length >= (this.adCount - 1)
-        console.log('this.myOtherAds.length:: ', this.myOtherAds.length, 'this.adCount::', this.adCount)
-        console.log('this.pageNumber ::', this.pageNumber, 'this.pageSize:: ', this.pageSize)
-        console.log('myOtherAds')
-        console.table(this.myOtherAds)
       }
     });
   }
