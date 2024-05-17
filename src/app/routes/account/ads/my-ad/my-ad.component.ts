@@ -143,8 +143,6 @@ export class MyAdComponent implements OnInit {
     }
   }
 
-  test() { }
-
   pageNumber: number = 0;
   pageSize: number = 8;
   noMoreAds: boolean = false;
