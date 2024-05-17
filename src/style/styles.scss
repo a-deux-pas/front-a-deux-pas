@@ -882,16 +882,16 @@ a.dropdown-first-level.dropdown-toggle {
 
 .carousel-control-prev,
 .carousel-control-next {
-  color: $primary;
+  color: $primary !important;
 
   &:hover,
   &:focus {
-    color: $primary;
+    color: $primary !important;
   }
 }
 
 .carousel-control-prev-icon {
-  background-image: url("../assets/icons/buttons/arrow-left.webp");
+  background-image: url("../assets/icons/buttons/arrow-left.webp") !important;
 
   .noShow {
     display: none;
@@ -899,7 +899,7 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 .carousel-control-next-icon {
-  background-image: url("../assets/icons/buttons/arrow-right.webp");
+  background-image: url("../assets/icons/buttons/arrow-right.webp") !important;
 
   .noShow {
     display: none;
@@ -907,7 +907,7 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 [data-bs-target] {
-  background-color: $primary;
+  background-color: $primary !important;
 }
 
 ngb-carousel,

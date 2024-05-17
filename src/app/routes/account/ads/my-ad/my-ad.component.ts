@@ -71,11 +71,6 @@ export class MyAdComponent implements OnInit {
         ].filter(url => !!url);
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
-        // this.adService.findMyAds(this.myAd.publisherId!).subscribe({
-        //   next: (myOtherAds: AdPostResponse[]) => {
-        //     this.myOtherAds = myOtherAds.filter(ad => ad.id !== this.myAd!.id);
-        //   }
-        // })
         this.fetchPaginatedAdsList()
         this.adService.getMyAdsCount(1).subscribe({
           next: (adCount: number) => {
@@ -151,7 +146,7 @@ export class MyAdComponent implements OnInit {
   test() { }
 
   pageNumber: number = 0;
-  pageSize: number = 9;
+  pageSize: number = 8;
   // displayedAds: AdPostResponse[] = [];
   noMoreAds: boolean = false;
 

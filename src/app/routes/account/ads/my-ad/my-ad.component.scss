@@ -4,7 +4,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 ngb-carousel {
@@ -149,7 +148,6 @@ app-ad-card {
         max-width: 867px;
         grid-area: 3 / 1 / 4 / 4;
     }
-
 }
 
 @media (min-width: 1540px) {
@@ -181,6 +179,11 @@ app-ad-card {
 
 @media (min-width: 1200px) {
 
+    page {
+        display: flex;
+        flex-direction: column;
+    }
+
     // Article picture image section
     img {
         max-width: 100%;
@@ -205,14 +208,12 @@ app-ad-card {
 
     // User's other ads section
     .user-other-ads {
-        // display: grid;
-        // grid-template-columns: repeat(5, 1fr);
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: flex-start;
-        gap: 20px;
-        width: 80%;
+        column-gap: 42px;
+        row-gap: 72px;
     }
 
     app-ad-card {
