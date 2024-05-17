@@ -41,7 +41,7 @@
           <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue" required/>
         </mapbox-address-autofill>
         </div>
-      @if (profileForm.controls['address'].controls['street'].errors && profileForm.controls['address'].controls['street'].touched) {
+      @if (profileForm.controls['address'].get('street')?.errors && profileForm.controls['address'].get('street')?.touched) {
         <div class="error-msg">Veuillez renseigner votre rue</div>
       }
     </div>
@@ -49,14 +49,14 @@
       <div class="col-4">
         <label for="postal-code">Code postal</label>
         <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control" required/>
-        @if (profileForm.controls['address'].controls['postalCode'].errors && profileForm.controls['address'].controls['postalCode'].touched) {
+        @if (profileForm.controls['address'].get('postalCode')?.errors && profileForm.controls['address'].get('postalCode')?.touched) {
           <div class="error-msg">Veuillez renseigner votre code postal</div>
         }
       </div>
       <div class="col-4">
         <label for="city">Ville</label>
         <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
-        @if (profileForm.controls['address'].controls['city'].errors && profileForm.controls['address'].controls['city'].touched) {
+        @if (profileForm.controls['address'].get('city')?.errors && profileForm.controls['address'].get('city')?.touched) {
           <div class="error-msg">Veuillez renseigner votre ville</div>
         }
       </div>
@@ -77,22 +77,23 @@
         {{ favoriteMeetingPlace.postalCode }} {{ favoriteMeetingPlace.city | titlecase }}
       </div>
     </address>
-    <a type="button" id="remove-address-icon" (click)="addFavoriteMeetingPlace(favoriteMeetingPlaceForms.controls[0].value)">
-      <img class="remove-icon" src="assets/icons/buttons/remove-grey.webp" alt="icône supprimer">
-    </a>
+      <a type="button" id="remove-address-icon" (click)="deleteFavoriteMeetingPlace(i)">
+        <img class="remove-icon" src="assets/icons/buttons/remove-grey.webp" alt="icône supprimer">
+      </a>
   }
 
   <div formArrayName="favoriteMeetingPlaces" id="favorite-meeting-places">
     @for (meetingPlaceForm of favoriteMeetingPlaceForms.controls; track meetingPlaceForm; let i = $index) {
-      <div [hidden]="!favoriteMeetingPlaceForms.controls[i].get('name')?.dirty" class="error-msg">
-        Veuillez renseigner au moins une adresse
-      </div>
-      @if(i < 5) {
+      @if (meetingPlaceForm) {
+        <strong class="number">{{ favoriteMeetingPlaces.length + 1 }}</strong>
         <div [formGroupName]="i" class="favorite-meeting-place">
           <div class="row my-3 mt-5">
             <div class="col-8">
               <label for="name">Nom</label>
               <input type="text" formControlName="name" id="name" name="name" class="form-control" placeholder="Nom du lieu" required/>
+              @if (meetingPlaceForm.get('name')?.errors && meetingPlaceForm.get('name')?.touched) {
+                <div class="error-msg">Veuillez renseigner un nom de lieu</div>
+              }
             </div>
           </div>
           <div class="row my-3 mt-5">
@@ -101,39 +102,52 @@
               <mapbox-address-autofill>
                 <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue"/>
               </mapbox-address-autofill>
-                @if(favoriteMeetingPlaceForms.controls[i].get('street')?.errors && favoriteMeetingPlaceForms.controls[i].get('street')?.errors?.['conditionallyRequired']) {
-                  <div class="error-msg">Veuillez renseigner une rue</div>
-                }
+              @if (meetingPlaceForm.get('street')?.errors && meetingPlaceForm.get('street')?.touched) {
+                <div class="error-msg">Veuillez renseigner une rue</div>
+              }
             </div>
           </div>
           <div class="row my-3 mt-5">
             <div class="col-4">
               <label for="postal-code">Code postal</label>
               <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control"/>
-              @if(favoriteMeetingPlaceForms.controls[i].get('postalCode')?.errors?.['conditionallyRequired']) {
+              @if (meetingPlaceForm.get('postalCode')?.errors && meetingPlaceForm.get('postalCode')?.touched) {
                 <div class="error-msg">Veuillez renseigner un code postal</div>
               }
             </div>
             <div class="col-4">
               <label for="city">Ville</label>
               <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
+              @if(meetingPlaceForm.get('city')?.errors && meetingPlaceForm.get('city')?.touched) {
+                <div class="error-msg">Veuillez renseigner un code postal</div>
+              }
             </div>
           </div>
         </div>
+        @if (favoriteMeetingPlaces.length > 0) {
+          <a type="button" id="remove-form-icon" (click)="deleteMeetingPlaceForm(i)">
+            <img class="remove-icon" src="assets/icons/buttons/remove-grey.webp" alt="icône supprimer">
+          </a>
+        }
       }
-      <!-- <p>{{ favoriteMeetingPlaceForms.controls[i].get('name')?.value }}</p>
-      <p>{{ favoriteMeetingPlaceForms.controls[i].get('street')?.value }}</p>
-      <p>{{ favoriteMeetingPlaceForms.controls[i].get('street')?.errors | json }}</p> -->
-    <!-- </div> -->
+    } @empty {
+        @if (favoriteMeetingPlaces.length < 5) {
+          <a type="button" id="add-form-icon" (click)="addMeetingPlaceForm()">
+            <img class="add-icon" src="assets/icons/buttons/add-orange.webp" alt="icône ajout">
+            <p class="add-text">ajouter un lieu</p>
+          </a>
+        }
     }
+    @if (favoriteMeetingPlaceForms.length > 0) {
+      <a type="button" id="add-address-icon" (click)="addFavoriteMeetingPlace()">
+        <img class="add-icon" src="assets/icons/buttons/add-orange.webp" alt="icône ajout">
+        <p class="add-text">ajouter un lieu</p>
+      </a>
+        @if (isAddButtonClicked && favoriteMeetingPlaceForms.invalid && favoriteMeetingPlaces.length <= 0) {
+          <div class="error-msg">Veuillez renseigner au moins une adresse</div>
+        }
+      }
   </div>
-  @if(profileForm.controls['favoriteMeetingPlaces'].errors) {
-    <div [hidden]="!profileForm.controls['favoriteMeetingPlaces'].errors['maxlength']" class="error-msg">Vous ne pouvez pas renseigner plus de 5 adresses</div>
-  }
-  <a type="button" id="add-address-icon" (click)="addFavoriteMeetingPlace(favoriteMeetingPlaceForms.controls[0].value)">
-    <img class="add-icon" src="assets/icons/buttons/add-orange.webp" alt="icône ajout">
-    <p class="add-text">ajouter un lieu</p>
-  </a>
 
   <h3 class="mt-5 bold-title-700 text-left">Mes disponibilités</h3>
 

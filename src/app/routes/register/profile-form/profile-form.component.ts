@@ -1,37 +1,36 @@
-import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter } from '@angular/core';
+import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { CommonModule } from '@angular/common';
-import { conditionallyRequiredValidator } from './custom.validator';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
 
 @Component({
   selector: 'app-profile-form',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './profile-form.component.html',
   styleUrl: './profile-form.component.scss'
 })
 export class ProfileFormComponent implements AfterViewInit {
-  profileForm = this.formBuilder.group({
-    profilePicture: ['', Validators.required],
-    alias: ['', [Validators.required, Validators.minLength(3)]],
-    bio: ['', Validators.minLength(10)],
-    notification: [''],
-    address: this.formBuilder.group({
-      street: ['', Validators.required],
-      postalCode: ['', Validators.required],
-      city: ['', Validators.required]
-    }),
-    favoriteMeetingPlaces: this.formBuilder.array(
-      [this.favoriteMeetingPlaceForm()],
-      [Validators.minLength(2), Validators.maxLength(5)]), // TO DO: adapater validator
-  });
-
+  profileForm: FormGroup;
   favoriteMeetingPlaces: PreferredMeetingPlace[] = [];
+  isAddButtonClicked: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+    this.profileForm = this.formBuilder.group({
+      profilePicture: ['', Validators.required],
+      alias: ['', [Validators.required, Validators.minLength(3)]],
+      bio: ['', Validators.minLength(10)],
+      notification: [''],
+      address: this.formBuilder.group({
+        street: ['', Validators.required],
+        postalCode: ['', Validators.required],
+        city: ['', Validators.required]
+      }),
+      favoriteMeetingPlaces: this.formBuilder.array([this.favoriteMeetingPlaceForm()]), // TO DO: adapater validator
+    });
+  }
 
   // address-autofill
   ngAfterViewInit(): void {
@@ -50,25 +49,32 @@ export class ProfileFormComponent implements AfterViewInit {
 
   favoriteMeetingPlaceForm(): FormGroup {
     return this.formBuilder.group({
-      name: [''],
-      street: [''],
-      postalCode: [''],
-      city: [''],
+      name: ['', Validators.required],
+      street: ['', Validators.required],
+      postalCode: ['', Validators.required],
+      city: ['', Validators.required],
     });
   }
 
-  addFavoriteMeetingPlace(favoriteMeetingPlace: PreferredMeetingPlace) {
-    console.log(favoriteMeetingPlace);
-    if (favoriteMeetingPlace.name != '') {
-      this.favoriteMeetingPlaceForms.push(this.favoriteMeetingPlaceForm());
-      this.favoriteMeetingPlaces.push(favoriteMeetingPlace);
+  addFavoriteMeetingPlace() {
+    this.isAddButtonClicked = true;
+    if (this.favoriteMeetingPlaceForms.valid) {
+      // TODO : vérifier que l'adresse n'a pas déjà été rentré par l'utilisateur
+      this.favoriteMeetingPlaces.push(this.favoriteMeetingPlaceForms.value[0]);
       this.deleteMeetingPlaceForm(0);
     }
-     // TODO: push le favoriteMeetingPlace dans le profileForm
   }
 
-  deleteMeetingPlaceForm(meetingPlaceIndex: number) {
-    this.favoriteMeetingPlaceForms.removeAt(meetingPlaceIndex);
+  addMeetingPlaceForm() {
+    this.favoriteMeetingPlaceForms.push(this.favoriteMeetingPlaceForm());
+  }
+
+  deleteMeetingPlaceForm(meetingPlaceFormIndex: number) {
+    this.favoriteMeetingPlaceForms.removeAt(meetingPlaceFormIndex);
+  }
+
+  deleteFavoriteMeetingPlace(meetingPlaceIndex: number) {
+    this.favoriteMeetingPlaces.splice(meetingPlaceIndex, 1);
     // TODO: remove le favoriteMeetingPlace du profileForm
   }
 
