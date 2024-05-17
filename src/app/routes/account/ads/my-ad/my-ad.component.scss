@@ -90,6 +90,11 @@ app-ad-card {
     display: ruby-text;
 }
 
+app-split-area {
+    height: inherit !important;
+    max-width: 845px;
+}
+
 .no-ads-message {
     display: flex;
     flex-direction: column;
@@ -112,7 +117,7 @@ app-ad-card {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
-        grid-column-gap: 20px;
+        grid-column-gap: 80px;
         grid-row-gap: 20px;
     }
 
@@ -134,7 +139,7 @@ app-ad-card {
 
     .general-info {
         margin: 0 auto;
-        max-width: 867px;
+        max-width: 845px;
         grid-area: 3 / 1 / 4 / 4;
     }
 }
@@ -157,7 +162,7 @@ app-ad-card {
     }
 
     .general-info {
-        max-width: 867px;
+        max-width: 845px;
         grid-area: 3 / 1 / 4 / 3;
     }
 
@@ -191,7 +196,7 @@ app-ad-card {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: flex-start;
-        column-gap: 42px;
+        column-gap: 80px;
         row-gap: 72px;
     }
 

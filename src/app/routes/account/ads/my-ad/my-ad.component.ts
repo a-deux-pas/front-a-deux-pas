@@ -1,15 +1,13 @@
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../ad/ad.service';
 import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.model';
-import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
 import { DisplayManagementService } from '../../../../shared/services/display-management.service';
-import { Component, ViewChild, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { SplitComponent, AngularSplitModule } from 'angular-split'
-import { UiModule } from '../../../../shared/module/ui/ui.module';
 import { CarouselComponent } from '../../../../shared/components/ads/carousel/carousel.component';
+import { SplitAreaComponent } from '../../../../shared/components/ads/split-area/split-area.component';
 
 
 
@@ -19,13 +17,10 @@ import { CarouselComponent } from '../../../../shared/components/ads/carousel/ca
   styleUrl: './my-ad.component.scss',
   standalone: true,
   imports: [
-    NgbNavModule,
-    NgbCarouselModule,
     CommonModule,
     AdCardComponent,
-    AngularSplitModule,
-    UiModule,
-    CarouselComponent
+    CarouselComponent,
+    SplitAreaComponent
   ]
 })
 export class MyAdComponent implements OnInit {
@@ -72,7 +67,6 @@ export class MyAdComponent implements OnInit {
           this.myAd.fifthArticlePictureUrl
         ].filter(url => !!url);
         this.selectedPicNumber = this.articlePictures.length;
-        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
         this.fetchPaginatedAdsList()
         // TO DO : à changer une fois la connexion implémentée
         this.adService.getMyAdsCount(1).subscribe({
@@ -92,61 +86,8 @@ export class MyAdComponent implements OnInit {
     this.viewportScroller.scrollToPosition([0, 0])
   }
 
-  // image carrousel for mobile device
-  // @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
-
-  // paused = false;
-  // unpauseOnArrow = false;
-  // pauseOnIndicator = false;
-  // pauseOnHover = true;
-  // pauseOnFocus = true;
-
-  // togglePaused() {
-  //   if (this.paused) {
-  //     this.carousel!.cycle();
-  //   } else {
-  //     this.carousel!.pause();
-  //   }
-  //   this.paused = !this.paused;
-  // }
-
-  // onSlide(slideEvent: NgbSlideEvent) {
-  //   if (
-  //     this.unpauseOnArrow &&
-  //     slideEvent.paused &&
-  //     (slideEvent.source === NgbSlideEventSource.ARROW_LEFT || slideEvent.source === NgbSlideEventSource.ARROW_RIGHT)
-  //   ) {
-  //     this.togglePaused();
-  //   }
-  //   if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
-  //     this.togglePaused();
-  //   }
-  // }
-
-  @ViewChild('splitAreaA') splitAreaA!: SplitComponent
-  @ViewChild('splitAreaB') splitAreaB!: SplitComponent
-
-  areaSizeA!: number
-  areaSizeB!: number
-  sizesSAA = [30, 25, 15, 50]
-  sizesSAB = [70, 75, 85, 50]
-  sub!: Subscription
-
-  setSplitAreasSizes(nPictures: number) {
-    switch (nPictures) {
-      case 3:
-        return [this.sizesSAA[0], this.sizesSAB[0]]
-      case 4:
-        return [this.sizesSAA[1], this.sizesSAB[1]]
-      case 5:
-        return [this.sizesSAA[2], this.sizesSAB[2]]
-      default:
-        return [this.sizesSAA[3], this.sizesSAB[3]]
-    }
-  }
-
   pageNumber: number = 0;
-  pageSize: number = 8;
+  pageSize: number = 9;
   noMoreAds: boolean = false;
 
   loadMoreAds() {
@@ -164,6 +105,8 @@ export class MyAdComponent implements OnInit {
       }
     });
   }
+
+  sub!: Subscription
 
   ngOnDestroy(): void {
     this.windowSizeSubscription.unsubscribe();
