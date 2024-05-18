@@ -6,7 +6,7 @@ import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, tap } from 'rxjs';
-import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { NgClass } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
@@ -28,8 +28,9 @@ import { FormsModule } from '@angular/forms';
 export class AdFormComponent {
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
+  @Input() isBigScreen: boolean | undefined;
+  @Input() windowSizeSubscription!: Subscription;
 
-  isBigScreen!: boolean;
   isPostAdForm: boolean | undefined;
 
   ad: Ad = new Ad(
@@ -50,7 +51,6 @@ export class AdFormComponent {
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
-  windowSizeSubscription: Subscription;
 
   constructor(
     private adService: AdService,
@@ -199,9 +199,5 @@ export class AdFormComponent {
         console.error('Error occurred during image upload:', error);
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.windowSizeSubscription.unsubscribe();
   }
 }

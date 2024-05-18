@@ -6,7 +6,7 @@ import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-ca
 import { Component, OnInit, Input, ViewChild } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { UiModule } from '../../../../shared/module/ui/ui.module';
-import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselModule, NgbNavModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CtaMyAdComponent } from '../cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
