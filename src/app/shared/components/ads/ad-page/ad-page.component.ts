@@ -9,6 +9,7 @@ import { UiModule } from '../../../../shared/module/ui/ui.module';
 import { NgbCarousel, NgbCarouselModule, NgbNavModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 import { CtaMyAdComponent } from '../cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
+import { DisplayManagementService } from '../../../services/display-management.service';
 
 
 
@@ -50,7 +51,8 @@ export class AdPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private adService: AdService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private displayManagementService: DisplayManagementService
   ) { }
 
   ngOnInit(): void {
@@ -109,34 +111,12 @@ export class AdPageComponent implements OnInit {
     }
   }
 
-  @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
-
-  paused = false;
-  unpauseOnArrow = false;
-  pauseOnIndicator = false;
-  pauseOnHover = true;
-  pauseOnFocus = true;
-
   togglePaused() {
-    if (this.paused) {
-      this.carousel!.cycle();
-    } else {
-      this.carousel!.pause();
-    }
-    this.paused = !this.paused;
+    this.displayManagementService.togglePaused()
   }
 
   onSlide(slideEvent: NgbSlideEvent) {
-    if (
-      this.unpauseOnArrow &&
-      slideEvent.paused &&
-      (slideEvent.source === NgbSlideEventSource.ARROW_LEFT || slideEvent.source === NgbSlideEventSource.ARROW_RIGHT)
-    ) {
-      this.togglePaused();
-    }
-    if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
-      this.togglePaused();
-    }
+    this.displayManagementService.onSlide(slideEvent)
   }
 
   pageNumber: number = 0;

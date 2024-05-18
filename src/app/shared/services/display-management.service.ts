@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
     providedIn: 'root'
@@ -22,4 +23,34 @@ export class DisplayManagementService {
     private checkWindowSize(): void {
         this.isBigScreenSubject.next(window.innerWidth > 1200);
     }
+
+    // carousel display management
+    @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
+
+    paused = false;
+    unpauseOnArrow = false;
+    pauseOnIndicator = false;
+
+    togglePaused() {
+        if (this.paused) {
+            this.carousel!.cycle();
+        } else {
+            this.carousel!.pause();
+        }
+        this.paused = !this.paused;
+    }
+
+    onSlide(slideEvent: NgbSlideEvent) {
+        if (
+            this.unpauseOnArrow &&
+            slideEvent.paused &&
+            (slideEvent.source === NgbSlideEventSource.ARROW_LEFT || slideEvent.source === NgbSlideEventSource.ARROW_RIGHT)
+        ) {
+            this.togglePaused();
+        }
+        if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
+            this.togglePaused();
+        }
+    }
+
 }

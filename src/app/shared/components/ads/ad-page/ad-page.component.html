@@ -53,7 +53,7 @@
 
         <!-- image view on mobile device -->
         <section class="article-picture-image-section-mobile mx-auto">
-            <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
+            <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true"
                 (slide)="onSlide($event)" class="mx-auto">
                 @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
                 <ng-template ngbSlide>

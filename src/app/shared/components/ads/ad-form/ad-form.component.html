@@ -52,9 +52,8 @@
     }
 
     <!-- Carrousel section for image selection on mobile device -->
-    <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
-      (slide)="onSlide($event)" class="center"
-      [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
+    <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true" (slide)="onSlide($event)"
+      class="center" [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
       @for (picNumber of getArray(selectedPicNumber); track picNumber; let i = $index) {
       <ng-template ngbSlide>
         <div class="carousel-caption">
