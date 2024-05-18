@@ -1,8 +1,9 @@
 import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
-import { CommonModule } from '@angular/common';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
+import { alreadyExistValidator } from '../../../shared/utils/validators/already-exist-validators';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile-form',
@@ -49,8 +50,14 @@ export class ProfileFormComponent implements AfterViewInit {
 
   favoriteMeetingPlaceForm(): FormGroup {
     return this.formBuilder.group({
-      name: ['', Validators.required],
-      street: ['', Validators.required],
+      name: ['', [
+        Validators.required,
+        alreadyExistValidator(this.favoriteMeetingPlaces, 'name')
+      ]],
+      street: ['', [
+        Validators.required,
+        alreadyExistValidator(this.favoriteMeetingPlaces, 'street')
+      ]],
       postalCode: ['', Validators.required],
       city: ['', Validators.required],
     });
@@ -59,7 +66,6 @@ export class ProfileFormComponent implements AfterViewInit {
   addFavoriteMeetingPlace() {
     this.isAddButtonClicked = true;
     if (this.favoriteMeetingPlaceForms.valid) {
-      // TODO : vérifier que l'adresse n'a pas déjà été rentré par l'utilisateur
       this.favoriteMeetingPlaces.push(this.favoriteMeetingPlaceForms.value[0]);
       this.deleteMeetingPlaceForm(0);
     }
@@ -86,8 +92,6 @@ export class ProfileFormComponent implements AfterViewInit {
 
   // TO DO :
   // - differenciation autocomplétion ?
-  // - ajouter validations conditionnelles après que le nom de du meeting place soit rempli
-  // - verification que l'adresse n'a pas déjà été ajoutée
   // - composant schedule
   // - composant informations bancaires
   // - tester si l'on peut refactoriser avec le meeting place component du profil

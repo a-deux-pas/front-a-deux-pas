@@ -92,7 +92,8 @@
               <label for="name">Nom</label>
               <input type="text" formControlName="name" id="name" name="name" class="form-control" placeholder="Nom du lieu" required/>
               @if (meetingPlaceForm.get('name')?.errors && meetingPlaceForm.get('name')?.touched) {
-                <div class="error-msg">Veuillez renseigner un nom de lieu</div>
+                <div [hidden]="!meetingPlaceForm.get('name')?.errors?.['required']" class="error-msg">Veuillez renseigner un nom de lieu</div>
+                <div [hidden]="!meetingPlaceForm.get('name')?.errors?.['alreadyExists']" class="error-msg">Ce nom de lieu existe déjà</div>
               }
             </div>
           </div>
@@ -103,7 +104,8 @@
                 <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue"/>
               </mapbox-address-autofill>
               @if (meetingPlaceForm.get('street')?.errors && meetingPlaceForm.get('street')?.touched) {
-                <div class="error-msg">Veuillez renseigner une rue</div>
+                <div [hidden]="!meetingPlaceForm.get('street')?.errors?.['required']" class="error-msg">Veuillez renseigner une rue</div>
+                <div [hidden]="!meetingPlaceForm.get('street')?.errors?.['alreadyExists']" class="error-msg">Cette adresse a déjà été enregistrée</div>
               }
             </div>
           </div>
@@ -143,10 +145,10 @@
         <img class="add-icon" src="assets/icons/buttons/add-orange.webp" alt="icône ajout">
         <p class="add-text">ajouter un lieu</p>
       </a>
-        @if (isAddButtonClicked && favoriteMeetingPlaceForms.invalid && favoriteMeetingPlaces.length <= 0) {
-          <div class="error-msg">Veuillez renseigner au moins une adresse</div>
-        }
+      @if (isAddButtonClicked && favoriteMeetingPlaceForms.invalid && favoriteMeetingPlaces.length <= 0) {
+        <div class="error-msg">Veuillez renseigner au moins une adresse</div>
       }
+    }
   </div>
 
   <h3 class="mt-5 bold-title-700 text-left">Mes disponibilités</h3>
