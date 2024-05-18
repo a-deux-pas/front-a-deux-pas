@@ -7,8 +7,6 @@ import { CollapseModule } from 'ngx-bootstrap/collapse'
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 import { SortableModule } from 'ngx-bootstrap/sortable'
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
-// import { ExampleTitleComponent } from './components/exampleTitle.component'
-// import { TopbarComponent } from './components/topbar.component'
 
 @NgModule({
   imports: [
@@ -21,7 +19,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip'
     TooltipModule.forRoot(),
     AngularSplitModule,
   ],
-  // declarations: [ExampleTitleComponent, TopbarComponent],
-  exports: [ ButtonsModule, SortableModule, TooltipModule],
+  exports: [ButtonsModule, SortableModule, TooltipModule],
 })
-export class UiModule {}
+export class UiModule { }

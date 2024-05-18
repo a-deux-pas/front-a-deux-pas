@@ -33,14 +33,6 @@ export class AdService {
             );
     }
 
-    findMyAds(userId: number): Observable<AdPostResponse[]> {
-        const url = `${this.contextUrl}list/${userId}`
-        return this.http.get<AdPostResponse[]>(url)
-            .pipe(
-                catchError(this.handleErrorService.handleError<any[]>('getAdsList'))
-            )
-    }
-
     fetchMoreAds(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
         const url = `${this.contextUrl}list/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
         return this.http.get<AdPostResponse[]>(url)
