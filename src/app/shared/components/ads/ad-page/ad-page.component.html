@@ -88,9 +88,9 @@
 
     <!-- current user other ads section -->
     <section class="mt-5 mb-5 other-ads-list-section">
-        <p id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">Mes
+        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">Mes
             autres
-            annonces</p>
+            annonces</h3>
         <div class="user-other-ads">
             @for (otherAd of userOtherAds; track otherAd) {
             <a href="/compte/annonces/mon-annonce/{{otherAd.id}}">

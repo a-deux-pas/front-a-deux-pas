@@ -11,8 +11,6 @@ import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
 
-
-
 @Component({
   selector: 'app-ad-page',
   standalone: true,
@@ -37,7 +35,6 @@ export class AdPageComponent implements OnInit {
 
   // TO DO ::  à voir si le nom de la variable change pas pour prendre en compte myAd ou sellerAd
   myAd: AdPostResponse | undefined;
-
   selectedPicNumber: number = 2;
   articlePictures: (string | undefined)[] = [];
   areaSizeA!: number
@@ -45,8 +42,11 @@ export class AdPageComponent implements OnInit {
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
   showSeeMorBtn!: boolean;
-
   adCount!: number;
+  pageNumber: number = 0;
+  pageSize!: number;
+  noMoreAds: boolean = false;
+  userOtherAds: AdPostResponse[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -118,11 +118,6 @@ export class AdPageComponent implements OnInit {
   onSlide(slideEvent: NgbSlideEvent) {
     this.displayManagementService.onSlide(slideEvent)
   }
-
-  pageNumber: number = 0;
-  pageSize!: number;
-  noMoreAds: boolean = false;
-  userOtherAds: AdPostResponse[] = [];
 
   loadMoreAds() {
     this.pageNumber++;
