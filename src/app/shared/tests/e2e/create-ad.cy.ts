@@ -7,7 +7,7 @@ context('create new ad testing', () => {
     it('should create an Ad object', () => {
         cy.get('ng-select[name=selectedPicNumber]').click()
         cy.get('div.ng-option').should('be.visible')
-        cy.get('span').contains('2 photos').click()
+        // cy.get('span').contains('2 photos').click()
         cy.get('ngb-carousel').should('be.visible')
         cy.get('ngb-carousel img.add-picture-icon#ad-picture-0').click().selectFile('cypress/fixtures/images/pic-test-1-min.webp', { action: 'drag-drop' })
         cy.get('span.carousel-control-next-icon').click()

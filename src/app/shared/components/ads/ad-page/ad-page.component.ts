@@ -136,7 +136,7 @@ export class AdPageComponent implements OnInit {
       next: (ads: AdPostResponse[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.myAd!.id);
-        this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1)
+        this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1) && this.adCount > 9
       }
     });
   }
