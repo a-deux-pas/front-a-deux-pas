@@ -7,7 +7,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { UiModule } from '../../../../shared/module/ui/ui.module';
 import { NgbCarouselModule, NgbNavModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CtaMyAdComponent } from '../cta-my-ad/cta-my-ad.component';
+import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
 

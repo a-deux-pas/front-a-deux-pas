@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/ad/ad.service';
