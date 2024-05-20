@@ -1,6 +1,6 @@
-import { AbstractControl, ValidationErrors } from "@angular/forms";
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 
-export function alreadyExistValidator(listToBrowse: Array<any>, objectProperty: string): ValidationErrors | null {
+export function alreadyExistValidator(listToBrowse: Array<any>, objectProperty: string): ValidatorFn {
   return (control:AbstractControl) : ValidationErrors | null => {
   // obtain the value to be validated
   const value = control.value;
