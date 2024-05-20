@@ -1,7 +1,5 @@
 import { Component } from '@angular/core'
-import { AdPageComponent } from '../../../../shared/components/ads/ad-page/ad-page.component';
-
-
+import { AdPageComponent } from '../../../../shared/components/ads/ad-page-content/ad-page-content.component';
 
 @Component({
   selector: 'app-my-ad',

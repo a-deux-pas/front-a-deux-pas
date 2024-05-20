@@ -45,11 +45,6 @@
       </ngx-dropzone>
       }
     </div>
-    @if (files2.length == 0 && adForm.submitted) {
-    <div>
-      <span class="error-msg">Veuillez ajouter au moins deux photos</span>
-    </div>
-    }
 
     <!-- Carrousel section for image selection on mobile device -->
     <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true" (slide)="onSlide($event)"
@@ -76,13 +71,13 @@
       </ng-template>
       }
     </ngb-carousel>
-    @if (files1.length == 0 && adForm.submitted) {
-    <div class="mt-4">
-      <span class="error-msg">Veuillez
-        ajouter au moins une photo</span>
+  </div>
+
+  @if (files2.length == 0 && adForm.submitted) {
+    <div>
+      <span class="error-msg">Veuillez ajouter au moins deux photos</span>
     </div>
     }
-  </div>
 
   <!-- Category choice section -->
   <div class="mx-auto mt-5" style="width: 246px;">

@@ -9,6 +9,8 @@ export class AdPostResponse {
         public fifthArticlePictureUrl?: string,
         public price?: number,
         public publisherId?: number,
+        public publisherAlias?: string,
+        public publisherInscriptionDate?: string,
         public publisherCity?: string,
         public publisherPostalCode?: string,
         public creationDate?: string,

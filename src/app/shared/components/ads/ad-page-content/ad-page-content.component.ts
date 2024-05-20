@@ -1,18 +1,18 @@
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../../routes/ad/ad.service';
-import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.model';
+import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { CommonModule, ViewportScroller } from '@angular/common';
-import { AdCardComponent } from '../../../../shared/components/ads/ad-card/ad-card.component';
+import { AdCardComponent } from '../ad-card/ad-card.component';
 import { Component, OnInit, Input, ViewChild } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
-import { UiModule } from '../../../../shared/module/ui/ui.module';
+import { UiModule } from '../../../utils/module/ui/ui.module';
 import { NgbCarouselModule, NgbNavModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
 
 @Component({
-  selector: 'app-ad-page',
+  selector: 'app-ad-page-content',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,8 +24,8 @@ import { DisplayManagementService } from '../../../services/display-management.s
     NgbCarouselModule,
     CtaMyAdComponent
   ],
-  templateUrl: './ad-page.component.html',
-  styleUrl: './ad-page.component.scss'
+  templateUrl: './ad-page-content.component.html',
+  styleUrl: './ad-page-content.component.scss'
 })
 export class AdPageComponent implements OnInit {
   @Input() adSuccessfullySubmitted: boolean | undefined;

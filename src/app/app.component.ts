@@ -4,7 +4,7 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { Subscription } from 'rxjs';
 import { DisplayManagementService } from './shared/services/display-management.service';
-import { AdPageComponent } from './shared/components/ads/ad-page/ad-page.component';
+import { AdPageComponent } from './shared/components/ads/ad-page-content/ad-page-content.component';
 import { AdFormComponent } from './shared/components/ads/ad-form/ad-form.component';
 
 @Component({
