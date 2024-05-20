@@ -8,6 +8,10 @@ export const adRoutes: Routes = [
             {
                 path: 'creation',
                 loadComponent: () => import('./create-ad/create-ad.component').then(mod => mod.CreateAdComponent)
+            },
+            {
+                path: ':sellerId/:adId',
+                loadComponent: () => import('./seller-ad/seller-ad.component').then(mod => mod.SellerAdComponent)
             }
         ]
     }

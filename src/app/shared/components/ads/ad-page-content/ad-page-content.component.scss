@@ -166,7 +166,8 @@ ngb-carousel {
     }
 
     // User's other ads section
-    .user-other-ads {
+    .user-other-ads,
+    .similar-ads {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;

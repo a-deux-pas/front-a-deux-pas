@@ -10,6 +10,7 @@ import { NgbCarouselModule, NgbNavModule, NgbSlideEvent } from '@ng-bootstrap/ng
 import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
+import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller-ad/cta-seller-ad.component';
 
 @Component({
   selector: 'app-ad-page-content',
@@ -22,7 +23,8 @@ import { DisplayManagementService } from '../../../services/display-management.s
     UiModule,
     NgbNavModule,
     NgbCarouselModule,
-    CtaMyAdComponent
+    CtaMyAdComponent,
+    CtaSellerAdComponent
   ],
   templateUrl: './ad-page-content.component.html',
   styleUrl: './ad-page-content.component.scss'
@@ -34,7 +36,7 @@ export class AdPageComponent implements OnInit {
   @Input() onMyAd: boolean | undefined;
 
   // TO DO ::  à voir si le nom de la variable change pas pour prendre en compte myAd ou sellerAd
-  myAd: AdPostResponse | undefined;
+  currentAd: AdPostResponse | undefined;
   selectedPicNumber: number = 2;
   articlePictures: (string | undefined)[] = [];
   areaSizeA!: number
@@ -47,6 +49,7 @@ export class AdPageComponent implements OnInit {
   pageSize!: number;
   noMoreAds: boolean = false;
   userOtherAds: AdPostResponse[] = [];
+  similarAds: AdPostResponse[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -57,7 +60,7 @@ export class AdPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.scrollToTop();
-    const adId: number | null = Number(this.route.snapshot.paramMap.get(('id')));
+    const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
     // TO DO :: à changer lors de l'US sellerAd
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
@@ -69,17 +72,18 @@ export class AdPageComponent implements OnInit {
     });
     this.adService.findAdById(adId).subscribe({
       next: (ad: AdPostResponse) => {
-        this.myAd = ad;
+        this.currentAd = ad;
         this.articlePictures = [
-          this.myAd.firstArticlePictureUrl,
-          this.myAd.secondArticlePictureUrl,
-          this.myAd.thirdArticlePictureUrl,
-          this.myAd.fourthArticlePictureUrl,
-          this.myAd.fifthArticlePictureUrl
+          this.currentAd.firstArticlePictureUrl,
+          this.currentAd.secondArticlePictureUrl,
+          this.currentAd.thirdArticlePictureUrl,
+          this.currentAd.fourthArticlePictureUrl,
+          this.currentAd.fifthArticlePictureUrl
         ].filter(url => !!url);
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
         this.fetchPaginatedAdsList()
+        this.getSimilarAds()
         // TO DO : à changer une fois la connexion implémentée
         this.adService.getMyAdsCount(1).subscribe({
           next: (adCount: number) => {
@@ -92,10 +96,31 @@ export class AdPageComponent implements OnInit {
         console.error(error);
       }
     });
+
+
   }
 
   scrollToTop(): void {
     this.viewportScroller.scrollToPosition([0, 0])
+  }
+
+  //changer type de retour
+  getSimilarAds(): any {
+    if (!this.onMyAd) {
+      console.log(this.currentAd)
+      //A faire selon la category ou la sous category au final ??
+      this.adService.getSimilarAds(this.currentAd!.category!).subscribe({
+        next: (similarAds: AdPostResponse[]) => {
+          console.table(similarAds)
+          return this.similarAds = similarAds;
+        },
+        error: error => {
+          console.error(error);
+        }
+      })
+    } else {
+      return null
+    }
   }
 
   setSplitAreasSizes(nPictures: number) {
@@ -130,7 +155,7 @@ export class AdPageComponent implements OnInit {
     this.adService.fetchMoreAds(1, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdPostResponse[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
-        this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.myAd!.id);
+        this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
         this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1) && this.adCount > 9
       }
     });

@@ -16,6 +16,7 @@ export class AdPostResponse {
         public creationDate?: string,
         public articleState?: string,
         public articleDescription?: string,
-        public status?: string
+        public status?: string,
+        public category?: string
     ) { }
 }

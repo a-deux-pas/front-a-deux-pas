@@ -1,7 +1,7 @@
 @if (adSuccessfullySubmitted) {
 <div class="d-flex justify-content-center">
     <div class="alert alert-success text-center mb-5">
-        Votre annonce "<strong>{{ myAd?.title }}</strong>" a bien été créée
+        Votre annonce "<strong>{{ currentAd?.title }}</strong>" a bien été créée
     </div>
 </div>
 }
@@ -16,11 +16,11 @@
                     <as-split-area [size]="areaSizeA" #splitAreaA>
                         <as-split direction="vertical">
                             <as-split-area>
-                                <img src="{{articlePictures[1]}}" alt="{{ myAd?.title }} 2" />
+                                <img src="{{articlePictures[1]}}" alt="{{ currentAd?.title }} 2" />
                             </as-split-area>
                             @if (articlePictures[2]) {
                             <as-split-area>
-                                <img src="{{articlePictures[2]}}" alt="{{ myAd?.title }} 3" />
+                                <img src="{{articlePictures[2]}}" alt="{{ currentAd?.title }} 3" />
                             </as-split-area>
                             }
                         </as-split>
@@ -28,16 +28,16 @@
                     <as-split-area [size]="areaSizeB" #splitAreaB>
                         <as-split direction="horizontal">
                             <as-split-area>
-                                <img src="{{articlePictures[0]}}" alt="{{ myAd?.title }} 1" />
+                                <img src="{{articlePictures[0]}}" alt="{{ currentAd?.title }} 1" />
                             </as-split-area>
                             @if (articlePictures[3]) {
                             <as-split-area>
-                                <img src="{{articlePictures[3]}}" alt="{{ myAd?.title }} 4" />
+                                <img src="{{articlePictures[3]}}" alt="{{ currentAd?.title }} 4" />
                             </as-split-area>
                             }
                             @if (articlePictures[4]) {
                             <as-split-area>
-                                <img src="{{articlePictures[4]}}" alt="{{ myAd?.title }} 5" />
+                                <img src="{{articlePictures[4]}}" alt="{{ currentAd?.title }} 5" />
                             </as-split-area>
                             }
                         </as-split>
@@ -47,7 +47,7 @@
             }
             @else {
             <!-- TO DO :: enlever le @else apres merge de l'US back de Mircea -->
-            <img class="single-picture-section mx-auto" src="{{articlePictures[0]}}" alt="{{ myAd?.title }} 1" />
+            <img class="single-picture-section mx-auto" src="{{articlePictures[0]}}" alt="{{ currentAd?.title }} 1" />
             }
         </section>
 
@@ -68,29 +68,52 @@
         <!-- ad's general information section -->
         <section class="general-info mt-3">
             <div class="title-and-price">
-                <p id="ad-title"><b>{{ myAd?.title }}</b></p>
-                <p id="ad-price">{{ myAd?.price }} €</p>
+                <p id="ad-title"><b>{{ currentAd?.title }}</b></p>
+                <p id="ad-price">{{ currentAd?.price }} €</p>
             </div>
             <div class="other-info flex-column">
-                <p id="ad-creation-date" class="mt-2">Créée le {{ myAd?.creationDate }}</p>
-                <p id="ad-state" class="mt-2"><b>État {{ myAd?.articleState }}</b></p>
-                <p id="ad-description" class="mt-2">{{ myAd?.articleDescription }}</p><br>
+                <p id="ad-creation-date" class="mt-2">Créée le {{ currentAd?.creationDate }}</p>
+                <p id="ad-state" class="mt-2"><b>État {{ currentAd?.articleState }}</b></p>
+                <p id="ad-description" class="mt-2">{{ currentAd?.articleDescription }}</p><br>
             </div>
         </section>
 
         <!-- CTA encart -->
         <section class="cta-encart">
             @if (onMyAd) {
-            <app-cta-my-ad [myAd]="myAd!"></app-cta-my-ad>
+            <app-cta-my-ad [myAd]="currentAd!"></app-cta-my-ad>
+            } @else {
+            <app-cta-seller-ad [myAd]="currentAd"></app-cta-seller-ad>
             }
         </section>
     </div>
 
+    <!-- similar ads section -->
+    <!-- TO DO :: conditionner la redirection du click sur les autres annonces vers myAd ou sellerAd -->
+    @if (!onMyAd) {
+    <section class="mt-5 mb-5 similar-ads-list-section">
+        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+            Les annonces similaires
+        </h3>
+        <div class="similar-ads">
+            @for (similarAd of similarAds; track similarAd) {
+            <a href="/compte/annonces/mon-annonce/{{similarAd.id}}">
+                <app-ad-card [ad]="similarAd" [mine]="true"></app-ad-card>
+            </a>
+            }
+        </div>
+    </section>
+    }
+
     <!-- current user other ads section -->
     <section class="mt-5 mb-5 other-ads-list-section">
-        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">Mes
-            autres
-            annonces</h3>
+        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+            @if (onMyAd) {
+            Mes autres annonces
+            } @else {
+            Les autres annonces de {{ currentAd?.publisherAlias }}
+            }
+        </h3>
         <div class="user-other-ads">
             @for (otherAd of userOtherAds; track otherAd) {
             <a href="/compte/annonces/mon-annonce/{{otherAd.id}}">

@@ -48,4 +48,12 @@ export class AdService {
                 catchError(this.handleErrorService.handleError<any>('getAdsCount'))
             )
     }
+
+    getSimilarAds(category: string): Observable<AdPostResponse[]> {
+        const url = `${this.contextUrl}similarAdsList/${category}`
+        return this.http.get<AdPostResponse[]>(url)
+            .pipe(
+                catchError(this.handleErrorService.handleError<AdPostResponse[]>('getSimilarAds'))
+            );
+    }
 }
