@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdService } from '../../../../routes/ad/ad.service';
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { CommonModule, ViewportScroller } from '@angular/common';
@@ -55,13 +55,13 @@ export class AdPageComponent implements OnInit {
     private route: ActivatedRoute,
     private adService: AdService,
     private viewportScroller: ViewportScroller,
-    private displayManagementService: DisplayManagementService
+    private displayManagementService: DisplayManagementService,
+
   ) { }
 
   ngOnInit(): void {
     this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
-    // TO DO :: à changer lors de l'US sellerAd
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
         this.adSuccessfullySubmitted = true;
@@ -73,6 +73,8 @@ export class AdPageComponent implements OnInit {
     this.adService.findAdById(adId).subscribe({
       next: (ad: AdPostResponse) => {
         this.currentAd = ad;
+        console.log('annonce')
+        console.log(this.currentAd)
         this.articlePictures = [
           this.currentAd.firstArticlePictureUrl,
           this.currentAd.secondArticlePictureUrl,
@@ -83,7 +85,7 @@ export class AdPageComponent implements OnInit {
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
         this.fetchPaginatedAdsList()
-        this.getSimilarAds()
+        this.maybeGetSimilarAds()
         // TO DO : à changer une fois la connexion implémentée
         this.adService.getMyAdsCount(1).subscribe({
           next: (adCount: number) => {
@@ -96,8 +98,6 @@ export class AdPageComponent implements OnInit {
         console.error(error);
       }
     });
-
-
   }
 
   scrollToTop(): void {
@@ -105,7 +105,7 @@ export class AdPageComponent implements OnInit {
   }
 
   //changer type de retour
-  getSimilarAds(): any {
+  maybeGetSimilarAds(): any {
     if (!this.onMyAd) {
       console.log(this.currentAd)
       //A faire selon la category ou la sous category au final ??

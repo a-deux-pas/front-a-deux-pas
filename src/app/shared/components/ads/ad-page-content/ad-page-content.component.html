@@ -89,7 +89,9 @@
     </div>
 
     <!-- similar ads section -->
-    <!-- TO DO :: conditionner la redirection du click sur les autres annonces vers myAd ou sellerAd -->
+    <!-- TO DO :: quand process de connexion implémenté, rendre la recuperation du currentUserid dynamique -->
+    <!-- TO DO :: quand process de connexion implémenté, faire en sorte que les annonces du current user ne puissent pas apparaitre dans cette section -->
+    <!-- TO DO :: quand process de connexion implémenté, rendre la recuperation du currentUserid dynamique -->
     @if (!onMyAd) {
     <section class="mt-5 mb-5 similar-ads-list-section">
         <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
@@ -97,8 +99,8 @@
         </h3>
         <div class="similar-ads">
             @for (similarAd of similarAds; track similarAd) {
-            <a href="/compte/annonces/mon-annonce/{{similarAd.id}}">
-                <app-ad-card [ad]="similarAd" [mine]="true"></app-ad-card>
+            <a href="/annonce/{{similarAd.publisherId}}/{{similarAd.id}}">
+                <app-ad-card [ad]="similarAd" [currentUserId]=2></app-ad-card>
             </a>
             }
         </div>
@@ -106,6 +108,8 @@
     }
 
     <!-- current user other ads section -->
+    <!-- TO DO :: quand process de connexion implémenté, conditionner la redirection du click sur les autres annonces vers myAd ou sellerAd -->
+    <!-- TO DO :: quand process de connexion implémenté, rendre la recuperation du currentUserid dynamique -->
     <section class="mt-5 mb-5 other-ads-list-section">
         <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
             @if (onMyAd) {
@@ -116,8 +120,8 @@
         </h3>
         <div class="user-other-ads">
             @for (otherAd of userOtherAds; track otherAd) {
-            <a href="/compte/annonces/mon-annonce/{{otherAd.id}}">
-                <app-ad-card [ad]="otherAd" [mine]="true"></app-ad-card>
+            <a>
+                <app-ad-card [ad]="otherAd" [currentUserId]=2></app-ad-card>
             </a>
             }
         </div>
