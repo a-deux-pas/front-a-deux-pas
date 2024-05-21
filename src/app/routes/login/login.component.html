@@ -1,50 +1,191 @@
-<form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
-  <label for="email" class="mt-3">Adresse email</label>
-  <div class="input-group">
-    <input
-      id="email"
-      type="email"
-      name="email"
-      formControlName="email"
-      class="form-control"
-      required
-      placeholder="nom@example.com"
-    />
-    @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty ||
-    loginForm.get('email')?.touched)) {
-    <div class="alert">
-      @if (loginForm.get('email')?.errors) {
-      <div>L'adresse email est requise.</div>
-      }
+<div class="modal-content">
+  <section class="container">
+    <div class="wave"></div>
+  </section>
+  <button
+    type="button"
+    class="btn-close align-self-end m-4"
+    data-bs-dismiss="modal"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span class="close">x</span>
+  </button>
+  <div class="modal-header justify-content-center">
+    <div class="d-inline-flex">
+      <span class="mobile-logo align-self-center">A DEUX PAS</span>
+      <img
+        class="mobile-footsteps"
+        src="/assets/icons/mobile-footsteps.webp"
+        alt="icône de traces de pas"
+      />
     </div>
-    }
   </div>
-  <label for="password" class="mt-4">Mot de passe</label>
-  <div class="input-group">
-    <input
-      id="password"
-      type="password"
-      name="password"
-      formControlName="password"
-      class="form-control"
-      required
-      placeholder="8 caractères minimum"
-    />
-    @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty
-    || loginForm.get('password')?.touched)) {
-    <div class="alert">
-      @if (loginForm.get('password')?.errors) {
-      <div>Le mot de passe est requis.</div>
-      }
-    </div>
-    }
+  <div class="modal-btn">
+    <button
+      type="button"
+      class="btn toggle"
+      (click)="showLoginForm()"
+      [class.active]="isLoginFormVisible"
+    >
+      Se connecter
+    </button>
+
+    <button
+      type="button"
+      class="btn toggle"
+      (click)="showRegisterForm()"
+      [class.active]="!isLoginFormVisible"
+    >
+      S'inscrire
+    </button>
   </div>
-  <div class="modal-footer justify-content-center">
-    <button type="submit" class="btn-success">C'est parti !</button>
+  <div class="modal-body">
+    <ng-container>
+      <div *ngIf="isLoginFormVisible">
+        <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+          <label for="email" class="mt-3">Adresse email</label>
+          <div class="input-group">
+            <input
+              id="email"
+              type="email"
+              name="email"
+              formControlName="email"
+              class="form-control"
+              required
+              placeholder="nom@example.com"
+            />
+            <div
+              *ngIf="
+                loginForm.get('email')?.invalid &&
+                (loginForm.get('email')?.dirty ||
+                  loginForm.get('email')?.touched)
+              "
+              class="alert"
+            >
+              <div *ngIf="loginForm.get('email')?.errors?.['required']">
+                L'adresse email est requise.
+              </div>
+              <div *ngIf="loginForm.get('email')?.errors?.['email']">
+                L'adresse email n'est pas valide.
+              </div>
+            </div>
+          </div>
+          <label for="password" class="mt-4">Mot de passe</label>
+          <div class="input-group">
+            <input
+              id="password"
+              type="password"
+              name="password"
+              formControlName="password"
+              class="form-control"
+              required
+              placeholder="5 caractères minimum"
+            />
+            <div
+              *ngIf="
+                loginForm.get('password')?.invalid &&
+                (loginForm.get('password')?.dirty ||
+                  loginForm.get('password')?.touched)
+              "
+              class="alert"
+            >
+              <div *ngIf="loginForm.get('password')?.errors?.['required']">
+                Le mot de passe est requis.
+              </div>
+              <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                Le mot de passe doit comporter au moins 5 caractères.
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="submit" class="btn-success">C'est parti !</button>
+          </div>
+        </form>
+        <div *ngIf="showErrorAlert" class="alert alert-danger mt-3">
+          Login ou mot de passe incorrect. Veuillez réessayer.
+        </div>
+      </div>
+      <div *ngIf="!isLoginFormVisible">
+        <form>
+          <div class="form-group">
+            <label for="email-adress">Adresse email</label>
+            <div class="input-group mt-3">
+              <input
+                id="email-adress"
+                name="email-adress"
+                type="email"
+                class="form-control"
+                placeholder="nom@example.com"
+              />
+            </div>
+            <label for="password" class="mt-4">Mot de passe</label>
+            <div class="input-group">
+              <input
+                id="password"
+                type="password"
+                name="password"
+                formControlName="password"
+                class="form-control"
+                required
+                placeholder="8 caractères minimum"
+              />
+            </div>
+            <label for="confirm-password" class="mt-4"
+              >Confirmer mon mot de passe</label
+            >
+            <div class="input-group">
+              <input
+                id="confirm-password"
+                type="password"
+                name="confirm-password"
+                class="form-control"
+                required
+                placeholder="répéter le mot de passe"
+              />
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                name="checked-checkbox"
+                type="checkbox"
+                value=""
+                id="checked-checkbox"
+                checked
+              />
+              <label class="form-check-label" for="checked-checkbox">
+                J'accepte les termes et conditions
+              </label>
+              <div class="modal-footer justify-content-center">
+                <button type="submit" class="btn btn-success">
+                  C'est parti !
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-container>
   </div>
-</form>
-@if(showErrorAlert) {
-<ngb-alert [dismissible]="true" type="danger">
-  <strong>Erreur !</strong> Une erreur est survenue. Veuillez réessayer.
-</ngb-alert>
-}
+  <div class="social-networks-modal">
+    <p>Autres options de connexion</p>
+    <a href="#"
+      ><img
+        src="/assets/icons/social-networks/facebook-login.webp"
+        alt="facebook"
+        width="50px"
+    /></a>
+    <a href="#"
+      ><img
+        src="/assets/icons/social-networks/google.webp"
+        alt="google"
+        width="50px"
+    /></a>
+    <a href="#"
+      ><img
+        src="/assets/icons/social-networks/apple.webp"
+        alt="apple"
+        width="50px"
+    /></a>
+  </div>
+</div>

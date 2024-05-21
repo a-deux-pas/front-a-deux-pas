@@ -1,41 +1,45 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../shared/services/auth.service';
 import { jwtDecode } from 'jwt-decode';
-import { LoginRoutingModule } from './login-routing.module';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   standalone: true,
-  imports: [
-    CommonModule,
-    LoginRoutingModule,
-    ReactiveFormsModule,
-    NgbModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, NgbModalModule, ReactiveFormsModule, FormsModule],
 })
 export class LoginComponent {
   loginData: any;
-  showSuccessAlert?: boolean;
-  showErrorAlert?: boolean;
+  isLoginFormVisible: boolean = true;
+  showErrorAlert?: boolean = false;
 
   constructor(
-    private modalService: NgbModal,
+    public activeModal: NgbActiveModal,
     private AuthService: AuthService,
     private fb: FormBuilder
   ) {}
 
+  showLoginForm() {
+    this.isLoginFormVisible = true;
+  }
+
+  showRegisterForm() {
+    this.isLoginFormVisible = false;
+  }
+
   // Define form controls and validators
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(5)]],
     stayLoggedIn: [true],
   });
 
@@ -45,35 +49,36 @@ export class LoginComponent {
     return decodedToken.sub;
   }
 
+  // Handle the login form submission
   onLoginSubmit() {
-    const { password, email } = this.loginForm.value;
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
 
-    if (password?.length && email?.length) {
+    if (email && password) {
       this.AuthService.login(email, password).subscribe({
         next: (data: any) => {
-          // Extarct Token
           this.loginData = data;
           if (data) {
-            // Save Token in the localStorage
             const token = data;
             localStorage.setItem('token', token);
-
-            // Save email in the localStorage
             const userEmail = this.extractEmailFromToken(token);
             localStorage.setItem('userEmail', userEmail);
-
-            // Show success alert
-            this.showSuccessAlert = true;
-
-            // Close modal
-            this.modalService.dismissAll('Save click');
+            this.activeModal.close('Close click');
           }
         },
         error: (error: any) => {
+          console.error(error);
           this.showErrorAlert = true;
-          this.modalService.dismissAll('Save click');
+          setTimeout(() => {
+            this.showErrorAlert = false;
+          }, 3000);
         },
       });
+    } else {
+      this.showErrorAlert = true;
+      setTimeout(() => {
+        this.showErrorAlert = false;
+      }, 3000);
     }
   }
 }

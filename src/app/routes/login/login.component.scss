@@ -22,7 +22,12 @@
     width: 100%;
   }
   .alert {
-    color: red;
+    color: $primary;
+    margin-bottom: 0;
+
+    &.alert-danger {
+      color: red;
+    }
   }
 }
 
@@ -42,14 +47,15 @@
   color: #ff9f1a !important;
 }
 
-// :not(.btn-check) + &:active,
-//   &:first-child:active,
-//   &.active,
-//   &.show {
-//     color: var(--#{$prefix}btn-active-color);
-//     background-color: var(--#{$prefix}btn-active-bg);
-//     // Remove CSS gradients if they're enabled
-//     background-image: if($enable-gradients, none, null);
-//     border-color: var(--#{$prefix}btn-active-border-color);
-//     @include box-shadow(var(--#{$prefix}btn-active-shadow));
-//   }
+.modal-body .error-msg {
+  color: $primary;
+}
+
+.social-networks-modal {
+  text-align: center;
+  margin: 20px 0 50px 0;
+
+  a {
+    margin: 0 5px;
+  }
+}

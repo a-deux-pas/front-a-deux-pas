@@ -1,9 +1,6 @@
-<div>
-  <a routerLink="/login">Acheter</a>
+<div *ngIf="showSuccessAlert" class="alert alert-success mt-3">
+  Connexion réussie
 </div>
-
-@if (showSuccessAlert) {
-<ngb-alert [dismissible]="true" type="success">
-  <strong>Succès !</strong> Connexion réussie.
-</ngb-alert>
-}
+<div>
+  <button class="btn-secondary" (click)="openModal()">Vendre</button>
+</div>

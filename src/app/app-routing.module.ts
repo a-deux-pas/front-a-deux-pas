@@ -25,20 +25,6 @@ const routes: Routes = [
         (mod) => mod.AccountRoutingModule
       ),
   },
-  {
-    path: 'login',
-    loadComponent: () =>
-      import(
-        './shared/components/connection-modal/connection-modal.component'
-      ).then((mod) => mod.ConnectionModalComponent),
-  },
-  {
-    path: 'register',
-    loadComponent: () =>
-      import(
-        './shared/components/connection-modal/connection-modal.component'
-      ).then((mod) => mod.ConnectionModalComponent),
-  },
 ];
 
 @NgModule({
