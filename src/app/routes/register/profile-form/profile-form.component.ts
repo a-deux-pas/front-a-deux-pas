@@ -1,5 +1,5 @@
-import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
 import { alreadyExistValidator } from '../../../shared/utils/validators/already-exist-validators';
@@ -17,9 +17,9 @@ export class ProfileFormComponent implements OnInit, AfterViewInit {
   profileForm: FormGroup;
   favoriteMeetingPlacesDisplay: PreferredMeetingPlace[] = [];
   isAddButtonClicked: boolean = false;
-  formVisible: boolean = false;
+  favoriteMeetingPlaceForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private cdRef: ChangeDetectorRef) {
+  constructor(private formBuilder: FormBuilder) {
     this.profileForm = this.formBuilder.group({
       profilePicture: ['', Validators.required],
       alias: ['', [Validators.required, Validators.minLength(3)]],
@@ -30,19 +30,17 @@ export class ProfileFormComponent implements OnInit, AfterViewInit {
         postalCode: ['', Validators.required],
         city: ['', Validators.required]
       }),
-      favoriteMeetingPlace: this.formBuilder.group({
-        name: [''],
-        street: [''],
-        postalCode: [''],
-        city: [''],
-      }),
     });
+
+    this.favoriteMeetingPlaceForm = new FormGroup({
+      name: new FormControl('', [Validators.required, alreadyExistValidator(this.favoriteMeetingPlacesDisplay, 'name')]),
+      street: new FormControl('', [Validators.required, alreadyExistValidator(this.favoriteMeetingPlacesDisplay, 'street')]),
+      postalCode: new FormControl('', Validators.required),
+      city: new FormControl('', Validators.required)
+    });;
   }
 
   ngOnInit(): void {
-    console.log(this.profileForm.get('favoriteMeetingPlace')?.status);
-    console.log(this.profileForm.get('favoriteMeetingPlace')?.valid);
-    console.log(this.profileForm.get('favoriteMeetingPlace')?.errors);
   }
 
   // address-autofill
@@ -55,46 +53,26 @@ export class ProfileFormComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // Favorite meeting places
-  get favoriteMeetingPlaceFormGroup() {
-    return this.profileForm.get('favoriteMeetingPlace') as FormGroup;
-  }
-
   addFavoriteMeetingPlace() {
-    console.log(this.profileForm.get('favoriteMeetingPlace')?.status); // Should be 'VALID'
-    console.log(this.profileForm.get('favoriteMeetingPlace')?.valid);
-    console.log(this.profileForm.get('favoriteMeetingPlace')?.errors);
     this.isAddButtonClicked = true;
-    this.formVisible = true;
-    this.cdRef.detectChanges();
-    console.log(this.profileForm.get('favoriteMeetingPlace')?.status); // Should be 'VALID'
-    console.log(this.profileForm.get('favoriteMeetingPlace')?.valid);
-    console.log(this.profileForm.get('favoriteMeetingPlace')?.errors);
-    // Object.keys(this.favoriteMeetingPlaceFormGroup.controls).forEach(controlName => {
-    //   if (this.isAddButtonClicked) {
-    //     this.favoriteMeetingPlaceFormGroup.get(controlName)?.setValidators([Validators.required]);
-    //     if (controlName === 'name' || controlName === 'street' ) {
-    //       this.favoriteMeetingPlaceFormGroup.get(controlName)?.setValidators(
-    //         [alreadyExistValidator(this.favoriteMeetingPlacesDisplay, controlName)]
-    //       )
-    //     };
-    //   } else {
-    //     this.favoriteMeetingPlaceFormGroup.get(controlName)?.setValidators(null);
-    //   }
-    //   });
-    //this.favoriteMeetingPlaceFormGroup.updateValueAndValidity();
-    if (this.favoriteMeetingPlaceFormGroup.valid) {
-      const value = this.favoriteMeetingPlaceFormGroup.value;
-      // ajouter le meeting place à une liste pour permettre son affichage
-      this.favoriteMeetingPlacesDisplay.push(value);
-      // ajouter ce meeting place aux valeurs déjà rentrées dans le formulaire
-      this.favoriteMeetingPlaceFormGroup.reset();
-      this.isAddButtonClicked = false;
+    // add the favorite meeting place form to the profile Form
+    this.profileForm.addControl('favoriteMeetingPlace', this.favoriteMeetingPlaceForm);
+    if (this.favoriteMeetingPlaceForm.valid) {
+      // save the form value for display
+      this.favoriteMeetingPlacesDisplay.push(this.favoriteMeetingPlaceForm.value);
+      // reset the form and remove controls
+      this.deleteFavoriteMeetingPlaceForm();
     }
   }
 
   deleteFavoriteMeetingPlace(meetingPlaceIndex: number) {
     this.favoriteMeetingPlacesDisplay.splice(meetingPlaceIndex, 1);
+  }
+
+  deleteFavoriteMeetingPlaceForm() {
+    this.favoriteMeetingPlaceForm.reset();
+    this.isAddButtonClicked = false;
+    this.profileForm.removeControl('favoriteMeetingPlace');;
   }
 
   // Form Submit

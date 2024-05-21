@@ -78,22 +78,24 @@
         {{ favoriteMeetingPlace.postalCode }} {{ favoriteMeetingPlace.city | titlecase }}
       </div>
     </address>
+    @if (favoriteMeetingPlacesDisplay.length > 1) {
       <a type="button" id="remove-address-icon" (click)="deleteFavoriteMeetingPlace(i)">
         <img class="remove-icon" src="assets/icons/buttons/remove-grey.webp" alt="icône supprimer">
       </a>
+    }
   }
 
-  @if (formVisible) {
-    <div formGroupName="favoriteMeetingPlace" id="favorite-meeting-places">
+  @if (isAddButtonClicked) {
+    <div [formGroup]="favoriteMeetingPlaceForm" id="favorite-meeting-places">
       <strong class="number">{{ favoriteMeetingPlacesDisplay.length + 1 }}</strong>
       <div class="row my-3 mt-5">
         <div class="col-8">
           <label for="name">Nom</label>
           <input type="text" formControlName="name" id="name" name="name" class="form-control" placeholder="Nom du lieu" required/>
-          <!-- @if (profileForm.controls['favoriteMeetingPlace'].get('name')?.errors && profileForm.controls['favoriteMeetingPlace'].get('name')?.touched) {
-            <div [hidden]="!profileForm.controls['favoriteMeetingPlace'].get('name')?.errors?.['required']" class="error-msg">Veuillez renseigner un nom de lieu</div>
-            <div [hidden]="!profileForm.controls['favoriteMeetingPlace'].get('name')?.errors?.['alreadyExists']" class="error-msg">Ce nom de lieu existe déjà</div>
-          } -->
+          @if (favoriteMeetingPlaceForm.get('name')?.errors && favoriteMeetingPlaceForm.get('name')?.touched) {
+            <div [hidden]="!favoriteMeetingPlaceForm.get('name')?.errors?.['required']" class="error-msg">Veuillez renseigner un nom de lieu</div>
+            <div [hidden]="!favoriteMeetingPlaceForm.get('name')?.errors?.['alreadyExists']" class="error-msg">Ce nom de lieu existe déjà</div>
+          }
         </div>
       </div>
       <div class="row my-3 mt-5">
@@ -102,42 +104,44 @@
           <mapbox-address-autofill>
             <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue"/>
           </mapbox-address-autofill>
-          <!-- @if (profileForm.controls['favoriteMeetingPlace'].get('street')?.errors && profileForm.controls['favoriteMeetingPlace'].get('street')?.touched) {
-            <div [hidden]="!profileForm.controls['favoriteMeetingPlace'].get('street')?.errors?.['required']" class="error-msg">Veuillez renseigner une rue</div>
-            <div [hidden]="!profileForm.controls['favoriteMeetingPlace'].get('street')?.errors?.['alreadyExists']" class="error-msg">Cette adresse a déjà été enregistrée</div>
-          } -->
+          @if (favoriteMeetingPlaceForm.get('street')?.errors && favoriteMeetingPlaceForm.get('street')?.touched) {
+            <div [hidden]="!favoriteMeetingPlaceForm.get('street')?.errors?.['required']" class="error-msg">Veuillez renseigner une rue</div>
+            <div [hidden]="!favoriteMeetingPlaceForm.get('street')?.errors?.['alreadyExists']" class="error-msg">Cette adresse a déjà été enregistrée</div>
+          }
         </div>
       </div>
       <div class="row my-3 mt-5">
         <div class="col-4">
           <label for="postal-code">Code postal</label>
           <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control"/>
-          <!-- @if (profileForm.controls['favoriteMeetingPlace'].get('postalCode')?.errors && profileForm.controls['favoriteMeetingPlace'].get('postalCode')?.touched) {
+          @if (favoriteMeetingPlaceForm.get('postalCode')?.errors && favoriteMeetingPlaceForm.get('postalCode')?.touched) {
             <div class="error-msg">Veuillez renseigner un code postal</div>
-          } -->
+          }
         </div>
         <div class="col-4">
           <label for="city">Ville</label>
           <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
-          <!-- @if(profileForm.controls['favoriteMeetingPlace'].get('city')?.errors && profileForm.controls['favoriteMeetingPlace'].get('city')?.touched) {
+          @if(favoriteMeetingPlaceForm.get('city')?.errors && favoriteMeetingPlaceForm.get('city')?.touched) {
             <div class="error-msg">Veuillez renseigner un code postal</div>
-          } -->
+          }
         </div>
       </div>
     @if (favoriteMeetingPlacesDisplay.length > 0) {
-      <a type="button" id="remove-form-icon" (click)="!isAddButtonClicked">
+      <a type="button" id="remove-form-icon" (click)="deleteFavoriteMeetingPlaceForm()">
         <img class="remove-icon" src="assets/icons/buttons/remove-grey.webp" alt="icône supprimer">
       </a>
     }
     </div>
   }
+  @if (favoriteMeetingPlacesDisplay.length < 5) {
     <a type="button" id="add-address-icon" (click)="addFavoriteMeetingPlace()">
       <img class="add-icon" src="assets/icons/buttons/add-orange.webp" alt="icône ajout">
       <p class="add-text">ajouter un lieu</p>
     </a>
-    <!-- @if (isAddButtonClicked && favoriteMeetingPlaceFormGroup.invalid && favoriteMeetingPlacesDisplay.length <= 0) {
-      <div class="error-msg">Veuillez renseigner au moins une adresse</div>
-    } -->
+  }
+  @if (profileForm.valid && favoriteMeetingPlaceForm.invalid && favoriteMeetingPlacesDisplay.length === 0) {
+    <div class="error-msg">Veuillez renseigner au moins une adresse</div>
+  }
 
   <h3 class="mt-5 bold-title-700 text-left">Mes disponibilités</h3>
 
@@ -146,13 +150,7 @@
   <h3 class="mt-5 bold-title-700 text-left">Mes notifications</h3>
   <p> bouton add clicked: {{ isAddButtonClicked }}</p>
   <p>{{"form valide ? " + profileForm.valid}}</p>
-  <p> meeting form Value: {{ favoriteMeetingPlaceFormGroup.value | json }}</p>
-  <p> meeting form valide : {{ favoriteMeetingPlaceFormGroup.valid }}</p>
-  <!-- <p>{{"Nbre de meeting places :" + favoriteMeetingPlacesDisplay.length}}</p> -->
-  <!-- <p>{{"erreurs de typre required sur le champ name ? " + profileForm.get('favoriteMeetingPlace')?.get('name')?.hasError('required')| json }}</p> -->
-  <!-- <p>{{"formulaire vide ? " + isMeetingPlaceFormEmpty()}}</p> -->
-  <!-- <p>{{"formulaire est valid ? " + isMeetingPlaceFormValid()}}</p> -->
 
-  <button type="submit" [disabled]="profileForm.invalid">Submit</button>
+  <button type="submit" [disabled]="profileForm.invalid || favoriteMeetingPlacesDisplay.length === 0">Submit</button>
 
 </form>
