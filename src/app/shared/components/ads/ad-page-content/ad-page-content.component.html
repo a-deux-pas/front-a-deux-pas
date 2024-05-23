@@ -100,7 +100,7 @@
         <div class="similar-ads">
             @for (similarAd of similarAds; track similarAd) {
             <a href="/annonce/{{similarAd.publisherId}}/{{similarAd.id}}">
-                <app-ad-card [ad]="similarAd" [currentUserId]=2></app-ad-card>
+                <app-ad-card [ad]="similarAd" [currentUserId]=currentAd!.publisherId!></app-ad-card>
             </a>
             }
         </div>
@@ -120,9 +120,7 @@
         </h3>
         <div class="user-other-ads">
             @for (otherAd of userOtherAds; track otherAd) {
-            <a>
-                <app-ad-card [ad]="otherAd" [currentUserId]=2></app-ad-card>
-            </a>
+            <app-ad-card [ad]="otherAd" [currentUserId]=currentAd!.publisherId!></app-ad-card>
             }
         </div>
     </section>

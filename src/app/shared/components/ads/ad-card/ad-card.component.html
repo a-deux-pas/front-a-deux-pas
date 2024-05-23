@@ -1,4 +1,5 @@
-<div (click)="goToAdPage()" class="card mt-4">
+<a [attr.href]="type === 'mine' ? '/compte/annonces/mon-annonce/' + ad.id : '/annonce/' + ad.publisherId + '/' + ad.id"
+    class="card mt-4 text-decoration-none">
     <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
     <div class="card-colored-border">
         <div class="card-body">
@@ -26,4 +27,4 @@
             </div>
         </div>
     </div>
-</div>
+</a>

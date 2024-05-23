@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../../routes/ad/ad.service';
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { CommonModule, ViewportScroller } from '@angular/common';
@@ -152,7 +152,7 @@ export class AdPageComponent implements OnInit {
   // TO DO :: à changer quand le processus de connexion sera implémenté
   fetchPaginatedAdsList() {
     this.pageSize = this.onMyAd ? 9 : 4;
-    this.adService.fetchMoreAds(1, this.pageNumber, this.pageSize).subscribe({
+    this.adService.fetchMoreAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdPostResponse[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);

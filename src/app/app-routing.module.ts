@@ -18,6 +18,10 @@ const routes: Routes = [
     path: '',
     loadComponent: () => import('./routes/home/default-home/default-home.component').then(mod => mod.DefaultHomeComponent)
   },
+  {
+    path: 'upload',
+    loadComponent: () => import('./shared/components/ads/ad-form/image/image.component').then(mod => mod.ImageComponent)
+  }
 ];
 
 @NgModule({

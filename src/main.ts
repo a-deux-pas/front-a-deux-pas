@@ -4,6 +4,7 @@ import { AccountRoutingModule } from './app/routes/account/account-routing.modul
 import { AdRoutingModule } from './app/routes/ad/ad-routing.module';
 import { StyleGuideRoutingModule } from './style/style-guide/style-guide-routing.module';
 import { AppRoutingModule } from './app/app-routing.module';
+import { AdsRoutingModule } from './app/routes/account/ads/ads-routing.module';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -13,8 +14,8 @@ import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, NgbModule, NgSelectModule, FormsModule, AppRoutingModule, StyleGuideRoutingModule, AdRoutingModule, AccountRoutingModule),
+        importProvidersFrom(BrowserModule, NgbModule, NgSelectModule, FormsModule, AppRoutingModule, StyleGuideRoutingModule, AdRoutingModule, AccountRoutingModule, AdsRoutingModule),
         provideHttpClient(withInterceptorsFromDi())
     ]
 })
-  .catch(err => console.error(err));
+    .catch(err => console.error(err));

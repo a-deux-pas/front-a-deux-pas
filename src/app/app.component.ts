@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { DisplayManagementService } from './shared/services/display-management.service';
 import { AdPageComponent } from './shared/components/ads/ad-page-content/ad-page-content.component';
 import { AdFormComponent } from './shared/components/ads/ad-form/ad-form.component';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
