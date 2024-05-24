@@ -24,7 +24,6 @@ export class AuthService {
           // If token received, store it in local storage and navigate to 'homeconnecte'
           if (token) {
             localStorage.setItem('token', token);
-            this.router.navigate(['/accueil']);
           } else {
             // Throw error if no token received
             throw new Error('No token received');

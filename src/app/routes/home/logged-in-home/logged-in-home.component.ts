@@ -14,6 +14,11 @@ export class LoggedInHomeComponent {
   showSuccessAlert: boolean = false;
   constructor(public modalService: NgbModal) {}
 
+  /**
+   * This method is designed to open a modal when the 'openModal' button is clicked.
+   * It utilizes the NgbModal service to create and manage the modal instance.
+   */
+
   openModal() {
     const modalRef = this.modalService.open(LoginComponent);
     modalRef.result.then((result) => {
