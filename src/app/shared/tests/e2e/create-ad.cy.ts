@@ -37,7 +37,6 @@ context('create new ad testing', () => {
       cy.get('ng-select[name=sub-cat]').click();
       cy.get('span').contains(newAdData.subcategory).click();
       cy.get('#ad-title').type(newAdData.title);
-      cy.get('button[type=submit]').should('be.disabled');
       cy.get('#ad-description').type(newAdData.articleDescription);
       cy.get('ng-select[name=state]').click();
       cy.get('span').contains(newAdData.articleState).click();

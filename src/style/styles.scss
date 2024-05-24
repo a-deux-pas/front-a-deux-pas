@@ -81,10 +81,95 @@ $h3-font-size: 1.125rem;
 
 /*-----------------------------------------------------------------------*/
 
-// Body margin adjustments
+// Margin adjustments
+html,
 body {
-  margin-left: 2vh !important;
-  margin-right: 2vh !important;
+  overflow-x: hidden;
+}
+
+.main-container {
+  margin: 11vh 2vh 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Bottom mobile navbar
+#mobile-bottom-navbar .mobile-wave-bottom-background {
+  background-color: $tertiary;
+  width: 100%;
+  height: 62px;
+  margin-top: 14px;
+}
+
+.mobile-wave-bottom-navbar {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 85px;
+  z-index: 2;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 79px;
+    background-color: $tertiary;
+    z-index: -1;
+  }
+
+  &::before {
+    right: -6px;
+    transform: rotate(-8deg);
+    border-top-right-radius: 542px 18px;
+  }
+
+  &::after {
+    left: -6px;
+    transform: rotate(8deg);
+    border-top-left-radius: 542px 18px;
+  }
+}
+
+#mobile-bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 65px;
+  z-index: 3;
+}
+
+#mobile-bottom-navbar-icons {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  font-size: 0.75rem;
+  z-index: 3;
+}
+
+ul#mobile-bottom-navbar-icons {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon .icon {
+  width: 29px;
+  margin-bottom: 3px;
+}
+
+#mobile-bottom-navbar-icons #mobile-sell-icon {
+  margin-top: -10px;
+  color: $primary;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: black;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -211,7 +296,6 @@ button.btn {
 // Connection button styling
 .btn-connection {
   background-color: white;
-  width: 154px;
   height: 43px;
   flex-shrink: 0;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -270,7 +354,8 @@ $btn-close-focus-shadow: none;
 $btn-close-hover-opacity: none;
 $btn-close-opacity: none;
 
-span.close {
+span.close,
+a.close {
   display: inline-block;
   font-size: 1.3rem;
   transform: scaleX(1.1);
@@ -849,8 +934,8 @@ a.dropdown-first-level.dropdown-toggle {
 @media (min-width: 768px) {
   // Personalized container for "my account" pages
   // Includes tabs and page content
-  .account-container {
-    @include make-container($padding-x: 3vh, $padding-y: 13.25vh);
+  .custom-container {
+    @include make-container($padding-x: 1.3vh, $padding-y: 7.25vh);
   }
 
   /*---------------------------------*/
@@ -874,22 +959,36 @@ a.dropdown-first-level.dropdown-toggle {
     margin: 0 auto;
     display: inline-block;
   }
+
+  /*---------------------------------*/
+
+  // Bottom navbar
+  #mobile-bottom-navbar .mobile-wave-bottom-background {
+    margin-top: 21px;
+  }
+
+  #mobile-bottom-navbar-icons #mobile-sell-icon {
+    margin-top: 0px;
+  }
 }
 
 /*-----------------------------------------------------------------------*/
 
 // Desktop version
 @media (min-width: 1200px) {
-  // Body margin adjustments
+  // margin
   body {
-    // margin-left: 14vh !important;
-    // margin-right: 14vh !important;
+    margin: 0;
+  }
+
+  .main-container {
+    margin: 8vh 14vh 0;
   }
 
   // Personalized container for "my account" pages
   // Includes tabs and page content
-  .account-container {
-    @include make-container($padding-x: 8vh, $padding-y: 13.25vh);
+  .custom-container {
+    @include make-container($padding-x: 8vh, $padding-y: 88px);
   }
 
   /*---------------------------------*/

@@ -1,11 +1,88 @@
-<section class="general-info">
-    <div class="title-and-price flex space-between">
-        <p id="ad-title"><b>{{ myAd?.title }}</b></p>
-        <p id="ad-price">{{ myAd?.price }} €</p>
+@if (adSuccessfullySubmitted) {
+<div class="d-flex justify-content-center">
+    <div class="alert alert-success text-center mb-5">
+        Votre annonce "<strong>{{ myAd?.title }}</strong>" a bien été créée
     </div>
-    <div class="other-info flex-column">
-        <p id="ad-creation-date"></p> Créée le {{ myAd?.creationDate }} <br>
-        <p id="ad-state">État {{ myAd?.articleState }}</p> <br>
-        {{ myAd?.articleDescription }} <br>
+</div>
+}
+<div class="main-sections custom-container">
+    <!-- image view on desktop device -->
+    <section class="article-picture-image-section">
+        @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
+        <img [class.one-picture]="selectedPicNumber == 1" src="{{articlePicture}}"
+            [class.two-pictures]="selectedPicNumber == 2" src="{{articlePicture}}"
+            [class.three-pictures]="selectedPicNumber == 3" src="{{articlePicture}}"
+            [class.four-pictures]="selectedPicNumber == 4" src="{{articlePicture}}"
+            [class.five-pictures]="selectedPicNumber == 5" src="{{articlePicture}}"
+            alt="illustration-de-l'article-n-{{i}}">
+        }
+    </section>
+    <!-- image view on mobile device -->
+    <section class="article-picture-image-section-mobile w-80">
+        <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="pauseOnHover" [pauseOnFocus]="pauseOnFocus"
+            (slide)="onSlide($event)">
+            @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
+            <ng-template ngbSlide>
+                <div>
+                    <img class="img-wrapper" src="{{articlePicture}}" alt="" />
+                </div>
+            </ng-template>
+            }
+        </ngb-carousel>
+    </section>
+    <!-- ad's general information section -->
+    <section class="general-info mt-3">
+        <div class="title-and-price">
+            <p id="ad-title"><b>{{ myAd?.title }}</b></p>
+            <p id="ad-price">{{ myAd?.price }} €</p>
+        </div>
+        <div class="other-info flex-column">
+            <p id="ad-creation-date" class="mt-2">Créée le {{ myAd?.creationDate }}</p>
+            <p id="ad-state" class="mt-2"><b>État {{ myAd?.articleState }}</b></p>
+            <p id="ad-description" class="mt-2">{{ myAd?.articleDescription }}</p><br>
+        </div>
+    </section>
+    <!-- CTA encart -->
+    <section class="cta-encart flex-row  text-center" [ngClass]="{'mx-auto': !isBigScreen}">
+        @switch (myAd?.status) {
+        @case('AVAILABLE') {
+        <b>En vente</b>
+        }
+        @case('RESERVED') {
+        <b>Reservé</b>
+        }
+        @case('SOLD') {
+        <b>Vendu</b>
+        }
+        @case('SUSPENDED') {
+        <b>Suspendu</b>
+        }
+        }
+        <div class="favorites mt-2">
+            <img id="favorite-icon" src="assets/icons/navbar/favorites.webp" alt="icone-favoris">
+            <p id="favorite-text">n’a pas encore tapé dans l’oeil d’un membre</p>
+        </div>
+        <div class="cta-btn-section mt-4 mb-1">
+            <div class="flex-column">
+                <img class="cta-btn" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+                <p class="cta-btn-text">modifier</p>
+            </div>
+            <div class="flex-column">
+                <img class="cta-btn" src="assets/icons/buttons/trash.webp" alt="bouton-supprimer-annonce">
+                <p class="cta-btn-text">supprimer</p>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- current user other ads section -->
+<section class="mt-5 mb-5 other-ads-list-section">
+    <p id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">Mes autres
+        annonces</p>
+    <div class="user-other-ads">
+        @for (otherAd of myOtherAds; track otherAd) {
+        <a href="/compte/annonces/mon-annonce/{{otherAd.id}}">
+            <app-ad-card [ad]="otherAd" [mine]="true"></app-ad-card>
+        </a>
+        }
     </div>
 </section>

@@ -1,31 +1,31 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 //Component to import to use a modal
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DisplayManagementService } from '../../app/shared/services/display-management.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-style-guide',
   templateUrl: './style-guide.component.html',
   standalone: true,
-  imports: [NgSelectModule, FormsModule, CommonModule]
+  imports: [NgSelectModule, FormsModule, CommonModule],
 })
 export class StyleGuideComponent {
   isLoginFormVisible = true;
 
   //Component to import to use a modal
-  constructor(private modalService: NgbModal) {}
-
-  // This HostListener listens for window resize events
-  // When a resize event occurs, the onResize method is triggered
-  // It takes the event object as a parameter
-  // The isBigScreen property is updated based on the inner width of the event target
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
-    this.isBigScreen = event.target.innerWidth > 1200;
+  constructor(
+    private modalService: NgbModal,
+    private displayManagementService: DisplayManagementService
+  ) {
+    this.windowSizeSubscription =
+      this.displayManagementService.isBigScreen$.subscribe((isBigScreen) => {
+        this.isBigScreen = isBigScreen;
+      });
   }
 
   isBigScreen: boolean = true;
@@ -33,6 +33,7 @@ export class StyleGuideComponent {
   selectedTimes = [];
   selectedState = [];
   selectedCatFilter: string | undefined;
+  windowSizeSubscription: Subscription;
 
   // Select data
   days = [
@@ -138,5 +139,9 @@ export class StyleGuideComponent {
       'genderName ',
       genderName
     );
+  }
+
+  ngOnDestroy(): void {
+    this.windowSizeSubscription.unsubscribe();
   }
 }

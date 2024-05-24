@@ -25,6 +25,13 @@ const routes: Routes = [
         (mod) => mod.AccountRoutingModule
       ),
   },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./routes/home/default-home/default-home.component').then(
+        (mod) => mod.DefaultHomeComponent
+      ),
+  },
 ];
 
 @NgModule({
