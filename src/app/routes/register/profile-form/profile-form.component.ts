@@ -7,11 +7,12 @@ import { PreferredSchedule } from '../../../shared/models/user/preferred-schedul
 import { BankAccountFormComponent } from '../../../shared/components/bank-account-form/bank-account-form.component';
 import { MeetingPlaceFormComponent } from './components/meeting-place-form/meeting-place-form.component';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
+import { NotificationsComponent } from '../../../shared/components/notifications/notifications.component';
 
 @Component({
   selector: 'app-profile-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MeetingPlaceFormComponent, ScheduleComponent, BankAccountFormComponent],
+  imports: [ReactiveFormsModule, CommonModule, MeetingPlaceFormComponent, ScheduleComponent, BankAccountFormComponent, NotificationsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './profile-form.component.html',
   styleUrl: './profile-form.component.scss'
@@ -27,7 +28,6 @@ export class ProfileFormComponent implements AfterViewInit {
       profilePicture: ['', Validators.required],
       alias: ['', [Validators.required, Validators.minLength(3)]],
       bio: ['', Validators.minLength(10)],
-      notification: [''],
       address: this.formBuilder.group({
         street: ['', Validators.required],
         postalCode: ['', Validators.required],
@@ -61,7 +61,10 @@ export class ProfileFormComponent implements AfterViewInit {
   }
 
   // TO DO :
+  // creation du service pour envoyer les données au back
+  // refactorisation composant bank-account-form
+  // NAVBAR: ajouter la navbar avec une propriété hidden sur les logos et sur le bouton vendre
+  // + faire comme la page d'accueil pour les marges OU avec la propriété RouterActive voir si possible de l'afficher uniquement sur page register
+  // ajout du css
   // - differenciation autocomplétion ?
-  // - composant informations bancaires
-  // - tester si l'on peut refactoriser avec le meeting place component du profil
 }

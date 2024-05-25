@@ -50,6 +50,9 @@ context('create account testing', () => {
     cy.get('div#bank-account input#account-holder').type('Mary Poppins');
     cy.get('div#bank-account input#iban').type('FR14 2004 1010 0505 0001 3M02 606');
 
+    cy.get('div#notifications-form input#notifications').click();
+    cy.get('div#notifications-form input#meeting-to-finalize').click();
+
     cy.get('button[type=submit]').should('be.enabled').click();
     cy.get('form').submit()
 

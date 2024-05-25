@@ -77,6 +77,8 @@
   <app-bank-account-form></app-bank-account-form>
 
   <h3 class="mt-5 bold-title-700 text-left">Mes notifications</h3>
+  <app-notifications></app-notifications>
+
   <p>{{"form valide ? " + profileForm.valid}}</p>
 
   <button type="submit" [disabled]="profileForm.invalid || preferredMeetingPlaces.length === 0 || preferredSchedules.length === 0">Submit</button>
