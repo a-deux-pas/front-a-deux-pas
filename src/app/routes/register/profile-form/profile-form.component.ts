@@ -6,11 +6,12 @@ import { alreadyExistValidator } from '../../../shared/utils/validators/already-
 import { CommonModule } from '@angular/common';
 import { ScheduleComponent } from '../../../shared/components/schedule/schedule.component';
 import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
+import { BankAccountFormComponent } from '../../../shared/components/bank-account-form/bank-account-form.component';
 
 @Component({
   selector: 'app-profile-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ScheduleComponent],
+  imports: [ReactiveFormsModule, CommonModule, ScheduleComponent,BankAccountFormComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './profile-form.component.html',
   styleUrl: './profile-form.component.scss'
