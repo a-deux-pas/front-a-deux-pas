@@ -1,36 +1,36 @@
 <h2 class="bold-title-700 text-center">Créer mon compte</h2>
 
 <form [formGroup]="profileForm" class="custom-container" (ngSubmit)="onSubmit()">
-    <div class="row my-3 mt-5">
-      <div class="col">
-        <label for="profile-picture">ajouter une photo
-          <input type="file" formControlName="profilePicture" id="profile-picture" name="profile-picture" accept="image/jpeg, image/jpg, image/png, image/svg, image/webp" required/>
-        </label>
-      </div>
-      @if (profileForm.controls['profilePicture'].errors && profileForm.controls['profilePicture'].touched) {
-        <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous reconnaître lors des rdv</div>
-      }
+  <div class="row my-3 mt-5">
+    <div class="col">
+      <label for="profile-picture">ajouter une photo
+        <input type="file" formControlName="profilePicture" id="profile-picture" name="profile-picture" accept="image/jpeg, image/jpg, image/png, image/svg, image/webp" required/>
+      </label>
     </div>
-    <div class="row my-3 mt-5">
-      <div class="col-4">
-        <label for="alias">Mon pseudo</label>
-        <input type="text" formControlName="alias" id="alias" name="alias" class="form-control" minlength="3" required/>
-      </div>
-      @if (profileForm.controls['alias'].errors && profileForm.controls['alias'].touched) {
-        <div [hidden]="!profileForm.controls['alias'].errors['required']" class="error-msg">Veuillez renseigner votre pseudo</div>
-        <div [hidden]="!profileForm.controls['alias'].errors['minlength']" class="error-msg">Votre pseudo doit comporter au moins 3 caractères</div>
-      }
-      <!-- TO DO : ajouter vérification back pour checker que le pseudo n'existe pas déjà -->
+    @if (profileForm.controls['profilePicture'].errors && profileForm.controls['profilePicture'].touched) {
+      <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous reconnaître lors des rdv</div>
+    }
+  </div>
+  <div class="row my-3 mt-5">
+    <div class="col-4">
+      <label for="alias">Mon pseudo</label>
+      <input type="text" formControlName="alias" id="alias" name="alias" class="form-control" minlength="3" required/>
     </div>
-    <div class="row my-3">
-      <div class="col-6 mt-4">
-        <label for="bio" class="form-label">Ma présentation</label>
-        <textarea formControlName="bio" class="form-control form-control-sm" name="bio" id="bio" rows="3" minlength="10"></textarea>
-      </div>
-      @if (profileForm.controls['bio'].errors && profileForm.controls['bio'].touched) {
-        <div class="error-msg">Votre présentation doit comporter au moins 10 caractères</div>
-      }
+    @if (profileForm.controls['alias'].errors && profileForm.controls['alias'].touched) {
+      <div [hidden]="!profileForm.controls['alias'].errors['required']" class="error-msg">Veuillez renseigner votre pseudo</div>
+      <div [hidden]="!profileForm.controls['alias'].errors['minlength']" class="error-msg">Votre pseudo doit comporter au moins 3 caractères</div>
+    }
+    <!-- TO DO : ajouter vérification back pour checker que le pseudo n'existe pas déjà -->
+  </div>
+  <div class="row my-3">
+    <div class="col-6 mt-4">
+      <label for="bio" class="form-label">Ma présentation</label>
+      <textarea formControlName="bio" class="form-control form-control-sm" name="bio" id="bio" rows="3" minlength="10"></textarea>
     </div>
+    @if (profileForm.controls['bio'].errors && profileForm.controls['bio'].touched) {
+      <div class="error-msg">Votre présentation doit comporter au moins 10 caractères</div>
+    }
+  </div>
 
   <h3 class="mt-5 bold-title-700 text-left">Mon adresse</h3>
   <div formGroupName="address" id="address">
@@ -63,85 +63,8 @@
     </div>
   </div>
 
-
   <h3 class="mt-5 bold-title-700 text-left">Mes lieux de RDV préférés</h3>
-
-  @for (preferredMeetingPlace of preferredMeetingPlacesDisplay; track preferredMeetingPlace.name; let i = $index) {
-    <address class="meeting-place">
-      <!-- Address number -->
-      <strong class="number">{{ i + 1 }}</strong>
-      <!-- Address name -->
-      <strong class="address-name">{{ preferredMeetingPlace.name }}</strong>
-      <!-- Address details -->
-      <div class="address-detail">
-        {{ preferredMeetingPlace.street }}<br>
-        {{ preferredMeetingPlace.postalCode }} {{ preferredMeetingPlace.city | titlecase }}
-      </div>
-    </address>
-    @if (preferredMeetingPlacesDisplay.length > 1) {
-      <a type="button" id="remove-address-icon" (click)="deletePreferredMeetingPlace(i)">
-        <img class="remove-icon" src="assets/icons/buttons/remove-grey.webp" alt="icône supprimer">
-      </a>
-    }
-  }
-
-  @if (isAddButtonClicked) {
-    <div [formGroup]="preferredMeetingPlaceForm" id="preferred-meeting-places">
-      <strong class="number">{{ preferredMeetingPlacesDisplay.length + 1 }}</strong>
-      <div class="row my-3 mt-5">
-        <div class="col-8">
-          <label for="name">Nom</label>
-          <input type="text" formControlName="name" id="name" name="name" class="form-control" placeholder="Nom du lieu" required/>
-          @if (preferredMeetingPlaceForm.get('name')?.errors && preferredMeetingPlaceForm.get('name')?.touched) {
-            <div [hidden]="!preferredMeetingPlaceForm.get('name')?.errors?.['required']" class="error-msg">Veuillez renseigner un nom de lieu</div>
-            <div [hidden]="!preferredMeetingPlaceForm.get('name')?.errors?.['alreadyExists']" class="error-msg">Ce nom de lieu existe déjà</div>
-          }
-        </div>
-      </div>
-      <div class="row my-3 mt-5">
-        <div class="col-8">
-          <label for="street">Rue</label>
-          <mapbox-address-autofill>
-            <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue"/>
-          </mapbox-address-autofill>
-          @if (preferredMeetingPlaceForm.get('street')?.errors && preferredMeetingPlaceForm.get('street')?.touched) {
-            <div [hidden]="!preferredMeetingPlaceForm.get('street')?.errors?.['required']" class="error-msg">Veuillez renseigner une rue</div>
-            <div [hidden]="!preferredMeetingPlaceForm.get('street')?.errors?.['alreadyExists']" class="error-msg">Cette adresse a déjà été enregistrée</div>
-          }
-        </div>
-      </div>
-      <div class="row my-3 mt-5">
-        <div class="col-4">
-          <label for="postal-code">Code postal</label>
-          <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control"/>
-          @if (preferredMeetingPlaceForm.get('postalCode')?.errors && preferredMeetingPlaceForm.get('postalCode')?.touched) {
-            <div class="error-msg">Veuillez renseigner un code postal</div>
-          }
-        </div>
-        <div class="col-4">
-          <label for="city">Ville</label>
-          <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
-          @if(preferredMeetingPlaceForm.get('city')?.errors && preferredMeetingPlaceForm.get('city')?.touched) {
-            <div class="error-msg">Veuillez renseigner un code postal</div>
-          }
-        </div>
-      </div>
-    @if (preferredMeetingPlacesDisplay.length > 0) {
-      <a type="button" id="remove-form-icon" (click)="deletePreferredMeetingPlaceForm()">
-        <img class="remove-icon" src="assets/icons/buttons/remove-grey.webp" alt="icône supprimer">
-      </a>
-    }
-    </div>
-  }
-  @if (preferredMeetingPlacesDisplay.length < 5) {
-    <a type="button" id="add-address-icon" (click)="addPreferredMeetingPlace()">
-      <img class="add-icon" src="assets/icons/buttons/add-orange.webp" alt="icône ajout">
-      <p class="add-text">ajouter un lieu</p>
-    </a>
-  }
-  @if (profileForm.valid && preferredMeetingPlaceForm.invalid && preferredMeetingPlacesDisplay.length === 0) {
-    <div class="error-msg">Veuillez renseigner au moins une adresse</div>
-  }
+  <app-meeting-place-form (addPreferredMeetingPlaces)="getUserPreferredMeetingPlaces($event)"></app-meeting-place-form>
 
   <h3 class="mt-5 bold-title-700 text-left">Mes disponibilités</h3>
 
@@ -151,12 +74,10 @@
   }
 
   <h3 class="mt-5 bold-title-700 text-left">Mes informations bancaires</h3>
-  <app-bank-account-form/>
+  <app-bank-account-form></app-bank-account-form>
 
   <h3 class="mt-5 bold-title-700 text-left">Mes notifications</h3>
-  <p> bouton add clicked: {{ isAddButtonClicked }}</p>
   <p>{{"form valide ? " + profileForm.valid}}</p>
 
-  <button type="submit" [disabled]="profileForm.invalid || preferredMeetingPlacesDisplay.length === 0 || preferredSchedules.length === 0">Submit</button>
-
+  <button type="submit" [disabled]="profileForm.invalid || preferredMeetingPlaces.length === 0 || preferredSchedules.length === 0">Submit</button>
 </form>

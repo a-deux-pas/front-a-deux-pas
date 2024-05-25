@@ -55,8 +55,7 @@ export class ScheduleComponent implements OnChanges {
     selectLongPressDelay: 50,
   });
 
-  constructor(private changeDetector: ChangeDetectorRef) {
-  }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   // Handle edit mode change
   ngOnChanges(changes: SimpleChanges) {
