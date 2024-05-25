@@ -5,6 +5,7 @@ import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-mee
 import { alreadyExistValidator } from '../../../shared/utils/validators/already-exist-validators';
 import { CommonModule } from '@angular/common';
 import { ScheduleComponent } from '../../../shared/components/schedule/schedule.component';
+import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
 
 @Component({
   selector: 'app-profile-form',
@@ -16,9 +17,13 @@ import { ScheduleComponent } from '../../../shared/components/schedule/schedule.
 })
 export class ProfileFormComponent implements OnInit, AfterViewInit {
   profileForm: FormGroup;
+
   preferredMeetingPlacesDisplay: PreferredMeetingPlace[] = [];
   isAddButtonClicked: boolean = true;
   preferredMeetingPlaceForm: FormGroup;
+
+  scheduleEditMode: boolean = true;
+  preferredSchedules: PreferredSchedule[] = [];
 
   constructor(private formBuilder: FormBuilder) {
     this.profileForm = this.formBuilder.group({
@@ -76,6 +81,10 @@ export class ProfileFormComponent implements OnInit, AfterViewInit {
     this.profileForm.removeControl('preferredMeetingPlace');
   }
 
+  getUserPreferredSchedules(newPreferredSchedules: PreferredSchedule[]) {
+    this.preferredSchedules = newPreferredSchedules;
+  }
+
   // Form Submit
   onSubmit() {
     // TODO: Use EventEmitter with form value
@@ -84,7 +93,6 @@ export class ProfileFormComponent implements OnInit, AfterViewInit {
 
   // TO DO :
   // - differenciation autocomplétion ?
-  // - composant schedule
   // - composant informations bancaires
   // - tester si l'on peut refactoriser avec le meeting place component du profil
   // - tenter de refactoriser le form

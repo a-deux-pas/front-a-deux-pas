@@ -145,7 +145,10 @@
 
   <h3 class="mt-5 bold-title-700 text-left">Mes disponibilités</h3>
 
-  <app-schedule></app-schedule>
+  <app-schedule [editMode]="scheduleEditMode" (addPreferredSchedules)="getUserPreferredSchedules($event)"></app-schedule>
+  @if (profileForm.valid && preferredSchedules.length === 0) {
+    <div class="error-msg">Veuillez renseigner au moins un créneau horaire auquel vous êtes disponible</div>
+  }
 
   <h3 class="mt-5 bold-title-700 text-left">Mes informations bancaires</h3>
 
@@ -153,6 +156,6 @@
   <p> bouton add clicked: {{ isAddButtonClicked }}</p>
   <p>{{"form valide ? " + profileForm.valid}}</p>
 
-  <button type="submit" [disabled]="profileForm.invalid || preferredMeetingPlacesDisplay.length === 0">Submit</button>
+  <button type="submit" [disabled]="profileForm.invalid || preferredMeetingPlacesDisplay.length === 0 || preferredSchedules.length === 0">Submit</button>
 
 </form>

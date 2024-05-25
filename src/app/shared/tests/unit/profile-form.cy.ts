@@ -1,14 +1,13 @@
 import { ProfileFormComponent } from "../../../routes/register/profile-form/profile-form.component";
 import { PreferredMeetingPlace } from "../../models/user/preferred-meeting-place.model";
-import { User } from "../../models/user/user.model";
 
 context('create account testing', () => {
   beforeEach(function() {
       cy.fixture('user-profile').then((user) => {
-        this['user'] = user as User;
+        this['user'] = user;
       })
       cy.fixture('user-meeting-places').then((userMeetingPlaces) => {
-        this['userMeetingPlaces'] = userMeetingPlaces as PreferredMeetingPlace[];
+        this['userMeetingPlaces'] = userMeetingPlaces;
       })
       cy.mount(ProfileFormComponent, {
         imports: [],
@@ -45,8 +44,10 @@ context('create account testing', () => {
     });
     cy.get('.meeting-place').should('have.length', 5);
 
+    cy.get('.fc').click();
+    cy.get('.fc-event').should('have.length', 1);
 
-    cy.get('button[type=submit]').should('be.enabled').click()
+    cy.get('button[type=submit]').should('be.enabled').click();
     cy.get('form').submit()
 
   });
