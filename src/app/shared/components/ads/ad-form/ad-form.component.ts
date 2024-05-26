@@ -31,8 +31,6 @@ export class AdFormComponent {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
 
-  isPostAdForm: boolean | undefined;
-
   ad: Ad = new Ad(
     1,
     '',

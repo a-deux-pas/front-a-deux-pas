@@ -60,7 +60,7 @@
             <div class="add-picture-btn">
               <img id="ad-picture-{{i}}" class="add-picture-icon" src="assets/icons/buttons/add-orange.webp"
                 alt="icone-d-ajout">
-              <p class="add-picture-btn-text">ajouter une photo</p>
+              <p class="add-picture-btn-text-{{i}}">ajouter une photo</p>
             </div>
           </ngx-dropzone-label>
           @for (f of getFilesArray(picNumber); track f; let i = $index) {
@@ -74,10 +74,10 @@
   </div>
 
   @if (files2.length == 0 && adForm.submitted) {
-    <div>
-      <span class="error-msg">Veuillez ajouter au moins deux photos</span>
-    </div>
-    }
+  <div>
+    <span class="error-msg">Veuillez ajouter au moins deux photos</span>
+  </div>
+  }
 
   <!-- Category choice section -->
   <div class="mx-auto mt-5" style="width: 246px;">
