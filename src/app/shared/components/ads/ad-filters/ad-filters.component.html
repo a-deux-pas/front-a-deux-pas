@@ -1,60 +1,4 @@
 <div class="filters-container">
-  <!-- Price filter -->
-  <nav class="navbar" aria-labelledby="dropdown-checkbox">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <div class="dropdown" #priceDropdownRef id="price-dropdown">
-        <button
-          [ngClass]="{
-            'navbar-toggler dropdown-btn': !isBigScreen,
-            'dropdown-btn': isBigScreen
-          }"
-          type="button"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <a
-            class="dropdown-first-level dropdown-toggle"
-            role="button"
-            aria-expanded="false"
-            (click)="resetFilter('price')"
-          >
-            Prix
-          </a>
-        </button>
-        <ul class="dropdown-menu ddmenu-with-select">
-          @for( priceRange of priceRanges; track priceRange){
-          <li
-            id="dropdown-second-level ddmenu-with-select mb-4"
-            class="nav-item dropend"
-          >
-            <div class="form-check px-3 div-form-check mt-2">
-              <input
-                class="form-check-input pr-2"
-                type="checkbox"
-                value=""
-                id="{{ priceRange }}"
-                name="{{ priceRange }}"
-                (change)="
-                  handleCheckboxFiltersSelection(
-                    'priceRange',
-                    priceRange,
-                    $event
-                  )
-                "
-              />
-              <label
-                class="form-check-label ddmenu-with-select text-center ms-2"
-                for="{{ priceRange }}"
-              >
-                {{ priceRange }}
-              </label>
-            </div>
-          </li>
-          }
-        </ul>
-      </div>
-    </ul>
-  </nav>
   <!-- Category filter -->
   <nav class="navbar" aria-labelledby="dropdown-radiobox">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -114,7 +58,7 @@
                   {{ subCategory.name }}
                 </a>
                 }
-                <ul class="dropdown-menu" @if(subCategory.gender)>
+                <ul class="dropdown-menu">
                   @for(gender of subCategory.gender; track gender){
                   <li id="dropdown-fourth-level" class="nav-item dropend">
                     <input
@@ -152,6 +96,62 @@
               </li>
               }
             </ul>
+          </li>
+          }
+        </ul>
+      </div>
+    </ul>
+  </nav>
+  <!-- Price filter -->
+  <nav class="navbar" aria-labelledby="dropdown-checkbox">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="dropdown" #priceDropdownRef id="price-dropdown">
+        <button
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
+          type="button"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <a
+            class="dropdown-first-level dropdown-toggle"
+            role="button"
+            aria-expanded="false"
+            (click)="resetFilter('price')"
+          >
+            Prix
+          </a>
+        </button>
+        <ul class="dropdown-menu ddmenu-with-select">
+          @for( priceRange of priceRanges; track priceRange){
+          <li
+            id="dropdown-second-level ddmenu-with-select mb-4"
+            class="nav-item dropend"
+          >
+            <div class="form-check px-3 div-form-check mt-2">
+              <input
+                class="form-check-input pr-2"
+                type="checkbox"
+                value=""
+                id="{{ priceRange }}"
+                name="{{ priceRange }}"
+                (change)="
+                  handleCheckboxFiltersSelection(
+                    'priceRange',
+                    priceRange,
+                    $event
+                  )
+                "
+              />
+              <label
+                class="form-check-label ddmenu-with-select text-center ms-2"
+                for="{{ priceRange }}"
+              >
+                {{ priceRange }}
+              </label>
+            </div>
           </li>
           }
         </ul>

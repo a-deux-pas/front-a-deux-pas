@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  HostListener,
   Input,
   Output,
   Renderer2,
@@ -102,7 +101,6 @@ export class AdFiltersComponent {
     this.pageNumber = 0;
     this.pageNumberChange.emit(this.pageNumber);
     this.notifyFiltersUpdated();
-
     this.fetchFilteredAds();
   }
 
@@ -221,11 +219,5 @@ export class AdFiltersComponent {
         this.renderer.removeClass(dropdownMenu, 'keep-visible');
       }, 40);
     });
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
-    this.isBigScreen = event.target.innerWidth > 1200;
   }
 }
