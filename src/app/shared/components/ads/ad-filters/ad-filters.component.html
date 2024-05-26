@@ -22,9 +22,9 @@
           </a>
         </button>
         <ul class="dropdown-menu ddmenu-with-select">
+          @for( priceRange of priceRanges; track priceRange){
           <li
             id="dropdown-second-level ddmenu-with-select mb-4"
-            *ngFor="let priceRange of priceRanges"
             class="nav-item dropend"
           >
             <div class="form-check px-3 div-form-check mt-2">
@@ -50,6 +50,7 @@
               </label>
             </div>
           </li>
+          }
         </ul>
       </div>
     </ul>
@@ -78,11 +79,8 @@
           </a>
         </button>
         <ul class="dropdown-menu" id="categoryMenu">
-          <li
-            id="dropdown-second-level"
-            *ngFor="let category of categories"
-            class="nav-item dropend"
-          >
+          @for(category of categories; track category){
+          <li id="dropdown-second-level" class="nav-item dropend">
             <a
               class="nav-link dropdown-toggle text-center"
               role="button"
@@ -98,13 +96,10 @@
               {{ category.name }}
             </a>
             <ul class="dropdown-menu">
-              <li
-                id="dropdown-third-level"
-                *ngFor="let subCategory of category.subCategories"
-                class="nav-item dropend"
-              >
+              @for(subCategory of category.subCategories; track subCategory){
+              <li id="dropdown-third-level" class="nav-item dropend">
+                @if(subCategory?.gender){
                 <a
-                  *ngIf="subCategory.gender"
                   class="nav-link dropdown-toggle text-center"
                   role="button"
                   aria-expanded="false"
@@ -118,12 +113,10 @@
                 >
                   {{ subCategory.name }}
                 </a>
-                <ul class="dropdown-menu" *ngIf="subCategory.gender">
-                  <li
-                    id="dropdown-fourth-level"
-                    *ngFor="let gender of subCategory.gender"
-                    class="nav-item dropend"
-                  >
+                }
+                <ul class="dropdown-menu" @if(subCategory.gender)>
+                  @for(gender of subCategory.gender; track gender){
+                  <li id="dropdown-fourth-level" class="nav-item dropend">
                     <input
                       type="button"
                       class="nav-link"
@@ -137,14 +130,13 @@
                       value="{{ gender }}"
                     />
                   </li>
+                  }
                 </ul>
               </li>
-              <li
-                *ngFor="let subCategory of category.subCategories"
-                class="nav-item dropend"
-              >
+              } @for(subCategory of category.subCategories; track subCategory){
+              <li class="nav-item dropend">
+                @if(!subCategory.gender){
                 <input
-                  *ngIf="!subCategory.gender"
                   type="button"
                   class="nav-link"
                   (click)="
@@ -156,9 +148,12 @@
                   "
                   value="{{ subCategory.name }}"
                 />
+                }
               </li>
+              }
             </ul>
           </li>
+          }
         </ul>
       </div>
     </ul>
@@ -186,9 +181,10 @@
           </a>
         </button>
         <ul class="dropdown-menu ddmenu-with-select">
+          @for(cityAndPostalCode of uniqueCitiesAndPostalCodes; track
+          cityAndPostalCode){
           <li
             id="dropdown-second-level ddmenu-with-select mb-4"
-            *ngFor="let cityAndPostalCode of uniqueCitiesAndPostalCodes"
             class="nav-item dropend"
           >
             <div class="form-check px-3 div-form-check mt-2">
@@ -214,6 +210,7 @@
               </label>
             </div>
           </li>
+          }
         </ul>
       </div>
     </ul>
@@ -241,9 +238,9 @@
           </a>
         </button>
         <ul class="dropdown-menu ddmenu-with-select">
+          @for(state of articleStates; track state){
           <li
             id="dropdown-second-level ddmenu-with-select mb-4"
-            *ngFor="let state of articleStates"
             class="nav-item dropend"
           >
             <div class="form-check px-3 div-form-check mt-2">
@@ -265,6 +262,7 @@
               </label>
             </div>
           </li>
+          }
         </ul>
       </div>
     </ul>

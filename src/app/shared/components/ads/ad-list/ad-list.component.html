@@ -1,4 +1,4 @@
-<div class="container">
+<div class="ads-list-and-filters-container">
   <h2><b>Les dernières annonces</b></h2>
 
   <!--filters component-->
@@ -10,22 +10,15 @@
   >
   </app-ad-filters>
 
-  <div
-    class="ad-list-container"
-    *ngIf="displayedAds && displayedAds.length > 0"
-  >
+  @if(displayedAds && displayedAds.length > 0){
+  <div class="ad-list-container">
     <!--ad-card component-->
-    <app-ad-card
-      class="item"
-      *ngFor="let ad of displayedAds"
-      [ad]="ad"
-    ></app-ad-card>
+    @for(ad of displayedAds; track ad){
+    <app-ad-card class="item" [ad]="ad"></app-ad-card>
+    }
   </div>
-
-  <div
-    class="single-button-container"
-    *ngIf="displayedAds && displayedAds.length > 0 && !noMoreAds"
-  >
+  } @if(displayedAds && displayedAds.length > 0 && !noMoreAds){
+  <div class="single-button-container">
     <button type="submit" class="btn-info mt-4" (click)="loadMoreAds()">
       voir plus<img
         class="arrow-down-icon"
@@ -34,8 +27,8 @@
       />
     </button>
   </div>
-
-  <div class="no-ads-message" *ngIf="displayedAds.length === 0">
+  } @if(displayedAds.length === 0){
+  <div class="no-ads-message">
     <img
       class="desktop-footsteps"
       src="/assets/icons/no-result.webp"
@@ -43,8 +36,9 @@
     />
     <h2>Désolé, aucun résultat ne correspond à votre recherche</h2>
   </div>
-
-  <div class="no-ads-message" *ngIf="noMoreAds">
+  } @if(noMoreAds){
+  <div class="no-ads-message">
     <p><i>Fin des résultats</i></p>
   </div>
+  }
 </div>

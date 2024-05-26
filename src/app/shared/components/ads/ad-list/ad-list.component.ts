@@ -1,19 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { AdListService } from './ad-list.service';
-import { AdResponse } from '../../../models/ad-response.model';
+import { AdHomeResponse } from '../../../models/ad/ad-home-response.model';
 import { AdFiltersService } from '../ad-filters/ad-filters.service';
-import { CityAndPostalCodeResponse } from '../../../models/city-and-postal-code-response.model';
+import { CityAndPostalCodeResponse } from '../../../models/user/city-and-postal-code-response.model';
+import { AdCardComponent } from '../ad-card/ad-card.component';
+import { AdFiltersComponent } from '../ad-filters/ad-filters.component';
 
 @Component({
   selector: 'app-ad-list',
   templateUrl: './ad-list.component.html',
-  // styleUrl: './ad-list.component.scss',
   styleUrls: ['./ad-list.component.scss'],
+  standalone: true,
+  imports: [AdCardComponent, AdFiltersComponent],
 })
 export class AdListComponent implements OnInit {
   pageNumber: number = 0;
   pageSize: number = 8;
-  displayedAds: AdResponse[] = [];
+  displayedAds: AdHomeResponse[] = [];
   noMoreAds: boolean = false;
   uniqueCitiesAndPostalCodes: string[] = [];
 
@@ -55,7 +58,7 @@ export class AdListComponent implements OnInit {
         this.pageNumber,
         this.pageSize
       )
-      .subscribe((ads: AdResponse[]) => {
+      .subscribe((ads: AdHomeResponse[]) => {
         this.displayedAds = [...this.displayedAds, ...ads];
         this.noMoreAds = ads.length > 0 ? false : true;
       });

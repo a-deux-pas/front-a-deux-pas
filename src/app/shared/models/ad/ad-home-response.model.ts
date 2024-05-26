@@ -1,4 +1,4 @@
-export class AdResponse {
+export class AdHomeResponse {
   constructor(
     public title: string,
     public articlePictureUrl: string,

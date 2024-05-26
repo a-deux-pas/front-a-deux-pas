@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AdResponse } from '../../../models/ad-response.model';
+import { AdHomeResponse } from '../../../models/ad/ad-home-response.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -19,14 +19,14 @@ export class AdFiltersService {
     selectedCategory: string,
     pageNumber: number,
     pageSize: number
-  ): Observable<AdResponse[]> {
+  ): Observable<AdHomeResponse[]> {
     const queryParams = {
       priceRanges: selectedPriceRanges.join(','),
       citiesAndPostalCodes: selectedCitiesAndPostalCodes.join(','),
       articleStates: selectedArticleStates.join(','),
       category: selectedCategory,
     };
-    return this.http.get<AdResponse[]>(
+    return this.http.get<AdHomeResponse[]>(
       `${this.baseUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
       {
         params: queryParams,

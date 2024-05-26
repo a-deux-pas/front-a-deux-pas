@@ -9,14 +9,17 @@ import {
 } from '@angular/core';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { PriceRange } from '../../../models/enum/price-range.enum';
-import { AdResponse } from '../../../models/ad-response.model';
+import { AdHomeResponse } from '../../../models/ad/ad-home-response.model';
 import { AdFiltersService } from './ad-filters.service';
-import { Categories } from '../../../utils/constants/Categories';
+import { Categories } from '../../../utils/constants/categories-arrangement';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-ad-filters',
   templateUrl: './ad-filters.component.html',
   styleUrl: './ad-filters.component.scss',
+  standalone: true,
+  imports: [CommonModule],
 })
 export class AdFiltersComponent {
   isBigScreen: boolean = true;
@@ -27,13 +30,12 @@ export class AdFiltersComponent {
   selectedArticleStates: string[] = [];
   selectedCategory: string = 'Catégorie';
 
-  @Input() displayedAds: AdResponse[] = [];
+  @Input() displayedAds: AdHomeResponse[] = [];
   @Input() uniqueCitiesAndPostalCodes: string[] = [];
   @Input() pageNumber: number = 0;
   pageSize: number = 8;
-  @Output() displayedAdsChange: EventEmitter<AdResponse[]> = new EventEmitter<
-    AdResponse[]
-  >();
+  @Output() displayedAdsChange: EventEmitter<AdHomeResponse[]> =
+    new EventEmitter<AdHomeResponse[]>();
   @Output() pageNumberChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() filtersUpdated: EventEmitter<any> = new EventEmitter<{
     selectedPriceRanges: string[];
@@ -176,7 +178,7 @@ export class AdFiltersComponent {
         this.pageNumber,
         this.pageSize
       )
-      .subscribe((filteredAds: AdResponse[]) => {
+      .subscribe((filteredAds: AdHomeResponse[]) => {
         // updating the 'displayedAds' variable
         this.displayedAds = filteredAds;
         console.log(this.displayedAds);
@@ -217,7 +219,7 @@ export class AdFiltersComponent {
       this.renderer.addClass(dropdownMenu, 'keep-visible');
       setTimeout(() => {
         this.renderer.removeClass(dropdownMenu, 'keep-visible');
-      }, 30);
+      }, 40);
     });
   }
 
