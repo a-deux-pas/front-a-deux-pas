@@ -1,34 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from '../../login/login.component';
 
 @Component({
   selector: 'app-logged-in-home',
   templateUrl: './logged-in-home.component.html',
   styleUrl: './logged-in-home.component.scss',
   standalone: true,
-  imports: [CommonModule, NgbModalModule],
+  imports: [CommonModule],
 })
-export class LoggedInHomeComponent {
-  showSuccessAlert: boolean = false;
-  constructor(public modalService: NgbModal) {}
-
-  /**
-   * This method is designed to open a modal when the 'openModal' button is clicked.
-   * It utilizes the NgbModal service to create and manage the modal instance.
-   */
-
-  openModal() {
-    const modalRef = this.modalService.open(LoginComponent);
-    modalRef.result.then((result) => {
-      // Modal closed with success
-      if (result === 'Close click') {
-        this.showSuccessAlert = true;
-        setTimeout(() => {
-          this.showSuccessAlert = false;
-        }, 3000);
-      }
-    });
-  }
-}
+export class LoggedInHomeComponent {}

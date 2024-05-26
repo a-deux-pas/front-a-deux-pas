@@ -393,9 +393,6 @@
   </button>
   <!-- login modal -->
   <ng-template #loginModal let-modal>
-    <section class="container">
-      <div class="wave"></div>
-    </section>
     <button
       type="button"
       class="btn-close align-self-end m-4"
@@ -415,56 +412,31 @@
         />
       </div>
     </div>
-    <div class="modal-btn">
-      <button type="button" class="btn" (click)="(isLoginFormVisible)">
-        Se connecter
-      </button>
-
-      <button type="button" class="btn" (click)="isLoginFormVisible = false">
-        S'inscrire
-      </button>
-    </div>
     <div class="modal-body">
-      <ng-container>
-        <form *ngIf="isLoginFormVisible">
-          <div class="form-group">
-            <label for="email-adress">Adresse email</label>
-            <div class="input-group mt-3">
-              <input
-                id="email-adress"
-                name="email-adress"
-                type="email"
-                class="form-control"
-                placeholder="nom@example.com"
-              />
-            </div>
-            <label class="mt-4" for="password">Mot de passe</label>
-            <div class="input-group mt-3">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                class="form-control"
-                placeholder="mon mot de passe"
-              />
-            </div>
+      <form>
+        <div class="form-group">
+          <label for="email-address">Adresse email</label>
+          <div class="input-group mt-3">
+            <input
+              id="email-address"
+              name="email-address"
+              type="email"
+              class="form-control"
+              placeholder="nom@example.com"
+            />
           </div>
-        </form>
-        <form *ngIf="!isLoginFormVisible">
-          <div class="form-group">
-            <label for="email-adress">Adresse email</label>
-            <div class="input-group mt-3">
-              <input
-                id="email-adress"
-                name="email-adress"
-                type="email"
-                class="form-control"
-                placeholder="nom@example.com"
-              />
-            </div>
+          <label class="mt-4" for="password">Mot de passe</label>
+          <div class="input-group mt-3">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              class="form-control"
+              placeholder="mon mot de passe"
+            />
           </div>
-        </form>
-      </ng-container>
+        </div>
+      </form>
     </div>
     <div class="modal-footer justify-content-center">
       <button

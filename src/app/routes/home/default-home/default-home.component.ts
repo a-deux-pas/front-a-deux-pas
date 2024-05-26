@@ -7,6 +7,6 @@ import { CategoriesComponent } from './components/categories/categories.componen
   templateUrl: './default-home.component.html',
   styleUrl: './default-home.component.scss',
   standalone: true,
-  imports: [HeaderComponent, CategoriesComponent]
+  imports: [HeaderComponent, CategoriesComponent],
 })
 export class DefaultHomeComponent {}
