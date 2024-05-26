@@ -12,7 +12,9 @@ import { AngularIbanModule, ValidatorService } from 'angular-iban';
 })
 export class BankAccountFormComponent implements OnInit {
   bankAccountForm: any;
+
   constructor(public parentForm: FormGroupDirective) {}
+
   ngOnInit() {
     this.bankAccountForm = this.parentForm.form;
     this.bankAccountForm.addControl(
@@ -22,5 +24,9 @@ export class BankAccountFormComponent implements OnInit {
         iban: new FormControl('', [Validators.required, ValidatorService.validateIban]),
       })
     );
+  }
+
+  get bankAccountFormGroup(): FormGroup {
+    return this.bankAccountForm.get('bankAccount') as FormGroup;
   }
 }

@@ -192,6 +192,7 @@ button.btn {
   height: 43px;
   padding: $btn-padding-x $btn-padding-y;
   text-align: justify;
+  justify-content: center;
   align-items: center;
   border-radius: $btn-border-radius;
   background-color: $primary;
@@ -202,7 +203,12 @@ button.btn {
   &:hover {
     background-color: darken($secondary, 25%);
   }
+
+  &:disabled {
+    background-color: #6666668f;
+  }
 }
+
 
 // Secondary button styling
 .btn-secondary {

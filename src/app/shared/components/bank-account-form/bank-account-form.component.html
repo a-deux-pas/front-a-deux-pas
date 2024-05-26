@@ -4,20 +4,20 @@
       <label for="account-holder">Nom du titulaire du compte</label>
       <input type="account-holder" class="form-control" name="account-holder" id="account-holder" formControlName="accountHolder" required />
     </div>
-    @if(bankAccountForm.controls['bankAccount'].get('accountHolder').invalid && (bankAccountForm.controls['bankAccount'].get('accountHolder')?.dirty || bankAccountForm.controls['bankAccount'].get('accountHolder')?.touched)) {
+    @if(bankAccountFormGroup.get('accountHolder')?.invalid && (bankAccountFormGroup.get('accountHolder')?.dirty || bankAccountFormGroup.get('accountHolder')?.touched)) {
       <div class="error-msg">Veuillez renseigner le nom du titulaire du compte</div>
     }
   </div>
   <div class="row my-3 mt-5">
     <div class="col-8">
       <label for="iban">IBAN</label>
-      <input type="iban" class="form-control" name="iban" id="iban" placeholder="FRXXXXXXXXXXXXXXXXX" formControlName="iban" required />
+      <input type="iban" class="form-control" name="iban" id="iban" placeholder="FRXXXXXXXXXXXXXXXXXXXXXXXXX" formControlName="iban" required />
     </div>
-    @if(bankAccountForm.controls['bankAccount'].get('iban').invalid && (bankAccountForm.controls['bankAccount'].get('iban')?.dirty || bankAccountForm.controls['bankAccount'].get('iban')?.touched)) {
-      <div [hidden]="!bankAccountForm.controls['bankAccount'].get('iban')?.errors?.['required']" class="error-msg">
+    @if(bankAccountFormGroup.get('iban')?.invalid && (bankAccountFormGroup.get('iban')?.dirty || bankAccountFormGroup.get('iban')?.touched)) {
+      <div [hidden]="!bankAccountFormGroup.get('iban')?.errors?.['required']" class="error-msg">
         Veuillez renseigner votre IBAN
       </div>
-      <div [hidden]="!bankAccountForm.controls['bankAccount'].get('iban')?.errors?.['iban']" class="error-msg">
+      <div [hidden]="!bankAccountFormGroup.get('iban')?.errors?.['iban']" class="error-msg">
         Veuillez renseigner un IBAN valide
       </div>
     }

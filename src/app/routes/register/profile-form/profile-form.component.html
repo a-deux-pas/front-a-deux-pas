@@ -7,7 +7,7 @@
         <input type="file" formControlName="profilePicture" id="profile-picture" name="profile-picture" accept="image/jpeg, image/jpg, image/png, image/svg, image/webp" required/>
       </label>
     </div>
-    @if (profileForm.controls['profilePicture'].errors && profileForm.controls['profilePicture'].touched) {
+    @if (profileForm.controls['profilePicture'].errors && (profileForm.controls['profilePicture'].dirty || profileForm.controls['profilePicture'].touched)) {
       <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous reconnaître lors des rdv</div>
     }
   </div>
@@ -16,7 +16,7 @@
       <label for="alias">Mon pseudo</label>
       <input type="text" formControlName="alias" id="alias" name="alias" class="form-control" minlength="3" required/>
     </div>
-    @if (profileForm.controls['alias'].errors && profileForm.controls['alias'].touched) {
+    @if (profileForm.controls['alias'].errors && (profileForm.controls['alias'].dirty || profileForm.controls['alias'].touched)) {
       <div [hidden]="!profileForm.controls['alias'].errors['required']" class="error-msg">Veuillez renseigner votre pseudo</div>
       <div [hidden]="!profileForm.controls['alias'].errors['minlength']" class="error-msg">Votre pseudo doit comporter au moins 3 caractères</div>
     }
@@ -27,7 +27,7 @@
       <label for="bio" class="form-label">Ma présentation</label>
       <textarea formControlName="bio" class="form-control form-control-sm" name="bio" id="bio" rows="3" minlength="10"></textarea>
     </div>
-    @if (profileForm.controls['bio'].errors && profileForm.controls['bio'].touched) {
+    @if (profileForm.controls['bio'].errors && (profileForm.controls['bio'].dirty || profileForm.controls['bio'].touched)) {
       <div class="error-msg">Votre présentation doit comporter au moins 10 caractères</div>
     }
   </div>
@@ -41,7 +41,7 @@
           <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue" required/>
         </mapbox-address-autofill>
         </div>
-      @if (profileForm.controls['address'].get('street')?.errors && profileForm.controls['address'].get('street')?.touched) {
+      @if (profileForm.controls['address'].get('street')?.errors && (profileForm.controls['address'].get('street')?.dirty || profileForm.controls['address'].get('street')?.touched)) {
         <div class="error-msg">Veuillez renseigner votre rue</div>
       }
     </div>
@@ -49,14 +49,14 @@
       <div class="col-4">
         <label for="postal-code">Code postal</label>
         <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control" required/>
-        @if (profileForm.controls['address'].get('postalCode')?.errors && profileForm.controls['address'].get('postalCode')?.touched) {
+        @if (profileForm.controls['address'].get('postalCode')?.errors && (profileForm.controls['address'].get('postalCode')?.dirty || profileForm.controls['address'].get('postalCode')?.touched)) {
           <div class="error-msg">Veuillez renseigner votre code postal</div>
         }
       </div>
       <div class="col-4">
         <label for="city">Ville</label>
         <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
-        @if (profileForm.controls['address'].get('city')?.errors && profileForm.controls['address'].get('city')?.touched) {
+        @if (profileForm.controls['address'].get('city')?.errors && (profileForm.controls['address'].get('city')?.dirty || profileForm.controls['address'].get('city')?.touched)) {
           <div class="error-msg">Veuillez renseigner votre ville</div>
         }
       </div>
@@ -81,5 +81,8 @@
 
   <p>{{"form valide ? " + profileForm.valid}}</p>
 
-  <button type="submit" [disabled]="profileForm.invalid || preferredMeetingPlaces.length === 0 || preferredSchedules.length === 0">Submit</button>
+  <div class="text-center mb-5 mt-5">
+    <button type="button" class="btn-secondary mt-4" (click)="goBack()">annuler</button>
+    <button type="submit" [disabled]="profileForm.invalid || preferredMeetingPlaces.length === 0 || preferredSchedules.length === 0" class="btn-primary mt-4">sauvegarder</button>
+  </div>
 </form>

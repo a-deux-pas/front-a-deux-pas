@@ -1,13 +1,15 @@
 import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ScheduleComponent } from '../../../shared/components/schedule/schedule.component';
 import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
 import { BankAccountFormComponent } from '../../../shared/components/bank-account-form/bank-account-form.component';
 import { MeetingPlaceFormComponent } from './components/meeting-place-form/meeting-place-form.component';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
 import { NotificationsComponent } from '../../../shared/components/notifications/notifications.component';
+import { UploadPictureService } from '../../../shared/services/upload-picture.service';
+import { Observable, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-profile-form',
@@ -23,7 +25,11 @@ export class ProfileFormComponent implements AfterViewInit {
   scheduleEditMode: boolean = true;
   preferredSchedules: PreferredSchedule[] = [];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private uploadPictureService: UploadPictureService,
+    private location: Location,
+  ) {
     this.profileForm = this.formBuilder.group({
       profilePicture: ['', Validators.required],
       alias: ['', [Validators.required, Validators.minLength(3)]],
@@ -54,17 +60,39 @@ export class ProfileFormComponent implements AfterViewInit {
     this.preferredSchedules = newPreferredSchedules;
   }
 
+  uploadProfilePicture(): Observable<any> {
+    return this.uploadPictureService.completeDataToUpload(this.profileForm.controls['profilePicture'].value)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error occurred during image upload:', error);
+          throw error;
+        })
+      );
+  }
+
   // Form Submit
   onSubmit() {
+    this.uploadProfilePicture().subscribe({
+      next: () => {
+
+      },
+      error: (error: any) => {
+        console.error('Error occurred during image upload:', error);
+      }
+    });
     // TODO: Use EventEmitter with form value
     console.warn(this.profileForm.value);
   }
 
+  goBack() {
+    this.location.back();
+  }
+
   // TO DO :
-  // creation du service pour envoyer les données au back
-  // refactorisation composant bank-account-form
+  // tester composant dropzone
+  // ajout des méthodes dans le profile service pour envoyer les données au back
+  // déplacer le profile service dans shared
   // NAVBAR: ajouter la navbar avec une propriété hidden sur les logos et sur le bouton vendre
   // + faire comme la page d'accueil pour les marges OU avec la propriété RouterActive voir si possible de l'afficher uniquement sur page register
   // ajout du css
-  // - differenciation autocomplétion ?
 }

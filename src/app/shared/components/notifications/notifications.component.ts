@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-notifications',
@@ -11,7 +11,9 @@ import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveF
 })
 export class NotificationsComponent implements OnInit {
   notificationsForm: any;
+
   constructor(public parentForm: FormGroupDirective) {}
+
   ngOnInit() {
     this.notificationsForm = this.parentForm.form;
     this.notificationsForm.addControl(
