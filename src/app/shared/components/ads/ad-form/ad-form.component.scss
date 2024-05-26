@@ -94,13 +94,15 @@ input::-webkit-inner-spin-button {
 }
 
 // drag and drop
-ngx-dropzone {
+ngx-dropzone,
+.dropzone {
   width: 350px;
   height: 349px;
   margin: auto auto;
 }
 
-ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+ngx-dropzone-image-preview[_nghost-ng-c3821590306],
+.dz-file-preview {
   align-items: center !important;
   display: flex !important;
   justify-content: center !important;
@@ -152,6 +154,21 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   }
 
   // Picture upload section
+  .dz-error-message,
+  .dz-succes-mark,
+  .dz-error-mark {
+    display: none !important;
+  }
+
+  .dz-preview.dz-file-preview {
+    display: none !important;
+  }
+
+  .dz-message {
+    display: block;
+  }
+
+
   .photoDragAndDrop {
     width: 859px;
     height: 479px;

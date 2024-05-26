@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/ad/ad.service';
@@ -8,7 +8,7 @@ import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { NgClass } from '@angular/common'
+import { CommonModule, NgClass } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
@@ -17,15 +17,16 @@ import { Subcategory } from '../../../models/enum/subcategory.enum';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import Dropzone from 'dropzone';
 
 @Component({
   selector: 'app-ad-form',
   templateUrl: './ad-form.component.html',
   styleUrl: './ad-form.component.scss',
   standalone: true,
-  imports: [FormsModule, NgSelectModule, NgxDropzoneModule, NgClass, NgbCarousel, NgbSlide]
+  imports: [FormsModule, NgSelectModule, NgxDropzoneModule, CommonModule, NgbCarousel, NgbSlide]
 })
-export class AdFormComponent {
+export class AdFormComponent implements OnInit {
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
   @Input() isBigScreen: boolean | undefined;
@@ -52,6 +53,9 @@ export class AdFormComponent {
   adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
 
+  files: File[] = [];
+  dropzone: Dropzone | undefined;
+
   constructor(
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
@@ -60,6 +64,23 @@ export class AdFormComponent {
   ) {
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
+    });
+  }
+
+  ngOnInit(): void {
+    const myDropzone = new Dropzone("#my-dropzone", {
+      url: "/file/post",
+      // autres options de configuration
+    });
+
+    this.dropzone!.on("addedfile", (file) => {
+      console.log("File added:", file);
+      this.files.push(file);
+    });
+
+    this.dropzone!.on("removedfile", (file) => {
+      console.log("File removed:", file);
+      this.files = this.files.filter(f => f !== file);
     });
   }
 
@@ -154,6 +175,27 @@ export class AdFormComponent {
       })
     );
   }
+
+
+
+  checkThumbnail() {
+    console.log('files.lenght:: ', this.files.length)
+    const imageSection = document.querySelector('.dz-image') as HTMLImageElement;
+    const dzPreview = document.querySelector('.dz-preview.dz-file-preview') as HTMLElement;
+    const dzMessage = document.querySelector('.dz-message') as HTMLElement;
+
+    if (imageSection && imageSection.src) {
+      console.log('image ajoutée')
+      dzPreview.style.display = 'block';
+      dzMessage.style.display = 'none';
+    } else {
+      console.log('image retirée')
+      dzPreview.style.display = 'none';
+      dzMessage.style.display = 'block';
+    }
+  }
+
+
 
   // image selection carrousel for mobile device
 

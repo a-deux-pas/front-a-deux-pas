@@ -23,15 +23,34 @@
       </ng-select>
     </div>
 
+    <!-- DropzoneJsTest -->
+    <!-- TO DO : si dropzone Ok -> penser à supprimer ngx-dropzone -->
+    <p>dropzoneJs</p>
+    <form action="/target" id="my-dropzone" (click)="checkThumbnail()"
+      class="dropzone photoDragAndDrop mx-auto mb-5 container d-flex justify-content-center align-items-center">
+      <div class="dz-preview dz-file-preview" [ngStyle]="{ 'display': files.length > 0 ? 'block' : 'none' }">
+        <div class="dz-details">
+          <img data-dz-thumbnail />
+        </div>
+      </div>
+      <div class="dz-message" [ngStyle]="{ 'display': files.length > 0 ? 'none' : 'block' }">
+        <div class="add-picture-btn">
+          <img class="add-picture-icon" src="assets/icons/buttons/add-orange.webp" alt="icone-d-ajout">
+          <p class="add-picture-btn-text">ajouter une photo</p>
+        </div>
+      </div>
+    </form>
+
+
+
+
     <!-- image selection section on desktop device -->
-    <div class="dropzone-field mx-auto mb-5">
-      @for (n of getArray(selectedPicNumber); track n; let i = $index) {
-      <ngx-dropzone #dropzoneEl name="article-picture" class="dropzone"
-        [ngClass]="{'d-none': isBigScreen == false, 'block': isBigScreen == true}" id="dropzone{{i}}"
-        (change)="onSelectPicture($event, i)" [multiple]="false" [class.two-dropzones]="selectedPicNumber === 2"
-        [class.three-dropzones]="selectedPicNumber === 3" [class.four-dropzones]="selectedPicNumber === 4"
-        [class.five-dropzones]="selectedPicNumber === 5" accept="image/jpeg,image/jpg,image/png,image/svg,image/webp">
-        <ngx-dropzone-label class="center mx-auto">
+    <!-- <div class="dropzone-field mx-auto mb-5"> -->
+    <!-- @for (n of getArray(selectedPicNumber); track n; let i = $index) {
+    <form action="/target" id="my-dropzone" name="article-picture" class="dropzone"
+      [class.two-dropzones]="selectedPicNumber === 2" [class.three-dropzones]="selectedPicNumber === 3"
+      [class.four-dropzones]="selectedPicNumber === 4" [class.five-dropzones]="selectedPicNumber === 5"> -->
+    <!-- <ngx-dropzone-label class="center mx-auto">
           <div class="add-picture-btn">
             <img class="add-picture-icon" src="assets/icons/buttons/add-orange.webp" alt="icone-d-ajout">
             <p class="add-picture-btn-text">ajouter une photo</p>
@@ -40,11 +59,11 @@
         @for (f of getFilesArray(i); track f) {
         <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [removable]="true" [file]="f"
           (removed)="onRemove(f, i)">
-        </ngx-dropzone-image-preview>
-        }
-      </ngx-dropzone>
-      }
-    </div>
+        </ngx-dropzone-image-preview> -->
+    <!-- } -->
+    <!-- </form>
+    } -->
+    <!-- </div> -->
 
     <!-- Carrousel section for image selection on mobile device -->
     <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true" (slide)="onSlide($event)"
@@ -74,10 +93,10 @@
   </div>
 
   @if (files2.length == 0 && adForm.submitted) {
-    <div>
-      <span class="error-msg">Veuillez ajouter au moins deux photos</span>
-    </div>
-    }
+  <div>
+    <span class="error-msg">Veuillez ajouter au moins deux photos</span>
+  </div>
+  }
 
   <!-- Category choice section -->
   <div class="mx-auto mt-5" style="width: 246px;">
