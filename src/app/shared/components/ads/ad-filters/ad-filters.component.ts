@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   Output,
   Renderer2,
@@ -21,6 +22,8 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
 })
 export class AdFiltersComponent {
+  isBigScreen: boolean = true;
+
   // selected filters
   selectedPriceRanges: string[] = [];
   selectedCities: string[] = [];
@@ -218,5 +221,12 @@ export class AdFiltersComponent {
         this.renderer.removeClass(dropdownMenu, 'keep-visible');
       }, 40); // tweak this value to see the difference
     });
+  }
+
+  // Erika's method - imported along with the filters' HTML and CSS from the style-guide
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
+    this.isBigScreen = event.target.innerWidth > 1200;
   }
 }

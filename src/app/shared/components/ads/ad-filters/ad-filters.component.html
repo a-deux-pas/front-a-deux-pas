@@ -4,7 +4,10 @@
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <div class="dropdown" #categoryDropdownRef id="category-dropdown">
         <button
-          class="navbar-toggler dropdown-btn"
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
           type="button"
           aria-haspopup="true"
           aria-expanded="false"
@@ -104,7 +107,10 @@
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <div class="dropdown" #priceDropdownRef id="price-dropdown">
         <button
-          class="navbar-toggler dropdown-btn"
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
           type="button"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -157,7 +163,10 @@
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <div class="dropdown" #cityDropdownRef id="city-dropdown">
         <button
-          class="navbar-toggler dropdown-btn"
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
           type="button"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -211,7 +220,10 @@
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <div class="dropdown" #stateDropdownRef id="state-dropdown">
         <button
-          class="navbar-toggler dropdown-btn"
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
           type="button"
           aria-expanded="false"
           aria-label="Toggle navigation"
