@@ -886,7 +886,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
-// Desktop version
+// Desktop version (maybe needs refactoring so that dropdowns change their display style at a smaller width)
 @media (min-width: 1200px) {
   // margin
   body {
