@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrl: './header.component.scss',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [SearchBarComponent, NgbModalModule],
