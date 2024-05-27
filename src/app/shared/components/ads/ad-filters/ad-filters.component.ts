@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   Output,
   Renderer2,
@@ -21,8 +22,6 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
 })
 export class AdFiltersComponent {
-  isBigScreen: boolean = true;
-
   // selected filters
   selectedPriceRanges: string[] = [];
   selectedCities: string[] = [];

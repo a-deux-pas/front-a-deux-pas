@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AdHomeResponse } from '../../../models/ad/ad-home-response.model';
 import { HttpClient } from '@angular/common/http';
+import { API_URL } from '../../../utils/constants/utils-constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdFiltersService {
-  private baseUrl: string = 'http://localhost:8081/api/ads/list';
+  private baseUrl: string = `${API_URL}api/ads/list`;
 
   constructor(private http: HttpClient) {}
 
