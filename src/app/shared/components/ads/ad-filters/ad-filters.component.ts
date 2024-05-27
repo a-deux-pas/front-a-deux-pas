@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  HostListener,
   Input,
   Output,
   Renderer2,
@@ -210,13 +209,14 @@ export class AdFiltersComponent {
     this.filtersUpdated.emit(eventData);
   }
 
+  // method to keep the dropdown menus visible for a short period after the mouse leaves the parent div
   private handleDropdownMouseLeave(dropdownElement: HTMLElement) {
     this.renderer.listen(dropdownElement, 'mouseleave', () => {
       const dropdownMenu = dropdownElement.querySelector('.dropdown-menu');
       this.renderer.addClass(dropdownMenu, 'keep-visible');
       setTimeout(() => {
         this.renderer.removeClass(dropdownMenu, 'keep-visible');
-      }, 40);
+      }, 40); // tweak this value to see the difference
     });
   }
 }
