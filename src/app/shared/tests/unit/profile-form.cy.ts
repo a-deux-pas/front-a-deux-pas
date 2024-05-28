@@ -1,5 +1,7 @@
+import { HttpClientModule } from "@angular/common/http";
 import { ProfileFormComponent } from "../../../routes/register/profile-form/profile-form.component";
 import { PreferredMeetingPlace } from "../../models/user/preferred-meeting-place.model";
+import { UploadPictureService } from "../../services/upload-picture.service";
 
 context('create account testing', () => {
   beforeEach(function() {
@@ -10,8 +12,8 @@ context('create account testing', () => {
         this['userMeetingPlaces'] = userMeetingPlaces;
       })
       cy.mount(ProfileFormComponent, {
-        imports: [],
-        providers: [],
+        imports: [HttpClientModule],
+        providers: [UploadPictureService],
       })
   });
 
@@ -19,9 +21,9 @@ context('create account testing', () => {
 
     // it should be possible to select a profile picture
     cy.get('form');
-    cy.get('input[type=file]').click().should('be.enabled').click();
-    cy.get('input[type=file]').selectFile('cypress/fixtures/images/pic-test-1-min.webp');
-    cy.get('input[type=file]').should('have.value', 'C:\\fakepath\\pic-test-1-min.webp');
+    cy.get('dropzone#dropzone').click();
+    cy.get('dropzone#dropzone').selectFile('cypress/fixtures/images/pic-test-1-min.webp');
+    cy.get('dropzone#dropzone').should('have.value', 'C:\\fakepath\\pic-test-1-min.webp');
 
     // it should be possible to enter user information
     cy.get('#alias').type(this['user'].alias);

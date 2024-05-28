@@ -1,16 +1,12 @@
 <h2 class="bold-title-700 text-center">Créer mon compte</h2>
 
 <form [formGroup]="profileForm" class="custom-container" (ngSubmit)="onSubmit()">
-  <div class="row my-3 mt-5">
-    <div class="col">
-      <label for="profile-picture">ajouter une photo
-        <input type="file" formControlName="profilePicture" id="profile-picture" name="profile-picture" accept="image/jpeg, image/jpg, image/png, image/svg, image/webp" required/>
-      </label>
-    </div>
-    @if (profileForm.controls['profilePicture'].errors && (profileForm.controls['profilePicture'].dirty || profileForm.controls['profilePicture'].touched)) {
-      <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous reconnaître lors des rdv</div>
-    }
-  </div>
+  <app-profile-picture
+    (uploadSuccess)="profilePictureUpload('uploadSuccess')"
+    (thumbnailGenerated)="profilePictureUpload('thumbnailGenerated')"
+    (fileRemoved)="profilePictureUpload('fileRemoved')"
+    [isFormSubmitted]="isSubmitted">
+  </app-profile-picture>
   <div class="row my-3 mt-5">
     <div class="col-4">
       <label for="alias">Mon pseudo</label>
@@ -83,6 +79,6 @@
 
   <div class="text-center mb-5 mt-5">
     <button type="button" class="btn-secondary mt-4" (click)="goBack()">annuler</button>
-    <button type="submit" [disabled]="profileForm.invalid || preferredMeetingPlaces.length === 0 || preferredSchedules.length === 0" class="btn-primary mt-4">sauvegarder</button>
+    <button type="submit" [disabled]="profileForm.invalid || !isProfilePicturePreview || preferredMeetingPlaces.length === 0 || preferredSchedules.length === 0" class="btn-primary mt-4">sauvegarder</button>
   </div>
 </form>
