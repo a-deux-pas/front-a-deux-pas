@@ -47,17 +47,10 @@ export class ProfilePictureComponent implements AfterViewInit {
     });
 
     // à modifier
-    dropzone.on('remove', (file: File) => {
-      if (file === null) {
-        console.log('File removed');
-        this.isProfilePictureUploaded = false;
-        this.fileRemoved.emit();
-      }
-    });
-
-    dropzone.on('success', (response: any) => {
-      console.log('Upload successful:', response);
-      this.uploadSuccess.emit();
+    dropzone.on('removedfile', () => {
+      console.log('File removed');
+      this.isProfilePictureUploaded = false;
+      this.fileRemoved.emit();
     });
 
     dropzone.on('error', (error: any) => {

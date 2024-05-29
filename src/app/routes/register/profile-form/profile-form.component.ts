@@ -1,4 +1,4 @@
-import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
+import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { CommonModule, Location } from '@angular/common';
@@ -30,6 +30,7 @@ export class ProfileFormComponent implements AfterViewInit {
   constructor(
     private formBuilder: FormBuilder,
     private location: Location,
+    private cd: ChangeDetectorRef
   ) {
     this.profileForm = this.formBuilder.group({
       alias: ['', [Validators.required, Validators.minLength(3)]],
@@ -58,11 +59,15 @@ export class ProfileFormComponent implements AfterViewInit {
 
     if (eventType === 'thumbnailGenerated') {
       this.isProfilePicturePreview = true;
+      console.log('preview', this.isProfilePicturePreview);
     }
 
     if (eventType === 'fileRemoved') {
       this.isProfilePicturePreview = false;
+      console.log('preview', this.isProfilePicturePreview);
     }
+
+    this.cd.detectChanges();
   }
 
   getUserPreferredMeetingPlaces(newPreferredMeetingPlaces: PreferredMeetingPlace[]) {
@@ -89,6 +94,7 @@ export class ProfileFormComponent implements AfterViewInit {
   }
 
   // TO DO :
+  // changer le style de la dropzone pour le rendre plus spécifique
   // ajout des méthodes dans le profile service pour envoyer les données au back
   // déplacer le profile service dans shared
   // NAVBAR: ajouter la navbar avec une propriété hidden sur les logos et sur le bouton vendre
