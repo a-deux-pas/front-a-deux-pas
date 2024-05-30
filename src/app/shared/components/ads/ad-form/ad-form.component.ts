@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
 import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/ad/ad.service';
@@ -17,16 +17,27 @@ import { Subcategory } from '../../../models/enum/subcategory.enum';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import Dropzone from 'dropzone';
+import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
+
 
 @Component({
   selector: 'app-ad-form',
   templateUrl: './ad-form.component.html',
   styleUrl: './ad-form.component.scss',
   standalone: true,
-  imports: [FormsModule, NgSelectModule, NgxDropzoneModule, CommonModule, NgbCarousel, NgbSlide]
+  imports: [FormsModule, NgSelectModule, NgxDropzoneModule, CommonModule, NgbCarousel, NgbSlide, DropzoneModule]
 })
-export class AdFormComponent implements OnInit {
+export class AdFormComponent implements AfterViewInit {
+  hasInteractedWithDropzone: boolean = false;
+  isProfilePictureUploaded: boolean = false;
+  errorMessage: string = '';
+  @Input() isFormSubmitted: boolean = false;
+  @Output() uploadSuccess: EventEmitter<void> = new EventEmitter<void>();
+  @Output() thumbnailGenerated: EventEmitter<void> = new EventEmitter<void>();
+  @Output() fileRemoved: EventEmitter<void> = new EventEmitter<void>();
+  @ViewChild(DropzoneComponent) dropzoneComponent!: DropzoneComponent;
+
+
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
   @Input() isBigScreen: boolean | undefined;
@@ -54,7 +65,22 @@ export class AdFormComponent implements OnInit {
   disabledFields: boolean = false
 
   files: File[] = [];
-  dropzone: Dropzone | undefined;
+
+  config: DropzoneConfigInterface = {
+    url: 'https://api.cloudinary.com/v1_1/erikaadeuxpas/upload/',
+    acceptedFiles: 'image/*',
+    uploadMultiple: false,
+    createImageThumbnails: true,
+    resizeMethod:"contain",
+    addRemoveLinks: true,
+    dictRemoveFile: "×",
+    clickable: true,
+    maxFiles: 1,
+    autoProcessQueue: false,
+    params: {
+      upload_preset: 'adeupasProject'
+    }
+  };
 
   constructor(
     private adService: AdService,
@@ -68,21 +94,47 @@ export class AdFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    const myDropzone = new Dropzone("#my-dropzone", {
-      url: "/file/post",
-      // autres options de configuration
+  ngAfterViewInit(): void {
+    const dropzone = this.dropzoneComponent.directiveRef?.dropzone();
+    console.log(dropzone);
+
+    dropzone.on('thumbnail', () => {
+      console.log('Thumbnail generated');
+      this.isProfilePictureUploaded = true;
+      this.thumbnailGenerated.emit();
     });
 
-    this.dropzone!.on("addedfile", (file) => {
-      console.log("File added:", file);
-      this.files.push(file);
+    // à modifier
+    dropzone.on('removedfile', () => {
+      console.log('File removed');
+      this.isProfilePictureUploaded = false;
+      this.fileRemoved.emit();
     });
 
-    this.dropzone!.on("removedfile", (file) => {
-      console.log("File removed:", file);
-      this.files = this.files.filter(f => f !== file);
+    // this.dropzone!.on("removedfile", (file) => {
+    //   console.log("File removed:", file);
+    //   this.files = this.files.filter(f => f !== file);
+    // });
+
+    dropzone.on('error', (error: any) => {
+      console.error('Upload failed:', error);
+      this.errorMessage = "il y a eu une erreur lors du chargement de votre image, veuillez réessayer plus tard"
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    setTimeout(() => {
+      const dropzone = this.dropzoneComponent.directiveRef?.dropzone();
+      if (changes['isFormSubmitted'].currentValue) {
+      dropzone.options.autoProcessQueue = true;
+      dropzone.processQueue();
+      console.log('Processing queue...');
+      }
+    }, 0);
+  }
+
+  onDropzoneInteraction(): void {
+    this.hasInteractedWithDropzone = true;
   }
 
   // article category selection section
@@ -177,8 +229,6 @@ export class AdFormComponent implements OnInit {
     );
   }
 
-
-
   checkThumbnail() {
     console.log('files.lenght:: ', this.files.length)
     const imageSection = document.querySelector('.dz-image') as HTMLImageElement;
@@ -195,8 +245,6 @@ export class AdFormComponent implements OnInit {
       dzMessage.style.display = 'block';
     }
   }
-
-
 
   // image selection carrousel for mobile device
 

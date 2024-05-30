@@ -826,6 +826,70 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
+// Dropzone profile picture
+.dropzone.dz-wrapper {
+  height: 212px;
+  overflow: inherit !important;
+}
+
+.dropzone.dz-wrapper.dz-single .dz-message {
+  border-radius: 50%;
+  background-color: white;
+}
+
+.dropzone.dz-wrapper.dz-single .dz-preview {
+  height: auto !important;
+}
+
+.dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+  border-radius: 50%;
+}
+
+.dz-progress,
+.dz-details,
+.dz-success-mark,
+.dz-error-mark,
+.dz-error-message
+{
+  display: none !important;
+}
+
+.dz-remove {
+  display:inline-block !important;
+  width:1.2em;
+  height:1.2em;
+  text-decoration: none;
+
+  position:absolute;
+  top:5px;
+  right:5px;
+  z-index:1000;
+
+  font-size:1.2em !important;
+  line-height:1em;
+
+  text-align:center;
+  font-weight:bold;
+  border:1px solid gray !important;
+  border-radius:1.2em;
+  color:gray;
+  background-color:white;
+  opacity:.5;
+}
+
+.dz-remove:hover {
+    text-decoration:none !important;
+    opacity:1;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+  transform: none !important;
+  filter: none !important;
+}
+
+/*-----------------------------------------------------------------------*/
+
+
 @media (min-width: 768px) {
   // Personalized container for "my account" pages
   // Includes tabs and page content

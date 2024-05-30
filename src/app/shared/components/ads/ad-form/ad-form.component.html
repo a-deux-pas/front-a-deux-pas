@@ -26,7 +26,17 @@
     <!-- DropzoneJsTest -->
     <!-- TO DO : si dropzone Ok -> penser à supprimer ngx-dropzone -->
     <p>dropzoneJs</p>
-    <form action="/target" id="my-dropzone" (click)="checkThumbnail()"
+    <div class="col">
+      <dropzone class="mb-5" id="dropzone" [config]="config" [message]="'ajouter une photo'" (mouseleave)="onDropzoneInteraction()"></dropzone>
+    </div>
+    @if (!isProfilePictureUploaded && hasInteractedWithDropzone) {
+      <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous reconnaître lors des rdv</div>
+    }
+    <div class="error-msg">{{ errorMessage }}</div>
+
+
+
+    <!-- <form action="/target" id="my-dropzone" (click)="checkThumbnail()"
       class="dropzone photoDragAndDrop mx-auto mb-5 container d-flex justify-content-center align-items-center">
       <div class="dz-preview dz-file-preview" [ngStyle]="{ 'display': files.length > 0 ? 'block' : 'none' }">
         <div class="dz-details">
@@ -39,7 +49,7 @@
           <p class="add-picture-btn-text">ajouter une photo</p>
         </div>
       </div>
-    </form>
+    </form> -->
 
 
 
