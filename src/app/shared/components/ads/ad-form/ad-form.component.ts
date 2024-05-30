@@ -8,7 +8,7 @@ import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { CommonModule, NgClass } from '@angular/common'
+import { CommonModule, Location } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
@@ -61,6 +61,7 @@ export class AdFormComponent implements OnInit {
     private uploadPictureService: UploadPictureService,
     private router: Router,
     private displayManagementService: DisplayManagementService,
+    private location: Location
   ) {
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
@@ -207,6 +208,9 @@ export class AdFormComponent implements OnInit {
     this.displayManagementService.onSlide(slideEvent)
   }
 
+  goBack() {
+    this.location.back();
+  }
 
   onSubmit() {
     this.uploadArticlePictures().subscribe({
