@@ -828,8 +828,84 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Dropzone profile picture
 .dropzone.dz-wrapper {
-  height: 212px;
+  // height: 212px;
   overflow: inherit !important;
+}
+
+.dropzone-field {
+  grid-gap: 21px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  max-width: 859px;
+  max-height: 478px;
+}
+
+.two-dropzones .dropzone.dz-wrapper {
+  width: 423px;
+  height: 479px;
+}
+
+.three-dropzones .dropzone.dz-wrapper {
+  // display: grid;
+  // grid-template-columns: 1fr;
+  // grid-template-rows: auto auto;
+}
+
+.three-dropzones:first-child .dropzone.dz-wrapper {
+  width: 523px;
+  height: 479px;
+  grid-area: 1 / 1 / 3 / 3;
+}
+
+.three-dropzones:not(:first-child) .dropzone.dz-wrapper {
+  width: 316px;
+  height: 232px;
+}
+
+.three-dropzones:nth-child(2) .dropzone.dz-wrapper {
+  grid-area: 1 / 3 / 2 / 4;
+}
+
+.three-dropzones:nth-child(3) .dropzone.dz-wrapper {
+  grid-area: 2 / 3 / 3 / 4;
+}
+
+.four-dropzones .dropzone.dz-wrapper {
+  // display: grid;
+  // grid-template-columns: 1fr;
+  // grid-template-rows: auto auto;
+}
+
+.four-dropzones:first-child .dropzone.dz-wrapper,
+.four-dropzones:nth-child(4) .dropzone.dz-wrapper {
+  width: 308px;
+  height: 479px;
+}
+
+.four-dropzones:first-child .dropzone.dz-wrapper {
+  grid-area: 1 / 1 / 3 / 2;
+}
+
+.four-dropzones:nth-child(4) .dropzone.dz-wrapper {
+  grid-area: 1 / 3 / 3 / 4;
+}
+
+.four-dropzones:nth-child(2) .dropzone.dz-wrapper,
+.four-dropzones:nth-child(3) .dropzone.dz-wrapper {
+  width: 215px;
+  height: 232px;
+}
+
+.five-dropzones:first-child .dropzone.dz-wrapper {
+  width: 308px;
+  height: 479px;
+  grid-area: 1 / 1 / 3 / 2;
+}
+
+.five-dropzones:not(:first-child) .dropzone.dz-wrapper {
+  width: 256.67px;
+  height: 232px;
 }
 
 .dropzone.dz-wrapper.dz-single .dz-message {
@@ -837,49 +913,58 @@ a.dropdown-first-level.dropdown-toggle {
   background-color: white;
 }
 
+#adFormDesktopDropzone .dropzone.dz-wrapper.dz-single .dz-message {
+  border-radius: 0%;
+  background-color: white;
+}
+
 .dropzone.dz-wrapper.dz-single .dz-preview {
   height: auto !important;
 }
 
+//Penser à gerer cette transformation dans le back
 .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
   border-radius: 50%;
+}
+
+#adFormDesktopDropzone .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+  border-radius: 0%;
 }
 
 .dz-progress,
 .dz-details,
 .dz-success-mark,
 .dz-error-mark,
-.dz-error-message
-{
+.dz-error-message {
   display: none !important;
 }
 
 .dz-remove {
-  display:inline-block !important;
-  width:1.2em;
-  height:1.2em;
+  display: inline-block !important;
+  width: 1.2em;
+  height: 1.2em;
   text-decoration: none;
 
-  position:absolute;
-  top:5px;
-  right:5px;
-  z-index:1000;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1000;
 
-  font-size:1.2em !important;
-  line-height:1em;
+  font-size: 1.2em !important;
+  line-height: 1em;
 
-  text-align:center;
-  font-weight:bold;
-  border:1px solid gray !important;
-  border-radius:1.2em;
-  color:gray;
-  background-color:white;
-  opacity:.5;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid gray !important;
+  border-radius: 1.2em;
+  color: gray;
+  background-color: white;
+  opacity: .5;
 }
 
 .dz-remove:hover {
-    text-decoration:none !important;
-    opacity:1;
+  text-decoration: none !important;
+  opacity: 1;
 }
 
 .dropzone .dz-preview:hover .dz-image img {
@@ -891,6 +976,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 
 @media (min-width: 768px) {
+
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .custom-container {
@@ -982,6 +1068,7 @@ ngb-carousel,
 
 // Desktop version
 @media (min-width: 1200px) {
+
   // margin
   body {
     margin: 0;

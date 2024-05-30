@@ -26,13 +26,22 @@
     <!-- DropzoneJsTest -->
     <!-- TO DO : si dropzone Ok -> penser à supprimer ngx-dropzone -->
     <p>dropzoneJs</p>
-    <div class="col">
-      <dropzone class="mb-5" id="dropzone" [config]="config" [message]="'ajouter une photo'" (mouseleave)="onDropzoneInteraction()"></dropzone>
-    </div>
-    @if (!isProfilePictureUploaded && hasInteractedWithDropzone) {
-      <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous reconnaître lors des rdv</div>
-    }
-    <div class="error-msg">{{ errorMessage }}</div>
+    <section id="adFormDesktopDropzone" class="dropzone-field mx-auto">
+      @for (n of getArray(selectedPicNumber); track n; let i = $index) {
+      <div [class.two-dropzones]="selectedPicNumber === 2" [class.three-dropzones]="selectedPicNumber === 3"
+        [class.four-dropzones]="selectedPicNumber === 4" [class.five-dropzones]="selectedPicNumber === 5">
+        <dropzone class="mb-5" id="dropzone-{{i}}" [config]="config" [message]="'ajouter une photo'"
+          (mouseleave)="onDropzoneInteraction()"></dropzone>
+      </div>
+      }
+
+      @if (!isProfilePictureUploaded && hasInteractedWithDropzone) {
+      <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous
+        reconnaître lors des rdv</div>
+      }
+      <div class="error-msg">{{ errorMessage }}</div>
+
+    </section>
 
 
 
@@ -50,9 +59,6 @@
         </div>
       </div>
     </form> -->
-
-
-
 
     <!-- image selection section on desktop device -->
     <!-- <div class="dropzone-field mx-auto mb-5"> -->
