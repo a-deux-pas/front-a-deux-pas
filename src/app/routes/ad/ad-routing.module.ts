@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from '../../shared/guards/auth.guard';
 
 export const adRoutes: Routes = [
     {
@@ -7,7 +8,8 @@ export const adRoutes: Routes = [
         children: [
             {
                 path: 'creation',
-                loadComponent: () => import('./create-ad/create-ad.component').then(mod => mod.CreateAdComponent)
+                loadComponent: () => import('./create-ad/create-ad.component').then(mod => mod.CreateAdComponent),
+                canActivate: [authGuard],
             }
         ]
     }

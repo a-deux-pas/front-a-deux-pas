@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
   imports: [SearchBarComponent, NgbModalModule],
 })
 export class HeaderComponent {
-  showSuccessAlert: boolean = false;
 
   constructor(public modalService: NgbModal, private router: Router) {}
 

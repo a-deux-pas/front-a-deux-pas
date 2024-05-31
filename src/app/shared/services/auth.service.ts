@@ -1,13 +1,22 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, catchError, of, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+
+  // A BehaviorSubject to hold and emit the current login status
+  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  
   constructor(public http: HttpClient, private router: Router) {}
+
+  // Method to check if a token is present in localStorage
+  private hasToken(): boolean {
+    return !!localStorage.getItem('token');
+  }
 
   // Method to handle user login
   login(email: string, password: string): Observable<any> {
@@ -21,9 +30,10 @@ export class AuthService {
         tap((data: any) => {
           const token = data;
           console.log(token);
-          // If token received, store it in local storage and navigate to 'homeconnecte'
+          // If token received, store it in local storage 
           if (token) {
             localStorage.setItem('token', token);
+            this.loggedIn.next(true); 
           } else {
             // Throw error if no token received
             throw new Error('No token received');
@@ -41,16 +51,19 @@ export class AuthService {
       );
   }
 
-  // Method to check if user is logged in
+  // Method to check if the user is logged in
   isLoggedIn(): Observable<boolean> {
-    // Retrieve token from local storage
-    const token = localStorage.getItem('token');
+    return this.loggedIn.asObservable();
+  }
 
-    // Check if token exists to determine if user is logged in
-    const isAuthenticated: boolean = token !== null;
-
-    // Return an observable emitting the value of isAuthenticated
-    // Use 'of()' to create an observable from the value of isAuthenticated
-    return of(isAuthenticated);
+  // Method to log out the user
+  logout() {
+    // Remove token and userEmail from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('userEmail');
+    // Update login status to false
+    this.loggedIn.next(false);
+    // Navigate to the home page
+    this.router.navigate(['/']);
   }
 }
