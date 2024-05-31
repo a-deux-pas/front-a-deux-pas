@@ -21,14 +21,6 @@
   .input-group > .form-floating {
     width: 100%;
   }
-  .alert {
-    color: $primary;
-    margin-bottom: 0;
-
-    &.alert-danger {
-      color: red;
-    }
-  }
 }
 
 .modal-btn .btn.toggle:first-child.active,
@@ -47,15 +39,15 @@
   color: #ff9f1a !important;
 }
 
-.modal-body .error-msg {
-  color: $primary;
-}
-
 .social-networks-modal {
   text-align: center;
   margin: 20px 0 50px 0;
 
   a {
     margin: 0 5px;
+
+    img {
+      width: 50px;
+    }
   }
 }

@@ -340,9 +340,14 @@ button.btn {
   width: 40px;
 }
 
+// Error class 
+.error-msg {
+  color: $primary;
+}
+
 /*-----------------------------------------------------------------------*/
 
-// Modal
+// Connection modal
 $btn-close-color: $primary;
 $modal-content-border-color: none;
 $modal-header-border-color: none;
@@ -410,12 +415,6 @@ a.close {
     left: 0;
     top: 60%;
   }
-
-  .alert {
-    display: block;
-    width: 100%;
-    color: red;
-  }
 }
 
 // toggle group
@@ -436,17 +435,13 @@ a.close {
     line-height: 8px;
     color: white;
 
-    &:hover {
-      color: $primary;
-      background-color: white;
-    }
-
     &:active,
     &:focus,
-    &.active {
+    &:hover{
       background-color: white;
       color: $primary;
     }
+    
     &.toggle {
       width: 175px;
     }

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
-
+import { API_URL } from '../utils/constants/utils-constants';
 @Injectable({
   providedIn: 'root',
 })
@@ -22,7 +22,7 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http
       .post<any>(
-        `http://localhost:8081/login`, // API endpoint for login
+        `${API_URL}login`, // API endpoint for login
         { email, password },
         { responseType: 'text' as 'json' } // Response type expected
       )
@@ -44,7 +44,7 @@ export class AuthService {
         catchError((error: HttpErrorResponse) => {
           console.error('Error:', error);
           if (error.status === 401) {
-            return throwError(() => 'Email et/ou mot de passe incorrect(s).');
+            return throwError(() => 'Email or passeword not valid');
           }
           return throwError(() => error);
         })

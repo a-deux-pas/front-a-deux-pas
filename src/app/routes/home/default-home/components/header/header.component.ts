@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { SearchBarComponent } from '../../../../../shared/components/navbar/search-bar/search-bar.component';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from '../../../../login/login.component';
+import { LoginComponent } from '../../../../../shared/components/login/login.component';
 import { Router } from '@angular/router';
 
 @Component({

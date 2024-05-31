@@ -57,7 +57,7 @@
           />
           @if(loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty
           || loginForm.get('email')?.touched)) {
-          <div class="alert">
+          <div class="error-msg">
             @if(loginForm.get('email')?.errors?.['required']) {
             <div>L'adresse email est requise.</div>
             } @if(loginForm.get('email')?.errors?.['email']) {
@@ -80,7 +80,7 @@
           @if( loginForm.get('password')?.invalid &&
           (loginForm.get('password')?.dirty ||
           loginForm.get('password')?.touched)) {
-          <div class="alert">
+          <div class="error-msg">
             @if(loginForm.get('password')?.errors?.['required']) {
             <div>Le mot de passe est requis.</div>
             } @if(loginForm.get('password')?.errors?.['minlength']) {
@@ -162,19 +162,16 @@
       ><img
         src="/assets/icons/social-networks/facebook-login.webp"
         alt="facebook"
-        width="50px"
     /></a>
     <a href="#"
       ><img
         src="/assets/icons/social-networks/google.webp"
         alt="google"
-        width="50px"
     /></a>
     <a href="#"
       ><img
         src="/assets/icons/social-networks/apple.webp"
         alt="apple"
-        width="50px"
     /></a>
   </div>
 </div>
