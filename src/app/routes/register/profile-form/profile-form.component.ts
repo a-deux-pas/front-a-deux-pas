@@ -66,7 +66,6 @@ export class ProfileFormComponent implements AfterViewInit {
       this.isProfilePicturePreview = false;
       console.log('preview', this.isProfilePicturePreview);
     }
-
     this.cd.detectChanges();
   }
 
