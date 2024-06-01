@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,6 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './logged-in-home.component.html',
   styleUrl: './logged-in-home.component.scss',
   standalone: true,
-  imports: [CommonModule],
 })
 export class LoggedInHomeComponent {}
