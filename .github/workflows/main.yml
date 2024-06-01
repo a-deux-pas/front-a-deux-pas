@@ -35,7 +35,7 @@ jobs:
       - run: npm run build:ci
       # Run all Cypress tests
       - name: Run E2E tests
-        uses: cypress-io/github-action@v6.skip=true
+        uses: cypress-io/github-action@v6
         with:
           install: false
           build: npm run build
