@@ -886,8 +886,11 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
-// Desktop version (maybe needs refactoring so that dropdowns change their display style at a smaller width)
-@media (min-width: 1200px) {
+// Desktop version
+//(I've refactored this so that dropdowns change their display style at a smaller width,
+// starting from the tablet resolution, e.g. width < 768px, for better display of the ads-list component.
+// I checked, and it doesn't affect any oother part of the code. Still, if you find that it does, feel free to revert it to 1200 )
+@media (min-width: 769px) {
   // margin
   body {
     margin: 0;

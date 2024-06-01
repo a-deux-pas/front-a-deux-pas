@@ -38,6 +38,8 @@ h2 {
 }
 
 // Desktop display
+// I set a higher resolution at which this component's display changes, than the one that's set
+// in the header component, because I feel the ads-list component's display transitions smoother at this value
 @media (min-width: 981px) {
   .ad-list-container {
     justify-content: flex-start;

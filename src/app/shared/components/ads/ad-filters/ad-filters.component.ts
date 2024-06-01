@@ -223,7 +223,9 @@ export class AdFiltersComponent {
     });
   }
 
-  // Erika's method - imported along with the filters' HTML and CSS from the style-guide
+  // Erika's method - imported along with the filters' HTML and CSS from the styles guide
+  // I personally think this was meant for something else, but now it's tied to the filters' template and I can't remove it
+  // See the author of the dropdown menus for more info
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
