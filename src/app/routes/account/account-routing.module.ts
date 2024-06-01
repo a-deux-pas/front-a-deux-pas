@@ -11,25 +11,21 @@ export const accountRoutes: Routes = [
                 path: 'profil',
                 title: 'Mon profil',
                 loadChildren: () => import('./profile/profile-routing.module').then(mod => mod.ProfileRoutingModule), 
-                canActivate: [authGuard],
             },
             {
                 path: 'annonces',
                 title: 'Mes annonces',
                 loadChildren: () => import('./ads/ads-routing.module').then(mod => mod.AdsRoutingModule), 
-                canActivate: [authGuard],
             },
             {
                 path: 'rdv',
                 title: 'Mes RDV',
                 loadChildren: () => import('./meetings/meetings-routing.module').then(mod => mod.MeetingsRoutingModule), 
-                canActivate: [authGuard],
             },
             {
                 path: 'favoris',
                 title: 'Mes favoris',
                 loadChildren: () => import('./favorites/favorites-routing.module').then(mod => mod.FavoritesRoutingModule), 
-                canActivate: [authGuard],
             }
         ]
     },
