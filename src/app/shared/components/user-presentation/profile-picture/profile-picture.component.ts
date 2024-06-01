@@ -63,9 +63,10 @@ export class ProfilePictureComponent implements AfterViewInit {
     setTimeout(() => {
       const dropzone = this.dropzoneComponent.directiveRef?.dropzone();
       if (changes['isFormSubmitted'].currentValue) {
-      dropzone.options.autoProcessQueue = true;
-      dropzone.processQueue();
-      console.log('Processing queue...');
+        dropzone.options.autoProcessQueue = true;
+        dropzone.processQueue();
+        this.uploadSuccess.emit();
+        console.log('Processing queue...');
       }
     }, 0);
   }

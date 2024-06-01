@@ -17,6 +17,14 @@ export class ProfileService {
     private http: HttpClient,
     private handleErrorService: HandleErrorService) { }
 
+  saveProfile(formData: any): Observable<any> {
+    console.log(formData)
+    return this.http.post(`${API_URL}api/account/register`, formData)
+      .pipe(
+        catchError(this.handleErrorService.handleError<any[]>('register', []))
+    )
+  }
+
   // Fetch user information from the API
   getUserPresentation(): Observable<User> {
     return this.http.get<User>(this.apiUrl + "/presentation")

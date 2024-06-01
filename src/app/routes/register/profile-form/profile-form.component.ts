@@ -9,6 +9,8 @@ import { MeetingPlaceFormComponent } from './components/meeting-place-form/meeti
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
 import { NotificationsComponent } from '../../../shared/components/notifications/notifications.component';
 import { ProfilePictureComponent } from '../../../shared/components/user-presentation/profile-picture/profile-picture.component';
+import { ProfileService } from '../../account/profile/profile.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-form',
@@ -25,10 +27,16 @@ export class ProfileFormComponent implements AfterViewInit {
   preferredMeetingPlaces: PreferredMeetingPlace[] = [];
   scheduleEditMode: boolean = true;
   preferredSchedules: PreferredSchedule[] = [];
+  notifications: Array<string> = [];
   isSubmitted: boolean = false;
+
+  errorWhenSubmittingMsg: boolean = false
+  adSuccessfullySubmitted: boolean = false
 
   constructor(
     private formBuilder: FormBuilder,
+    private profileService: ProfileService,
+    private router: Router,
     private location: Location,
     private cd: ChangeDetectorRef
   ) {
@@ -55,6 +63,7 @@ export class ProfileFormComponent implements AfterViewInit {
   profilePictureUpload(eventType: string): void {
     if (eventType === 'uploadSuccess') {
       this.isProfilePictureUploaded = true;
+      console.log('picture uploaded', this.isProfilePictureUploaded);
     }
 
     if (eventType === 'thumbnailGenerated') {
@@ -78,14 +87,47 @@ export class ProfileFormComponent implements AfterViewInit {
     this.preferredSchedules = newPreferredSchedules;
   }
 
+  getUserNotificationsPreferrences(newNotifications: Array<string>) {
+    this.notifications = newNotifications;
+  }
+
   // Form Submit
   onSubmit() {
     this.isSubmitted = true;
-    if (this.isProfilePictureUploaded) {
-      // Continuer la sauvegarde du formulaire
-    }
-    // TODO: Use EventEmitter with form value
-    console.warn(this.profileForm.value);
+    setTimeout(() => {
+      if (this.isProfilePictureUploaded) {
+        const userInfo: any = {
+          id: 1, // TO DO: à modifier une fois la première partie du formulaire implémenté
+          alias: this.profileForm.get('alias')?.value,
+          bio: this.profileForm.get('bio')?.value,
+          street: this.profileForm.get('address')?.get('street')?.value,
+          city: this.profileForm.get('address')?.get('city')?.value,
+          postalCode: this.profileForm.get('address')?.get('postalCode')?.value,
+          accountHolder: this.profileForm.get('bankAccount')?.get('accountHolder')?.value,
+          iban: this.profileForm.get('bankAccount')?.get('iban')?.value,
+          preferredMeetingPlaces: this.preferredMeetingPlaces,
+          preferredSchedules: this.preferredSchedules,
+          notifications: this.notifications,
+        }
+        console.log(userInfo);
+        this.profileService.saveProfile(userInfo).subscribe({
+          next: () => {
+            setTimeout(() => {
+              this.router.navigate(['accueil'], {
+                queryParams: { success: true }
+              });
+            }, 0);
+          },
+          error: (error: any) => {
+            console.error(error);
+            this.errorWhenSubmittingMsg = true;
+            setTimeout(() => {
+              this.errorWhenSubmittingMsg = false;
+            }, 10);
+          }
+        });
+      }
+    }, 10);
   }
 
   goBack() {
@@ -93,8 +135,8 @@ export class ProfileFormComponent implements AfterViewInit {
   }
 
   // TO DO :
+  // ajouter une contrainte de 5 chiffres max postalCode
   // changer le style de la dropzone pour le rendre plus spécifique
-  // ajout des méthodes dans le profile service pour envoyer les données au back
   // déplacer le profile service dans shared
   // NAVBAR: ajouter la navbar avec une propriété hidden sur les logos et sur le bouton vendre
   // + faire comme la page d'accueil pour les marges OU avec la propriété RouterActive voir si possible de l'afficher uniquement sur page register
