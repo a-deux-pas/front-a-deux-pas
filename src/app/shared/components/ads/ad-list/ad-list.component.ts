@@ -60,7 +60,7 @@ export class AdListComponent implements OnInit {
       )
       .subscribe((ads: AdHomeResponse[]) => {
         this.displayedAds = [...this.displayedAds, ...ads];
-        this.noMoreAds = ads.length > 0 ? false : true;
+        this.noMoreAds = ads.length <= 0;
       });
   }
 

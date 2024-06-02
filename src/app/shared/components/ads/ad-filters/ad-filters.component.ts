@@ -113,11 +113,7 @@ export class AdFiltersComponent {
   ) {
     this.pageNumber = 0;
     this.pageNumberChange.emit(this.pageNumber);
-    this.selectedCategory = subCategory
-      ? gender
-        ? category + ' ▸ ' + subCategory + ' ▸ ' + gender
-        : category + ' ▸ ' + subCategory
-      : category;
+    this.setSelectedCategoryValue(subCategory, gender, category);
 
     this.notifyFiltersUpdated();
     this.fetchFilteredAds();
@@ -221,6 +217,19 @@ export class AdFiltersComponent {
         this.renderer.removeClass(dropdownMenu, 'keep-visible');
       }, 40); // tweak this value to see the difference
     });
+  }
+
+  // assignes a value to the selectedCategory variable, based on user selection
+  private setSelectedCategoryValue(
+    subCategory: string | undefined,
+    gender: string | undefined,
+    category: string
+  ) {
+    this.selectedCategory = subCategory
+      ? gender
+        ? category + ' ▸ ' + subCategory + ' ▸ ' + gender
+        : category + ' ▸ ' + subCategory
+      : category;
   }
 
   // Erika's method - imported along with the filters' HTML and CSS from the styles guide
