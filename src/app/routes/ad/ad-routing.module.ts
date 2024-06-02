@@ -8,6 +8,8 @@ export const adRoutes: Routes = [
             {
                 path: 'creation',
                 loadComponent: () => import('./create-ad/create-ad.component').then(mod => mod.CreateAdComponent)
+                // TO Do: activate authGauard with test e2e
+                // canActivate: [authGuard],
             }
         ]
     }
