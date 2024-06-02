@@ -89,6 +89,7 @@ export class AdListComponent implements OnInit {
           .concat(')')
       )
     );
-    this.uniqueCitiesAndPostalCodes.sort();
+    // Sort the uniqueCitiesAndPostalCodes array using localeCompare for reliable alphabetical sorting
+    this.uniqueCitiesAndPostalCodes.sort((a, b) => a.localeCompare(b));
   }
 }

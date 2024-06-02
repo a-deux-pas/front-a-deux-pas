@@ -114,7 +114,6 @@ export class AdFiltersComponent {
     this.pageNumber = 0;
     this.pageNumberChange.emit(this.pageNumber);
     this.setSelectedCategoryValue(subCategory, gender, category);
-
     this.notifyFiltersUpdated();
     this.fetchFilteredAds();
   }
@@ -225,11 +224,15 @@ export class AdFiltersComponent {
     gender: string | undefined,
     category: string
   ) {
-    this.selectedCategory = subCategory
-      ? gender
-        ? category + ' ▸ ' + subCategory + ' ▸ ' + gender
-        : category + ' ▸ ' + subCategory
-      : category;
+    if (subCategory) {
+      if (gender) {
+        this.selectedCategory = category + ' ▸ ' + subCategory + ' ▸ ' + gender;
+      } else {
+        this.selectedCategory = category + ' ▸ ' + subCategory;
+      }
+    } else {
+      this.selectedCategory = category;
+    }
   }
 
   // Erika's method - imported along with the filters' HTML and CSS from the styles guide
