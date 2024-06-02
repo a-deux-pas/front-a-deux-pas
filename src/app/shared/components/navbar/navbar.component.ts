@@ -3,6 +3,7 @@ import { accountRoutes } from '../../../routes/account/account-routing.module';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +17,9 @@ export class NavbarComponent {
     new EventEmitter<void>();
   @Input() isAccountMenuOpen: boolean = false;
   accountRoutes = accountRoutes;
+  @Input() isLoggedIn: boolean = false;
+  
+  constructor(private authService: AuthService) {}
 
   emitToggleAccountMenu() {
     this.accountMenuToggleOutput.emit();
@@ -23,5 +27,9 @@ export class NavbarComponent {
 
   toggleAccountMenuState() {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

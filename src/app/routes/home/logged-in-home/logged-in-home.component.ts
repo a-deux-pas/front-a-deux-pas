@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-logged-in-home',
-  standalone: true,
   templateUrl: './logged-in-home.component.html',
-  styleUrl: './logged-in-home.component.scss'
+  styleUrl: './logged-in-home.component.scss',
+  standalone: true,
 })
 export class LoggedInHomeComponent {}
