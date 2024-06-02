@@ -10,7 +10,7 @@ import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-
 })
 export class ProfilePictureComponent implements AfterViewInit {
   hasInteractedWithDropzone: boolean = false;
-  isProfilePictureUploaded: boolean = false;
+  isProfilePicturePreview: boolean = false;
   errorMessage: string = '';
   @Input() isFormSubmitted: boolean = false;
   @Output() uploadSuccess: EventEmitter<void> = new EventEmitter<void>();
@@ -42,14 +42,14 @@ export class ProfilePictureComponent implements AfterViewInit {
 
     dropzone.on('thumbnail', () => {
       console.log('Thumbnail generated');
-      this.isProfilePictureUploaded = true;
+      this.isProfilePicturePreview = true;
       this.thumbnailGenerated.emit();
     });
 
     // à modifier
     dropzone.on('removedfile', () => {
       console.log('File removed');
-      this.isProfilePictureUploaded = false;
+      this.isProfilePicturePreview = false;
       this.fileRemoved.emit();
     });
 
@@ -60,15 +60,14 @@ export class ProfilePictureComponent implements AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    setTimeout(() => {
+    if (changes['isFormSubmitted'] && this.isProfilePicturePreview) {
       const dropzone = this.dropzoneComponent.directiveRef?.dropzone();
-      if (changes['isFormSubmitted'].currentValue) {
-        dropzone.options.autoProcessQueue = true;
-        dropzone.processQueue();
-        this.uploadSuccess.emit();
-        console.log('Processing queue...');
-      }
-    }, 0);
+      dropzone.options.autoProcessQueue = true;
+      dropzone.processQueue();
+      this.uploadSuccess.emit();
+      console.log('Processing queue...');
+      this.isProfilePicturePreview = false;
+    }
   }
 
   onDropzoneInteraction(): void {

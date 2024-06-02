@@ -30,6 +30,8 @@ export class ProfileFormComponent implements AfterViewInit {
   notifications: Array<string> = [];
   isSubmitted: boolean = false;
 
+  userId: number = 7;
+
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
 
@@ -85,6 +87,7 @@ export class ProfileFormComponent implements AfterViewInit {
 
   getUserPreferredSchedules(newPreferredSchedules: PreferredSchedule[]) {
     this.preferredSchedules = newPreferredSchedules;
+    console.log(this.preferredSchedules);
   }
 
   getUserNotificationsPreferrences(newNotifications: Array<string>) {
@@ -97,29 +100,30 @@ export class ProfileFormComponent implements AfterViewInit {
     setTimeout(() => {
       if (this.isProfilePictureUploaded) {
         const userInfo: any = {
-          id: 1, // TO DO: à modifier une fois la première partie du formulaire implémenté
+          userId: this.userId, // TO DO: à modifier une fois la première partie du formulaire implémentée
+          email: "test@gmail.com", // à supprimer une fois la première partie du formulaire implémentée
+          password:"testkjlkjflkjflj", // // à supprimer une fois la première partie du formulaire implémentée
           alias: this.profileForm.get('alias')?.value,
           bio: this.profileForm.get('bio')?.value,
           street: this.profileForm.get('address')?.get('street')?.value,
           city: this.profileForm.get('address')?.get('city')?.value,
           postalCode: this.profileForm.get('address')?.get('postalCode')?.value,
           accountHolder: this.profileForm.get('bankAccount')?.get('accountHolder')?.value,
-          iban: this.profileForm.get('bankAccount')?.get('iban')?.value,
+          accountNumber: this.profileForm.get('bankAccount')?.get('accountNumber')?.value,
           preferredMeetingPlaces: this.preferredMeetingPlaces,
           preferredSchedules: this.preferredSchedules,
           notifications: this.notifications,
         }
-        console.log(userInfo);
         this.profileService.saveProfile(userInfo).subscribe({
-          next: () => {
-            setTimeout(() => {
+          next: (response)  => {
+              //this.goBack();
+              console.log('Profile saved:', response);
               this.router.navigate(['accueil'], {
                 queryParams: { success: true }
               });
-            }, 0);
           },
-          error: (error: any) => {
-            console.error(error);
+          error: (error) => {
+            console.error('Error saving profile:', error);
             this.errorWhenSubmittingMsg = true;
             setTimeout(() => {
               this.errorWhenSubmittingMsg = false;
@@ -136,6 +140,7 @@ export class ProfileFormComponent implements AfterViewInit {
 
   // TO DO :
   // ajouter une contrainte de 5 chiffres max postalCode
+  // ajouter success message et error message à l'échelle de l'app avec un message sous forme de variable
   // changer le style de la dropzone pour le rendre plus spécifique
   // déplacer le profile service dans shared
   // NAVBAR: ajouter la navbar avec une propriété hidden sur les logos et sur le bouton vendre

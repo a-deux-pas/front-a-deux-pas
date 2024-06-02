@@ -1,7 +1,7 @@
 <div class="col">
   <dropzone class="mb-5" id="dropzone" [config]="config" [message]="'ajouter une photo'" (mouseleave)="onDropzoneInteraction()"></dropzone>
 </div>
-@if (!isProfilePictureUploaded && hasInteractedWithDropzone) {
+@if (!isProfilePicturePreview && hasInteractedWithDropzone) {
   <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous reconnaître lors des rdv</div>
 }
 <div class="error-msg">{{ errorMessage }}</div>

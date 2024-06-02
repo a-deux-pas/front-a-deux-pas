@@ -42,7 +42,8 @@ export class MeetingPlaceFormComponent implements OnInit {
       name: new FormControl('', [Validators.required, alreadyExistValidator(this.preferredMeetingPlacesDisplay, 'name')]),
       street: new FormControl('', [Validators.required, alreadyExistValidator(this.preferredMeetingPlacesDisplay, 'street')]),
       postalCode: new FormControl('', Validators.required),
-      city: new FormControl('', Validators.required)
+      city: new FormControl('', Validators.required),
+      userId: new FormControl('7') // TO DO : valeur à changer une fois la première partie du formulaire implémentée
     });
     this.preferredMeetingPlaceForm.addControl('preferredMeetingPlace', group);
   }

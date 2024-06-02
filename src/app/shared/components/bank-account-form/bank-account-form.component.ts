@@ -21,7 +21,7 @@ export class BankAccountFormComponent implements OnInit {
       'bankAccount',
       new FormGroup({
         accountHolder: new FormControl('', [Validators.required]),
-        iban: new FormControl('', [Validators.required, ValidatorService.validateIban]),
+        accountNumber: new FormControl('', [Validators.required, ValidatorService.validateIban]),
       })
     );
   }

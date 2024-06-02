@@ -115,10 +115,10 @@ export class ScheduleComponent implements OnChanges {
     events.forEach((event) => {
       const newPreferredSchedule = new PreferredSchedule(
         Number(event.id), // id
-        [event.start!.getDay()], // daysOfWeek
+        event.start!.getDay(), // daysOfWeek
         event.startStr.split('T')[1].split('+')[0], // startTime
         event.endStr.split('T')[1].split('+')[0],  // endTime
-        1 // userId
+        7 // userId TO DO => à modifier
       );
 
       newPreferredSchedules.push(newPreferredSchedule);
