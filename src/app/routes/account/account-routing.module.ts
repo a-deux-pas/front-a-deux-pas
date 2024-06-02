@@ -9,22 +9,22 @@ export const accountRoutes: Routes = [
             {
                 path: 'profil',
                 title: 'Mon profil',
-                loadChildren: () => import('./profile/profile-routing.module').then(mod => mod.ProfileRoutingModule), 
+                loadChildren: () => import('./profile/profile-routing.module').then(mod => mod.ProfileRoutingModule)
             },
             {
                 path: 'annonces',
                 title: 'Mes annonces',
-                loadChildren: () => import('./ads/ads-routing.module').then(mod => mod.AdsRoutingModule), 
+                loadChildren: () => import('./ads/ads-routing.module').then(mod => mod.AdsRoutingModule)
             },
             {
                 path: 'rdv',
                 title: 'Mes RDV',
-                loadChildren: () => import('./meetings/meetings-routing.module').then(mod => mod.MeetingsRoutingModule), 
+                loadChildren: () => import('./meetings/meetings-routing.module').then(mod => mod.MeetingsRoutingModule)
             },
             {
                 path: 'favoris',
                 title: 'Mes favoris',
-                loadChildren: () => import('./favorites/favorites-routing.module').then(mod => mod.FavoritesRoutingModule), 
+                loadChildren: () => import('./favorites/favorites-routing.module').then(mod => mod.FavoritesRoutingModule)
             }
         ]
     },
