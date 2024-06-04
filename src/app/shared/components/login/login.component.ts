@@ -9,6 +9,8 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
+import { ProfileService } from '../../../routes/account/profile/profile.service';
+import { User } from '../../models/user/user.model';
 
 @Component({
   selector: 'app-login',
@@ -21,12 +23,14 @@ export class LoginComponent {
   loginData: any;
   isLoginFormVisible: boolean = true;
   showErrorAlert?: boolean = false;
+  user!: User;
 
   constructor(
     public activeModal: NgbActiveModal,
     private AuthService: AuthService,
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private profileService: ProfileService
+  ) { }
 
   showLoginForm() {
     this.isLoginFormVisible = true;
@@ -49,6 +53,20 @@ export class LoginComponent {
     return decodedToken.sub;
   }
 
+  // Put the current userId in the localStorage
+  getUserId(userEmail: string) {
+    this.AuthService.getUserDetails(userEmail).subscribe({
+      next: (user: User) => {
+        this.user = user
+        console.log('userDetail')
+        console.table(this.user)
+      },
+      error: (error: any) => {
+        console.error(error);
+      }
+    })
+  }
+
   // Handle the login form submission
   onLoginSubmit() {
     const email = this.loginForm.get('email')?.value;
@@ -62,6 +80,7 @@ export class LoginComponent {
             const token = data;
             localStorage.setItem('token', token);
             const userEmail = this.extractEmailFromToken(token);
+            this.getUserId(userEmail);
             localStorage.setItem('userEmail', userEmail);
             this.activeModal.close('Close click');
           }
