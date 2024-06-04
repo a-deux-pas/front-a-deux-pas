@@ -22,7 +22,7 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Colors
-@import 'color-variables';
+@import "color-variables";
 
 /*-----------------------------------------------------------------------*/
 
@@ -109,7 +109,7 @@ body {
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 50%;
     height: 79px;
@@ -338,9 +338,14 @@ button.btn {
   width: 40px;
 }
 
+// Error class 
+.error-msg {
+  color: $primary;
+}
+
 /*-----------------------------------------------------------------------*/
 
-// Modal
+// Connection modal
 $btn-close-color: $primary;
 $modal-content-border-color: none;
 $modal-header-border-color: none;
@@ -358,9 +363,90 @@ a.close {
   font-size: 1.3rem;
   transform: scaleX(1.1);
   color: $secondary;
+  z-index: 1;
 
   &:hover {
     color: black;
+  }
+}
+
+// Connection modal header
+.modal-header {
+  z-index: 1;
+}
+
+// Connection modal content
+.modal-content {
+  // wavy backgroung modal
+  .container-nav {
+    position: absolute;
+    background: $tertiary;
+    height: 15vh;
+    z-index: 0;
+  }
+
+  .wave {
+    position: absolute;
+    height: 137px;
+    width: 100%;
+    background: $tertiary;
+    top: 0;
+    right: 0;
+  }
+
+  .wave::before,
+  .wave::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 50% 100%;
+  }
+
+  .wave::before {
+    width: 55%;
+    height: 100%;
+    background-color: $tertiary;
+    right: 0;
+    top: 40%;
+  }
+  
+  .wave::after {
+    width: 55%;
+    height: 109%;
+    background-color: #fff;
+    left: 0;
+    top: 60%;
+  }
+}
+
+// toggle group
+.modal-btn {
+  margin: auto;
+  z-index: 1;
+  background-color: $primary;
+  border-radius: 10px;
+  padding: 2px;
+  height: 36px;
+  position: relative;
+
+  .btn {
+    background-color: $primary;
+    margin: 1px;
+    border-radius: 8px;
+    height: 30px;
+    line-height: 8px;
+    color: white;
+
+    &:active,
+    &:focus,
+    &:hover{
+      background-color: white;
+      color: $primary;
+    }
+
+    &.toggle {
+      width: 175px;
+    }
   }
 }
 
@@ -781,7 +867,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Timegrid slot styling
 .fc-timegrid-slot-label-frame.fc-scrollgrid-shrink-frame {
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   color: rgba(155, 149, 149, 0.85);
 }
 

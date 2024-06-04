@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from '../../shared/guards/auth.guard';
 
 export const adRoutes: Routes = [
     {
@@ -11,7 +12,8 @@ export const adRoutes: Routes = [
             },
             {
                 path: ':sellerId/:adId',
-                loadComponent: () => import('./seller-ad/seller-ad.component').then(mod => mod.SellerAdComponent)
+                loadComponent: () => import('./seller-ad/seller-ad.component').then(mod => mod.SellerAdComponent),
+                canActivate: [authGuard],
             }
         ]
     }

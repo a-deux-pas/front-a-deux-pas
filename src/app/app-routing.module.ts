@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'accueil',
-    loadComponent: () => import('./routes/home/logged-in-home/logged-in-home.component').then(mod => mod.LoggedInHomeComponent)
+    loadComponent: () => import('./routes/home/logged-in-home/logged-in-home.component').then(mod => mod.LoggedInHomeComponent),
+    canActivate: [authGuard],
   },
   {
     path: 'annonce',
@@ -12,7 +14,8 @@ const routes: Routes = [
   },
   {
     path: 'compte',
-    loadChildren: () => import('./routes/account/account-routing.module').then(mod => mod.AccountRoutingModule)
+    loadChildren: () => import('./routes/account/account-routing.module').then(mod => mod.AccountRoutingModule),
+    canActivate: [authGuard],
   },
   {
     path: '',
