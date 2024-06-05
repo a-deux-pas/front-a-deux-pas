@@ -11,6 +11,7 @@ import { NotificationsComponent } from '../../../shared/components/notifications
 import { ProfilePictureComponent } from '../../../shared/components/user-presentation/profile-picture/profile-picture.component';
 import { ProfileService } from '../../account/profile/profile.service';
 import { Router } from '@angular/router';
+import { EventNotification } from '../../../shared/models/user/event-notification.model';
 
 @Component({
   selector: 'app-profile-form',
@@ -24,10 +25,10 @@ export class ProfileFormComponent implements AfterViewInit {
   profileForm: FormGroup;
   isProfilePictureUploaded: boolean = false;
   isProfilePicturePreview: boolean = false;
-  preferredMeetingPlaces: PreferredMeetingPlace[] = [];
+  preferredMeetingPlaces!: PreferredMeetingPlace[];
   scheduleEditMode: boolean = true;
-  preferredSchedules: PreferredSchedule[] = [];
-  notifications: Array<string> = [];
+  preferredSchedules!: PreferredSchedule[];
+  notifications!: EventNotification[];
   isSubmitted: boolean = false;
 
   userId: number = 7;
@@ -87,10 +88,9 @@ export class ProfileFormComponent implements AfterViewInit {
 
   getUserPreferredSchedules(newPreferredSchedules: PreferredSchedule[]) {
     this.preferredSchedules = newPreferredSchedules;
-    console.log(this.preferredSchedules);
   }
 
-  getUserNotificationsPreferrences(newNotifications: Array<string>) {
+  getUserNotificationsPreferrences(newNotifications: EventNotification[]) {
     this.notifications = newNotifications;
   }
 
@@ -115,7 +115,7 @@ export class ProfileFormComponent implements AfterViewInit {
           notifications: this.notifications,
         }
         this.profileService.saveProfile(userInfo).subscribe({
-          next: (response)  => {
+          next: (response) => {
               //this.goBack();
               console.log('Profile saved:', response);
               this.router.navigate(['accueil'], {

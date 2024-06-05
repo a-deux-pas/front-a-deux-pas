@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { EventNotification } from '../../models/user/event-notification.model';
 
 @Component({
   selector: 'app-notifications',
@@ -12,8 +13,9 @@ import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveF
 export class NotificationsComponent implements OnInit {
   notificationsForm: any;
   notificationId: number = 0;
-  notifications: Array<string> = [];
-  @Output() addNotifications = new EventEmitter<Array<string>>();
+  notifications: EventNotification[] = [];
+  userId: number = 7; // TO => userId à modifier
+  @Output() addNotifications = new EventEmitter<EventNotification[]>();
 
   constructor(public parentForm: FormGroupDirective) {}
 
@@ -45,15 +47,18 @@ export class NotificationsComponent implements OnInit {
   }
 
   getNotifications() {
-    this.notifications = [];
-
     Object.keys(this.notificationsFormGroup.controls).forEach(controlName => {
       const value = this.notificationsFormGroup.get(controlName)?.value;
-      if (value && controlName !== "notifications") {
-        this.notifications.push(controlName);
+      if (controlName !== "notifications") {
+        const existingNotificationIndex = this.notifications.findIndex(notification => notification.eventName === controlName);
+        if (value && existingNotificationIndex ===-1) {
+          const notification = new EventNotification(this.userId, controlName);
+          this.notifications.push(notification);
+        } else if (!value && existingNotificationIndex !==-1) {
+          this.notifications.splice(existingNotificationIndex, 1);
+        }
       }
     });
-
     this.addNotifications.emit(this.notifications);
   }
 
