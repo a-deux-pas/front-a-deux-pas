@@ -346,7 +346,7 @@ button.btn {
   width: 40px;
 }
 
-// Error class 
+// Error class
 .error-msg {
   color: $primary;
 }
@@ -417,13 +417,17 @@ a.close {
     right: 0;
     top: 40%;
   }
-  
+
   .wave::after {
     width: 55%;
     height: 109%;
     background-color: #fff;
     left: 0;
     top: 60%;
+  }
+
+  .form-check-input[type=checkbox] {
+    border-radius: 50%;
   }
 }
 

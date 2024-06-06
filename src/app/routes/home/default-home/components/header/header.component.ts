@@ -1,8 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { SearchBarComponent } from '../../../../../shared/components/navbar/search-bar/search-bar.component';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from '../../../../../shared/components/login/login.component';
 import { Router } from '@angular/router';
+import { ConnectionModalComponent } from '../../../../../shared/components/connection-modal/connection-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +22,7 @@ export class HeaderComponent {
    */
 
   openModal() {
-    const modalRef = this.modalService.open(LoginComponent);
+    const modalRef = this.modalService.open(ConnectionModalComponent);
     modalRef.result.then((result) => {
       // Modal closed with success
       if (result === 'Close click') {
