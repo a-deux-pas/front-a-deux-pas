@@ -43,10 +43,10 @@
   <div class="modal-body">
     <ng-container>
       @if(isLoginFormVisible) {
-        <app-login-form (loginFormSubmitted)="isLoginFormSubmitted($event)"></app-login-form>
+        <app-login-form (formSubmitted)="isFormSubmitted($event)"></app-login-form>
       }
       @if(!isLoginFormVisible) {
-        <app-register-form></app-register-form>
+        <app-register-form (formSubmitted)="isFormSubmitted($event)"></app-register-form>
       }
     </ng-container>
   </div>

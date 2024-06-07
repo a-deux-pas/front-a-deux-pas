@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
-import { jwtDecode } from 'jwt-decode';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -18,8 +17,7 @@ import {
 })
 export class LoginFormComponent {
   isFormSubmitted: boolean = false;
-  @Output() loginFormSubmitted = new EventEmitter<boolean>();
-  loginData: any;
+  @Output() formSubmitted = new EventEmitter<boolean>();
   showErrorAlert?: boolean = false;
 
   // Define form controls and validators
@@ -34,11 +32,6 @@ export class LoginFormComponent {
     private fb: FormBuilder
   ) {}
 
-  // Function to extract email of user from the JWT token
-  extractEmailFromToken(token: string): string {
-    const decodedToken: any = jwtDecode(token);
-    return decodedToken.sub;
-  }
 
   // Handle the login form submission
   onSubmit() {
@@ -46,17 +39,11 @@ export class LoginFormComponent {
     const password = this.loginForm.get('password')?.value;
 
     if (email && password) {
-      this.AuthService.login(email, password).subscribe({
+      this.AuthService.auth(email, password,'login').subscribe({
         next: (data: any) => {
-          this.loginData = data;
           if (data) {
-            const token = data;
-            localStorage.setItem('token', token);
-            const userEmail = this.extractEmailFromToken(token);
-            localStorage.setItem('userEmail', userEmail);
             this.isFormSubmitted = true;
-            this.loginFormSubmitted.emit(this.isFormSubmitted);
-            console.log(this.isFormSubmitted);
+            this.formSubmitted.emit(this.isFormSubmitted);
           }
         },
         error: (error: any) => {

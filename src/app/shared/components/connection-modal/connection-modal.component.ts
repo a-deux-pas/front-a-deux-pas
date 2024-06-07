@@ -24,8 +24,8 @@ export class ConnectionModalComponent {
     this.isLoginFormVisible = false;
   }
 
-  isLoginFormSubmitted(isFormSubmitted: boolean) {
-    if (isFormSubmitted) {
+  isFormSubmitted(formSubmitted: boolean) {
+    if (formSubmitted) {
       this.activeModal.close('Close click');
     }
   }

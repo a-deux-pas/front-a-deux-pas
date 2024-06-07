@@ -1,40 +1,25 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="form-group mt-3">
-    <label for="email-adress">Adresse email</label>
+    <label for="email-address">Adresse email</label>
     <div class="input-group">
-      <input
-        id="email-adress"
-        name="email-adress"
-        type="email"
-        class="form-control"
-        placeholder="nom@example.com"
-      />
+      <input id="email-address" name="email-address" formControlName="email" type="email" class="form-control" placeholder="nom@example.com" required/>
+      {{ registerForm.get("email")?.errors | json }}
     </div>
     <label for="password" class="mt-4">Mot de passe</label>
     <div class="input-group">
-      <input
-        id="password"
-        type="password"
-        name="password"
-        formControlName="password"
-        class="form-control"
-        required
-        placeholder="8 caractères minimum"
-      />
+      <input id="password" type="password" name="password" formControlName="password" class="form-control" placeholder="8 caractères minimum" required/>
     </div>
-    <label for="confirm-password" class="mt-4"
-      >Confirmer mon mot de passe</label
-    >
+    {{ registerForm.get("password")?.errors | json }}
+
+    <label for="confirm-password" class="mt-4">
+      Confirmer mon mot de passe
+    </label>
     <div class="input-group">
-      <input
-        id="confirm-password"
-        type="password"
-        name="confirm-password"
-        class="form-control"
-        required
-        placeholder="répéter le mot de passe"
-      />
+      <input id="confirm-password" type="password" formControlName="confirmPassword" name="confirm-password" class="form-control" placeholder="répéter le mot de passe" required/>
     </div>
+    <div [hidden]="!registerForm.errors?.['mismatch']">
+    </div>
+    {{ registerForm.errors?.['mismatch'] | json }}
     <div class="form-check mt-4">
       <input
         class="form-check-input"

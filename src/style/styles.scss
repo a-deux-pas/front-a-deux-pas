@@ -429,6 +429,10 @@ a.close {
   .form-check-input[type=checkbox] {
     border-radius: 50%;
   }
+
+  .input-group > .form-control {
+    width: 100%;
+  }
 }
 
 // toggle group

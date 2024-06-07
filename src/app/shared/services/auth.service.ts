@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 import { API_URL } from '../utils/constants/utils-constants';
+import { jwtDecode } from 'jwt-decode';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -10,7 +12,7 @@ export class AuthService {
 
   // A BehaviorSubject to hold and emit the current login status
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
-  
+
   constructor(public http: HttpClient, private router: Router) {}
 
   // Method to check if a token is present in localStorage
@@ -18,11 +20,17 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  // Method to handle user login
-  login(email: string, password: string): Observable<any> {
+  // Function to extract email of user from the JWT token
+  extractEmailFromToken(token: string): string {
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.sub;
+  }
+
+  // Method to handle user registration and login
+  auth(email: string, password: string, endpoint: string): Observable<any> {
     return this.http
       .post<any>(
-        `${API_URL}login`, // API endpoint for login
+        `${API_URL}${endpoint}`,
         { email, password },
         { responseType: 'text' as 'json' } // Response type expected
       )
@@ -30,16 +38,17 @@ export class AuthService {
         tap((data: any) => {
           const token = data;
           console.log(token);
-          // If token received, store it in local storage 
+          // If token received, store it in local storage
           if (token) {
             localStorage.setItem('token', token);
-            this.loggedIn.next(true); 
+            const userEmail = this.extractEmailFromToken(token);
+            localStorage.setItem('userEmail', userEmail);
+            this.loggedIn.next(true);
           } else {
             // Throw error if no token received
             throw new Error('No token received');
           }
         }),
-
         // Log error and return it as observable
         catchError((error: HttpErrorResponse) => {
           console.error('Error:', error);

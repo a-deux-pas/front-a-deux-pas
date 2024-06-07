@@ -24,6 +24,13 @@ export class ProfileService {
     private http: HttpClient,
     private handleErrorService: HandleErrorService) {}
 
+  isEmailAddressAlreadyExist(email: string): Observable<any> {
+    return this.http.get<boolean>(`${API_URL}api/account/check-email`, {
+      params: { email }
+    }).pipe(
+        catchError(this.handleErrorService.handleError))
+  }
+
   saveProfile(profile: any): Observable<any> {
     console.log(profile)
     return this.http.post(`${API_URL}api/account/create`, profile, this.httpOptions)

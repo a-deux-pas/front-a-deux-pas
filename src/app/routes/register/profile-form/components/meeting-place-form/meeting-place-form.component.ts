@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { alreadyExistValidator } from '../../../../../shared/utils/validators/already-exist-validators';
+import { alreadyExistValidator } from '../../../../../shared/utils/validators/custom-validators';
 import { PreferredMeetingPlace } from '../../../../../shared/models/user/preferred-meeting-place.model';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../../environments/environment';
