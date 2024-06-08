@@ -97,10 +97,8 @@ export class AdPageComponent implements OnInit {
   }
 
   maybeGetSimilarAds(): any {
-    // TO DO : FAIRE EN SORTE (peut etre plutot dans le back que les annonces du current user n'apparaissent pas (?), ni la current Ad, ni les autres annonces de la currentAdPublisher)
-    // Changer la méthode pour envoyer currentAd.publisherId au back pour que ses annonces en soient exclues
     console.log('this.currentAd!.category!:', this.currentAd!.category!)
-    this.adService.getSimilarAds(this.currentAd!.category!).subscribe({
+    this.adService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!).subscribe({
       next: (similarAds: AdPostResponse[]) => {
         console.table(similarAds)
         return this.similarAds = similarAds;

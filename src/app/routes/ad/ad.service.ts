@@ -49,8 +49,8 @@ export class AdService {
             )
     }
 
-    getSimilarAds(category: string): Observable<AdPostResponse[]> {
-        const url = `${this.contextUrl}similarAdsList/${category}`
+    getSimilarAds(category: string, userId: number): Observable<AdPostResponse[]> {
+        const url = `${this.contextUrl}similarAdsList/${category}/${userId}`
         return this.http.get<AdPostResponse[]>(url)
             .pipe(
                 catchError(this.handleErrorService.handleError<AdPostResponse[]>('getSimilarAds'))
