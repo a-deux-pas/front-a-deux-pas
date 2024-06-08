@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../../routes/ad/ad.service';
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { CommonModule, ViewportScroller } from '@angular/common';
@@ -33,16 +33,14 @@ export class AdPageComponent implements OnInit {
   @Input() adSuccessfullySubmitted: boolean | undefined;
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
-  @Input() onMyAd: boolean | undefined;
-
-  // TO DO ::  à voir si le nom de la variable change pas pour prendre en compte myAd ou sellerAd
+  @ViewChild('splitAreaA') splitAreaA!: SplitComponent
+  @ViewChild('splitAreaB') splitAreaB!: SplitComponent
+  onMyAd: boolean | undefined;
   currentAd: AdPostResponse | undefined;
   selectedPicNumber: number = 2;
   articlePictures: (string | undefined)[] = [];
   areaSizeA!: number
   areaSizeB!: number
-  @ViewChild('splitAreaA') splitAreaA!: SplitComponent
-  @ViewChild('splitAreaB') splitAreaB!: SplitComponent
   showSeeMorBtn!: boolean;
   adCount!: number;
   pageNumber: number = 0;
@@ -55,8 +53,7 @@ export class AdPageComponent implements OnInit {
     private route: ActivatedRoute,
     private adService: AdService,
     private viewportScroller: ViewportScroller,
-    private displayManagementService: DisplayManagementService,
-
+    private displayManagementService: DisplayManagementService
   ) { }
 
   ngOnInit(): void {
@@ -73,8 +70,7 @@ export class AdPageComponent implements OnInit {
     this.adService.findAdById(adId).subscribe({
       next: (ad: AdPostResponse) => {
         this.currentAd = ad;
-        console.log('annonce')
-        console.log(this.currentAd)
+        this.onMyAd = this.currentAd.publisherId == parseInt(localStorage.getItem('userId')!)
         this.articlePictures = [
           this.currentAd.firstArticlePictureUrl,
           this.currentAd.secondArticlePictureUrl,
@@ -85,17 +81,13 @@ export class AdPageComponent implements OnInit {
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
         this.fetchPaginatedAdsList()
-        this.maybeGetSimilarAds()
-        // TO DO : à changer une fois la connexion implémentée
-        this.adService.getMyAdsCount(1).subscribe({
+        if (!this.onMyAd) { this.maybeGetSimilarAds() }
+        this.adService.getMyAdsCount(this.currentAd.publisherId!).subscribe({
           next: (adCount: number) => {
             this.adCount = adCount
             this.showSeeMorBtn = this.adCount > 9
           }
         })
-      },
-      error: error => {
-        console.error(error);
       }
     });
   }
@@ -104,23 +96,16 @@ export class AdPageComponent implements OnInit {
     this.viewportScroller.scrollToPosition([0, 0])
   }
 
-  //changer type de retour
   maybeGetSimilarAds(): any {
-    if (!this.onMyAd) {
-      console.log(this.currentAd)
-      //A faire selon la category ou la sous category au final ??
-      this.adService.getSimilarAds(this.currentAd!.category!).subscribe({
-        next: (similarAds: AdPostResponse[]) => {
-          console.table(similarAds)
-          return this.similarAds = similarAds;
-        },
-        error: error => {
-          console.error(error);
-        }
-      })
-    } else {
-      return null
-    }
+    // TO DO : FAIRE EN SORTE (peut etre plutot dans le back que les annonces du current user n'apparaissent pas (?), ni la current Ad, ni les autres annonces de la currentAdPublisher)
+    // Changer la méthode pour envoyer currentAd.publisherId au back pour que ses annonces en soient exclues
+    console.log('this.currentAd!.category!:', this.currentAd!.category!)
+    this.adService.getSimilarAds(this.currentAd!.category!).subscribe({
+      next: (similarAds: AdPostResponse[]) => {
+        console.table(similarAds)
+        return this.similarAds = similarAds;
+      }
+    })
   }
 
   setSplitAreasSizes(nPictures: number) {
@@ -149,10 +134,9 @@ export class AdPageComponent implements OnInit {
     this.fetchPaginatedAdsList();
   }
 
-  // TO DO :: à changer quand le processus de connexion sera implémenté
   fetchPaginatedAdsList() {
-    this.pageSize = this.onMyAd ? 9 : 4;
-    this.adService.fetchMoreAds(1, this.pageNumber, this.pageSize).subscribe({
+    this.pageSize = this.onMyAd == true ? 9 : 4;
+    this.adService.fetchMoreAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdPostResponse[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);

@@ -28,8 +28,7 @@ export class LoginComponent {
   constructor(
     public activeModal: NgbActiveModal,
     private AuthService: AuthService,
-    private fb: FormBuilder,
-    private profileService: ProfileService
+    private fb: FormBuilder
   ) { }
 
   showLoginForm() {
@@ -48,7 +47,7 @@ export class LoginComponent {
   });
 
   // Function to extract email of user from the JWT token
-  extractEmailFromToken(token: string): string {
+  extractIdFromToken(token: string): string {
     const decodedToken: any = jwtDecode(token);
     return decodedToken.sub;
   }
@@ -79,9 +78,8 @@ export class LoginComponent {
           if (data) {
             const token = data;
             localStorage.setItem('token', token);
-            const userEmail = this.extractEmailFromToken(token);
-            this.getUserId(userEmail);
-            localStorage.setItem('userEmail', userEmail);
+            const userId = this.extractIdFromToken(token);
+            localStorage.setItem('userId', userId);
             this.activeModal.close('Close click');
           }
         },

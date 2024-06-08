@@ -178,11 +178,9 @@ export class AdFormComponent {
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdPostResponse) => {
             this.disabledFields = true;
-            setTimeout(() => {
-              this.router.navigate(['compte/annonces/mon-annonce/', ad.id], {
-                queryParams: { success: true }
-              });
-            }, 1000);
+            this.router.navigate(['compte/annonces/mon-annonce/', ad.id], {
+              queryParams: { success: true }
+            });
           },
           error: (error: any) => {
             console.error(error);
