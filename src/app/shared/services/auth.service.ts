@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 import { API_URL } from '../utils/constants/utils-constants';
 import { jwtDecode } from 'jwt-decode';
+import { HandleErrorService } from './handle-error.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,28 @@ export class AuthService {
   // A BehaviorSubject to hold and emit the current login status
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(public http: HttpClient, private router: Router) {}
+  constructor(public http: HttpClient, private router: Router,  private handleErrorService: HandleErrorService) {}
+
+  isEmailAddressAlreadyExist(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${API_URL}api/check-email`, {
+      params: { email }
+    }).pipe(
+        catchError(this.handleErrorService.handleError))
+  }
+
+  isPasswordMatchesEmail(email: string, password: string): Observable<boolean> {
+    return this.http.get<boolean>(`${API_URL}api/check-password`, {
+      params: { email, password }
+    }).pipe(
+        catchError(this.handleErrorService.handleError))
+  }
+
+  isAliasAlreadyExist(alias: string): Observable<boolean> {
+    return this.http.get<boolean>(`${API_URL}api/check-alias`, {
+      params: { alias }
+    }).pipe(
+        catchError(this.handleErrorService.handleError))
+  }
 
   // Method to check if a token is present in localStorage
   private hasToken(): boolean {
@@ -21,7 +43,7 @@ export class AuthService {
   }
 
   // Function to extract email of user from the JWT token
-  extractEmailFromToken(token: string): string {
+  extractIdFromToken(token: string): string {
     const decodedToken: any = jwtDecode(token);
     return decodedToken.sub;
   }
@@ -30,19 +52,18 @@ export class AuthService {
   auth(email: string, password: string, endpoint: string): Observable<any> {
     return this.http
       .post<any>(
-        `${API_URL}${endpoint}`,
+        `${API_URL}api/${endpoint}`,
         { email, password },
         { responseType: 'text' as 'json' } // Response type expected
       )
       .pipe(
         tap((data: any) => {
           const token = data;
-          console.log(token);
           // If token received, store it in local storage
           if (token) {
             localStorage.setItem('token', token);
-            const userEmail = this.extractEmailFromToken(token);
-            localStorage.setItem('userEmail', userEmail);
+            const userId = this.extractIdFromToken(token);
+            localStorage.setItem('userId', userId);
             this.loggedIn.next(true);
           } else {
             // Throw error if no token received
@@ -69,7 +90,7 @@ export class AuthService {
   logout() {
     // Remove token and userEmail from localStorage
     localStorage.removeItem('token');
-    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userId');
     // Update login status to false
     this.loggedIn.next(false);
     // Navigate to the home page

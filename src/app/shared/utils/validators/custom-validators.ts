@@ -21,7 +21,7 @@ export function checkEqualityValidator(firstControlName: string, secondControlNa
     const secondControl = formGroup.get(secondControlName);
 
     if (firstControl && secondControl
-      && firstControl !== secondControl.value
+      && firstControl.value !== secondControl.value
     ) {
       return {
         mismatch: {

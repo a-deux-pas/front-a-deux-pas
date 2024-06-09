@@ -210,7 +210,6 @@ button.btn {
   }
 }
 
-
 // Secondary button styling
 .btn-secondary {
   display: flex;
@@ -249,6 +248,12 @@ button.btn {
 
   &:hover {
     background-color: darken($secondary, 10%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
+    border:#6666668f;
+    font-weight: 400;
   }
 }
 
@@ -378,91 +383,51 @@ a.close {
   }
 }
 
-// Connection modal header
-.modal-header {
-  z-index: 1;
-}
-
-// Connection modal content
 .modal-content {
-  // wavy backgroung modal
-  .container-nav {
-    position: absolute;
-    background: $tertiary;
-    height: 15vh;
-    z-index: 0;
-  }
-
-  .wave {
-    position: absolute;
-    height: 137px;
-    width: 100%;
-    background: $tertiary;
-    top: 0;
-    right: 0;
-  }
-
-  .wave::before,
-  .wave::after {
-    content: "";
-    display: block;
-    position: absolute;
-    border-radius: 50% 100%;
-  }
-
-  .wave::before {
-    width: 55%;
-    height: 100%;
-    background-color: $tertiary;
-    right: 0;
-    top: 40%;
-  }
-
-  .wave::after {
-    width: 55%;
-    height: 109%;
-    background-color: #fff;
-    left: 0;
-    top: 60%;
-  }
-
   .form-check-input[type=checkbox] {
     border-radius: 50%;
+    border-color: $secondary;
+    &:checked {
+      background-color: $secondary;
+    }
   }
 
-  .input-group > .form-control {
+  .modal-body {
+    label.form-check-label {
+      font-size: 14.5px;
+      margin-right: 2px;
+    }
+  }
+
+.modal-footer {
+  .btn-success:disabled {
+    background-color: #9d9d9d8f;
+    }
+  }
+
+  #btn-password-visibility {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    background: transparent;
+    border: none;
+    right: 7%;
+    top: 3px;
+  }
+
+  #password-input-wrapper {
+    position: relative;
     width: 100%;
   }
-}
 
-// toggle group
-.modal-btn {
-  margin: auto;
-  z-index: 1;
-  background-color: $primary;
-  border-radius: 10px;
-  padding: 2px;
-  height: 36px;
-  position: relative;
+  .eye-icon {
+    width: 24px;
+    height: 24px;
+  }
 
-  .btn {
-    background-color: $primary;
-    margin: 1px;
-    border-radius: 8px;
-    height: 30px;
-    line-height: 8px;
-    color: white;
-
-    &:active,
-    &:focus,
-    &:hover{
-      background-color: white;
-      color: $primary;
-    }
-
-    &.toggle {
-      width: 175px;
-    }
+  .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+  .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control {
+    border-radius: 10px 10px 40px 5px;
   }
 }
 
@@ -944,25 +909,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
-// Dropzone profile picture
-.dropzone.dz-wrapper {
-  height: 212px;
-  overflow: inherit !important;
-}
-
-.dropzone.dz-wrapper.dz-single .dz-message {
-  border-radius: 50%;
-  background-color: white;
-}
-
-.dropzone.dz-wrapper.dz-single .dz-preview {
-  height: auto !important;
-}
-
-.dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
-  border-radius: 50%;
-}
-
+// Dropzone
 .dz-progress,
 .dz-details,
 .dz-success-mark,
@@ -972,37 +919,58 @@ a.dropdown-first-level.dropdown-toggle {
   display: none !important;
 }
 
-.dz-remove {
-  display:inline-block !important;
-  width:1.2em;
-  height:1.2em;
-  text-decoration: none;
-
-  position:absolute;
-  top:5px;
-  right:5px;
-  z-index:1000;
-
-  font-size:1.2em !important;
-  line-height:1em;
-
-  text-align:center;
-  font-weight:bold;
-  border:1px solid gray !important;
-  border-radius:1.2em;
-  color:gray;
-  background-color:white;
-  opacity:.5;
-}
-
-.dz-remove:hover {
-    text-decoration:none !important;
-    opacity:1;
+.dropzone.dz-wrapper.dz-single .dz-message {
+  background-color: white;
 }
 
 .dropzone .dz-preview:hover .dz-image img {
   transform: none !important;
   filter: none !important;
+}
+
+// Dropzone profile picture
+app-profile-picture {
+  .dropzone.dz-wrapper {
+    height: 212px;
+    overflow: inherit !important;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-message,
+  .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+    border-radius: 50%;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-preview {
+    height: auto !important;
+  }
+
+  .dz-remove {
+    display:inline-block !important;
+    width:1.2em;
+    height:1.2em;
+    text-decoration: none;
+
+    position:absolute;
+    top:5px;
+    right:5px;
+    z-index:1000;
+
+    font-size:1.2em !important;
+    line-height:1em;
+
+    text-align:center;
+    font-weight:bold;
+    border:1px solid gray !important;
+    border-radius:1.2em;
+    color:gray;
+    background-color:white;
+    opacity:.5;
+  }
+
+  .dz-remove:hover {
+      text-decoration:none !important;
+      opacity:1;
+  }
 }
 
 /*-----------------------------------------------------------------------*/

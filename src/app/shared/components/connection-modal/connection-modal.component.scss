@@ -3,24 +3,12 @@
 .modal-btn .btn:active,
 .modal-btn .btn:first-child:active {
   background-color: white;
-  color: $primary;
+  color: $secondary;
   border-color: inherit;
-}
-
-.modal-btn .btn {
-  width: 175px;
 }
 
 .modal-btn .btn.toggle:focus-visible {
   outline: none;
-}
-
-.modal-body {
-  .input-group > .form-control,
-  .input-group > .form-select,
-  .input-group > .form-floating {
-    width: 100%;
-  }
 }
 
 .modal-btn .btn.toggle:first-child.active,
@@ -36,7 +24,95 @@
 .btn.active,
 .btn.show {
   background-color: white !important;
-  color: #ff9f1a !important;
+  color: $secondary !important;
+}
+
+// Connection modal header
+.modal-header {
+  z-index: 1;
+}
+
+.modal-content {
+  // wavy backgroung modal
+  .container-nav {
+    position: absolute;
+    background: $tertiary;
+    height: 15vh;
+    z-index: 0;
+  }
+
+  .wave {
+    position: absolute;
+    height: 137px;
+    width: 100%;
+    background: $tertiary;
+    top: 0;
+    right: 0;
+    border-radius: 15px;
+  }
+
+  .wave::before,
+  .wave::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 50% 100%;
+  }
+
+  .wave::before {
+    width: 56%;
+    height: 100%;
+    background-color: $tertiary;
+    right: 0;
+    top: 40%;
+  }
+
+  .wave::after {
+    width: 55%;
+    height: 109%;
+    background-color: #fff;
+    left: 0;
+    top: 60%;
+  }
+}
+
+// toggle group
+.modal-btn {
+  margin: auto;
+  z-index: 1;
+  background-color: $secondary;
+  border-radius: 10px;
+  padding: 2px;
+  height: 44px;
+  position: relative;
+
+  .btn {
+    background-color: $secondary;
+    margin: 1px;
+    border-radius: 8px;
+    height: 38px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    color: white;
+
+    &:active,
+    &:focus,
+    &:hover{
+      background-color: white;
+      color: $secondary;
+    }
+
+    &.toggle {
+      width: 144px;
+    }
+
+
+  }
+}
+
+.connection {
+  padding-top: 1px;
 }
 
 .social-networks-modal {
@@ -49,5 +125,25 @@
     img {
       width: 50px;
     }
+  }
+}
+
+@media (min-width: 409px) {
+
+  .modal-btn {
+    height: 36px;
+
+    .btn {
+      height: 30px;
+      line-height: 9px;
+
+      &.toggle {
+        width: 188px;
+      }
+    }
+  }
+
+  .connection {
+    padding-top: 10px;
   }
 }

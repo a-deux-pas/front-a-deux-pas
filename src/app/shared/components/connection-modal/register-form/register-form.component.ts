@@ -15,26 +15,28 @@ import { Router } from '@angular/router';
 })
 export class RegisterFormComponent {
   registerForm: FormGroup;
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   isFormSubmitted: boolean = false;
   @Output() formSubmitted = new EventEmitter<boolean>();
   showErrorAlert?: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private uniqueEmailValidator: AsyncValidatorService,
+    private asyncValidatorService: AsyncValidatorService,
     private authService: AuthService,
     private router: Router
   ) {
     this.registerForm = this.fb.group({
       email: ['', {
-        validators: [Validators.required, Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
-        asyncValidators: this.uniqueEmailValidator.uniqueEmailAddressValidator(),
+        validators: [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
+        asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(false),
         updateOn: 'blur'
-        } as AbstractControlOptions
+        }
       ],
       password: ['', passwordValidator()],
       confirmPassword: ['', Validators.required],
-      termsAndConditions: [true, Validators.required]
+      rgpdConsent: [true]
     },
     {
       validators: checkEqualityValidator('password','confirmPassword')
@@ -42,12 +44,20 @@ export class RegisterFormComponent {
   );
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
   onSubmit() {
     const email = this.registerForm.get('email')?.value;
     const password = this.registerForm.get('password')?.value;
-    console.log(email, password);
-    //TO DO = à remplacer par isFormValid
-    if (email && password) {
+    console.log(this.registerForm.valid);
+
+    if (this.registerForm.valid) {
       this.authService.auth(email, password,'signup').subscribe({
         next: (data: any) => {
           if (data) {

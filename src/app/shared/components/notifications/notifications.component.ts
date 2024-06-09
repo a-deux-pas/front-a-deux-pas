@@ -14,7 +14,7 @@ export class NotificationsComponent implements OnInit {
   notificationsForm: any;
   notificationId: number = 0;
   notifications: EventNotification[] = [];
-  userId: number = 7; // TO => userId à modifier
+  userId = localStorage.getItem('userId');
   @Output() addNotifications = new EventEmitter<EventNotification[]>();
 
   constructor(public parentForm: FormGroupDirective) {}

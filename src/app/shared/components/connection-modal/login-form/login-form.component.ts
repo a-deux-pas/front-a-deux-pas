@@ -6,7 +6,9 @@ import {
   ReactiveFormsModule,
   FormBuilder,
   Validators,
+  FormGroup,
 } from '@angular/forms';
+import { AsyncValidatorService } from '../../../services/async-validator.service';
 
 @Component({
   selector: 'app-login-form',
@@ -16,22 +18,44 @@ import {
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })
 export class LoginFormComponent {
+  loginForm: FormGroup;
+  showPassword: boolean = false;
   isFormSubmitted: boolean = false;
   @Output() formSubmitted = new EventEmitter<boolean>();
   showErrorAlert?: boolean = false;
 
-  // Define form controls and validators
-  loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(5)]],
-    stayLoggedIn: [true],
-  });
-
   constructor(
     private AuthService: AuthService,
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private asyncValidatorService: AsyncValidatorService,
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['',  {
+        validators: [Validators.required, Validators.email],
+        asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(true),
+        updateOn: 'blur'
+        }
+      ],
+      password: ['', {
+        validators: [Validators.required],
+        updateOn: 'blur'
+        }
+      ],
+      stayLoggedIn: [true],
+    });
 
+    this.loginForm.get('email')?.valueChanges.subscribe(email => {
+      if (email) {
+        this.loginForm.get('password')?.setAsyncValidators(
+          this.asyncValidatorService.passwordMatchesEmailValidator(this.loginForm.get('email')!)
+        );
+      }
+    });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   // Handle the login form submission
   onSubmit() {
@@ -62,3 +86,6 @@ export class LoginFormComponent {
     }
   }
 }
+
+
+
