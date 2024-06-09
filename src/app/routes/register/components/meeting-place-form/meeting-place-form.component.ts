@@ -1,9 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
-import { alreadyExistValidator } from '../../../../../shared/utils/validators/custom-validators';
-import { PreferredMeetingPlace } from '../../../../../shared/models/user/preferred-meeting-place.model';
 import { CommonModule } from '@angular/common';
-import { environment } from '../../../../../../environments/environment';
+import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PreferredMeetingPlace } from '../../../../shared/models/user/preferred-meeting-place.model';
+import { environment } from '../../../../../environments/environment';
+import { alreadyExistValidator } from '../../../../shared/utils/validators/custom-validators';
+
 
 @Component({
   selector: 'app-meeting-place-form',
@@ -22,7 +23,7 @@ export class MeetingPlaceFormComponent implements OnInit {
 
   constructor(public profileForm: FormGroupDirective) {}
 
-  // address-autofill
+  // address-autofill - TO DO : voir si possible de tranférer la méthode dans un service
   ngAfterViewInit(): void {
     const elements = document.querySelectorAll('mapbox-address-autofill');
     // Convertir NodeList en tableau
@@ -43,7 +44,7 @@ export class MeetingPlaceFormComponent implements OnInit {
       street: new FormControl('', [Validators.required, alreadyExistValidator(this.preferredMeetingPlacesDisplay, 'street')]),
       postalCode: new FormControl('', Validators.required),
       city: new FormControl('', Validators.required),
-      userId: new FormControl('7') // TO DO : valeur à changer une fois la première partie du formulaire implémentée
+      userId: new FormControl(localStorage.getItem('userId'))
     });
     this.preferredMeetingPlaceForm.addControl('preferredMeetingPlace', group);
   }

@@ -1,1 +1,93 @@
-<app-profile-form></app-profile-form>
+<h2 class="bold-title-700 text-center">Créer mon compte</h2>
+
+<form [formGroup]="profileForm" class="custom-container" (ngSubmit)="onSubmit()">
+
+  <div id="profile-picture">
+    <app-profile-picture
+      (uploadSuccess)="profilePictureUpload('uploadSuccess')"
+      (thumbnailGenerated)="profilePictureUpload('thumbnailGenerated')"
+      (fileRemoved)="profilePictureUpload('fileRemoved')"
+      [isFormSubmitted]="isSubmitted">
+    </app-profile-picture>
+  </div>
+
+  <div class="row justify-content-center mt-5">
+    <div class="col-10 col-md-4">
+      <label for="alias">Mon pseudo</label>
+      <input type="text" formControlName="alias" id="alias" name="alias" class="form-control" minlength="3" required/>
+      @if (profileForm.controls['alias'].errors && (profileForm.controls['alias'].dirty || profileForm.controls['alias'].touched)) {
+        <div class="error-msg mt-3">
+          <div [hidden]="!profileForm.controls['alias'].errors['required']">Veuillez renseigner votre pseudo</div>
+          <div [hidden]="!profileForm.controls['alias'].errors['minlength']">Votre pseudo doit comporter au moins 3 caractères</div>
+          <div [hidden]="!profileForm.controls['alias'].errors['aliasExists']">Ce pseudo existe déjà</div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-12 col-md-6 mt-4">
+      <label for="bio" class="form-label">Ma présentation</label>
+      <textarea formControlName="bio" class="form-control form-control-sm" name="bio" id="bio" rows="3" minlength="10"></textarea>
+    </div>
+    @if (profileForm.controls['bio'].errors && (profileForm.controls['bio'].dirty || profileForm.controls['bio'].touched)) {
+      <div class="error-msg text-center mt-3">Votre présentation doit comporter au moins 10 caractères</div>
+    }
+  </div>
+
+  <h3 class="bold-title-700 text-left mt-5">Mon adresse</h3>
+  <div formGroupName="address" id="address">
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 col-md-8">
+        <label for="street">Rue</label>
+        <mapbox-address-autofill>
+          <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control" placeholder="Numéro et nom de rue" required/>
+        </mapbox-address-autofill>
+        @if (profileForm.controls['address'].get('street')?.errors && (profileForm.controls['address'].get('street')?.dirty || profileForm.controls['address'].get('street')?.touched)) {
+          <div class="error-msg mt-2">Veuillez renseigner votre rue</div>
+        }
+      </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+      <div class="col-6 col-md-4">
+        <label for="postal-code">Code postal</label>
+        <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code" class="form-control" required/>
+        @if (profileForm.controls['address'].get('postalCode')?.errors && (profileForm.controls['address'].get('postalCode')?.dirty || profileForm.controls['address'].get('postalCode')?.touched)) {
+          <div class="error-msg mt-2">Veuillez renseigner votre code postal</div>
+        }
+      </div>
+      <div class="col-6 col-md-4">
+        <label for="city">Ville</label>
+        <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
+        @if (profileForm.controls['address'].get('city')?.errors && (profileForm.controls['address'].get('city')?.dirty || profileForm.controls['address'].get('city')?.touched)) {
+          <div class="error-msg mt-2">Veuillez renseigner votre ville</div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mt-5 bold-title-700 text-left">Mes lieux de RDV préférés</h3>
+  <app-meeting-place-form (addPreferredMeetingPlaces)="getUserPreferredMeetingPlaces($event)"></app-meeting-place-form>
+
+  <h3 class="mt-5 bold-title-700 text-left">Mes disponibilités</h3>
+  <app-schedule [editMode]="scheduleEditMode" (addPreferredSchedules)="getUserPreferredSchedules($event)"></app-schedule>
+  @if (profileForm.valid && preferredSchedules.length === 0) {
+    <div class="error-msg">Veuillez renseigner au moins un créneau horaire auquel vous êtes disponible</div>
+  }
+
+  <h3 class="mt-5 bold-title-700 text-left">Mes informations bancaires</h3>
+  <div id="bank-account-form">
+    <app-bank-account-form></app-bank-account-form>
+  </div>
+
+  <h3 class="mt-5 bold-title-700 text-left">Mes notifications</h3>
+  <app-notifications (addNotifications)="getUserNotificationsPreferrences($event)"></app-notifications>
+
+  <p>{{"form valide ? " + profileForm.valid}}</p>
+
+  <div class="text-center mb-5 mt-5">
+    <button type="button" class="btn-secondary mt-4" (click)="goBack()">annuler</button>
+    <button type="submit" [disabled]="profileForm.invalid || !isProfilePicturePreview || preferredMeetingPlaces.length === 0 || preferredSchedules.length === 0" class="btn-primary mt-4">sauvegarder</button>
+  </div>
+
+</form>
