@@ -8,7 +8,8 @@ import { API_URL } from '../../../utils/constants/utils-constants';
   providedIn: 'root',
 })
 export class AdFiltersService {
-  private baseUrl: string = `${API_URL}api/ads/list`;
+  private filteredAdsListUrl: string = `${API_URL}api/ads/list`;
+  private citiesAndPostalCodesUrl: string = `${API_URL}api/users`;
 
   constructor(private http: HttpClient) {}
 
@@ -28,10 +29,16 @@ export class AdFiltersService {
       category: selectedCategory,
     };
     return this.http.get<AdHomeResponse[]>(
-      `${this.baseUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      `${this.filteredAdsListUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
       {
         params: queryParams,
       }
+    );
+  }
+
+  fetchCitiesAndPostalCodes(): Observable<AdHomeResponse[]> {
+    return this.http.get<AdHomeResponse[]>(
+      `${this.citiesAndPostalCodesUrl}/cities-and-postal-codes`
     );
   }
 }
