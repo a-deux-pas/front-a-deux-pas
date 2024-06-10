@@ -175,7 +175,6 @@ export class AdFiltersComponent {
       .subscribe((filteredAds: AdHomeResponse[]) => {
         // updating the 'displayedAds' variable
         this.displayedAds = filteredAds;
-        console.log(this.displayedAds);
         // signaling to the parent component (ad-list) that the 'displayedAds' variable was updated
         this.displayedAdsChange.emit(this.displayedAds);
       });
@@ -218,7 +217,7 @@ export class AdFiltersComponent {
     });
   }
 
-  // assignes a value to the selectedCategory variable, based on user selection
+  // assigns a value to the selectedCategory variable, based on user selection
   private setSelectedCategoryValue(
     subCategory: string | undefined,
     gender: string | undefined,
@@ -233,14 +232,5 @@ export class AdFiltersComponent {
     } else {
       this.selectedCategory = category;
     }
-  }
-
-  // Erika's method - imported along with the filters' HTML and CSS from the styles guide
-  // I personally think this was meant for something else, but now it's tied to the filters' template and I can't remove it
-  // See the author of the dropdown menus for more info
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    // If the inner width is greater than 1200 pixels, isBigScreen is set to true, otherwise false
-    this.isBigScreen = event.target.innerWidth > 1200;
   }
 }

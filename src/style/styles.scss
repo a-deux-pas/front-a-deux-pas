@@ -1,4 +1,4 @@
-// See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
+// See more about Bootstrap hescssre : https://getbootstrap.com/docs/5.3/
 // see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
 
 // Importing Google Fonts for the logo
@@ -12,7 +12,7 @@ $font-family-base: $font-sans-serif;
 
 // Title sizes
 $h1-font-size: 2.22rem;
-$h2-font-size: 1.5rem;
+$h2-font-size: 1.4rem;
 $h3-font-size: 1.125rem;
 
 .bold-title-700 {
@@ -327,6 +327,7 @@ button.btn {
 
 .btn-icon span {
   margin-top: 6.29px;
+  text-align: center;
 }
 
 // Edit icon size
@@ -339,7 +340,7 @@ button.btn {
   width: 40px;
 }
 
-// Error class 
+// Error class
 .error-msg {
   color: $primary;
 }
@@ -410,7 +411,7 @@ a.close {
     right: 0;
     top: 40%;
   }
-  
+
   .wave::after {
     width: 55%;
     height: 109%;
@@ -440,7 +441,7 @@ a.close {
 
     &:active,
     &:focus,
-    &:hover{
+    &:hover {
       background-color: white;
       color: $primary;
     }
@@ -968,15 +969,21 @@ a.dropdown-first-level.dropdown-toggle {
   #mobile-bottom-navbar-icons #mobile-sell-icon {
     margin-top: 0px;
   }
+
+  /*---------------------------------*/
+
+  //Dropdown menu styling for better display of the ad-filters component.
+  .dropend:hover > .dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
 }
 
 /*-----------------------------------------------------------------------*/
 
 // Desktop version
-//(I've refactored this so that dropdowns change their display style at a smaller width,
-// starting from the tablet resolution, e.g. width < 768px, for better display of the ads-filters component.
-// I checked, and it doesn't seem to affect any other part of the code. Still, if you find that it does, feel free to revert it to 1200 )
-@media (min-width: 769px) {
+@media (min-width: 1200px) {
   // margin
   body {
     margin: 0;
@@ -990,13 +997,6 @@ a.dropdown-first-level.dropdown-toggle {
   // Includes tabs and page content
   .custom-container {
     @include make-container($padding-x: 8vh, $padding-y: 88px);
-  }
-
-  //Dropdown menu styling
-  .dropend:hover > .dropdown-menu {
-    position: absolute;
-    top: 0;
-    left: 100%;
   }
 }
 
