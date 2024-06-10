@@ -5,9 +5,14 @@ import { AdsComponent } from './ads.component';
 const adsRoutes: Routes = [
   { path: '', component: AdsComponent },
   {
-    path: 'mon-annonce/:adId',
-    loadComponent: () => import('./my-ad/my-ad.component').then(mod => mod.MyAdComponent)
-  }
+    path: 'mon-annonce',
+    children: [
+      {
+        path: ':adId',
+        loadComponent: () => import('./my-ad/my-ad.component').then(mod => mod.MyAdComponent)
+      }
+    ]
+  },
 ];
 
 @NgModule({

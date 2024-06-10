@@ -90,11 +90,12 @@ input::-webkit-inner-spin-button {
 }
 
 // drag and drop
-ngx-dropzone {
-  width: 350px;
-  height: 349px;
-  margin: auto auto;
-}
+// TO DO : if works ok, can delete this part
+// ngx-dropzone {
+//   width: 350px;
+//   height: 349px;
+//   margin: auto auto;
+// }
 
 ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   align-items: center !important;
@@ -163,18 +164,18 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   }
 
   .dropzone-field {
-    grid-gap: 21px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    max-width: 859px;
-    max-height: 478px;
+    grid-gap: 21px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    max-width: 859px !important;
+    max-height: 478px !important;
   }
 
   //// if two dropzones
-  .two-dropzones[_nghost-ng-c2040221903] {
-    width: 423px;
-    height: 479px;
+  .two-dropzones {
+    width: 423px !important;
+    height: 479px !important;
 
     >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
       min-width: 80% !important;
@@ -186,19 +187,19 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   }
 
   //// if three dropzones
-  .three-dropzones[_nghost-ng-c2040221903] {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
+  .three-dropzones {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
   }
 
-  .three-dropzones[_nghost-ng-c2040221903]:first-child {
-    width: 523px;
-    height: 479px;
-    grid-area: 1 / 1 / 3 / 3;
+  .three-dropzones:first-child {
+    width: 523px !important;
+    height: 479px !important;
+    grid-area: 1 / 1 / 3 / 3 !important;
 
     &>ngx-dropzone-label>div {
-      margin-top: 100%;
+      margin-top: 100% !important;
     }
 
     >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
@@ -210,32 +211,32 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
     }
   }
 
-  .three-dropzones[_nghost-ng-c2040221903]:not(:first-child) {
-    width: 316px;
-    height: 232px;
+  .three-dropzones:not(:first-child) {
+    width: 316px !important;
+    height: 232px !important;
 
     &>ngx-dropzone-label>div {
-      margin-top: 30%;
+      margin-top: 30% !important;
     }
   }
 
-  .three-dropzones[_nghost-ng-c2040221903]:nth-child(2) {
+  .three-dropzones:nth-child(2) {
     grid-area: 1 / 3 / 2 / 4;
   }
 
-  .three-dropzones[_nghost-ng-c2040221903]:nth-child(3) {
+  .three-dropzones:nth-child(3) {
     grid-area: 2 / 3 / 3 / 4;
   }
 
   //// if four dropzones
-  .four-dropzones[_nghost-ng-c2040221903] {
+  .four-dropzones {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
   }
 
-  .four-dropzones[_nghost-ng-c2040221903]:first-child,
-  .four-dropzones[_nghost-ng-c2040221903]:nth-child(4) {
+  .four-dropzones:first-child,
+  .four-dropzones:nth-child(4) {
     width: 308px;
     height: 479px;
 
@@ -244,16 +245,16 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
     }
   }
 
-  .four-dropzones[_nghost-ng-c2040221903]:first-child {
+  .four-dropzones:first-child {
     grid-area: 1 / 1 / 3 / 2;
   }
 
-  .four-dropzones[_nghost-ng-c2040221903]:nth-child(4) {
+  .four-dropzones:nth-child(4) {
     grid-area: 1 / 3 / 3 / 4;
   }
 
-  .four-dropzones[_nghost-ng-c2040221903]:nth-child(2),
-  .four-dropzones[_nghost-ng-c2040221903]:nth-child(3) {
+  .four-dropzones:nth-child(2),
+  .four-dropzones:nth-child(3) {
     width: 215px;
     height: 232px;
 
@@ -263,13 +264,13 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   }
 
   //// if five dropzones
-  .five-dropzones[_nghost-ng-c2040221903]:first-child {
+  .five-dropzones:first-child {
     width: 308px;
     height: 479px;
     grid-area: 1 / 1 / 3 / 2;
   }
 
-  .five-dropzones[_nghost-ng-c2040221903]:not(:first-child) {
+  .five-dropzones:not(:first-child) {
     width: 256.67px;
     height: 232px;
   }

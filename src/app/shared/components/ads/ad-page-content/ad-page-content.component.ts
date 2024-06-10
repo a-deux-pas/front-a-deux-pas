@@ -33,9 +33,10 @@ export class AdPageComponent implements OnInit {
   @Input() adSuccessfullySubmitted: boolean | undefined;
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
+  @Input() onMyAd: boolean | undefined;
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
-  onMyAd: boolean | undefined;
+
   currentAd: AdPostResponse | undefined;
   selectedPicNumber: number = 2;
   articlePictures: (string | undefined)[] = [];
@@ -70,7 +71,8 @@ export class AdPageComponent implements OnInit {
     this.adService.findAdById(adId).subscribe({
       next: (ad: AdPostResponse) => {
         this.currentAd = ad;
-        this.onMyAd = this.currentAd.publisherId == parseInt(localStorage.getItem('userId')!)
+        //this.onMyAd = this.currentAd.publisherId == parseInt(localStorage.getItem('userId')!)
+        console.log(' this.onMyAd:: ', this.onMyAd)
         this.articlePictures = [
           this.currentAd.firstArticlePictureUrl,
           this.currentAd.secondArticlePictureUrl,
@@ -96,11 +98,9 @@ export class AdPageComponent implements OnInit {
     this.viewportScroller.scrollToPosition([0, 0])
   }
 
-  maybeGetSimilarAds(): any {
-    console.log('this.currentAd!.category!:', this.currentAd!.category!)
+  maybeGetSimilarAds(): void {
     this.adService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!).subscribe({
       next: (similarAds: AdPostResponse[]) => {
-        console.table(similarAds)
         return this.similarAds = similarAds;
       }
     })

@@ -96,9 +96,7 @@
         </h3>
         <div class="similar-ads">
             @for (similarAd of similarAds; track similarAd) {
-            <a href="/annonce/{{similarAd.publisherId}}/{{similarAd.id}}">
-                <app-ad-card [ad]="similarAd"></app-ad-card>
-            </a>
+            <app-ad-card [ad]="similarAd"></app-ad-card>
             }
         </div>
     </section>
