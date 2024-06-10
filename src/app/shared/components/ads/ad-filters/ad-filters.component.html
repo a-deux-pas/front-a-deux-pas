@@ -13,21 +13,19 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <a
+          <button
             class="dropdown-first-level dropdown-toggle resize"
-            role="button"
             aria-expanded="false"
             (click)="resetFilter('category')"
           >
             {{ selectedCategory }}
-          </a>
+          </button>
         </button>
         <ul class="dropdown-menu" id="categoryMenu">
           @for(category of categories; track category){
           <li id="dropdown-second-level" class="nav-item dropend">
-            <a
+            <button
               class="nav-link dropdown-toggle text-center"
-              role="button"
               aria-expanded="false"
               (click)="
                 handleCategoryFilterSelection(
@@ -38,14 +36,13 @@
               "
             >
               {{ category.name }}
-            </a>
+            </button>
             <ul class="dropdown-menu">
               @for(subCategory of category.subCategories; track subCategory){
               <li id="dropdown-third-level" class="nav-item dropend">
                 @if(subCategory?.gender){
-                <a
+                <button
                   class="nav-link dropdown-toggle text-center"
-                  role="button"
                   aria-expanded="false"
                   (click)="
                     handleCategoryFilterSelection(
@@ -56,7 +53,7 @@
                   "
                 >
                   {{ subCategory.name }}
-                </a>
+                </button>
                 }
                 <ul class="dropdown-menu">
                   @for(gender of subCategory.gender; track gender){
@@ -115,14 +112,13 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <a
+          <button
             class="dropdown-first-level dropdown-toggle"
-            role="button"
             aria-expanded="false"
             (click)="resetFilter('price')"
           >
             Prix
-          </a>
+          </button>
         </button>
         <ul class="dropdown-menu ddmenu-with-select">
           @for( priceRange of priceRanges; track priceRange){
@@ -171,14 +167,13 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <a
+          <button
             class="dropdown-first-level dropdown-toggle"
-            role="button"
             aria-expanded="false"
             (click)="resetFilter('city')"
           >
             Ville
-          </a>
+          </button>
         </button>
         <ul class="dropdown-menu ddmenu-with-select">
           @for(cityAndPostalCode of uniqueCitiesAndPostalCodes; track
@@ -228,14 +223,13 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <a
+          <button
             class="dropdown-first-level dropdown-toggle"
-            role="button"
             aria-expanded="false"
             (click)="resetFilter('articleState')"
           >
             État
-          </a>
+          </button>
         </button>
         <ul class="dropdown-menu ddmenu-with-select">
           @for(state of articleStates; track state){

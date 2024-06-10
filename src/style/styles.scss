@@ -779,6 +779,7 @@ button.navbar-toggler {
   border: 1.5px solid $primary;
   color: black;
   list-style-type: none;
+  background-color: transparent;
 
   &:hover {
     background: rgba(255, 191, 107, 0.39);
@@ -831,7 +832,8 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 //center sub categories in their boxes
-.dropdown-menu .nav-item.dropend input[type="button"] {
+.dropdown-menu .nav-item.dropend input[type="button"],
+.dropdown-menu .nav-item.dropend button {
   display: flex;
   align-items: center;
   justify-content: center;
