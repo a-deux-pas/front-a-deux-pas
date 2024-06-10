@@ -1,0 +1,33 @@
+@import "../../../../style/color-variables.scss";
+
+.progress-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 2%;
+}
+.progress-bar div {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 100%;
+  margin: 5% 1.5%;
+}
+
+hr {
+  width: 10%;
+  height: 0px;
+  border: 1px solid #ccc;
+  align-self: center;
+}
+
+.checkpoint {
+  background-color: $primary;
+  border: 1px solid $primary;
+}
+
+h2 {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
