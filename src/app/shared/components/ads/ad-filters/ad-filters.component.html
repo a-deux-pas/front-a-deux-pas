@@ -1,0 +1,264 @@
+<div class="filters-container">
+  <!-- Category filter -->
+  <nav class="navbar" aria-labelledby="dropdown-radiobox">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="dropdown" #categoryDropdownRef id="category-dropdown">
+        <button
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
+          type="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <button
+            class="dropdown-first-level dropdown-toggle resize"
+            aria-expanded="false"
+            (click)="resetFilter('category')"
+          >
+            {{ selectedCategory }}
+          </button>
+        </button>
+        <ul class="dropdown-menu" id="categoryMenu">
+          @for(category of categories; track category){
+          <li id="dropdown-second-level" class="nav-item dropend">
+            <button
+              class="nav-link dropdown-toggle text-center"
+              aria-expanded="false"
+              (click)="
+                handleCategoryFilterSelection(
+                  category.name,
+                  undefined,
+                  undefined
+                )
+              "
+            >
+              {{ category.name }}
+            </button>
+            <ul class="dropdown-menu">
+              @for(subCategory of category.subCategories; track subCategory){
+              <li id="dropdown-third-level" class="nav-item dropend">
+                @if(subCategory?.gender){
+                <button
+                  class="nav-link dropdown-toggle text-center"
+                  aria-expanded="false"
+                  (click)="
+                    handleCategoryFilterSelection(
+                      category.name,
+                      subCategory.name,
+                      undefined
+                    )
+                  "
+                >
+                  {{ subCategory.name }}
+                </button>
+                }
+                <ul class="dropdown-menu">
+                  @for(gender of subCategory.gender; track gender){
+                  <li id="dropdown-fourth-level" class="nav-item dropend">
+                    <input
+                      type="button"
+                      class="nav-link"
+                      (click)="
+                        handleCategoryFilterSelection(
+                          category.name,
+                          subCategory.name,
+                          gender
+                        )
+                      "
+                      value="{{ gender }}"
+                    />
+                  </li>
+                  }
+                </ul>
+              </li>
+              } @for(subCategory of category.subCategories; track subCategory){
+              <li class="nav-item dropend">
+                @if(!subCategory.gender){
+                <input
+                  type="button"
+                  class="nav-link"
+                  (click)="
+                    handleCategoryFilterSelection(
+                      category.name,
+                      subCategory.name,
+                      undefined
+                    )
+                  "
+                  value="{{ subCategory.name }}"
+                />
+                }
+              </li>
+              }
+            </ul>
+          </li>
+          }
+        </ul>
+      </div>
+    </ul>
+  </nav>
+  <!-- Price filter -->
+  <nav class="navbar" aria-labelledby="dropdown-checkbox">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="dropdown" #priceDropdownRef id="price-dropdown">
+        <button
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
+          type="button"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <button
+            class="dropdown-first-level dropdown-toggle"
+            aria-expanded="false"
+            (click)="resetFilter('price')"
+          >
+            Prix
+          </button>
+        </button>
+        <ul class="dropdown-menu ddmenu-with-select">
+          @for( priceRange of priceRanges; track priceRange){
+          <li
+            id="dropdown-second-level ddmenu-with-select mb-4"
+            class="nav-item dropend"
+          >
+            <div class="form-check px-3 div-form-check mt-2">
+              <input
+                class="form-check-input pr-2"
+                type="checkbox"
+                value=""
+                id="{{ priceRange }}"
+                name="{{ priceRange }}"
+                (change)="
+                  handleCheckboxFiltersSelection(
+                    'priceRange',
+                    priceRange,
+                    $event
+                  )
+                "
+              />
+              <label
+                class="form-check-label ddmenu-with-select text-center ms-2"
+                for="{{ priceRange }}"
+              >
+                {{ priceRange }}
+              </label>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </ul>
+  </nav>
+  <!-- City filter -->
+  <nav class="navbar" aria-labelledby="dropdown-checkbox">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="dropdown" #cityDropdownRef id="city-dropdown">
+        <button
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
+          type="button"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <button
+            class="dropdown-first-level dropdown-toggle"
+            aria-expanded="false"
+            (click)="resetFilter('city')"
+          >
+            Ville
+          </button>
+        </button>
+        <ul class="dropdown-menu ddmenu-with-select">
+          @for(cityAndPostalCode of uniqueCitiesAndPostalCodes; track
+          cityAndPostalCode){
+          <li
+            id="dropdown-second-level ddmenu-with-select mb-4"
+            class="nav-item dropend"
+          >
+            <div class="form-check px-3 div-form-check mt-2">
+              <input
+                class="form-check-input pr-2"
+                type="checkbox"
+                value=""
+                id="{{ cityAndPostalCode }}"
+                name="{{ cityAndPostalCode }}"
+                (change)="
+                  handleCheckboxFiltersSelection(
+                    'city',
+                    cityAndPostalCode,
+                    $event
+                  )
+                "
+              />
+              <label
+                class="form-check-label ddmenu-with-select text-center ms-2"
+                for="{{ cityAndPostalCode }}"
+              >
+                {{ cityAndPostalCode }}
+              </label>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </ul>
+  </nav>
+  <!-- State/Condition filter -->
+  <nav class="navbar" aria-labelledby="dropdown-checkbox">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <div class="dropdown" #stateDropdownRef id="state-dropdown">
+        <button
+          [ngClass]="{
+            'navbar-toggler dropdown-btn': !isBigScreen,
+            'dropdown-btn': isBigScreen
+          }"
+          type="button"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <button
+            class="dropdown-first-level dropdown-toggle"
+            aria-expanded="false"
+            (click)="resetFilter('articleState')"
+          >
+            État
+          </button>
+        </button>
+        <ul class="dropdown-menu ddmenu-with-select">
+          @for(state of articleStates; track state){
+          <li
+            id="dropdown-second-level ddmenu-with-select mb-4"
+            class="nav-item dropend"
+          >
+            <div class="form-check px-3 div-form-check mt-2">
+              <input
+                class="form-check-input pr-2"
+                type="checkbox"
+                value=""
+                id="{{ state }}"
+                name="{{ state }}"
+                (change)="
+                  handleCheckboxFiltersSelection('articleState', state, $event)
+                "
+              />
+              <label
+                class="form-check-label ddmenu-with-select text-center ms-2"
+                for="{{ state }}"
+              >
+                {{ state }}
+              </label>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+    </ul>
+  </nav>
+</div>

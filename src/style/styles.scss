@@ -1,4 +1,4 @@
-// See more about Bootstrap hescssre : https://getbootstrap.com/docs/5.3/
+// See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
 // see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
 
 // Importing Google Fonts for the logo
@@ -338,7 +338,7 @@ button.btn {
   width: 40px;
 }
 
-// Error class 
+// Error class
 .error-msg {
   color: $primary;
 }
@@ -377,6 +377,7 @@ a.close {
 
 // Connection modal content
 .modal-content {
+
   // wavy backgroung modal
   .container-nav {
     position: absolute;
@@ -409,7 +410,7 @@ a.close {
     right: 0;
     top: 40%;
   }
-  
+
   .wave::after {
     width: 55%;
     height: 109%;
@@ -439,7 +440,7 @@ a.close {
 
     &:active,
     &:focus,
-    &:hover{
+    &:hover {
       background-color: white;
       color: $primary;
     }
@@ -761,6 +762,7 @@ button.navbar-toggler {
   border: 1.5px solid $primary;
   color: black;
   list-style-type: none;
+  background-color: transparent;
 
   &:hover {
     background: rgba(255, 191, 107, 0.39);
@@ -813,7 +815,8 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 //center sub categories in their boxes
-.dropdown-menu .nav-item.dropend input[type="button"] {
+.dropdown-menu .nav-item.dropend input[type="button"],
+.dropdown-menu .nav-item.dropend button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -913,6 +916,7 @@ a.dropdown-first-level.dropdown-toggle {
 /*-----------------------------------------------------------------------*/
 
 @media (min-width: 768px) {
+
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .custom-container {
@@ -950,6 +954,15 @@ a.dropdown-first-level.dropdown-toggle {
 
   #mobile-bottom-navbar-icons #mobile-sell-icon {
     margin-top: 0px;
+  }
+
+  /*---------------------------------*/
+
+  //Dropdown menu styling for better display of the ad-filters component.
+  .dropend:hover>.dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
   }
 }
 
@@ -1004,6 +1017,7 @@ ngb-carousel,
 
 // Desktop version
 @media (min-width: 1200px) {
+
   // margin
   body {
     margin: 0;
