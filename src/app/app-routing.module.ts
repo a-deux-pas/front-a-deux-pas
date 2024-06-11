@@ -5,16 +5,25 @@ import { authGuard } from './shared/guards/auth.guard';
 const routes: Routes = [
   {
     path: 'accueil',
-    loadComponent: () => import('./routes/home/logged-in-home/logged-in-home.component').then(mod => mod.LoggedInHomeComponent),
+    loadComponent: () =>
+      import('./routes/home/logged-in-home/logged-in-home.component').then(
+        (mod) => mod.LoggedInHomeComponent
+      ),
     canActivate: [authGuard],
   },
   {
     path: 'annonce',
-    loadChildren: () => import('./routes/ad/ad-routing.module').then(mod => mod.AdRoutingModule)
+    loadChildren: () =>
+      import('./routes/ad/ad-routing.module').then(
+        (mod) => mod.AdRoutingModule
+      ),
   },
   {
     path: 'compte',
-    loadChildren: () => import('./routes/account/account-routing.module').then(mod => mod.AccountRoutingModule)
+    loadChildren: () =>
+      import('./routes/account/account-routing.module').then(
+        (mod) => mod.AccountRoutingModule
+      ),
     // TO Do: activate authGauard with test e2e
     // canActivate: [authGuard],
   },
@@ -30,6 +39,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
