@@ -2,3 +2,9 @@
   width: 27.25px;
   height: 27.25px;
 }
+
+@media (min-width: 768px) {
+  #remove-form-icon {
+    justify-content: flex-start !important;
+  }
+}

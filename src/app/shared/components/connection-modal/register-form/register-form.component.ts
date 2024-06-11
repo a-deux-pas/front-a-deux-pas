@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AsyncValidatorService } from '../../../services/async-validator.service';
 import { CommonModule } from '@angular/common';
 import { checkEqualityValidator, passwordValidator } from '../../../utils/validators/custom-validators';

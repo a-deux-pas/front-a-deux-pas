@@ -928,6 +928,18 @@ a.dropdown-first-level.dropdown-toggle {
   filter: none !important;
 }
 
+.dropzone-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropzone-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
 // Dropzone profile picture
 app-profile-picture {
   .dropzone.dz-wrapper {
@@ -971,6 +983,54 @@ app-profile-picture {
       text-decoration:none !important;
       opacity:1;
   }
+}
+
+/*-----------------------------------------------------------------------*/
+// Register page
+
+// profile picture dropzone display
+app-register {
+  app-profile-picture {
+    #profile-picture {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  // bank account form display
+  app-bank-account-form {
+    #bank-account {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Preferred meeting places display on Register & account profile pages
+
+.meeting-place .number,
+#preferred-meeting-places .number {
+  background-color: $info;
+  color:white;
+  border-radius: 38px;
+  padding: 4px 8px;
+  font-size: 14px;
+  position:relative;
+}
+
+.meeting-place .address-name {
+  font-weight: 700;
+  color: $primary;
+  padding-left: 0.5rem;
+  position: absolute;
+}
+
+.meeting-place .address-detail {
+  margin-top: 0.2rem;
+  margin-left: 2.2rem;
 }
 
 /*-----------------------------------------------------------------------*/

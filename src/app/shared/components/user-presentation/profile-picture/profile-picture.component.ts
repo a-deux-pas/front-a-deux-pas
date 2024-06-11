@@ -24,6 +24,8 @@ export class ProfilePictureComponent implements AfterViewInit {
     uploadMultiple: false,
     createImageThumbnails: true,
     resizeMethod:"contain",
+    thumbnailWidth:230,
+    thumbnailHeight:230,
     addRemoveLinks: true,
     dictRemoveFile: "×",
     clickable: true,
@@ -34,7 +36,14 @@ export class ProfilePictureComponent implements AfterViewInit {
     }
   };
 
-  constructor() { }
+  customMessage: string = `
+    <div class="dropzone-add">
+      <img src="assets/icons/buttons/add-orange.webp" alt="Icône d'ajout de photo" class="dropzone-icon" />
+      <span>ajouter une photo</span>
+    </div>
+  `;
+
+  constructor() {}
 
   ngAfterViewInit(): void {
     const dropzone = this.dropzoneComponent.directiveRef?.dropzone();
