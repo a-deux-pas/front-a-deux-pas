@@ -1,8 +1,8 @@
 @if (isLoggedIn) {
-  <app-navbar
+<app-navbar
   [isAccountMenuOpen]="isAccountMenuOpen"
   (toggleMobileNavbarMenuOutput)="accountNavbarMenuToggle()"
-  ></app-navbar>
+></app-navbar>
 }
 <main class="main-container">
   <router-outlet></router-outlet>

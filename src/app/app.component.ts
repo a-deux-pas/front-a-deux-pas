@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterOutlet, CommonModule, NavbarComponent, FooterComponent],
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'front';
   isAccountMenuOpen: boolean = false;
   isLoggedIn: boolean = false;
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit{
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
     this.authService.isLoggedIn().subscribe((status: boolean) => {
       this.isLoggedIn = status;
-      console.log(status)
+      console.log(status);
     });
   }
 }
