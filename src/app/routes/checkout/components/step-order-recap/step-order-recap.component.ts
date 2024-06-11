@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { CheckoutService } from '../checkout.service';
+import { CheckoutService } from '../../checkout.service';
 
 @Component({
   selector: 'app-step-order-recap',

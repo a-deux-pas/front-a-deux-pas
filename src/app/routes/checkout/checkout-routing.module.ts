@@ -10,23 +10,23 @@ const checkoutRoutes: Routes = [
       {
         path: 'recapitulatif',
         loadComponent: () =>
-          import('./step-order-recap/step-order-recap.component').then(
-            (mod) => mod.StepOrderRecapComponent
-          ),
+          import(
+            './components/step-order-recap/step-order-recap.component'
+          ).then((mod) => mod.StepOrderRecapComponent),
       },
       {
         path: 'rdv',
         loadComponent: () =>
-          import('./step-meeting-details/step-meeting-details.component').then(
-            (mod) => mod.StepMeetingDetailsComponent
-          ),
+          import(
+            './components/step-meeting-details/step-meeting-details.component'
+          ).then((mod) => mod.StepMeetingDetailsComponent),
       },
       {
         path: 'paiement',
         loadComponent: () =>
-          import('./step-payment-details/step-payment-details.component').then(
-            (mod) => mod.StepPaymentDetailsComponent
-          ),
+          import(
+            './components/step-payment-details/step-payment-details.component'
+          ).then((mod) => mod.StepPaymentDetailsComponent),
       },
       { path: '', redirectTo: 'recapitulatif', pathMatch: 'full' },
     ],

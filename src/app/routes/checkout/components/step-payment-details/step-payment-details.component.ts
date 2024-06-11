@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CheckoutService } from '../checkout.service';
+import { CheckoutService } from '../../checkout.service';
 import { Router } from '@angular/router';
 
 @Component({

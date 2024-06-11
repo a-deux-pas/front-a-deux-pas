@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CheckoutService } from '../checkout.service';
+import { CheckoutService } from '../../checkout.service';
 
 @Component({
   selector: 'app-progress-bar',
