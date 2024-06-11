@@ -6,67 +6,65 @@
 </div>
 }
 <div class="custom-container">
-    <div class="main-sections">
+    <div class="main-sections mx-auto">
 
         <!-- image view on desktop device -->
-        <section class="article-picture-image-section">
-            @if (articlePictures.length > 1) {
-            <div class="split-article-pictures-section">
-                <as-split direction="horizontal">
-                    <as-split-area [size]="areaSizeA" #splitAreaA>
-                        <as-split direction="vertical">
-                            <as-split-area>
-                                <img src="{{articlePictures[1]}}" alt="{{ currentAd?.title }} 2" />
-                            </as-split-area>
-                            @if (articlePictures[2]) {
-                            <as-split-area>
-                                <img src="{{articlePictures[2]}}" alt="{{ currentAd?.title }} 3" />
-                            </as-split-area>
-                            }
-                        </as-split>
-                    </as-split-area>
-                    <as-split-area [size]="areaSizeB" #splitAreaB>
-                        <as-split direction="horizontal">
-                            <as-split-area>
-                                <img src="{{articlePictures[0]}}" alt="{{ currentAd?.title }} 1" />
-                            </as-split-area>
-                            @if (articlePictures[3]) {
-                            <as-split-area>
-                                <img src="{{articlePictures[3]}}" alt="{{ currentAd?.title }} 4" />
-                            </as-split-area>
-                            }
-                            @if (articlePictures[4]) {
-                            <as-split-area>
-                                <img src="{{articlePictures[4]}}" alt="{{ currentAd?.title }} 5" />
-                            </as-split-area>
-                            }
-                        </as-split>
-                    </as-split-area>
-                </as-split>
-            </div>
-            }
-            @else {
-            <!-- TO DO :: enlever le @else apres merge de l'US back de Mircea -->
-            <img class="single-picture-section mx-auto" src="{{articlePictures[0]}}" alt="{{ currentAd?.title }} 1" />
-            }
+        <section class="article-picture-image-section col-12 col-xxl-8">
+            <ng-container *ngIf="articlePictures.length > 1; else singlePicture">
+                <div class="split-article-pictures-section">
+                    <as-split direction="horizontal">
+                        <as-split-area [size]="areaSizeA" #splitAreaA>
+                            <as-split direction="vertical">
+                                <as-split-area>
+                                    <img src="{{ articlePictures[1] }}" alt="{{ currentAd?.title }} 2" />
+                                </as-split-area>
+                                <ng-container *ngIf="articlePictures[2]">
+                                    <as-split-area>
+                                        <img src="{{ articlePictures[2] }}" alt="{{ currentAd?.title }} 3" />
+                                    </as-split-area>
+                                </ng-container>
+                            </as-split>
+                        </as-split-area>
+                        <as-split-area [size]="areaSizeB" #splitAreaB>
+                            <as-split direction="horizontal">
+                                <as-split-area>
+                                    <img src="{{ articlePictures[0] }}" alt="{{ currentAd?.title }} 1" />
+                                </as-split-area>
+                                <ng-container *ngIf="articlePictures[3]">
+                                    <as-split-area>
+                                        <img src="{{ articlePictures[3] }}" alt="{{ currentAd?.title }} 4" />
+                                    </as-split-area>
+                                </ng-container>
+                                <ng-container *ngIf="articlePictures[4]">
+                                    <as-split-area>
+                                        <img src="{{ articlePictures[4] }}" alt="{{ currentAd?.title }} 5" />
+                                    </as-split-area>
+                                </ng-container>
+                            </as-split>
+                        </as-split-area>
+                    </as-split>
+                </div>
+            </ng-container>
+            <ng-template #singlePicture>
+                <img class="single-picture-section mx-auto" src="{{ articlePictures[0] }}"
+                    alt="{{ currentAd?.title }} 1" />
+            </ng-template>
         </section>
 
         <!-- image view on mobile device -->
-        <section class="article-picture-image-section-mobile mx-auto">
+        <section class="article-picture-image-section-mobile mx-auto col-12">
             <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true"
                 (slide)="onSlide($event)" class="mx-auto">
-                @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
-                <ng-template ngbSlide>
+                <ng-template ngbSlide *ngFor="let articlePicture of articlePictures; let i = index">
                     <div>
-                        <img class="img-wrapper" src="{{articlePicture}}" alt="" />
+                        <img class="img-wrapper" src="{{ articlePicture }}" alt="" />
                     </div>
                 </ng-template>
-                }
             </ngb-carousel>
         </section>
 
         <!-- ad's general information section -->
-        <section class="general-info mt-3">
+        <section class="general-info mt-3 col-12 col-xxl-6">
             <div class="title-and-price">
                 <p id="ad-title"><b>{{ currentAd?.title }}</b></p>
                 <p id="ad-price">{{ currentAd?.price }} €</p>
@@ -79,14 +77,16 @@
         </section>
 
         <!-- CTA encart -->
-        <section class="cta-encart">
-            @if (onMyAd) {
-            <app-cta-my-ad [myAd]="currentAd!"></app-cta-my-ad>
-            } @else {
-            <app-cta-seller-ad [myAd]="currentAd"></app-cta-seller-ad>
-            }
+        <section class="cta-encart col-12 col-xxl-4">
+            <ng-container *ngIf="onMyAd; else sellerAd">
+                <app-cta-my-ad [myAd]="currentAd!"></app-cta-my-ad>
+            </ng-container>
+            <ng-template #sellerAd>
+                <app-cta-seller-ad [myAd]="currentAd"></app-cta-seller-ad>
+            </ng-template>
         </section>
     </div>
+
 
     <!-- similar ads section -->
     @if (!onMyAd) {
@@ -102,7 +102,7 @@
     </section>
     }
 
-    <!-- current user other ads section -->
+    <!-- user's other ads section -->
     <section class="mt-5 mb-5 other-ads-list-section">
         <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
             @if (onMyAd) {

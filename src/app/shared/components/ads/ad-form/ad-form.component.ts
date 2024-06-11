@@ -173,8 +173,8 @@ export class AdFormComponent {
         } else {
           this.ad.subcategory = this.ad.subcategory.name
         }
-        // TODO: à enlever une fois la connexion implémentée
-        this.ad.publisherId = 1;
+        this.ad.publisherId = parseInt(localStorage.getItem('userId')!);
+        console.log('this.ad:: ', this.ad);
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdPostResponse) => {
             this.disabledFields = true;
@@ -183,7 +183,6 @@ export class AdFormComponent {
             });
           },
           error: (error: any) => {
-            console.error(error);
             this.errorWhenSubmittingMsg = true;
             setTimeout(() => {
               this.errorWhenSubmittingMsg = false;

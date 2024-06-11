@@ -8,16 +8,16 @@ export const adRoutes: Routes = [
         children: [
             {
                 path: 'creation',
-                loadComponent: () => import('./create-ad/create-ad.component').then(mod => mod.CreateAdComponent)
+                loadComponent: () => import('./create-ad/create-ad.component').then(mod => mod.CreateAdComponent),
+                canActivate: [authGuard],
             },
             {
                 path: ':sellerId/:adId',
                 loadComponent: () => import('./seller-ad/seller-ad.component').then(mod => mod.SellerAdComponent),
-                canActivate: [authGuard],
             }
         ]
     }
-];
+]
 
 @NgModule({
     imports: [RouterModule.forChild(adRoutes)],

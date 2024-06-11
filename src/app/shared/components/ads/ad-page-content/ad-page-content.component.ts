@@ -17,14 +17,14 @@ import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller
   standalone: true,
   imports: [
     CommonModule,
-    AdCardComponent,
     AngularSplitModule,
     CommonModule,
     UiModule,
     NgbNavModule,
     NgbCarouselModule,
     CtaMyAdComponent,
-    CtaSellerAdComponent
+    CtaSellerAdComponent,
+    AdCardComponent
   ],
   templateUrl: './ad-page-content.component.html',
   styleUrl: './ad-page-content.component.scss'
@@ -71,8 +71,6 @@ export class AdPageComponent implements OnInit {
     this.adService.findAdById(adId).subscribe({
       next: (ad: AdPostResponse) => {
         this.currentAd = ad;
-        //this.onMyAd = this.currentAd.publisherId == parseInt(localStorage.getItem('userId')!)
-        console.log(' this.onMyAd:: ', this.onMyAd)
         this.articlePictures = [
           this.currentAd.firstArticlePictureUrl,
           this.currentAd.secondArticlePictureUrl,
@@ -83,7 +81,7 @@ export class AdPageComponent implements OnInit {
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
         this.fetchPaginatedAdsList()
-        if (!this.onMyAd) { this.maybeGetSimilarAds() }
+        if (!this.onMyAd) { this.getSimilarAds() }
         this.adService.getMyAdsCount(this.currentAd.publisherId!).subscribe({
           next: (adCount: number) => {
             this.adCount = adCount
@@ -98,8 +96,10 @@ export class AdPageComponent implements OnInit {
     this.viewportScroller.scrollToPosition([0, 0])
   }
 
-  maybeGetSimilarAds(): void {
-    this.adService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!).subscribe({
+  getSimilarAds(): void {
+    const userId = localStorage.getItem('userId');
+    const currentUserId = userId ? parseInt(userId) : 0;
+    this.adService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, currentUserId).subscribe({
       next: (similarAds: AdPostResponse[]) => {
         return this.similarAds = similarAds;
       }
@@ -133,7 +133,7 @@ export class AdPageComponent implements OnInit {
   }
 
   fetchPaginatedAdsList() {
-    this.pageSize = this.onMyAd == true ? 9 : 4;
+    this.pageSize = this.onMyAd ? 9 : 4;
     this.adService.fetchMoreAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdPostResponse[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
