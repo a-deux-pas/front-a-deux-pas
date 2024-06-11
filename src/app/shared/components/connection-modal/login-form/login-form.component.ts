@@ -9,11 +9,11 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { AsyncValidatorService } from '../../../services/async-validator.service';
+import { Credentials } from '../../../models/user/credentials.model';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrl: './login-form.component.scss',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })
@@ -22,6 +22,7 @@ export class LoginFormComponent {
   showPassword: boolean = false;
   isFormSubmitted: boolean = false;
   @Output() formSubmitted = new EventEmitter<boolean>();
+  @Output() error = new EventEmitter<boolean>();
   showErrorAlert?: boolean = false;
 
   constructor(
@@ -59,11 +60,14 @@ export class LoginFormComponent {
 
   // Handle the login form submission
   onSubmit() {
-    const email = this.loginForm.get('email')?.value;
-    const password = this.loginForm.get('password')?.value;
+    const credentials = new Credentials (
+      this.loginForm.get('email')?.value,
+      this.loginForm.get('password')?.value,
+      this.loginForm.get('stayLoggedIn')?.value
+    )
 
-    if (email && password) {
-      this.AuthService.auth(email, password,'login').subscribe({
+    if (this.loginForm.valid) {
+      this.AuthService.auth(credentials,'login').subscribe({
         next: (data: any) => {
           if (data) {
             this.isFormSubmitted = true;
@@ -71,21 +75,11 @@ export class LoginFormComponent {
           }
         },
         error: (error: any) => {
-          console.error(error);
           this.showErrorAlert = true;
-          setTimeout(() => {
-            this.showErrorAlert = false;
-          }, 3000);
+          this.error.emit(this.showErrorAlert);
         },
       });
-    } else {
-      this.showErrorAlert = true;
-      setTimeout(() => {
-        this.showErrorAlert = false;
-      }, 3000);
     }
   }
 }
-
-
 

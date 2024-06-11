@@ -43,10 +43,21 @@
   <div class="modal-body">
     <ng-container>
       @if(isLoginFormVisible) {
-        <app-login-form (formSubmitted)="isFormSubmitted($event)"></app-login-form>
+        <app-login-form
+          (formSubmitted)="isFormSubmitted($event)"
+          (error)="showError($event)">
+        </app-login-form>
       }
       @if(!isLoginFormVisible) {
-        <app-register-form (formSubmitted)="isFormSubmitted($event)"></app-register-form>
+        <app-register-form
+          (formSubmitted)="isFormSubmitted($event)"
+          (error)="showError($event)">
+        </app-register-form>
+      }
+      @if (showErrorAlert) {
+        <div class="alert alert-danger mt-3">
+          Une erreur est survenue. Veuillez réessayer plus tard
+        </div>
       }
     </ng-container>
   </div>

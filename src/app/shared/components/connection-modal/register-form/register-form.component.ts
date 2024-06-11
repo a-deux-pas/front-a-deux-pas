@@ -5,13 +5,13 @@ import { CommonModule } from '@angular/common';
 import { checkEqualityValidator, passwordValidator } from '../../../utils/validators/custom-validators';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { Credentials } from '../../../models/user/credentials.model';
 
 @Component({
   selector: 'app-register-form',
   standalone: true,
   imports: [ReactiveFormsModule, FormsModule, CommonModule],
-  templateUrl: './register-form.component.html',
-  styleUrl: './register-form.component.scss'
+  templateUrl: './register-form.component.html'
 })
 export class RegisterFormComponent {
   registerForm: FormGroup;
@@ -19,6 +19,7 @@ export class RegisterFormComponent {
   showConfirmPassword: boolean = false;
   isFormSubmitted: boolean = false;
   @Output() formSubmitted = new EventEmitter<boolean>();
+  @Output() error = new EventEmitter<boolean>();
   showErrorAlert?: boolean = false;
 
   constructor(
@@ -53,12 +54,14 @@ export class RegisterFormComponent {
   }
 
   onSubmit() {
-    const email = this.registerForm.get('email')?.value;
-    const password = this.registerForm.get('password')?.value;
-    console.log(this.registerForm.valid);
+    const credentials = new Credentials (
+      this.registerForm.get('email')?.value,
+      this.registerForm.get('password')?.value,
+      true,
+    )
 
     if (this.registerForm.valid) {
-      this.authService.auth(email, password,'signup').subscribe({
+      this.authService.auth(credentials,'signup').subscribe({
         next: (data: any) => {
           if (data) {
           setTimeout(() => {
@@ -69,18 +72,10 @@ export class RegisterFormComponent {
           }
         },
         error: (error: any) => {
-          console.error(error);
           this.showErrorAlert = true;
-          setTimeout(() => {
-            this.showErrorAlert = false;
-          }, 3000);
+          this.error.emit(this.showErrorAlert);
         },
       });
-    } else {
-      this.showErrorAlert = true;
-      setTimeout(() => {
-        this.showErrorAlert = false;
-      }, 3000);
     }
   }
 }

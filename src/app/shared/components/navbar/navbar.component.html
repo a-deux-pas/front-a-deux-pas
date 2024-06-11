@@ -17,7 +17,7 @@
   <section id="mobile-bottom-navbar">
     <ul id="mobile-bottom-navbar-icons">
       <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage">
-        <a routerLink="accueil" class="navbar-icon">
+        <a routerLink="/" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
           Accueil
         </a>
@@ -93,7 +93,7 @@
       <app-search-bar></app-search-bar>
       <ul id="desktop-navbar-icons" [hidden]="isRegistrationPage">
         <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-          <a routerLink="accueil" class="navbar-icon">
+          <a routerLink="/" class="navbar-icon">
             <img class="add-icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
             Accueil
           </a>

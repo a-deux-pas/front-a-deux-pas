@@ -124,7 +124,7 @@ export class RegisterComponent implements AfterViewInit {
           next: (response) => {
               //this.goBack();
               console.log('Profile saved:', response);
-              this.router.navigate(['accueil'], {
+              this.router.navigate(['/'], {
                 queryParams: { success: true }
               });
           },

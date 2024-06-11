@@ -27,7 +27,7 @@ export class HeaderComponent {
       // Modal closed with success
       if (result === 'Close click') {
         // Redirect to 'logged-in-home'
-        this.router.navigate(['/accueil']);
+        this.router.navigate(['/']);
       }
     });
   }

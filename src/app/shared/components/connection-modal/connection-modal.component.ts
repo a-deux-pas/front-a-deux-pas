@@ -13,6 +13,7 @@ import { RegisterFormComponent } from './register-form/register-form.component';
 export class ConnectionModalComponent {
   loginData: any;
   isLoginFormVisible: boolean = true;
+  showErrorAlert?: boolean = false;
 
   constructor(public activeModal: NgbActiveModal) {}
 
@@ -27,6 +28,15 @@ export class ConnectionModalComponent {
   isFormSubmitted(formSubmitted: boolean) {
     if (formSubmitted) {
       this.activeModal.close('Close click');
+    }
+  }
+
+  showError(showErrorAlert: boolean) {
+    this.showErrorAlert = showErrorAlert;
+    if (this.showErrorAlert) {
+      setTimeout(() => {
+        this.showErrorAlert = false;
+      }, 3000);
     }
   }
 }
