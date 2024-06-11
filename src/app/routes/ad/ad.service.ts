@@ -11,7 +11,7 @@ import { HandleErrorService } from "../../shared/services/handle-error.service"
 })
 export class AdService {
 
-    private contextUrl = `${API_URL}ads/`;
+    private contextUrl = `${API_URL}api/ads/`;
 
     constructor(
         private http: HttpClient,
@@ -30,7 +30,7 @@ export class AdService {
         return this.http.get<AdPostResponse>(url)
             .pipe(
                 catchError(this.handleErrorService.handleError<AdPostResponse>('getAd'))
-            );
+            )
     }
 
     fetchMoreAds(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
@@ -54,6 +54,6 @@ export class AdService {
         return this.http.get<AdPostResponse[]>(url)
             .pipe(
                 catchError(this.handleErrorService.handleError<AdPostResponse[]>('getSimilarAds'))
-            );
+            )
     }
 }

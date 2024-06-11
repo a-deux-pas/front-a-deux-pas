@@ -16,6 +16,9 @@ export class AdCardComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    if (this.ad.title!.length > 23) {
+      this.ad.title = `${this.ad.title?.substring(0, 23)}.. `
+    }
     if (this.currentUserId) {
       this.type = this.ad.publisherId === this.currentUserId ? 'mine' : 'sellerAd';
     } else {
@@ -23,7 +26,7 @@ export class AdCardComponent implements OnInit {
     }
   }
 
-  // TO DO :: checker pb de redirection et voir l'url est la bonne 
+  // TO DO :: checker pb de redirection et voir si l'url est la bonne 
   goToAdPage() {
     this.type === 'mine' ? this.router.navigate(['/compte/annonces/mon-annonce', this.ad.id]) : this.router.navigate(['/annonce', this.ad.publisherId, this.ad.id]);
   }

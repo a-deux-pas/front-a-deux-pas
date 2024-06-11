@@ -33,7 +33,7 @@ export class DefaultHomeComponent implements OnInit {
   selectedArticleStates: string[] = [];
   selectedCategory: string = 'Catégorie';
 
-  constructor(private adFiltersService: AdFiltersService) {}
+  constructor(private adFiltersService: AdFiltersService) { }
 
   ngOnInit() {
     this.fetchCitiesAndPostalCodes();

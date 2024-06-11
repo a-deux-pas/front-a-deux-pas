@@ -56,7 +56,7 @@ export class AdFiltersComponent {
   constructor(
     private adFiltersService: AdFiltersService,
     private renderer: Renderer2
-  ) {}
+  ) { }
 
   ngAfterViewInit() {
     this.handleDropdownMouseLeave(this.priceDropdownRef.nativeElement);

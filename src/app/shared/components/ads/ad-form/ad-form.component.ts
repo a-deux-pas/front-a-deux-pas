@@ -178,14 +178,19 @@ export class AdFormComponent {
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdPostResponse) => {
             this.disabledFields = true;
+            setTimeout(() => {
+              this.disabledFields = false;
+            }, 3000);
             this.router.navigate(['compte/annonces/mon-annonce/', ad.id], {
               queryParams: { success: true }
             });
           },
           error: (error: any) => {
             this.errorWhenSubmittingMsg = true;
+            this.disabledFields = true;
             setTimeout(() => {
               this.errorWhenSubmittingMsg = false;
+              this.disabledFields = false;
             }, 3000);
           }
         });
