@@ -11,13 +11,21 @@
 <div class="progress-bar">
   <div class="step-container">
     <p [class.title-checkpoint]="step >= 1">Récapitulatif</p>
-    <div class="circle" [class.checkpoint]="step >= 1"></div>
+    <div
+      class="circle"
+      [class.checkpoint]="step >= 1"
+      [class.checkmark-flag]="step >= 2"
+    ></div>
   </div>
   <hr [class.checkpoint]="step > 1" />
 
   <div class="step-container">
     <p [class.title-checkpoint]="step >= 2">RDV</p>
-    <div class="circle" [class.checkpoint]="step >= 2"></div>
+    <div
+      class="circle"
+      [class.checkpoint]="step >= 2"
+      [class.checkmark-flag]="step >= 3"
+    ></div>
   </div>
   <hr [class.checkpoint]="step > 2" />
 
