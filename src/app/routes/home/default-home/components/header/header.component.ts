@@ -22,13 +22,6 @@ export class HeaderComponent {
    */
 
   openModal() {
-    const modalRef = this.modalService.open(ConnectionModalComponent);
-    modalRef.result.then((result) => {
-      // Modal closed with success
-      if (result === 'Close click') {
-        // Redirect to 'logged-in-home'
-        this.router.navigate(['/']);
-      }
-    });
+    this.modalService.open(ConnectionModalComponent);
   }
 }
