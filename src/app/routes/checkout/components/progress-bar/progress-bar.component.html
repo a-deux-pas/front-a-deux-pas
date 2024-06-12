@@ -7,10 +7,22 @@
 }@if(step === 3 && paymentMethod === 'Card'){
 <h2><b>Paiement CB</b></h2>
 }
+
 <div class="progress-bar">
-  <div [class.checkpoint]="step >= 1"></div>
+  <div class="step-container">
+    <p [class.title-checkpoint]="step >= 1">Récapitulatif</p>
+    <div class="circle" [class.checkpoint]="step >= 1"></div>
+  </div>
   <hr [class.checkpoint]="step > 1" />
-  <div [class.checkpoint]="step >= 2"></div>
+
+  <div class="step-container">
+    <p [class.title-checkpoint]="step >= 2">RDV</p>
+    <div class="circle" [class.checkpoint]="step >= 2"></div>
+  </div>
   <hr [class.checkpoint]="step > 2" />
-  <div [class.checkpoint]="step >= 3"></div>
+
+  <div class="step-container">
+    <p [class.title-checkpoint]="step === 3">Paiement</p>
+    <div class="circle" [class.checkpoint]="step === 3"></div>
+  </div>
 </div>

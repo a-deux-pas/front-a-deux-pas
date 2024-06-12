@@ -1,0 +1,47 @@
+@import "../../../../../../style/color-variables.scss";
+
+.order-recap-card {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  border: 4px solid $primary;
+  border-radius: 2% 2% 5% 2%;
+  background-color: $tertiary;
+  padding: 4.5%;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-bottom: 5%;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ad-details {
+  display: flex;
+  margin-top: 20px;
+}
+
+.hr {
+  border: 1px solid $primary;
+  margin-top: 10%;
+  margin-bottom: 5%;
+}
+
+h3 {
+  text-align: center;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding-right: 15%;
+}
+
+.name-and-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

@@ -33,7 +33,7 @@ const routes: Routes = [
       import('./routes/checkout/checkout-routing.module').then(
         (mod) => mod.CheckoutRoutingModule
       ),
-    //canActivate: [authGuard],
+    canActivate: [authGuard],
   },
   {
     path: '',

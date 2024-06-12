@@ -1,4 +1,5 @@
-<div class="radio-container">
+<app-order-recap-card></app-order-recap-card>
+<div class="payment-options-container">
   <div class="form-check">
     <input
       class="form-check-input"
@@ -8,7 +9,7 @@
       (click)="selectPaymentMethod('card')"
       checked
     />
-    <label class="form-check-label" for="checked-radio">
+    <label class="form-check-label" for="card">
       Paiement CB, activé une fois l'article récupéré
     </label>
   </div>
@@ -20,7 +21,7 @@
       id="cash"
       (click)="selectPaymentMethod('cash')"
     />
-    <label class="form-check-label" for="cahs">
+    <label class="form-check-label" for="cash">
       Paiement cash à la remise de l'article
     </label>
   </div>
