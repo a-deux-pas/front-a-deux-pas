@@ -10,9 +10,9 @@ import { NotificationsComponent } from '../../shared/components/notifications/no
 import { PreferredMeetingPlace } from '../../shared/models/user/preferred-meeting-place.model';
 import { PreferredSchedule } from '../../shared/models/user/preferred-schedule.model';
 import { EventNotification } from '../../shared/models/user/event-notification.model';
-import { ProfileService } from '../account/profile/profile.service';
 import { environment } from '../../../environments/environment';
 import { AsyncValidatorService } from '../../shared/services/async-validator.service';
+import { RegisterService } from './register.service';
 
 @Component({
   selector: 'app-register',
@@ -40,7 +40,7 @@ export class RegisterComponent implements AfterViewInit {
   constructor(
     private formBuilder: FormBuilder,
     private asyncValidatorService: AsyncValidatorService,
-    private profileService: ProfileService,
+    private registerService: RegisterService,
     private router: Router,
     private location: Location,
     private cd: ChangeDetectorRef
@@ -120,7 +120,7 @@ export class RegisterComponent implements AfterViewInit {
           preferredSchedules: this.preferredSchedules,
           notifications: this.notifications,
         }
-        this.profileService.saveProfile(userInfo).subscribe({
+        this.registerService.saveProfile(userInfo).subscribe({
           next: (response) => {
               //this.goBack();
               console.log('Profile saved:', response);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
@@ -11,31 +11,18 @@ import { HandleErrorService } from '../../../shared/services/handle-error.servic
   providedIn: 'root'
 })
 export class ProfileService {
-  private apiUrl = `${API_URL}api/account/profile`;
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      //Authorization: 'my-auth-token'
-    }),
-    responseType: 'text' as 'json'
-  };
+  private apiUrl = `${API_URL}account/profile`;
 
   constructor(
     private http: HttpClient,
-    private handleErrorService: HandleErrorService) {}
-
-  saveProfile(profile: any): Observable<any> {
-    console.log(profile)
-    return this.http.patch(`${API_URL}api/account/create`, profile, this.httpOptions)
-      .pipe(
-        catchError(this.handleErrorService.handleError))
-  }
+    private handleErrorService: HandleErrorService
+  ) {}
 
   // Fetch user information from the API
   getUserPresentation(): Observable<User> {
     return this.http.get<User>(this.apiUrl + "/presentation")
       .pipe(
-        //catchError(this.handleErrorService.handleError<User>('userPresentation'))
+        catchError(this.handleErrorService.handleError)
       );
   }
 
@@ -43,7 +30,7 @@ export class ProfileService {
   getUserPreferredSchedules(): Observable<PreferredSchedule[]> {
     return this.http.get<PreferredSchedule[]>(this.apiUrl + "/schedules")
       .pipe(
-        //catchError(this.handleErrorService.handleError<PreferredSchedule[]>('preferredSchedules', []))
+        catchError(this.handleErrorService.handleError)
       );
   }
 
@@ -51,7 +38,7 @@ export class ProfileService {
   getPreferredMeetingPlaces(): Observable<PreferredMeetingPlace[]> {
     return this.http.get<PreferredMeetingPlace[]>(this.apiUrl + "/meeting-places")
       .pipe(
-        //catchError(this.handleErrorService.handleError<PreferredMeetingPlace[]>('preferredMeetingPlaces', []))
+        catchError(this.handleErrorService.handleError)
       );
   }
 }

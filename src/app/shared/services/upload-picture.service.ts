@@ -27,7 +27,7 @@ export class UploadPictureService {
     return this.http.post(`https://api.cloudinary.com/v1_1/erikaadeuxpas/upload/`, data)
       .pipe(
         retry(1),
-        //catchError(this.handleErrorService.handleError('completeDataToUpload'))
+        catchError(this.handleErrorService.handleError)
       );
   }
 

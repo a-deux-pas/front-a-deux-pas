@@ -1,6 +1,6 @@
-import { API_URL } from "../../utils/constants/utils-constants"; 
+import { API_URL } from "../../utils/constants/utils-constants";
 
-let apiUrl = `${API_URL}api/account/profile`;
+let apiUrl = `${API_URL}account/profile`;
 
 context('account tabs testing', () => {
   beforeEach(() => {
