@@ -5,12 +5,14 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PreferredSchedule } from '../../models/user/preferred-schedule.model';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { EventModalComponent } from './event-modal/event-modal.component';
 
 @Component({
     selector: 'app-schedule',
     templateUrl: './schedule.component.html',
     standalone: true,
-    imports: [FullCalendarModule]
+    imports: [FullCalendarModule, EventModalComponent]
 })
 export class ScheduleComponent implements OnChanges {
   // Signal for tracking current events
@@ -55,7 +57,7 @@ export class ScheduleComponent implements OnChanges {
     selectLongPressDelay: 50,
   });
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(private changeDetector: ChangeDetectorRef, public modalService: NgbModal) {}
 
   // Handle edit mode change
   ngOnChanges(changes: SimpleChanges) {
@@ -81,12 +83,16 @@ export class ScheduleComponent implements OnChanges {
   }
 
   // Handle event click
-  // TODO : add style to the pop-up
   handleEventClick(clickInfo: EventClickArg) {
-      // Ask for confirmation before deleting an event
-      if (confirm(`Are you sure you want to delete this event`)) {
+    const modalRef = this.modalService.open(EventModalComponent, { centered: true });
+
+    modalRef.result.then((result) => {
+      if (result === 'delete') {
         clickInfo.event.remove();
       }
+    }, (reason) => {
+      console.log(`Modal dismissed by user action: ${reason}`);
+    });
   }
 
   // Handle time selection
