@@ -1,36 +1,38 @@
 <app-order-recap-card></app-order-recap-card>
-<div class="payment-options-container">
-  <div class="form-check">
-    <input
-      class="form-check-input"
-      type="radio"
-      name="payment"
-      id="card"
-      (click)="selectPaymentMethod('card')"
-      checked
-    />
-    <label class="form-check-label" for="card">
-      Paiement CB, activé une fois l'article récupéré
-    </label>
+<section class="payment-options-container">
+  <div class="radio-input-container">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="payment"
+        id="card"
+        (click)="selectPaymentMethod('card')"
+        checked
+      />
+      <label class="form-check-label" for="card">
+        Paiement CB, activé une fois l'article récupéré
+      </label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="payment"
+        id="cash"
+        (click)="selectPaymentMethod('cash')"
+      />
+      <label class="form-check-label" for="cash">
+        Paiement cash à la remise de l'article
+      </label>
+    </div>
   </div>
-  <div class="form-check">
-    <input
-      class="form-check-input"
-      type="radio"
-      name="payment"
-      id="cash"
-      (click)="selectPaymentMethod('cash')"
-    />
-    <label class="form-check-label" for="cash">
-      Paiement cash à la remise de l'article
-    </label>
-  </div>
-</div>
-<div class="button-container">
+</section>
+<section class="buttons-container">
   <!-- Secondary button -->
   <button type="submit" class="btn-secondary mt-4">annuler</button>
   <!-- Primary button -->
   <button type="submit" class="btn-primary mt-4" (click)="nextStep()">
     valider
   </button>
-</div>
+</section>
