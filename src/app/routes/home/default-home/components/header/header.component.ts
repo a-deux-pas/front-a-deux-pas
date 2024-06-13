@@ -1,7 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { SearchBarComponent } from '../../../../../shared/components/navbar/search-bar/search-bar.component';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { ConnectionModalComponent } from '../../../../../shared/components/connection-modal/connection-modal.component';
 
 @Component({
@@ -14,7 +13,7 @@ import { ConnectionModalComponent } from '../../../../../shared/components/conne
 })
 export class HeaderComponent {
 
-  constructor(public modalService: NgbModal, private router: Router) {}
+  constructor(public modalService: NgbModal) {}
 
   /*
    * This method is designed to open a modal when the 'openModal' button is clicked.

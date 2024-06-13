@@ -1,7 +1,6 @@
-import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component, SecurityContext } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
-import { Router } from '@angular/router';
 import { ProfilePictureComponent } from '../../shared/components/user-presentation/profile-picture/profile-picture.component';
 import { MeetingPlaceFormComponent } from './components/meeting-place-form/meeting-place-form.component';
 import { ScheduleComponent } from '../../shared/components/schedule/schedule.component';
@@ -13,6 +12,8 @@ import { EventNotification } from '../../shared/models/user/event-notification.m
 import { environment } from '../../../environments/environment';
 import { AsyncValidatorService } from '../../shared/services/async-validator.service';
 import { RegisterService } from './register.service';
+import { UserProfile } from '../../shared/models/user/user-profile.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-register',
@@ -26,36 +27,36 @@ export class RegisterComponent implements AfterViewInit {
   profileForm: FormGroup;
   isProfilePictureUploaded: boolean = false;
   isProfilePicturePreview: boolean = false;
-  preferredMeetingPlaces!: PreferredMeetingPlace[];
+  preferredMeetingPlaces: PreferredMeetingPlace[] = [];
   scheduleEditMode: boolean = true;
-  preferredSchedules!: PreferredSchedule[];
+  preferredSchedules: PreferredSchedule[] = [];
   notifications!: EventNotification[];
   isSubmitted: boolean = false;
 
   userId = localStorage.getItem('userId');
 
-  errorWhenSubmittingMsg: boolean = false
-  adSuccessfullySubmitted: boolean = false
+  showErrorAlert: boolean = false
 
   constructor(
     private formBuilder: FormBuilder,
     private asyncValidatorService: AsyncValidatorService,
+    private sanitizer: DomSanitizer,
     private registerService: RegisterService,
-    private router: Router,
     private location: Location,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     this.profileForm = this.formBuilder.group({
       alias: ['', {
-        validators:[Validators.required, Validators.minLength(3)],
+        validators:[Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+
         asyncValidators: this.asyncValidatorService.uniqueAliasValidator(),
         updateOn: 'blur'
         }
       ],
-      bio: ['', [Validators.minLength(10)]],
+      bio: ['', [Validators.minLength(10), Validators.maxLength(600)]],
       address: this.formBuilder.group({
         street: ['', Validators.required],
-        postalCode: ['', Validators.required],
+        postalCode: ['', [Validators.required, Validators.maxLength(5)]],
         city: ['', Validators.required]
       }),
     });
@@ -72,26 +73,32 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   profilePictureUpload(eventType: string): void {
-    if (eventType === 'uploadSuccess') {
-      this.isProfilePictureUploaded = true;
-      console.log('picture uploaded', this.isProfilePictureUploaded);
+     // TO DO : to change once cloudinary changes done
+    switch (eventType) {
+      case 'uploadSuccess':
+        this.isProfilePictureUploaded = true;
+        console.log('picture uploaded', this.isProfilePictureUploaded);
+        break;
+
+      case 'thumbnailGenerated':
+        this.isProfilePicturePreview = true;
+        console.log('preview', this.isProfilePicturePreview);
+        break;
+
+      case 'fileRemoved':
+        this.isProfilePicturePreview = false;
+        console.log('preview', this.isProfilePicturePreview);
+        break;
+
+      default:
+        break;
     }
 
-    if (eventType === 'thumbnailGenerated') {
-      this.isProfilePicturePreview = true;
-      console.log('preview', this.isProfilePicturePreview);
-    }
-
-    if (eventType === 'fileRemoved') {
-      this.isProfilePicturePreview = false;
-      console.log('preview', this.isProfilePicturePreview);
-    }
     this.cd.detectChanges();
   }
 
   getUserPreferredMeetingPlaces(newPreferredMeetingPlaces: PreferredMeetingPlace[]) {
     this.preferredMeetingPlaces = newPreferredMeetingPlaces;
-    console.log(this.preferredMeetingPlaces);
   }
 
   getUserPreferredSchedules(newPreferredSchedules: PreferredSchedule[]) {
@@ -102,45 +109,64 @@ export class RegisterComponent implements AfterViewInit {
     this.notifications = newNotifications;
   }
 
-  // Form Submit
+  isFormValid(): boolean {
+    return (
+      this.profileForm.invalid ||
+      !this.isProfilePicturePreview ||
+      this.preferredMeetingPlaces.length === 0 ||
+      this.preferredSchedules.length === 0
+    );
+  }
+
   onSubmit() {
     this.isSubmitted = true;
     setTimeout(() => {
-      if (this.isProfilePictureUploaded) {
-        const userInfo: any = {
-          userId: this.userId,
-          alias: this.profileForm.get('alias')?.value,
-          bio: this.profileForm.get('bio')?.value,
-          street: this.profileForm.get('address')?.get('street')?.value,
-          city: this.profileForm.get('address')?.get('city')?.value,
-          postalCode: this.profileForm.get('address')?.get('postalCode')?.value,
-          bankAccountHolder: this.profileForm.get('bankAccount')?.get('accountHolder')?.value,
-          bankAccountNumber: this.profileForm.get('bankAccount')?.get('accountNumber')?.value,
-          preferredMeetingPlaces: this.preferredMeetingPlaces,
-          preferredSchedules: this.preferredSchedules,
-          notifications: this.notifications,
-        }
-        this.registerService.saveProfile(userInfo).subscribe({
+      if (this.isProfilePictureUploaded && this.userId) {
+        // TO DO : isProfilePictureUploade to remove once cloudinary changes done
+        const userProfile = new UserProfile(
+          this.userId,
+          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('alias')?.value) ?? '',
+          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bio')?.value) ?? '',
+          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('city')?.value) ?? '',
+          '', // TO DO : profile picture link to add once cloudinary changes done
+          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('street')?.value) ?? '',
+          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('postalCode')?.value) ?? '',
+          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bankAccount')?.get('accountHolder')?.value) ?? '',
+          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bankAccount')?.get('accountNumber')?.value) ?? '',
+          this.preferredSchedules,
+          this.preferredMeetingPlaces,
+          this.notifications
+        )
+        this.registerService.saveProfile(userProfile).subscribe({
           next: (response) => {
-              //this.goBack();
-              console.log('Profile saved:', response);
-              this.router.navigate(['/'], {
-                queryParams: { success: true }
-              });
+            console.log('Profile saved:', response);
+            this.goBack();
           },
           error: (error) => {
             console.error('Error saving profile:', error);
-            this.errorWhenSubmittingMsg = true;
-            setTimeout(() => {
-              this.errorWhenSubmittingMsg = false;
-            }, 10);
+            this.errorAlert();
           }
         });
+      } else {
+        if (!this.isProfilePictureUploaded) {
+          console.error('profile picture upload failed or/and UserId is null');
+        }
+        if (!this.userId) {
+          console.error('User id is null');
+        }
+        this.errorAlert();
       }
     }, 10);
   }
 
   goBack() {
     this.location.back();
+  }
+
+  errorAlert() {
+    this.showErrorAlert = true;
+    setTimeout(() => {
+      this.showErrorAlert = false;
+    }, 3000);
   }
 }

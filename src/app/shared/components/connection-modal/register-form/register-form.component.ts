@@ -26,7 +26,7 @@ export class RegisterFormComponent {
     private fb: FormBuilder,
     private asyncValidatorService: AsyncValidatorService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.registerForm = this.fb.group({
       email: ['', {
@@ -41,8 +41,7 @@ export class RegisterFormComponent {
     },
     {
       validators: checkEqualityValidator('password','confirmPassword')
-    }
-  );
+    });
   }
 
   togglePasswordVisibility() {

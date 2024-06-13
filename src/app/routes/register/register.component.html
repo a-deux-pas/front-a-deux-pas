@@ -11,13 +11,22 @@
     <div class="row justify-content-center mt-3">
       <div class="col-10 col-md-4">
         <label for="alias">Mon pseudo</label>
-        <input type="text" formControlName="alias" id="alias" name="alias" class="form-control" minlength="3" required/>
-        @if (profileForm.controls['alias'].errors && (profileForm.controls['alias'].dirty
-        || profileForm.controls['alias'].touched)) {
+        <input type="text" formControlName="alias" id="alias" name="alias" class="form-control"
+        minlength="3" maxlength="30" required/>
+        @if (profileForm.get('alias')?.errors && (profileForm.get('alias')?.dirty
+        || profileForm.get('alias')?.touched)) {
           <div class="error-msg mt-3">
-            <div [hidden]="!profileForm.controls['alias'].errors['required']">Veuillez renseigner votre pseudo</div>
-            <div [hidden]="!profileForm.controls['alias'].errors['minlength']">Votre pseudo doit comporter au moins 3 caractères</div>
-            <div [hidden]="!profileForm.controls['alias'].errors['aliasExists']">Ce pseudo existe déjà</div>
+            <div [hidden]="!profileForm.get('alias')?.errors?.['required']">
+              Veuillez renseigner votre pseudo
+            </div>
+            <div [hidden]="!profileForm.get('alias')?.errors?.['minlength']">
+              Votre pseudo ne doit pas dépasser 3 caractères
+            </div>
+            <div [hidden]="!profileForm.get('alias')?.errors?.['maxlength']">
+              Votre pseudo doit comporter au moins 30 caractères
+            </div>
+            <div [hidden]="!profileForm.get('alias')?.errors?.['aliasExists']">
+              Ce pseudo existe déjà</div>
           </div>
         }
       </div>
@@ -26,10 +35,20 @@
     <div class="row justify-content-center mt-4">
       <div class="col-12 col-md-6 mt-4">
         <label for="bio" class="form-label">Ma présentation</label>
-        <textarea formControlName="bio" class="form-control form-control-sm" name="bio" id="bio" rows="3" minlength="10"></textarea>
+        <textarea formControlName="bio" class="form-control form-control-sm" name="bio" id="bio"
+          rows="3" minlength="10" maxlength="600">
+        </textarea>
       </div>
-      @if (profileForm.controls['bio'].errors && (profileForm.controls['bio'].dirty || profileForm.controls['bio'].touched)) {
-        <div class="error-msg text-center mt-3">Votre présentation doit comporter au moins 10 caractères</div>
+      @if (profileForm.get('bio')?.errors && (profileForm.get('bio')?.dirty
+      || profileForm.get('bio')?.touched)) {
+        <div class="error-msg text-center mt-3">
+          <div [hidden]="!profileForm.get('bio')?.errors?.['minlength']">
+            Votre présentation doit comporter au moins 10 caractères
+          </div>
+          <div [hidden]="!profileForm.get('bio')?.errors?.['maxlength']">
+            Votre présentation ne doit pas dépasser 600 caractères
+          </div>
+        </div>
       }
     </div>
 
@@ -46,8 +65,8 @@
             <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control"
             placeholder="Numéro et nom de rue" required/>
           </mapbox-address-autofill>
-          @if (profileForm.controls['address'].get('street')?.errors && (profileForm.controls['address'].get('street')?.dirty
-          || profileForm.controls['address'].get('street')?.touched)) {
+          @if (profileForm.get('address')?.get('street')?.errors && (profileForm.get('address')?.get('street')?.dirty
+          || profileForm.get('address')?.get('street')?.touched)) {
             <div class="error-msg mt-2">Veuillez renseigner votre rue</div>
           }
         </div>
@@ -56,17 +75,25 @@
         <div class="col-6 col-md-4">
           <label for="postal-code">Code postal</label>
           <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code"
-          class="form-control"required/>
-          @if (profileForm.controls['address'].get('postalCode')?.errors && (profileForm.controls['address'].get('postalCode')?.dirty
-          || profileForm.controls['address'].get('postalCode')?.touched)) {
-            <div class="error-msg mt-2">Veuillez renseigner votre code postal</div>
+          class="form-control" required/>
+          @if (profileForm.get('address')?.get('postalCode')?.errors && (profileForm.get('address')?.get('postalCode')?.dirty
+          || profileForm.get('address')?.get('postalCode')?.touched)) {
+            <div class="error-msg mt-2">
+              <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['maxlength']">
+                Veuillez renseigner un code postal valide
+              </div>
+              <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['required']">
+                Veuillez renseigner votre code postal
+              </div>
+            </div>
           }
         </div>
         <div class="col-6 col-md-4">
           <label for="city">Ville</label>
-          <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
-          @if (profileForm.controls['address'].get('city')?.errors && (profileForm.controls['address'].get('city')?.dirty
-          || profileForm.controls['address'].get('city')?.touched)) {
+          <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city"
+          class="form-control" required/>
+          @if (profileForm.get('address')?.get('city')?.errors && (profileForm.get('address')?.get('city')?.dirty
+          || profileForm.get('address')?.get('city')?.touched)) {
             <div class="error-msg mt-2">Veuillez renseigner votre ville</div>
           }
         </div>
@@ -105,11 +132,16 @@
     </div>
     <app-notifications (addNotifications)="getUserNotificationsPreferrences($event)"></app-notifications>
 
-    <!-- <p>{{"form valide ? " + profileForm.valid}}</p> -->
-
     <div class="d-grid gap-md-5 d-md-flex justify-content-center my-5">
       <button type="button" class="btn-secondary mt-4" (click)="goBack()">annuler</button>
-      <button type="submit" class="btn-primary mt-4" [disabled]="profileForm.invalid || !isProfilePicturePreview || preferredMeetingPlaces.length === 0 || preferredSchedules.length === 0">sauvegarder</button>
+      <button type="submit" class="btn-primary mt-4" [disabled]="isFormValid()">sauvegarder</button>
     </div>
   </form>
 </div>
+@if (showErrorAlert) {
+  <div class="d-flex justify-content-center">
+    <div class="alert alert-danger text-center mb-5">
+      Une erreur s'est produite, veuillez réessayer plus tard
+    </div>
+  </div>
+}

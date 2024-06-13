@@ -42,12 +42,20 @@
               <strong class="number">{{ preferredMeetingPlacesDisplay.length + 1 }}</strong>
               &nbsp;Nom
             </label>
-            <input type="text" formControlName="name" id="name" name="name" class="form-control" placeholder="Nom du lieu" required/>
+            <input type="text" formControlName="name" id="name" name="name" class="form-control"
+            placeholder="Nom du lieu" maxlength="30" required/>
             @if (preferredMeetingPlaceFormGroup.get('name')?.errors && (preferredMeetingPlaceFormGroup.get('name')?.dirty
             || preferredMeetingPlaceFormGroup.get('name')?.touched)) {
               <div class="error-msg mt-2">
-                <div [hidden]="!preferredMeetingPlaceFormGroup.get('name')?.errors?.['required']">Veuillez renseigner un nom de lieu</div>
-                <div [hidden]="!preferredMeetingPlaceFormGroup.get('name')?.errors?.['alreadyExists']">Ce nom de lieu existe déjà</div>
+                <div [hidden]="!preferredMeetingPlaceFormGroup.get('name')?.errors?.['required']">
+                  Veuillez renseigner un nom de lieu
+                </div>
+                <div [hidden]="!preferredMeetingPlaceFormGroup.get('name')?.errors?.['maxlength']">
+                  Le nom du lieu ne doit pas dépasser 30 caractères
+                </div>
+                <div [hidden]="!preferredMeetingPlaceFormGroup.get('name')?.errors?.['alreadyExists']">
+                  Ce nom de lieu existe déjà
+                </div>
               </div>
             }
           </div>
@@ -57,13 +65,17 @@
             <label for="street">Rue</label>
             <mapbox-address-autofill>
               <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control"
-              placeholder="Numéro et nom de rue"required/>
+              placeholder="Numéro et nom de rue" required/>
             </mapbox-address-autofill>
             @if (preferredMeetingPlaceFormGroup.get('street')?.errors && (preferredMeetingPlaceFormGroup.get('street')?.dirty
             || preferredMeetingPlaceFormGroup.get('street')?.touched)) {
               <div class="error-msg mt-2">
-                <div [hidden]="!preferredMeetingPlaceFormGroup.get('street')?.errors?.['required']">Veuillez renseigner une rue</div>
-                <div [hidden]="!preferredMeetingPlaceFormGroup.get('street')?.errors?.['alreadyExists']">Cette adresse a déjà été enregistrée</div>
+                <div [hidden]="!preferredMeetingPlaceFormGroup.get('street')?.errors?.['required']">
+                  Veuillez renseigner une rue
+                </div>
+                <div [hidden]="!preferredMeetingPlaceFormGroup.get('street')?.errors?.['alreadyExists']">
+                  Cette adresse a déjà été enregistrée
+                </div>
               </div>
             }
           </div>
@@ -72,10 +84,17 @@
           <div class="col-6 col-md-4">
             <label for="postal-code">Code postal</label>
             <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code"
-            class="form-control" required/>
+            class="form-control" maxlength="5" required/>
             @if (preferredMeetingPlaceFormGroup.get('postalCode')?.errors && (preferredMeetingPlaceFormGroup.get('postalCode')?.dirty
             || preferredMeetingPlaceFormGroup.get('postalCode')?.touched)) {
-              <div class="error-msg mt-2">Veuillez renseigner un code postal</div>
+              <div class="error-msg mt-2">
+                <div [hidden]="!preferredMeetingPlaceFormGroup.get('postalCode')?.errors?.['required']">
+                  Veuillez renseigner un code postal
+                </div>
+                <div [hidden]="!preferredMeetingPlaceFormGroup.get('postalCode')?.errors?.['maxlength']">
+                  Veuillez renseigner un code postal valide
+                </div>
+              </div>
             }
           </div>
           <div class="col-6 col-md-4">
@@ -83,7 +102,7 @@
             <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city" class="form-control" required/>
             @if(preferredMeetingPlaceFormGroup.get('city')?.errors && (preferredMeetingPlaceFormGroup.get('city')?.dirty
             || preferredMeetingPlaceFormGroup.get('city')?.touched)) {
-              <div class="error-msg mt-2">Veuillez renseigner un code postal</div>
+              <div class="error-msg mt-2">Veuillez renseigner une ville</div>
             }
           </div>
         </div>
