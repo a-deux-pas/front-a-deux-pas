@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { User } from '../../models/user/user.model';
+import { UserPresentation } from '../../models/user/user-presentation.model';
 
 @Component({
     selector: 'app-user-presentation',
@@ -8,5 +8,5 @@ import { User } from '../../models/user/user.model';
     standalone: true
 })
 export class UserPresentationComponent {
-  @Input() user!: User;
+  @Input() user!: UserPresentation;
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { User } from '../../../shared/models/user/user.model';
+import { UserPresentation } from '../../../shared/models/user/user-presentation.model';
 import { ProfileService } from './profile.service';
 import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
   imports: [TabsAccountComponent, EditButtonComponent, UserPresentationComponent, ScheduleComponent, MeetingPlacesComponent, CommonModule]
 })
 export class ProfileComponent {
-  user!: User;
+  user!: UserPresentation;
   preferredSchedules!: PreferredSchedule[];
   preferredMeetingPlaces!: PreferredMeetingPlace[];
 
