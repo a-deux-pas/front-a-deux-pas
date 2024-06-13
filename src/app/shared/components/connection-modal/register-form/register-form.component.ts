@@ -30,9 +30,9 @@ export class RegisterFormComponent {
   ) {
     this.registerForm = this.fb.group({
       email: ['', {
-        validators: [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
-        asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(false),
-        updateOn: 'blur'
+          validators: [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
+          asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(false),
+          updateOn: 'blur'
         }
       ],
       password: ['', passwordValidator()],

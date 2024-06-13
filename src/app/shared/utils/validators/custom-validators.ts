@@ -40,14 +40,6 @@ export function passwordValidator(): ValidatorFn {
     const password = control.value;
     const validations = [
       {
-        regex: /.{8,}/,
-        error: {
-          minLength: {
-            rules: 'Le mot de passe doit avoir au moins 8 caractères'
-          }
-        }
-      },
-      {
         regex: /(?=.*\d)/,
         error: {
           requiresDigit: {
@@ -78,7 +70,15 @@ export function passwordValidator(): ValidatorFn {
             rules: 'Le mot de passe doit contenir au moins un caractère spécial'
           }
         }
-      }
+      },
+      {
+        regex: /.{8,}/,
+        error: {
+          minLength: {
+            rules: 'Le mot de passe doit avoir au moins 8 caractères'
+          }
+        }
+      },
     ];
 
     if (!password) {

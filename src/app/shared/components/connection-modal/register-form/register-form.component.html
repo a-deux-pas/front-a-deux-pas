@@ -28,8 +28,8 @@
         <img src="assets/icons/buttons/no-visible.webp" class="eye-icon" alt="icône oeil barrée" [hidden]="showPassword">
       </button>
     </div>
-    @if (registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty
-    || registerForm.get('email')?.touched)) {
+    @if (registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty
+    || registerForm.get('password')?.touched)) {
       <div class="error-msg mt-2">
         @for (error of registerForm.get('password')?.errors | keyvalue; track error) {
           {{ error.value.rules}}
