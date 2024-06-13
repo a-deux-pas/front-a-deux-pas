@@ -1,1 +1,64 @@
-<p>step-meeting-details works!</p>
+<section class="meeting-details-container">
+  <div class="calendars-container">?</div>
+  <div class="row row-gap-3 justify-content-center mt-4">
+    <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-4 col-xxl-3">
+      <label for="meeting place" class="form-label"><b>Lieu du RDV</b></label>
+      <ng-select
+        [(ngModel)]="selectedMeetingPlace"
+        name="meeting place"
+        id="meeting place"
+        class="custom mt-4"
+        placeholder="Sélectionnez un lieu"
+      >
+        @for (meetingPlace of meetingPlaces; track $index) {
+        <ng-option [value]="meetingPlace">{{ meetingPlace.name }}</ng-option>
+        }
+      </ng-select>
+    </div>
+  </div>
+
+  <div class="distinctive-sign-and-info-container">
+    <div>
+      <label for="sign" class="form-label"><b>Signe Distinctif</b></label>
+      <textarea
+        class="form-control form-control-sm"
+        name="sign"
+        id="sign"
+        rows="3"
+      ></textarea>
+    </div>
+    <div>
+      <label for="info" class="form-label">
+        <b>Informations complémentaires</b></label
+      >
+      <textarea
+        class="form-control form-control-sm"
+        name="info"
+        id="info"
+        rows="3"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="terms-container">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="terms"
+        id="terms"
+        (click)="agreeToTerms()"
+      />
+      <label class="form-check-label" for="terms">
+        Une fois le RDV fixé, je m'engage à m'y rendre ou à prévenir le vendeur
+        <b>au plus tard 24h avant</b>
+      </label>
+    </div>
+
+    @if (agreedToTerms) {
+    <button type="submit" class="btn-primary mt-4" (click)="nextStep()">
+      proposer le RDV
+    </button>
+    }
+  </div>
+</section>

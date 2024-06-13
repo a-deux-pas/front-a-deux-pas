@@ -1,15 +1,15 @@
 @if(step === 1){
 <h2><b>Récapitulatif de votre commande</b></h2>
 } @if(step === 2){
-<!-- replace with {{ user.alias }} -->
-<h2><b>Planifier un RDV avec [user.alias]</b></h2>
+<!-- replace with {{ ad.publisher.alias }} -->
+<h2><b>Planifier un RDV avec [seller.alias]</b></h2>
 } @if(step === 3 && paymentMethod === 'Cash'){
 <h2><b>Paiement cash</b></h2>
 }@if(step === 3 && paymentMethod === 'Card'){
 <h2><b>Paiement CB</b></h2>
 }
 
-<div class="progress-bar">
+<section class="progress-bar">
   <div class="step-container">
     <p [class.title-checkpoint]="step >= 1">Récapitulatif</p>
     <div
@@ -34,4 +34,4 @@
     <p [class.title-checkpoint]="step === 3">Paiement</p>
     <div class="circle" [class.checkpoint]="step === 3"></div>
   </div>
-</div>
+</section>

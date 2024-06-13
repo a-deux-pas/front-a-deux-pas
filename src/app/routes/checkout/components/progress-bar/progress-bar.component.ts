@@ -11,7 +11,7 @@ import { CheckoutService } from '../../checkout.service';
 export class ProgressBarComponent implements OnInit {
   step: number = 0;
   paymentMethod: string = '';
-  user: any;
+  ad: any;
 
   constructor(private checkoutService: CheckoutService) {}
 

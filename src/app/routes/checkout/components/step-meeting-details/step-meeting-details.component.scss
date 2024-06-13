@@ -1,0 +1,41 @@
+.meeting-details-container {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.calendars-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.terms-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-right: 23%;
+  margin-left: 23%;
+}
+
+.rdv-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.distinctive-sign-and-info-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 100px;
+}
+
+.form-check {
+  margin-bottom: 100px;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  width: auto;
+}
