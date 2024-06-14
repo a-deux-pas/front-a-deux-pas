@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 
 export const accountRoutes: Routes = [
     {
         path: 'compte',
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'profil',

@@ -6,7 +6,6 @@ import { environment } from '../../../../../environments/environment';
 import { alreadyExistValidator } from '../../../../shared/utils/validators/custom-validators';
 import { DomSanitizer } from '@angular/platform-browser';
 
-
 @Component({
   selector: 'app-meeting-place-form',
   standalone: true,

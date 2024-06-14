@@ -1,11 +1,14 @@
+import { environment } from "../../../../environments/environment";
 import { API_URL } from "../../utils/constants/utils-constants";
 
 let apiUrl = `${API_URL}account/profile`;
 
 context('account tabs testing', () => {
   beforeEach(() => {
-
+    cy.login(environment.userCredentials.email, environment.userCredentials.password)
     cy.visit('http://localhost:4200/compte/profil')
+
+    cy.url().should('include', '/compte/profil');
 
     cy.intercept(`${apiUrl}/presentation`, { fixture: 'user-profile' }).as('getUserPresentation')
     cy.intercept(`${apiUrl}/schedules`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules')

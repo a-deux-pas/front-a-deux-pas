@@ -20,13 +20,14 @@
               Veuillez renseigner votre pseudo
             </div>
             <div [hidden]="!profileForm.get('alias')?.errors?.['minlength']">
-              Votre pseudo ne doit pas dépasser 3 caractères
+              Votre pseudo doit comporter au moins 3 caractères
             </div>
             <div [hidden]="!profileForm.get('alias')?.errors?.['maxlength']">
-              Votre pseudo doit comporter au moins 30 caractères
+              Votre pseudo ne doit pas dépasser 30 caractères
             </div>
             <div [hidden]="!profileForm.get('alias')?.errors?.['aliasExists']">
-              Ce pseudo existe déjà</div>
+              Ce pseudo existe déjà
+            </div>
           </div>
         }
       </div>

@@ -22,15 +22,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/account/account-routing.module').then(
         (mod) => mod.AccountRoutingModule
-      ),
-    // TO Do: activate authGauard with test e2e
-    canActivate: [AuthGuard],
+      )
   },
   {
     path: 'inscription',
     loadComponent: () => import('./routes/register/register.component').then(
         (mod) => mod.RegisterComponent
-      )
+      ),
+    canActivate: [AuthGuard],
   }
 ];
 

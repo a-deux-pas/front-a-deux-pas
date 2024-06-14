@@ -1,29 +1,36 @@
 import { HttpClientModule } from "@angular/common/http";
-import { ProfileFormComponent } from "../../../routes/register/profile-form/profile-form.component";
 import { PreferredMeetingPlace } from "../../models/user/preferred-meeting-place.model";
-import { UploadPictureService } from "../../services/upload-picture.service";
+import { RegisterComponent } from "../../../routes/register/register.component";
+import { AsyncValidatorService } from "../../services/async-validator.service";
+import { API_URL } from "../../utils/constants/utils-constants";
 
 context('create account testing', () => {
   beforeEach(function() {
-      cy.fixture('user-profile').then((user) => {
-        this['user'] = user;
-      })
-      cy.fixture('user-meeting-places').then((userMeetingPlaces) => {
-        this['userMeetingPlaces'] = userMeetingPlaces;
-      })
-      cy.mount(ProfileFormComponent, {
-        imports: [HttpClientModule],
-        providers: [UploadPictureService],
-      })
+    cy.fixture('user-profile').then((user) => {
+      this['user'] = user;
+    });
+
+    cy.fixture('user-meeting-places').then((userMeetingPlaces) => {
+      this['userMeetingPlaces'] = userMeetingPlaces;
+    });
+
+    cy.intercept('GET', `${API_URL}/check-alias*`, {
+      statusCode: 200,
+      body: null,
+    }).as('checkAlias');
+
+    cy.mount(RegisterComponent, {
+      imports: [HttpClientModule],
+      providers: [AsyncValidatorService],
+    });
   });
 
   it('should be possible to submit the form', function() {
 
     // it should be possible to select a profile picture
     cy.get('form');
-    cy.get('dropzone#dropzone').click();
-    cy.get('dropzone#dropzone').selectFile('cypress/fixtures/images/pic-test-1-min.webp');
-    cy.get('dropzone#dropzone').should('have.value', 'C:\\fakepath\\pic-test-1-min.webp');
+    cy.get('.dropzone-add').click().selectFile('cypress/fixtures/images/pic-test-1-min.webp', { action: 'drag-drop' });
+    cy.get('.dz-preview').should('contain', 'pic-test-1-min.webp');
 
     // it should be possible to enter user information
     cy.get('#alias').type(this['user'].alias);
@@ -46,17 +53,26 @@ context('create account testing', () => {
     });
     cy.get('.meeting-place').should('have.length', 5);
 
+    // it should be possible to add preferred meeting schedule
     cy.get('.fc').click();
     cy.get('.fc-event').should('have.length', 1);
 
+    // it should be possible to enter account information
     cy.get('div#bank-account input#account-holder').type('Mary Poppins');
-    cy.get('div#bank-account input#iban').type('FR14 2004 1010 0505 0001 3M02 606');
+    cy.get('div#bank-account input#account-number').type('FR14 2004 1010 0505 0001 3M02 606');
 
+    // it should be possible to choose notifications preferences
     cy.get('div#notifications-form input#notifications').click();
     cy.get('div#notifications-form input#meeting-to-finalize').click();
 
+    // it should be possible to submit the form
     cy.get('button[type=submit]').should('be.enabled').click();
     cy.get('form').submit()
-
   });
+
+  afterEach(function() {
+    cy.intercept('POST', "https://api.cloudinary.com/v1_1/erikaadeuxpas/upload/", {
+      statusCode: 200,
+    }).as('cloudinary');
+  })
 });

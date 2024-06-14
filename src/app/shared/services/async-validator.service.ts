@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, debounceTime, map, of, switchMap, take } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -41,9 +41,15 @@ export class AsyncValidatorService {
   // Validator to check if an alias already exists
   uniqueAliasValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.authService.isAliasAlreadyExist(control.value).pipe(
-        map(exist => (exist? { aliasExists : true } : null)),
-        catchError(() => of(null))
+      return control.valueChanges.pipe(
+        debounceTime(200), // Adds a delay to reduce the frequency of calls
+        take(1), // Takes the first emitted value and completes the Observable
+        switchMap(value =>
+          this.authService.isAliasAlreadyExist(value).pipe(
+            map(exist => (exist ? { aliasExists : true } : null)),
+            catchError(() => of(null)),
+          )
+        )
       );
     };
   }

@@ -7,7 +7,6 @@ import { AngularIbanModule, ValidatorService } from 'angular-iban';
   standalone: true,
   imports: [ReactiveFormsModule, AngularIbanModule],
   templateUrl: './bank-account-form.component.html',
-  styleUrl: './bank-account-form.component.scss',
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
 })
 export class BankAccountFormComponent implements OnInit {

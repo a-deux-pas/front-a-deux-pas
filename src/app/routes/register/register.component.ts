@@ -48,9 +48,8 @@ export class RegisterComponent implements AfterViewInit {
     this.profileForm = this.formBuilder.group({
       alias: ['', {
         validators:[Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-
-        asyncValidators: this.asyncValidatorService.uniqueAliasValidator(),
-        updateOn: 'blur'
+          asyncValidators: this.asyncValidatorService.uniqueAliasValidator(),
+          updateOn: 'blur'
         }
       ],
       bio: ['', [Validators.minLength(10), Validators.maxLength(600)]],
@@ -69,7 +68,6 @@ export class RegisterComponent implements AfterViewInit {
     elementsArray.forEach((autofill: any) => {
       autofill.accessToken = environment.mapbox.accessToken;
     });
-    console.log(this.userId)
   }
 
   profilePictureUpload(eventType: string): void {
@@ -79,12 +77,10 @@ export class RegisterComponent implements AfterViewInit {
         this.isProfilePictureUploaded = true;
         console.log('picture uploaded', this.isProfilePictureUploaded);
         break;
-
       case 'thumbnailGenerated':
         this.isProfilePicturePreview = true;
         console.log('preview', this.isProfilePicturePreview);
         break;
-
       case 'fileRemoved':
         this.isProfilePicturePreview = false;
         console.log('preview', this.isProfilePicturePreview);
