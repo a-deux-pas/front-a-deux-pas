@@ -3,10 +3,10 @@ import { AdService } from '../../../../routes/ad/ad.service';
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
-import { Component, OnInit, Input, ViewChild } from '@angular/core'
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { UiModule } from '../../../utils/module/ui/ui.module';
-import { NgbCarouselModule, NgbNavModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
@@ -16,11 +16,9 @@ import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller
   selector: 'app-ad-page-content',
   standalone: true,
   imports: [
-    CommonModule,
     AngularSplitModule,
     CommonModule,
     UiModule,
-    NgbNavModule,
     NgbCarouselModule,
     CtaMyAdComponent,
     CtaSellerAdComponent,
@@ -34,6 +32,7 @@ export class AdPageComponent implements OnInit {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
   @Input() onMyAd: boolean | undefined;
+  @Output() sellerAdPageLoaded = new EventEmitter<{ adId: number | null, sellerId: number | null }>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
 
@@ -81,7 +80,11 @@ export class AdPageComponent implements OnInit {
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
         this.fetchPaginatedAdsList()
-        if (!this.onMyAd) { this.getSimilarAds() }
+        if (!this.onMyAd) {
+          this.getSimilarAds()
+          const sellerId: number | null = Number(this.route.snapshot.paramMap.get(('sellerId')));
+          this.adService.emitSellerAdPageLoaded(true);
+        }
         this.adService.getMyAdsCount(this.currentAd.publisherId!).subscribe({
           next: (adCount: number) => {
             this.adCount = adCount

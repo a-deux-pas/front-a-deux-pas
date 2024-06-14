@@ -89,6 +89,13 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+// drag and drop
+ngx-dropzone {
+  width: 350px;
+  height: 349px;
+  margin: auto auto;
+}
+
 ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
   align-items: center !important;
   display: flex !important;

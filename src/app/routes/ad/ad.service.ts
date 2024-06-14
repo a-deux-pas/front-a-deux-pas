@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { Observable, catchError } from "rxjs"
+import { Observable, Subject, catchError } from "rxjs"
 import { HttpClient } from "@angular/common/http"
 import { Ad } from "../../shared/models/ad/ad.model"
 import { API_URL } from "../../shared/utils/constants/utils-constants"
@@ -11,6 +11,8 @@ import { HandleErrorService } from "../../shared/services/handle-error.service"
 })
 export class AdService {
 
+    private sellerAdPageLoadedSubject = new Subject<boolean>();
+    sellerAdPageLoaded$ = this.sellerAdPageLoadedSubject.asObservable();
     private contextUrl = `${API_URL}api/ads/`;
 
     constructor(
@@ -55,5 +57,9 @@ export class AdService {
             .pipe(
                 catchError(this.handleErrorService.handleError<AdPostResponse[]>('getSimilarAds'))
             )
+    }
+
+    emitSellerAdPageLoaded(hasAdAndSellerId: boolean) {
+        this.sellerAdPageLoadedSubject.next(hasAdAndSellerId);
     }
 }

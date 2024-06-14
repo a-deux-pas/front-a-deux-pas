@@ -28,6 +28,10 @@ export class AdCardComponent implements OnInit {
 
   // TO DO :: checker pb de redirection et voir si l'url est la bonne 
   goToAdPage() {
-    this.type === 'mine' ? this.router.navigate(['/compte/annonces/mon-annonce', this.ad.id]) : this.router.navigate(['/annonce', this.ad.publisherId, this.ad.id]);
+    if (this.ad.id && this.ad.publisherId) {
+      this.type === 'mine' ? this.router.navigate(['/compte/annonces/mon-annonce', this.ad.id]) : this.router.navigate(['/annonce', this.ad.publisherId, this.ad.id]);
+    } else {
+      console.error('Invalid ad data for navigation:', this.ad);
+    }
   }
 }

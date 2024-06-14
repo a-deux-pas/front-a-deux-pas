@@ -6,4 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './logged-in-home.component.scss',
   standalone: true,
 })
-export class LoggedInHomeComponent {}
+export class LoggedInHomeComponent {
+}

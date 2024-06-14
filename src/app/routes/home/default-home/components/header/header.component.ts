@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
-  constructor(public modalService: NgbModal, private router: Router) {}
+  constructor(public modalService: NgbModal, private router: Router) { }
 
   /*
    * This method is designed to open a modal when the 'openModal' button is clicked.
@@ -23,12 +23,5 @@ export class HeaderComponent {
 
   openModal() {
     const modalRef = this.modalService.open(LoginComponent);
-    modalRef.result.then((result) => {
-      // Modal closed with success
-      if (result === 'Close click') {
-        // Redirect to 'logged-in-home'
-        this.router.navigate(['/accueil']);
-      }
-    });
   }
 }

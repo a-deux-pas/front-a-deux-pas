@@ -82,9 +82,8 @@
         </section>
     </div>
 
-
     <!-- similar ads section -->
-    @if (!onMyAd) {
+    @if (!onMyAd && similarAds.length > 0) {
     <section class="mt-5 mb-5 similar-ads-list-section">
         <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
             Les annonces similaires

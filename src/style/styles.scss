@@ -343,6 +343,10 @@ button.btn {
   color: $primary;
 }
 
+.btn-cta {
+  cursor: pointer;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Connection modal
@@ -674,6 +678,7 @@ $card-spacer-y: 3.1875rem;
 // Card container styling
 .card {
   width: 253px;
+  cursor: pointer;
 
   &:hover {
     .card-img-top {

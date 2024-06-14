@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { AdPageComponent } from './shared/components/ads/ad-page-content/ad-page
 import { AdFormComponent } from './shared/components/ads/ad-form/ad-form.component';
 import { AuthService } from './shared/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { AdService } from './routes/ad/ad.service';
 
 @Component({
   selector: 'app-root',
@@ -23,9 +24,12 @@ export class AppComponent implements OnInit {
   isBigScreen: boolean | undefined;
   windowSizeSubscription: Subscription;
 
+  onSellerAdPageUnlogged!: boolean
+
   constructor(
     private displayManagementService: DisplayManagementService,
-    private authService: AuthService
+    private authService: AuthService,
+    private adService: AdService,
   ) {
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
@@ -40,7 +44,12 @@ export class AppComponent implements OnInit {
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
     this.authService.isLoggedIn().subscribe((status: boolean) => {
       this.isLoggedIn = status;
-      console.log(status);
+      if (status == false) {
+        this.adService.sellerAdPageLoaded$.subscribe(hasAdAndSellerId => {
+          this.onSellerAdPageUnlogged = hasAdAndSellerId;
+        });
+      }
     });
   }
+
 }
