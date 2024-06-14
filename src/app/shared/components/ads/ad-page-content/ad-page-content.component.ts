@@ -16,13 +16,13 @@ import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller
   selector: 'app-ad-page-content',
   standalone: true,
   imports: [
+    AdCardComponent,
     AngularSplitModule,
-    CommonModule,
     UiModule,
+    CommonModule,
     NgbCarouselModule,
     CtaMyAdComponent,
     CtaSellerAdComponent,
-    AdCardComponent
   ],
   templateUrl: './ad-page-content.component.html',
   styleUrl: './ad-page-content.component.scss'
@@ -31,7 +31,7 @@ export class AdPageComponent implements OnInit {
   @Input() adSuccessfullySubmitted: boolean | undefined;
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
-  @Input() onMyAd: boolean | undefined;
+  onMyAd: boolean | undefined;
   @Output() sellerAdPageLoaded = new EventEmitter<{ adId: number | null, sellerId: number | null }>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
@@ -59,6 +59,12 @@ export class AdPageComponent implements OnInit {
   ngOnInit(): void {
     this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
+    if (this.route.snapshot.paramMap.get(('sellerId'))) {
+      this.onMyAd = false
+    } else {
+      this.onMyAd = true
+    }
+
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
         this.adSuccessfullySubmitted = true;
@@ -82,7 +88,6 @@ export class AdPageComponent implements OnInit {
         this.fetchPaginatedAdsList()
         if (!this.onMyAd) {
           this.getSimilarAds()
-          const sellerId: number | null = Number(this.route.snapshot.paramMap.get(('sellerId')));
           this.adService.emitSellerAdPageLoaded(true);
         }
         this.adService.getMyAdsCount(this.currentAd.publisherId!).subscribe({

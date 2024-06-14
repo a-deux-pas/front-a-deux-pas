@@ -2,13 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.model';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../../../../shared/components/login/login.component';
-import { Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-cta-seller-ad',
   standalone: true,
-  imports: [RouterModule, CommonModule, LoginComponent],
+  imports: [CommonModule, LoginComponent],
   templateUrl: './cta-seller-ad.component.html',
   styleUrl: './cta-seller-ad.component.scss'
 })
@@ -16,13 +17,16 @@ export class CtaSellerAdComponent implements OnInit {
   @Input() myAd!: AdPostResponse | undefined
   @Input() isBigScreen!: boolean;
   @Input() onSellerAdPageUnlogged: boolean = false;
-
   isLoggedIn!: boolean;
+  authSubscription!: Subscription;
 
-  constructor(private router: Router, public modalService: NgbModal) { }
+  constructor(public modalService: NgbModal, private authService: AuthService) { }
 
   ngOnInit(): void {
-    localStorage.getItem('userId') ? this.isLoggedIn = true : this.isLoggedIn = false
+    this.authSubscription = this.authService.isLoggedIn().subscribe(status => {
+      this.isLoggedIn = status;
+      console.log('this.isLoggedIn :: ', this.isLoggedIn)
+    });
   }
 
   startCheckout() {
@@ -34,11 +38,7 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   makeAnOffer() {
-    if (this.isLoggedIn) {
-      // Don't really know what to do here ..
-    } else {
-      this.openModal()
-    }
+    if (this.isLoggedIn == false) { this.openModal() }
   }
 
   addToFavorites() {
@@ -58,11 +58,7 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   contactTheSeller() {
-    if (this.isLoggedIn) {
-      // Don't really know what to do here ..
-    } else {
-      this.openModal()
-    }
+    if (this.isLoggedIn == false) { this.openModal() }
   }
 
   openModal() {

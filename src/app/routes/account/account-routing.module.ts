@@ -4,6 +4,7 @@ import { authGuard } from '../../shared/guards/auth.guard';
 
 export const accountRoutes: Routes = [
     {
+        canActivate: [authGuard],
         path: 'compte',
         children: [
             {
