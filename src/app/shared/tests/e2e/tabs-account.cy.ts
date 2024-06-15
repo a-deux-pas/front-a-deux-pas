@@ -5,16 +5,19 @@ let apiUrl = `${API_URL}account/profile`;
 
 context('account tabs testing', () => {
   beforeEach(() => {
-    cy.login(environment.userCredentials.email, environment.userCredentials.password)
-    cy.visit('http://localhost:4200/compte/profil')
+    cy.login(environment.userCredentials.email, environment.userCredentials.password);
 
-    cy.url().should('include', '/compte/profil');
+    cy.window().then((win) => {
+      win.localStorage.setItem('userId', '1'); // Set userId for testing
+    });
 
-    cy.intercept(`${apiUrl}/presentation`, { fixture: 'user-profile' }).as('getUserPresentation')
-    cy.intercept(`${apiUrl}/schedules`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules')
-    cy.intercept(`${apiUrl}/meeting-places`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces')
+    cy.intercept(`${apiUrl}/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
+    cy.intercept(`${apiUrl}/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+    cy.intercept(`${apiUrl}/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
     // TODO add interceptor for each route one created
 
+    cy.visit('http://localhost:4200/compte/profil');
+    cy.url().should('include', '/compte/profil');
     cy.get('ul#account-tabs li').should('have.length', 4);
   });
 

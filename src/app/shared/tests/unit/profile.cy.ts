@@ -10,9 +10,13 @@ let apiUrl = `${API_URL}account/profile`;
 
 describe('Profile component', () => {
   beforeEach(() => {
-    cy.intercept(`${apiUrl}/presentation`, { fixture: 'user-profile' }).as('getUserPresentation');
-    cy.intercept(`${apiUrl}/schedules`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
-    cy.intercept(`${apiUrl}/meeting-places`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
+    cy.window().then((win) => {
+      win.localStorage.setItem('userId', '1'); // Set userId for testing
+    });
+
+    cy.intercept(`${apiUrl}/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
+    cy.intercept(`${apiUrl}/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+    cy.intercept(`${apiUrl}/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
 
     cy.mount(ProfileComponent, {
       imports: [MeetingPlacesComponent, EditButtonComponent, HttpClientModule, RouterModule.forRoot([])],

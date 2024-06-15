@@ -11,7 +11,7 @@ export const accountRoutes: Routes = [
             {
                 path: 'profil',
                 title: 'Mon profil',
-                loadChildren: () => import('./profile/profile-routing.module').then(mod => mod.ProfileRoutingModule)
+                loadComponent: () => import('./profile/profile.component').then(mod => mod.ProfileComponent)
             },
             {
                 path: 'annonces',
