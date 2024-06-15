@@ -33,10 +33,12 @@ export class NotificationsComponent implements OnInit {
       })
     );
 
+    // Sets the value of all checkboxes whenever the value of "notifications" changes
     this.notificationsFormGroup.get('notifications')?.valueChanges.subscribe(value => {
       this.toggleNotificationCheckboxes(value);
     });
 
+    // Update notifications whenever any control in the form group changes
     this.notificationsFormGroup.valueChanges.subscribe(() => {
       this.getNotifications();
     });
@@ -50,10 +52,13 @@ export class NotificationsComponent implements OnInit {
     Object.keys(this.notificationsFormGroup.controls).forEach(controlName => {
       const value = this.notificationsFormGroup.get(controlName)?.value;
       if (controlName !== "notifications") {
+        // Find the index of an existing notification for the current control
         const existingNotificationIndex = this.notifications.findIndex(notification => notification.eventName === controlName);
-        if (value && existingNotificationIndex ===-1) {
+        // if notification doesn't already exist
+        if (this.userId && value && existingNotificationIndex ===-1) {
           const notification = new EventNotification(this.userId, controlName);
           this.notifications.push(notification);
+        // else remove notification
         } else if (!value && existingNotificationIndex !==-1) {
           this.notifications.splice(existingNotificationIndex, 1);
         }

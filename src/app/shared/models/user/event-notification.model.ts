@@ -1,6 +1,6 @@
 export class EventNotification {
   constructor(
-    public userId: string | null,
-    public eventName?: string,
+    public userId: string,
+    public eventName: string,
   ) {}
 }

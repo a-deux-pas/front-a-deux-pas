@@ -25,13 +25,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class RegisterComponent implements AfterViewInit {
   profileForm: FormGroup;
-  isProfilePictureUploaded: boolean = false;
-  isProfilePicturePreview: boolean = false;
+  userProfilePicture!: FormData;
+  profilePicturePreview: boolean = false;
   preferredMeetingPlaces: PreferredMeetingPlace[] = [];
   scheduleEditMode: boolean = true;
   preferredSchedules: PreferredSchedule[] = [];
   notifications!: EventNotification[];
-  isSubmitted: boolean = false;
 
   userId = localStorage.getItem('userId');
 
@@ -70,26 +69,16 @@ export class RegisterComponent implements AfterViewInit {
     });
   }
 
-  profilePictureUpload(eventType: string): void {
-     // TO DO : to change once cloudinary changes done
-    switch (eventType) {
-      case 'uploadSuccess':
-        this.isProfilePictureUploaded = true;
-        console.log('picture uploaded', this.isProfilePictureUploaded);
-        break;
-      case 'thumbnailGenerated':
-        this.isProfilePicturePreview = true;
-        console.log('preview', this.isProfilePicturePreview);
-        break;
-      case 'fileRemoved':
-        this.isProfilePicturePreview = false;
-        console.log('preview', this.isProfilePicturePreview);
-        break;
-
-      default:
-        break;
+  getUserprofilePicture(eventType: string, userPicture: FormData): void {
+    if (eventType === 'thumbnailGenerated' && userPicture) {
+      console.log('thumbnail generated');
+      this.profilePicturePreview = true;
+      this.userProfilePicture = userPicture;
+    } else if (eventType === 'fileRemoved') {
+      console.log('thumbnail removed');
+      this.userProfilePicture = userPicture;
+      this.profilePicturePreview = false;
     }
-
     this.cd.detectChanges();
   }
 
@@ -108,51 +97,50 @@ export class RegisterComponent implements AfterViewInit {
   isFormValid(): boolean {
     return (
       this.profileForm.invalid ||
-      !this.isProfilePicturePreview ||
+      !this.profilePicturePreview ||
       this.preferredMeetingPlaces.length === 0 ||
       this.preferredSchedules.length === 0
     );
   }
 
   onSubmit() {
-    this.isSubmitted = true;
-    setTimeout(() => {
-      if (this.isProfilePictureUploaded && this.userId) {
-        // TO DO : isProfilePictureUploade to remove once cloudinary changes done
-        const userProfile = new UserProfile(
-          this.userId,
-          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('alias')?.value) ?? '',
-          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bio')?.value) ?? '',
-          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('city')?.value) ?? '',
-          '', // TO DO : profile picture link to add once cloudinary changes done
-          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('street')?.value) ?? '',
-          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('postalCode')?.value) ?? '',
-          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bankAccount')?.get('accountHolder')?.value) ?? '',
-          this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bankAccount')?.get('accountNumber')?.value) ?? '',
-          this.preferredSchedules,
-          this.preferredMeetingPlaces,
-          this.notifications
-        )
-        this.registerService.saveProfile(userProfile).subscribe({
-          next: (response) => {
-            console.log('Profile saved:', response);
-            this.goBack();
-          },
-          error: (error) => {
-            console.error('Error saving profile:', error);
-            this.errorAlert();
-          }
-        });
-      } else {
-        if (!this.isProfilePictureUploaded) {
-          console.error('profile picture upload failed or/and UserId is null');
-        }
-        if (!this.userId) {
-          console.error('User id is null');
-        }
-        this.errorAlert();
-      }
-    }, 10);
+    if (this.profilePicturePreview && this.userId) {
+      // TO DO: Créer un service pour envoyer l'image au back
+      // this.uploadPicture(this.userProfilePicture).subscribe({
+      //     next: (response: any) => {
+              // si le backend renvoie l'url de l'image
+              // const profilePictureUrl = response.url;
+              const userProfile = new UserProfile(
+                  this.userId,
+                  '', // à remplacer par l'URL de l'image
+                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('alias')?.value) ?? '',
+                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bio')?.value) ?? '',
+                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('city')?.value) ?? '',
+                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('street')?.value) ?? '',
+                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('postalCode')?.value) ?? '',
+                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bankAccount')?.get('accountHolder')?.value) ?? '',
+                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bankAccount')?.get('accountNumber')?.value) ?? '',
+                  this.preferredSchedules,
+                  this.preferredMeetingPlaces,
+                  this.notifications
+              );
+              this.registerService.saveProfile(userProfile).subscribe({
+                  next: (response) => {
+                      console.log('Profile saved:', response);
+                      this.goBack();
+                  },
+                  error: (error) => {
+                      console.error('Error saving profile:', error);
+                      this.errorAlert();
+                  }
+              });
+          // }
+            } else {
+              console.error(`Errors: ${!this.profilePicturePreview ?
+                'Profile picture upload failed.' : ''} ${!this.userId ? 'User ID is null.' : ''}`);
+              this.errorAlert();
+            }
+      // });
   }
 
   goBack() {

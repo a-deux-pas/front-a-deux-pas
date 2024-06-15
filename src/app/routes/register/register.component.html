@@ -2,10 +2,8 @@
   <h2 class="bold-title-700 text-center mb-5">Créer mon compte</h2>
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
     <app-profile-picture
-      (uploadSuccess)="profilePictureUpload('uploadSuccess')"
-      (thumbnailGenerated)="profilePictureUpload('thumbnailGenerated')"
-      (fileRemoved)="profilePictureUpload('fileRemoved')"
-      [isFormSubmitted]="isSubmitted">
+      (thumbnailGenerated)="getUserprofilePicture('thumbnailGenerated', $event)"
+      (fileRemoved)="getUserprofilePicture('fileRemoved', $event)">
     </app-profile-picture>
 
     <div class="row justify-content-center mt-3">

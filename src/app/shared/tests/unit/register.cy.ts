@@ -19,6 +19,8 @@ context('create account testing', () => {
       body: null,
     }).as('checkAlias');
 
+    // TO DO: ajouter un intercept une fois cloudinary ajouté côté back
+    
     cy.mount(RegisterComponent, {
       imports: [HttpClientModule],
       providers: [AsyncValidatorService],
@@ -69,10 +71,4 @@ context('create account testing', () => {
     cy.get('button[type=submit]').should('be.enabled').click();
     cy.get('form').submit()
   });
-
-  afterEach(function() {
-    cy.intercept('POST', "https://api.cloudinary.com/v1_1/erikaadeuxpas/upload/", {
-      statusCode: 200,
-    }).as('cloudinary');
-  })
 });

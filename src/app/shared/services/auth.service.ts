@@ -78,7 +78,6 @@ export class AuthService {
           // If token received, store it in local storage
           if (token) {
             localStorage.setItem('token', token);
-            console.log(localStorage.getItem('token'));
             const userId = this.extractIdFromToken(token);
             localStorage.setItem('userId', userId);
             localStorage.setItem('stayLoggedIn', credentials.stayLoggedIn.toString());
