@@ -3,7 +3,19 @@
   height: 27.25px;
 }
 
+#remove-form-icon {
+  padding-left: 0rem;
+}
+
 @media (min-width: 768px) {
+  .meeting-display-width-1 {
+    width: 72.5%;
+  }
+
+  .meeting-display-width-2 {
+    width: 56%;
+  }
+
   #remove-form-icon {
     justify-content: flex-start !important;
   }

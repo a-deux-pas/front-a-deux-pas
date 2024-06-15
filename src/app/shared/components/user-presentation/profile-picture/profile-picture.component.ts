@@ -5,8 +5,7 @@ import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-
   selector: 'app-profile-picture',
   standalone: true,
   imports: [DropzoneModule],
-  templateUrl: './profile-picture.component.html',
-  styleUrl: './profile-picture.component.scss',
+  templateUrl: './profile-picture.component.html'
 })
 export class ProfilePictureComponent implements AfterViewInit {
   hasInteractedWithDropzone: boolean = false;

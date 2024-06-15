@@ -948,6 +948,10 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Dropzone profile picture
 app-profile-picture {
+  #dropzone {
+    width: 231px;
+  }
+
   .dropzone.dz-wrapper {
     height: 212px;
     overflow: inherit !important;

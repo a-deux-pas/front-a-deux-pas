@@ -9,7 +9,7 @@
     <div class="row justify-content-center mt-3">
       <div class="col-10 col-md-4">
         <label for="alias">Mon pseudo</label>
-        <input type="text" formControlName="alias" id="alias" name="alias" class="form-control"
+        <input type="text" formControlName="alias" id="alias" name="alias" class="form-control mt-2"
         minlength="3" maxlength="30" required/>
         @if (profileForm.get('alias')?.errors && (profileForm.get('alias')?.dirty
         || profileForm.get('alias')?.touched)) {
@@ -34,7 +34,7 @@
     <div class="row justify-content-center mt-4">
       <div class="col-12 col-md-6 mt-4">
         <label for="bio" class="form-label">Ma présentation</label>
-        <textarea formControlName="bio" class="form-control form-control-sm" name="bio" id="bio"
+        <textarea formControlName="bio" class="form-control form-control-sm mt-2" name="bio" id="bio"
           rows="3" minlength="10" maxlength="600">
         </textarea>
       </div>
@@ -61,7 +61,7 @@
         <div class="col-12 col-md-8">
           <label for="street">Rue</label>
           <mapbox-address-autofill>
-            <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control"
+            <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control mt-2"
             placeholder="Numéro et nom de rue" required/>
           </mapbox-address-autofill>
           @if (profileForm.get('address')?.get('street')?.errors && (profileForm.get('address')?.get('street')?.dirty
@@ -74,7 +74,7 @@
         <div class="col-6 col-md-4">
           <label for="postal-code">Code postal</label>
           <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code"
-          class="form-control" required/>
+          class="form-control mt-2" required/>
           @if (profileForm.get('address')?.get('postalCode')?.errors && (profileForm.get('address')?.get('postalCode')?.dirty
           || profileForm.get('address')?.get('postalCode')?.touched)) {
             <div class="error-msg mt-2">
@@ -90,7 +90,7 @@
         <div class="col-6 col-md-4">
           <label for="city">Ville</label>
           <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city"
-          class="form-control" required/>
+          class="form-control mt-2" required/>
           @if (profileForm.get('address')?.get('city')?.errors && (profileForm.get('address')?.get('city')?.dirty
           || profileForm.get('address')?.get('city')?.touched)) {
             <div class="error-msg mt-2">Veuillez renseigner votre ville</div>
