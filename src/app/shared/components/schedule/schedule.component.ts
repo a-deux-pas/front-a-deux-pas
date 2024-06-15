@@ -53,8 +53,6 @@ export class ScheduleComponent implements OnChanges {
     eventsSet: this.handleEvents.bind(this),
     // for mobile devices
     longPressDelay: 50,
-    eventLongPressDelay: 50,
-    selectLongPressDelay: 50,
   });
 
   constructor(private changeDetector: ChangeDetectorRef, public modalService: NgbModal) {}
@@ -85,7 +83,6 @@ export class ScheduleComponent implements OnChanges {
   // Handle event click
   handleEventClick(clickInfo: EventClickArg) {
     const modalRef = this.modalService.open(EventModalComponent, { centered: true });
-
     modalRef.result.then((result) => {
       if (result === 'delete') {
         clickInfo.event.remove();
@@ -124,7 +121,7 @@ export class ScheduleComponent implements OnChanges {
         [event.start!.getDay()], // daysOfWeek
         event.startStr.split('T')[1].split('+')[0], // startTime
         event.endStr.split('T')[1].split('+')[0],  // endTime
-        7 // userId TO DO => à modifier
+        Number(localStorage.getItem('userId'))
       );
 
       newPreferredSchedules.push(newPreferredSchedule);

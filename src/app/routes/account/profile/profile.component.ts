@@ -25,26 +25,29 @@ export class ProfileComponent {
   presentationEditMode: boolean = false;
   scheduleEditMode: boolean = false;
   meetingPlacesEditMode: boolean = false;
+  userId = localStorage.getItem('userId');
 
   constructor(private profileService: ProfileService) {
   }
 
   ngOnInit(): void {
-    this.fetchUserPresentation();
-    this.fetchUserPreferredSchedules();
-    this.fetchPreferredMeetingPlaces();
+    if (this.userId) {
+      this.fetchUserPresentation(this.userId);
+      this.fetchUserPreferredSchedules(this.userId);
+      this.fetchPreferredMeetingPlaces(this.userId);
+    }
   }
 
-  // Fetch user information from the service
-  fetchUserPresentation(): void {
-    this.profileService.getUserPresentation().subscribe((data) => {
+  // Fetch user's information from the service
+  fetchUserPresentation(userId: string): void {
+    this.profileService.getUserPresentation(userId).subscribe((data) => {
       this.user = data;
     });
   }
 
   // Fetch user's preferred schedules from the service
-  fetchUserPreferredSchedules(): void {
-    this.profileService.getUserPreferredSchedules().subscribe((data) => {
+  fetchUserPreferredSchedules(userId: string): void {
+    this.profileService.getUserPreferredSchedules(userId).subscribe((data) => {
       // Map fetched data to events array
       this.preferredSchedules = data.map(preferredSchedule => ({
         id: preferredSchedule.id,
@@ -57,8 +60,8 @@ export class ProfileComponent {
   }
 
   // Fetch user's preferred meeting places from the service
-  fetchPreferredMeetingPlaces(): void {
-    this.profileService.getPreferredMeetingPlaces().subscribe((data) => {
+  fetchPreferredMeetingPlaces(userId: string): void {
+    this.profileService.getPreferredMeetingPlaces(userId).subscribe((data) => {
       this.preferredMeetingPlaces = data;
     });
   }

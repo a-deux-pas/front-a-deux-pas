@@ -826,7 +826,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Set the width of the calendar and center it
 .fc {
-  width: 320px;
+  width: 302px;
   margin: 0 auto;
 }
 
@@ -852,6 +852,10 @@ a.dropdown-first-level.dropdown-toggle {
 .fc-theme-standard .fc-scrollgrid {
   border-top: none;
   border-left: none;
+}
+
+.fc-media-screen .fc-timegrid-cols > table {
+  width: 302px;
 }
 
 // Thicken grids
