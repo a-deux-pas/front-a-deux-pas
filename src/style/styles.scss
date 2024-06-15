@@ -351,9 +351,9 @@ button.btn {
   width: 40px;
 }
 
-// Error class
-.error-msg {
-  color: $primary;
+.add-icon, .remove-icon {
+  width: 27.25px;
+  height: 27.25px;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -451,6 +451,11 @@ textarea.form-control {
 // Placeholders color
 .form-control::placeholder {
   color: rgba(0, 0, 0, 0.38) !important;
+}
+
+// Error class
+.error-msg {
+  color: $primary;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -944,6 +949,12 @@ a.dropdown-first-level.dropdown-toggle {
   width: 24px;
   height: 24px;
   margin-bottom: 10px;
+}
+
+.dropzone.dz-clickable .dz-message,
+.dropzone.dz-clickable .dz-message * {
+  color: $primary;
+  font-weight: 700;
 }
 
 // Dropzone profile picture

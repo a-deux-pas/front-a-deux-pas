@@ -20,8 +20,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, ProfilePictureComponent, MeetingPlaceFormComponent, ScheduleComponent, BankAccountFormComponent, NotificationsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent implements AfterViewInit {
   profileForm: FormGroup;
