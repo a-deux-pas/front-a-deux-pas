@@ -31,8 +31,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       # Installs the dependencies using npm ci
-      - run: npm ci
-      - run: npm run build:ci
+      - name: Install dependencies
+        run: npm ci
+      # Replace variable using github secrets
+      - name: Replace environment variables in environment.ts
+        run: |
+          sed -i "s|secretsEnvironment.mapbox.accessToken|'${{ secrets.MAPBOX_ACCESS_TOKEN }}'|g" src/environments/environment.ts
+          sed -i "s|secretsEnvironment.userCredentials.email|'${{ secrets.USER_EMAIL }}'|g" src/environments/environment.ts
+          sed -i "s|secretsEnvironment.userCredentials.password|'${{ secrets.USER_PASSWORD }}'|g" src/environments/environment.ts
+      # Build
+      - name: Build
+        run: npm run build:ci
       # Run all Cypress tests
       - name: Run E2E tests
         uses: cypress-io/github-action@v6
@@ -45,7 +54,7 @@ jobs:
         with:
           install: false
           component: true
-        # Get application version from pom.xml to variable
+      # Get application version from pom.xml to variable
       - name: Retrieve Application Version
         id: set_app_version
         run: |

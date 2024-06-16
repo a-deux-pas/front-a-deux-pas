@@ -40,7 +40,7 @@ export function passwordValidator(): ValidatorFn {
     const password = control.value;
     const validations = [
       {
-        regex: /(?=.*\d)/,
+        regex: /\d/,
         error: {
           requiresDigit: {
             rules: 'Le mot de passe doit contenir au moins un chiffre'
@@ -48,7 +48,7 @@ export function passwordValidator(): ValidatorFn {
         }
       },
       {
-        regex: /(?=.*[A-Z])/,
+        regex: /[A-Z]/,
         error: {
           requiresUppercase: {
             rules: 'Le mot de passe doit contenir au moins une majuscule'
@@ -56,7 +56,7 @@ export function passwordValidator(): ValidatorFn {
         }
       },
       {
-        regex: /(?=.*[a-z])/,
+        regex: /[a-z]/,
         error: {
           requiresLowercase: {
             rules: 'Le mot de passe doit contenir au moins une minuscule'
@@ -64,7 +64,7 @@ export function passwordValidator(): ValidatorFn {
         }
       },
       {
-        regex: /(?=.*[!@#&()–[{}\]:;',?/*~$^+=<>])/,
+        regex: /[!@#&()–[{}\]:;',?/*~$^+=<>]/,
         error: {
           requiresSpecialChars: {
             rules: 'Le mot de passe doit contenir au moins un caractère spécial'
