@@ -1,6 +1,6 @@
 @import "../../../../../../style/color-variables.scss";
 
-.order-recap-card {
+.billing-summary-card {
   display: flex;
   flex-direction: column;
   align-self: center;
@@ -20,12 +20,6 @@
   margin-left: 8%;
 }
 
-.ad-details {
-  display: flex;
-  margin-top: 60px;
-  margin-bottom: 20px;
-}
-
 .horizontal-line {
   border: 1px solid $primary;
   margin-top: 10%;
@@ -43,9 +37,8 @@ img {
   height: auto;
 }
 
-.name-and-description {
+.article-name-and-price {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
 }
 
@@ -53,23 +46,4 @@ p {
   max-width: 200px;
   max-height: 200px;
   overflow: auto;
-}
-
-// Scroll bar customization
-.with-custom-scrollbar::-webkit-scrollbar {
-  width: 12px;
-}
-
-.with-custom-scrollbar::-webkit-scrollbar-track {
-  background: $secondary;
-  border-radius: 10px;
-}
-
-.with-custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-.with-custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CheckoutService } from '../../checkout.service';
 
 @Component({
@@ -9,8 +9,9 @@ import { CheckoutService } from '../../checkout.service';
   styleUrl: './progress-bar.component.scss',
 })
 export class ProgressBarComponent implements OnInit {
-  step: number = 0;
+  step!: number;
   paymentMethod: string = '';
+  // replace with the received ad
   ad: any;
 
   constructor(private checkoutService: CheckoutService) {}

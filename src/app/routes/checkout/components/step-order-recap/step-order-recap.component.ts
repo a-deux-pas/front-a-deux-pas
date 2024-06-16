@@ -16,12 +16,20 @@ export class StepOrderRecapComponent implements OnInit {
     private checkoutService: CheckoutService
   ) {}
 
-  step: number = 0;
+  step!: number;
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.checkoutService.currentStep.subscribe((currentStep) => {
       this.step = currentStep;
     });
+    // Find the initially checked radio button and run the corresponding method
+    const checkedRadio = document.querySelector(
+      'input[name="payment"]:checked'
+    ) as HTMLInputElement;
+    if (checkedRadio) {
+      this.selectPaymentMethod(checkedRadio.id);
+    }
   }
 
   selectPaymentMethod(paymentMethod: string) {
@@ -29,12 +37,7 @@ export class StepOrderRecapComponent implements OnInit {
   }
 
   nextStep() {
-    console.log('current step: ', this.step);
     this.checkoutService.updateStep(2);
-    console.log('current step: ', this.step);
-
-    setTimeout(() => {
-      this.router.navigate(['/checkout/rdv']);
-    }, 1000); // Delay to ensure state update
+    this.router.navigate(['/checkout/rdv']);
   }
 }

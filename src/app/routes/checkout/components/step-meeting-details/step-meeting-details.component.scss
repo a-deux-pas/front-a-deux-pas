@@ -5,7 +5,7 @@
 
 .calendars-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .terms-container {
@@ -14,8 +14,8 @@
   align-items: center;
   margin-top: 100px;
   margin-bottom: 100px;
-  margin-right: 23%;
-  margin-left: 23%;
+  margin-right: 30%;
+  margin-left: 30%;
 }
 
 .rdv-details-container {
@@ -38,4 +38,18 @@ button {
   display: flex;
   justify-content: center;
   width: auto;
+}
+
+.textarea-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  font-size: large;
+}
+
+p {
+  font-size: small;
 }

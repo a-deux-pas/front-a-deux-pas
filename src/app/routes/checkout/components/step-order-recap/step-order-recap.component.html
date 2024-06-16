@@ -7,7 +7,7 @@
         type="radio"
         name="payment"
         id="card"
-        (click)="selectPaymentMethod('card')"
+        (change)="selectPaymentMethod('card')"
         checked
       />
       <label class="form-check-label" for="card">
@@ -20,7 +20,7 @@
         type="radio"
         name="payment"
         id="cash"
-        (click)="selectPaymentMethod('cash')"
+        (change)="selectPaymentMethod('cash')"
       />
       <label class="form-check-label" for="cash">
         Paiement cash à la remise de l'article
