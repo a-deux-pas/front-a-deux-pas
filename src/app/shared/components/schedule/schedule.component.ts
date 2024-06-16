@@ -123,10 +123,8 @@ export class ScheduleComponent implements OnChanges {
         event.endStr.split('T')[1].split('+')[0],  // endTime
         Number(localStorage.getItem('userId'))
       );
-
       newPreferredSchedules.push(newPreferredSchedule);
     });
-
     this.addPreferredSchedules.emit(newPreferredSchedules);
   }
 }

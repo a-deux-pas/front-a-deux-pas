@@ -32,12 +32,10 @@ export class NotificationsComponent implements OnInit {
         meetingCancelled: new FormControl(false),
       })
     );
-
     // Sets the value of all checkboxes whenever the value of "notifications" changes
     this.notificationsFormGroup.get('notifications')?.valueChanges.subscribe(value => {
       this.toggleNotificationCheckboxes(value);
     });
-
     // Update notifications whenever any control in the form group changes
     this.notificationsFormGroup.valueChanges.subscribe(() => {
       this.getNotifications();

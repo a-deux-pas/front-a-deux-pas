@@ -54,10 +54,6 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  getAuthorizationToken() {
-    return localStorage.getItem('token')!;
-  }
-
   // Function to extract user id from the JWT token
   extractIdFromToken(token: string): string {
     const decodedToken: any = jwtDecode(token);

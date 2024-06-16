@@ -4,7 +4,7 @@ export class PreferredMeetingPlace {
     public city: string,
     public street: string,
     public name: string,
+    public userId: number | string,
     public id?: number,
-    public userId?: number
   ) {}
 }

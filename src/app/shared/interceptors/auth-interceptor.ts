@@ -1,17 +1,16 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AuthService } from "../services/auth.service";
 import { Observable } from "rxjs";
 import { API_URL } from "../utils/constants/utils-constants";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) {}
+  constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Get the auth token from the service.
-    const authToken = this.authService.getAuthorizationToken();
+    const authToken = localStorage.getItem('token');
     // Clone the request and replace the original headers with
     // cloned headers, updated with the authorization.
     if (req.url.startsWith(API_URL)) {
