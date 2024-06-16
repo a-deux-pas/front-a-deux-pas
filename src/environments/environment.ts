@@ -1,11 +1,9 @@
-import { secretsEnvironment } from "./environment.secrets";
-
 export const environment = {
   mapbox: {
-    accessToken: secretsEnvironment.mapbox.accessToken,
+    accessToken:'MAPBOX_ACCESS_TOKEN',
   },
   userCredentials: {
-    email: secretsEnvironment.userCredentials.email,
-    password: secretsEnvironment.userCredentials.password,
+    email: 'USER_EMAIL',
+    password: 'USER_PASSWORD',
   }
 }

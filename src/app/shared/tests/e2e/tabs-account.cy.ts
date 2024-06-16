@@ -1,11 +1,11 @@
-import { environment } from "../../../../environments/environment";
+import { secretsEnvironment } from "../../../../environments/environment.secrets";
 import { API_URL } from "../../utils/constants/utils-constants";
 
 let apiUrl = `${API_URL}account/profile`;
 
 context('account tabs testing', () => {
   beforeEach(() => {
-    cy.login(environment.userCredentials.email, environment.userCredentials.password);
+    cy.login(secretsEnvironment.userCredentials.email, secretsEnvironment.userCredentials.password);
 
     cy.window().then((win) => {
       win.localStorage.setItem('userId', '1'); // Set userId for testing

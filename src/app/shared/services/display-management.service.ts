@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { secretsEnvironment } from '../../../environments/environment.secrets';
 
 @Injectable({
     providedIn: 'root'
@@ -28,7 +28,7 @@ export class DisplayManagementService {
       const elements = document.querySelectorAll('mapbox-address-autofill');
       const elementsArray = Array.from(elements);
       elementsArray.forEach((autofill: any) => {
-        autofill.accessToken = environment.mapbox.accessToken;
+        autofill.accessToken = secretsEnvironment.mapbox.accessToken;
       });
     }
   }
