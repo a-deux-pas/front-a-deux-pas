@@ -7,7 +7,6 @@ import { EventNotification } from '../../models/user/event-notification.model';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './notifications.component.html',
-  styleUrl: './notifications.component.scss',
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }],
 })
 export class NotificationsComponent implements OnInit {

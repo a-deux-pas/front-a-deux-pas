@@ -45,13 +45,16 @@ export class LoginFormComponent {
       stayLoggedIn: [true],
     });
 
-    this.loginForm.get('email')?.valueChanges.subscribe(email => {
-      if (email) {
-        this.loginForm.get('password')?.setAsyncValidators(
-          this.asyncValidatorService.passwordMatchesEmailValidator(this.loginForm.get('email')!)
-        );
-      }
-    });
+    const emailControl = this.loginForm.get('email');
+    if (emailControl) {
+      this.loginForm.get('email')?.valueChanges.subscribe(email => {
+        if (email) {
+          this.loginForm.get('password')?.setAsyncValidators(
+            this.asyncValidatorService.passwordMatchesEmailValidator(emailControl)
+          );
+        }
+      });
+    }
   }
 
   togglePasswordVisibility() {
