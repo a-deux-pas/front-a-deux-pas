@@ -14,7 +14,6 @@ export class AuthInterceptor implements HttpInterceptor {
     const authToken = this.authService.getAuthorizationToken();
     // Clone the request and replace the original headers with
     // cloned headers, updated with the authorization.
-    // TO DO : 1ère condition à supprimer une fois cloudinary implementé côté back
     if (req.url.startsWith(API_URL)) {
       if (authToken) {
         const authReq = req.clone({

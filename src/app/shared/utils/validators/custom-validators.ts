@@ -36,7 +36,7 @@ export function checkEqualityValidator(firstControlName: string, secondControlNa
 
 export function passwordValidator(): ValidatorFn {
   return (control:AbstractControl) : ValidationErrors | null => {
-  // obtain the value to be validated
+    // obtain the value to be validated
     const password = control.value;
     const validations = [
       {
@@ -64,7 +64,7 @@ export function passwordValidator(): ValidatorFn {
         }
       },
       {
-        regex: /(?=.*[$@^!%*?&])/,
+        regex: /(?=.*[!@#&()–[{}\]:;',?/*~$^+=<>])/,
         error: {
           requiresSpecialChars: {
             rules: 'Le mot de passe doit contenir au moins un caractère spécial'
@@ -94,7 +94,7 @@ export function passwordValidator(): ValidatorFn {
         return validation.error;
       }
     }
-
-    return null;  // Si toutes les conditions sont remplies, retourner null (aucune erreur)
+    // return null if no errors were found in the field value
+    return null;
   };
 }

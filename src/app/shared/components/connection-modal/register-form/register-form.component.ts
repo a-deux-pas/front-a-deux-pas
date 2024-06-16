@@ -56,16 +56,14 @@ export class RegisterFormComponent {
     const credentials = new Credentials (
       this.registerForm.get('email')?.value,
       this.registerForm.get('password')?.value,
-      true,
+      false,
     )
 
     if (this.registerForm.valid) {
       this.authService.auth(credentials,'signup').subscribe({
         next: (data: any) => {
           if (data) {
-          setTimeout(() => {
-            this.router.navigate(['/inscription']);
-          }, 0);
+          this.router.navigate(['/inscription']);
           this.isFormSubmitted = true;
           this.formSubmitted.emit(this.isFormSubmitted);
           }

@@ -1,4 +1,4 @@
-import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component, SecurityContext } from '@angular/core';
+import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { ProfilePictureComponent } from '../../shared/components/user-presentation/profile-picture/profile-picture.component';
@@ -9,11 +9,11 @@ import { NotificationsComponent } from '../../shared/components/notifications/no
 import { PreferredMeetingPlace } from '../../shared/models/user/preferred-meeting-place.model';
 import { PreferredSchedule } from '../../shared/models/user/preferred-schedule.model';
 import { EventNotification } from '../../shared/models/user/event-notification.model';
-import { environment } from '../../../environments/environment';
 import { AsyncValidatorService } from '../../shared/services/async-validator.service';
 import { RegisterService } from './register.service';
 import { UserProfile } from '../../shared/models/user/user-profile.model';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DisplayManagementService } from '../../shared/services/display-management.service';
+import { escapeHtml } from '../../shared/utils/sanitizers/custom-sanitizers';
 
 @Component({
   selector: 'app-register',
@@ -38,7 +38,7 @@ export class RegisterComponent implements AfterViewInit {
   constructor(
     private formBuilder: FormBuilder,
     private asyncValidatorService: AsyncValidatorService,
-    private sanitizer: DomSanitizer,
+    private displayManagementService: DisplayManagementService,
     private registerService: RegisterService,
     private location: Location,
     private cd: ChangeDetectorRef,
@@ -60,12 +60,7 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const elements = document.querySelectorAll('mapbox-address-autofill');
-    // Convertir NodeList en tableau
-    const elementsArray = Array.from(elements);
-    elementsArray.forEach((autofill: any) => {
-      autofill.accessToken = environment.mapbox.accessToken;
-    });
+    this.displayManagementService.configureAddressAutofill();
   }
 
   getUserprofilePicture(eventType: string, userPicture: FormData): void {
@@ -112,13 +107,13 @@ export class RegisterComponent implements AfterViewInit {
               const userProfile = new UserProfile(
                   this.userId,
                   '', // à remplacer par l'URL de l'image
-                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('alias')?.value) ?? '',
-                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bio')?.value) ?? '',
-                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('city')?.value) ?? '',
-                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('street')?.value) ?? '',
-                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('address')?.get('postalCode')?.value) ?? '',
-                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bankAccount')?.get('accountHolder')?.value) ?? '',
-                  this.sanitizer.sanitize(SecurityContext.HTML, this.profileForm.get('bankAccount')?.get('accountNumber')?.value) ?? '',
+                  escapeHtml(this.profileForm.get('alias')?.value),
+                  escapeHtml(this.profileForm.get('bio')?.value),
+                  escapeHtml(this.profileForm.get('address')?.get('city')?.value),
+                  escapeHtml(this.profileForm.get('address')?.get('street')?.value),
+                  escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value),
+                  escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
+                  escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
                   this.preferredSchedules,
                   this.preferredMeetingPlaces,
                   this.notifications

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -22,4 +23,12 @@ export class DisplayManagementService {
     private checkWindowSize(): void {
         this.isBigScreenSubject.next(window.innerWidth > 1200);
     }
-}
+
+    public configureAddressAutofill(): void {
+      const elements = document.querySelectorAll('mapbox-address-autofill');
+      const elementsArray = Array.from(elements);
+      elementsArray.forEach((autofill: any) => {
+        autofill.accessToken = environment.mapbox.accessToken;
+      });
+    }
+  }

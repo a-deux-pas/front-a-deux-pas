@@ -1,10 +1,10 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, OnInit, Output, SecurityContext } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlContainer, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PreferredMeetingPlace } from '../../../../shared/models/user/preferred-meeting-place.model';
-import { environment } from '../../../../../environments/environment';
 import { alreadyExistValidator } from '../../../../shared/utils/validators/custom-validators';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DisplayManagementService } from '../../../../shared/services/display-management.service';
+import { escapeHtml } from '../../../../shared/utils/sanitizers/custom-sanitizers';
 
 @Component({
   selector: 'app-meeting-place-form',
@@ -21,21 +21,22 @@ export class MeetingPlaceFormComponent implements OnInit {
   isAddButtonClicked: boolean = true;
   @Output() addPreferredMeetingPlaces = new EventEmitter<PreferredMeetingPlace[]>();
 
-  constructor(public profileForm: FormGroupDirective, private sanitizer: DomSanitizer,) {}
-
-  // address-autofill - TO DO : voir si possible de tranférer la méthode dans un service
-  ngAfterViewInit(): void {
-    const elements = document.querySelectorAll('mapbox-address-autofill');
-    // Convertir NodeList en tableau
-    const elementsArray = Array.from(elements);
-    elementsArray.forEach((autofill: any) => {
-      autofill.accessToken = environment.mapbox.accessToken;
-    });
-  }
+  constructor(
+    public profileForm: FormGroupDirective,
+    private displayManagementService: DisplayManagementService
+  ) {}
 
   ngOnInit() {
     this.preferredMeetingPlaceForm = this.profileForm.form;
     this.addPreferredMeetingPlaceFormGroup();
+  }
+
+  ngAfterViewInit(): void {
+    this.displayManagementService.configureAddressAutofill();
+  }
+
+  ngAfterViewChecked(): void {
+    this.displayManagementService.configureAddressAutofill();
   }
 
   addPreferredMeetingPlaceFormGroup() {
@@ -59,23 +60,24 @@ export class MeetingPlaceFormComponent implements OnInit {
 
   addPreferredMeetingPlace() {
     this.isAddButtonClicked = true;
-    this.addPreferredMeetingPlaceFormGroup();
-
-    if (this.preferredMeetingPlaceFormGroup.valid) {
+    if (this.preferredMeetingPlaceFormGroup) {
+      if (this.preferredMeetingPlaceFormGroup.valid) {
       // Sanitize values before pushing to preferredMeetingPlacesDisplay
       const sanitizedMeetingPlace = {
-        name: this.sanitizer.sanitize(SecurityContext.HTML, this.preferredMeetingPlaceFormGroup.get('name')?.value) ?? '',
-        street: this.sanitizer.sanitize(SecurityContext.HTML, this.preferredMeetingPlaceFormGroup.get('street')?.value) ?? '',
-        postalCode: this.sanitizer.sanitize(SecurityContext.HTML, this.preferredMeetingPlaceFormGroup.get('postalCode')?.value) ?? '',
-        city: this.sanitizer.sanitize(SecurityContext.HTML, this.preferredMeetingPlaceFormGroup.get('city')?.value) ?? '',
+        name: escapeHtml(this.preferredMeetingPlaceFormGroup.get('name')?.value),
+        street: escapeHtml(this.preferredMeetingPlaceFormGroup.get('street')?.value),
+        postalCode: escapeHtml(this.preferredMeetingPlaceFormGroup.get('postalCode')?.value),
+        city: escapeHtml(this.preferredMeetingPlaceFormGroup.get('city')?.value),
         userId: this.preferredMeetingPlaceFormGroup.get('userId')?.value
       };
-
       // save the form value for display
       this.preferredMeetingPlacesDisplay.push(sanitizedMeetingPlace);
       this.addPreferredMeetingPlaces.emit(this.preferredMeetingPlacesDisplay);
-      // reset the form and remove controls
+      // delete and reset the form
       this.deletePreferredMeetingPlaceForm();
+      }
+    } else {
+      this.addPreferredMeetingPlaceFormGroup();
     }
   }
 
