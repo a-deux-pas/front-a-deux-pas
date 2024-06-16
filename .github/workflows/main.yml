@@ -30,9 +30,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - name: Replace environment file
-        run: |
-          mv src/environments/environment.ts src/environments/environment.secrets.ts
       # Replace variable using github secrets
       - name: Replace environment variables in environment.ts
         run: |
