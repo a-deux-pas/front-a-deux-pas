@@ -91,10 +91,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APP_NAME: ${{ vars.APP_NAME }}
-      APP_VERSION: ${{ github.event.workflow_run.outputs.APP_VERSION }}
+      APP_VERSION: ${{ needs.build.outputs.APP_VERSION }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@master
 
       # Create environment.secret.ts file with Mapbox token
       - name: Create environment.secret.ts file
