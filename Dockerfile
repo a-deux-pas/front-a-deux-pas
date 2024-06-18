@@ -10,13 +10,18 @@ ARG ANGULAR_CONFIG=production \
 RUN useradd -U -m -d /app/ -s /bin/bash -u ${APP_UID} app-user && \
     npm install -g @angular/cli@${ANGULAR_MAJOR_VERSION}
 
-# switch to user app and its home directory 
+# switch to user app and its home directory
 USER app-user
 WORKDIR /app
 
 # copy application files and change owner (chown) to app-user
 COPY --chown=${APP_UID}:${APP_UID} package.json angular.json tsconfig*.json /app/
 ADD --chown=${APP_UID}:${APP_UID}  src /app/src
+
+# create environments directory and copy environment.secret.ts
+COPY --chown=${APP_UID}:${APP_UID} ./environment.secret.ts /tmp/environment.secret.ts
+RUN mkdir -p /app/src/environments/
+RUN cp /tmp/environment.secret.ts /app/src/environments/environment.secret.ts
 
 # install dependencies and build application
 RUN npm set cache /app/.npm && \
