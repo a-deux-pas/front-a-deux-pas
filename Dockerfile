@@ -18,10 +18,10 @@ WORKDIR /app
 COPY --chown=${APP_UID}:${APP_UID} package.json angular.json tsconfig*.json /app/
 ADD --chown=${APP_UID}:${APP_UID}  src /app/src
 
-# create environments directory and copy environment.secret.ts
-COPY --chown=${APP_UID}:${APP_UID} ./environment.secret.ts /tmp/environment.secret.ts
+# create environments directory and copy environment.secrets.ts
+COPY --chown=${APP_UID}:${APP_UID} ./environment.secrets.ts /tmp/environment.secrets.ts
 RUN mkdir -p /app/src/environments/
-RUN cp /tmp/environment.secret.ts /app/src/environments/environment.secret.ts
+RUN cp /tmp/environment.secrets.ts /app/src/environments/environment.secrets.ts
 
 # install dependencies and build application
 RUN npm set cache /app/.npm && \
