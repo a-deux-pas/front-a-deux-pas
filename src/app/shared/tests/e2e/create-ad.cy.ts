@@ -1,5 +1,6 @@
 context('create new ad testing', () => {
     beforeEach(() => {
+        cy.setLoggedIn();
         cy.visit('http://localhost:4200/annonce/creation')
         cy.url().should('include', 'creation');
     });
