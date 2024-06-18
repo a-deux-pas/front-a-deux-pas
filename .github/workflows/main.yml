@@ -61,6 +61,8 @@ jobs:
           install: false
           build: npm run build
           start: npm start -- --host 0.0.0.0
+          wait-on: "http://localhost:4200"
+          record: false
 
       - name: Run Component Testing
         uses: cypress-io/github-action@v6
