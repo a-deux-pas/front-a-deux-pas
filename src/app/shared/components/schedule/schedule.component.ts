@@ -24,6 +24,8 @@ export class ScheduleComponent implements OnChanges {
   @Output() addPreferredSchedules = new EventEmitter<PreferredSchedule[]>();
   // Flag to track edit mode
   @Input() editMode!: boolean;
+  hasInteractedWithSchedule: boolean = false;
+  noScheduleFilledIn: boolean = false;
 
   // Calendar options configuration
   calendarOptions: CalendarOptions = ({
@@ -112,6 +114,8 @@ export class ScheduleComponent implements OnChanges {
     this.currentSchedules.set(events);
     // Trigger change detection to refresh the UI
     this.changeDetector.detectChanges();
+    // Check if no schedule has been filled out
+    this.noScheduleFilledIn = events.length === 0;
 
     const newPreferredSchedules: PreferredSchedule[] = [];
 
@@ -126,5 +130,9 @@ export class ScheduleComponent implements OnChanges {
       newPreferredSchedules.push(newPreferredSchedule);
     });
     this.addPreferredSchedules.emit(newPreferredSchedules);
+  }
+
+  onScheduleInteraction(): void {
+    this.hasInteractedWithSchedule = true;
   }
 }

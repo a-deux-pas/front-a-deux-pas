@@ -111,15 +111,10 @@
         <h3 class="my-5 bold-title-700">Mes disponibilités</h3>
       </div>
     </div>
-    <app-schedule [editMode]="scheduleEditMode"
-      (addPreferredSchedules)="getUserPreferredSchedules($event)"
-      (mouseleave)="onScheduleInteraction()">
+    <app-schedule
+      [editMode]="scheduleEditMode"
+      (addPreferredSchedules)="getUserPreferredSchedules($event)">
     </app-schedule>
-    @if (profileForm.invalid && preferredSchedules.length === 0 && hasInteractedWithSchedule) {
-      <div class="error-msg text-center mt-3">
-        Veuillez renseigner au moins un créneau horaire auquel vous êtes disponible
-      </div>
-    }
 
     <div class="row justify-content-center">
       <div class="col-12 col-md-9">

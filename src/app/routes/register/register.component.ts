@@ -28,7 +28,6 @@ export class RegisterComponent implements AfterViewInit {
   profilePicturePreview: boolean = false;
   preferredMeetingPlaces: PreferredMeetingPlace[] = [];
   scheduleEditMode: boolean = true;
-  hasInteractedWithSchedule: boolean = false;
   preferredSchedules: PreferredSchedule[] = [];
   notifications!: EventNotification[];
   showErrorAlert: boolean = false;
@@ -85,10 +84,6 @@ export class RegisterComponent implements AfterViewInit {
 
   getUserNotificationsPreferrences(newNotifications: EventNotification[]) {
     this.notifications = newNotifications;
-  }
-
-  onScheduleInteraction(): void {
-    this.hasInteractedWithSchedule = true;
   }
 
   isFormValid(): boolean {

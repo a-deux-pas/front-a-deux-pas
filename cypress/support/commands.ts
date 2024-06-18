@@ -11,15 +11,8 @@
 //
 
 // -- This is a parent command --
-Cypress.Commands.add('login', (email, password) => {
-  cy.request({
-    method: 'POST',
-    url: 'http://localhost:8081/api/login',
-    body: { email, password }
-  }).then(response => {
-    const token = response.body;
-    localStorage.setItem('token', token);
-  });
+Cypress.Commands.add('setLoggedIn', () => {
+  localStorage.setItem('token', 'fake-token');
 });
 
 //
@@ -36,7 +29,7 @@ Cypress.Commands.add('login', (email, password) => {
 //
   declare namespace Cypress {
     interface Chainable {
-      login(email: string, password: string): Chainable<void>
+      setLoggedIn(): Chainable<void>
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>

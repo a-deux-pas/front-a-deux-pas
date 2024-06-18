@@ -1,15 +1,10 @@
-import { secretsEnvironment } from "../../../../environments/environment.secrets";
 import { API_URL } from "../../utils/constants/utils-constants";
 
 let apiUrl = `${API_URL}account/profile`;
 
 context('account tabs testing', () => {
   beforeEach(() => {
-    cy.login(secretsEnvironment.userCredentials.email, secretsEnvironment.userCredentials.password);
-
-    cy.window().then((win) => {
-      win.localStorage.setItem('userId', '1'); // Set userId for testing
-    });
+    cy.setLoggedIn();
 
     cy.intercept(`${apiUrl}/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
     cy.intercept(`${apiUrl}/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
