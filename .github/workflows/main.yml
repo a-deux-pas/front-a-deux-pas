@@ -60,7 +60,7 @@ jobs:
         with:
           install: false
           build: npm run build
-          start: npm start
+          start: npm start -- --host 0.0.0.0
 
       - name: Run Component Testing
         uses: cypress-io/github-action@v6
