@@ -3,7 +3,7 @@ name: front-a-deux-pas Docker
 on:
   # Trigger the workflow when the "Build" workflow completes (all jobs).
   workflow_run:
-    workflows: ["front-a-deux-pas CI"]
+    workflows: ["build"]
     types:
       - completed
 
