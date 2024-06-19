@@ -20,6 +20,8 @@ ADD --chown=${APP_UID}:${APP_UID}  src /app/src
 
 # create environments directory and copy environment.secrets.ts
 COPY --chown=${APP_UID}:${APP_UID} ./src/environments/environment.secrets.ts /app/src/environments/environment.secrets.ts
+# modify file permissions to ensure that only authorized users have write access
+RUN chmod 644 /app/src/environments/environment.secrets.ts
 
 # install dependencies and build application
 RUN npm set cache /app/.npm && \
