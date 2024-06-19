@@ -16,7 +16,7 @@ WORKDIR /app
 
 # copy application files and change owner (chown) to app-user
 COPY --chown=${APP_UID}:${APP_UID} package.json angular.json tsconfig*.json /app/
-ADD --chown=${APP_UID}:${APP_UID}  src /app/src
+ADD --chown=${APP_UID}:${APP_UID} --chmod=755 src /app/src
 
 # create environments directory and copy environment.secrets.ts with correct permissions
 COPY --chown=${APP_UID}:${APP_UID} --chmod=644 ./src/environments/environment.secrets.ts /app/src/environments/environment.secrets.ts
