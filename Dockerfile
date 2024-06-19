@@ -19,7 +19,6 @@ COPY --chown=${APP_UID}:${APP_UID} package.json angular.json tsconfig*.json /app
 ADD --chown=${APP_UID}:${APP_UID} src /app/src
 
 # create environments directory and copy environment.secrets.ts with correct permissions
-RUN mkdir -p /app/src/environments/
 COPY --chown=root:root --chmod=755 ./src/environments/environment.secrets.ts /app/src/environments/environment.secrets.ts
 
 # install dependencies and build application
