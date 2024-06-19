@@ -62,7 +62,6 @@ jobs:
           build: npm run build
           start: npm start -- --host 0.0.0.0
           wait-on: "http://localhost:4200"
-          record: false
 
       - name: Run Component Testing
         uses: cypress-io/github-action@v6
@@ -102,7 +101,6 @@ jobs:
       - name: Create environment.secrets.ts file
         run: |
           mkdir -p ./src/environments/
-          # Create environment.secrets.ts file with the secret Mapbox token.
           echo "export const environment = {" > ./src/environments/environment.secrets.ts
           echo "  mapbox: {" >> ./src/environments/environment.secrets.ts
           echo "    accessToken: '$MAPBOX_ACCESS_TOKEN'," >> ./src/environments/environment.secrets.ts
