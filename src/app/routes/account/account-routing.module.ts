@@ -36,4 +36,4 @@ export const accountRoutes: Routes = [
     imports: [RouterModule.forChild(accountRoutes)],
     exports: [RouterModule]
 })
-export class AccountRoutingModule { }
+export class AccountRoutingModule {}

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { Router } from '@angular/router';
-
 import { Location } from '@angular/common';
 
 @Component({
@@ -28,21 +27,11 @@ export class AdCardComponent implements OnInit {
     }
   }
 
-  goToAdPage() {
-    if (this.ad.id && this.ad.publisherId) {
-      if (this.type === 'mine') {
-        this.router.navigate(['/compte/annonces/mon-annonce', this.ad.id])
-          .then(() => {
-            window.location.reload();
-          });
-      } else {
-        this.router.navigate(['/annonce', this.ad.publisherId, this.ad.id])
-          .then(() => {
-            window.location.reload();
-          });
-      }
-    } else {
-      console.error('Invalid ad data for navigation:', this.ad);
-    }
+  goToAdPage(adId: number, adPublisherId: number) {
+    const path = this.type === 'mine' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherId, adId];
+    
+    this.router.navigate(path).then(() => {
+      window.location.reload();
+    });
   }
 }

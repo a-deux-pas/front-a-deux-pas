@@ -59,12 +59,7 @@ export class AdPageComponent implements OnInit {
   ngOnInit(): void {
     this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
-    if (this.route.snapshot.paramMap.get(('sellerId'))) {
-      this.onMyAd = false
-    } else {
-      this.onMyAd = true
-    }
-
+    this.onMyAd = !this.route.snapshot.paramMap.has('sellerId');
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
         this.adSuccessfullySubmitted = true;
@@ -77,6 +72,7 @@ export class AdPageComponent implements OnInit {
       next: (ad: AdPostResponse) => {
         this.currentAd = ad;
         this.articlePictures = [
+          // TO DO  :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
           this.currentAd.firstArticlePictureUrl,
           this.currentAd.secondArticlePictureUrl,
           this.currentAd.thirdArticlePictureUrl,

@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { Subscription } from 'rxjs';
 import { DisplayManagementService } from './shared/services/display-management.service';
-import { AdPageComponent } from './shared/components/ads/ad-page-content/ad-page-content.component';
-import { AdFormComponent } from './shared/components/ads/ad-form/ad-form.component';
 import { AuthService } from './shared/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AdService } from './routes/ad/ad.service';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -28,8 +25,7 @@ export class AppComponent implements OnInit {
   constructor(
     private displayManagementService: DisplayManagementService,
     private authService: AuthService,
-    private adService: AdService,
-    private Location: Location
+    private adService: AdService
   ) { }
 
   accountNavbarMenuToggle() {
@@ -37,11 +33,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('router:: ', this.Location.path())
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
     this.authService.isLoggedIn().subscribe((status: boolean) => {
       this.isLoggedIn = status;
       if (status == false) {
+        // TO DO :: checker maj de la navbar si conenxion depuis la page seller Ad
         console.log('isLoggedInApp:: ', this.isLoggedIn)
         this.adService.sellerAdPageLoaded$.subscribe(hasAdAndSellerId => {
           this.onSellerAdPageUnlogged = hasAdAndSellerId;

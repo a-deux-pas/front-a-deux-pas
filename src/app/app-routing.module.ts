@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './shared/guards/auth.guard';
-import { provideRouter, withDebugTracing } from '@angular/router';
 
 const routes: Routes = [
   {
@@ -24,7 +23,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/account/account-routing.module').then(
         (mod) => mod.AccountRoutingModule
-      )
+      ),
+      canActivate: [authGuard],
   },
   {
     path: '',
@@ -39,4 +39,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -61,6 +61,7 @@ export class CtaSellerAdComponent implements OnInit {
     if (this.isLoggedIn == false) { this.openModal() }
   }
 
+  // TO DO :: probably to change after lea's branch merge
   openModal() {
     this.modalService.open(LoginComponent);
     this.onSellerAdPageUnlogged = false
