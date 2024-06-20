@@ -10,8 +10,8 @@ import { CityAndPostalCodeResponse } from '../../../models/user/city-and-postal-
   providedIn: 'root',
 })
 export class AdFiltersService {
-  private filteredAdsListUrl: string = `${API_URL}api/ads/list`;
-  private citiesAndPostalCodesUrl: string = `${API_URL}api/users/cities-and-postal-codes`;
+  private filteredAdsListUrl: string = `${API_URL}ads/list`;
+  private citiesAndPostalCodesUrl: string = `${API_URL}users/cities-and-postal-codes`;
 
   constructor(
     private http: HttpClient,
@@ -39,13 +39,8 @@ export class AdFiltersService {
         {
           params: queryParams,
         }
-      )
-      .pipe(
-        catchError(
-          this.handleErrorService.handleError<AdHomeResponse[]>(
-            'fetchFilteredAds'
-          )
-        )
+      ).pipe(
+        catchError(this.handleErrorService.handleError)
       );
   }
 
@@ -54,11 +49,7 @@ export class AdFiltersService {
     return this.http
       .get<CityAndPostalCodeResponse[]>(this.citiesAndPostalCodesUrl)
       .pipe(
-        catchError(
-          this.handleErrorService.handleError<CityAndPostalCodeResponse[]>(
-            'fetchCitiesAndPostalCodes'
-          )
-        )
+        catchError(this.handleErrorService.handleError)
       );
   }
 }

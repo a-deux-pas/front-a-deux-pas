@@ -16,13 +16,13 @@
   <!-- Bottom part -->
   <section id="mobile-bottom-navbar">
     <ul id="mobile-bottom-navbar-icons">
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="accueil" class="navbar-icon">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage">
+        <a routerLink="/" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
           Accueil
         </a>
       </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage">
         <a routerLink="compte/annonces" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'"/>
           Annonces
@@ -34,13 +34,13 @@
           Vendre
         </a>
       </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage">
         <a routerLink="compte/favoris" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'"/>
           Favoris
         </a>
       </li>
-      <li>
+      <li [hidden]="isRegistrationPage">
         <a (click)="toggleAccountMenuState()" class="navbar-icon">
           <img class="icon" id="mobile-account-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
           Compte
@@ -86,14 +86,14 @@
             <span class="desktop-logo">PAS</span>
           </div>
       </div>
-      <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon">
+      <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon" [hidden]="isRegistrationPage">
         <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
         Vendre
       </button>
       <app-search-bar></app-search-bar>
-      <ul id="desktop-navbar-icons">
+      <ul id="desktop-navbar-icons" [hidden]="isRegistrationPage">
         <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-          <a routerLink="accueil" class="navbar-icon">
+          <a routerLink="/" class="navbar-icon">
             <img class="add-icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
             Accueil
           </a>

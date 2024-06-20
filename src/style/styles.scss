@@ -193,6 +193,7 @@ button.btn {
   height: 43px;
   padding: $btn-padding-x $btn-padding-y;
   text-align: justify;
+  justify-content: center;
   align-items: center;
   border-radius: $btn-border-radius;
   background-color: $primary;
@@ -202,6 +203,10 @@ button.btn {
 
   &:hover {
     background-color: darken($secondary, 25%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
   }
 }
 
@@ -243,6 +248,12 @@ button.btn {
 
   &:hover {
     background-color: darken($secondary, 10%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
+    border:#6666668f;
+    font-weight: 400;
   }
 }
 
@@ -340,9 +351,9 @@ button.btn {
   width: 40px;
 }
 
-// Error class
-.error-msg {
-  color: $primary;
+.add-icon, .remove-icon {
+  width: 27.25px;
+  height: 27.25px;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -372,83 +383,51 @@ a.close {
   }
 }
 
-// Connection modal header
-.modal-header {
-  z-index: 1;
-}
-
-// Connection modal content
 .modal-content {
-  // wavy backgroung modal
-  .container-nav {
-    position: absolute;
-    background: $tertiary;
-    height: 15vh;
-    z-index: 0;
+  .form-check-input[type=checkbox] {
+    border-radius: 50%;
+    border-color: $secondary;
+    &:checked {
+      background-color: $secondary;
+    }
   }
 
-  .wave {
+  .modal-body {
+    label.form-check-label {
+      font-size: 14.5px;
+      margin-right: 2px;
+    }
+  }
+
+.modal-footer {
+  .btn-success:disabled {
+    background-color: #9d9d9d8f;
+    }
+  }
+
+  #btn-password-visibility {
     position: absolute;
-    height: 137px;
+    height: 24px;
+    width: 24px;
+    background: transparent;
+    border: none;
+    right: 7%;
+    top: 3px;
+  }
+
+  #password-input-wrapper {
+    position: relative;
     width: 100%;
-    background: $tertiary;
-    top: 0;
-    right: 0;
   }
 
-  .wave::before,
-  .wave::after {
-    content: "";
-    display: block;
-    position: absolute;
-    border-radius: 50% 100%;
+  .eye-icon {
+    width: 24px;
+    height: 24px;
   }
 
-  .wave::before {
-    width: 55%;
-    height: 100%;
-    background-color: $tertiary;
-    right: 0;
-    top: 40%;
-  }
-
-  .wave::after {
-    width: 55%;
-    height: 109%;
-    background-color: #fff;
-    left: 0;
-    top: 60%;
-  }
-}
-
-// toggle group
-.modal-btn {
-  margin: auto;
-  z-index: 1;
-  background-color: $primary;
-  border-radius: 10px;
-  padding: 2px;
-  height: 36px;
-  position: relative;
-
-  .btn {
-    background-color: $primary;
-    margin: 1px;
-    border-radius: 8px;
-    height: 30px;
-    line-height: 8px;
-    color: white;
-
-    &:active,
-    &:focus,
-    &:hover {
-      background-color: white;
-      color: $primary;
-    }
-
-    &.toggle {
-      width: 175px;
-    }
+  .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+  .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control {
+    border-radius: 10px 10px 40px 5px;
   }
 }
 
@@ -472,6 +451,11 @@ textarea.form-control {
 // Placeholders color
 .form-control::placeholder {
   color: rgba(0, 0, 0, 0.38) !important;
+}
+
+// Error class
+.error-msg {
+  color: $primary;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -847,7 +831,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Set the width of the calendar and center it
 .fc {
-  width: 320px;
+  width: 302px;
   margin: 0 auto;
 }
 
@@ -873,6 +857,10 @@ a.dropdown-first-level.dropdown-toggle {
 .fc-theme-standard .fc-scrollgrid {
   border-top: none;
   border-left: none;
+}
+
+.fc-media-screen .fc-timegrid-cols > table {
+  width: 302px;
 }
 
 // Thicken grids
@@ -928,6 +916,142 @@ a.dropdown-first-level.dropdown-toggle {
 // Center new event timing
 .fc-v-event .fc-event-title-container {
   flex-grow: 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Dropzone
+.dz-progress,
+.dz-details,
+.dz-success-mark,
+.dz-error-mark,
+.dz-error-message
+{
+  display: none !important;
+}
+
+.dropzone.dz-wrapper.dz-single .dz-message {
+  background-color: white;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+  transform: none !important;
+  filter: none !important;
+}
+
+.dropzone-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropzone-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+.dropzone.dz-clickable .dz-message,
+.dropzone.dz-clickable .dz-message * {
+  color: $primary;
+  font-weight: 700;
+}
+
+// Dropzone profile picture
+app-profile-picture {
+  #dropzone {
+    width: 231px;
+  }
+
+  .dropzone.dz-wrapper {
+    height: 212px;
+    overflow: inherit !important;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-message,
+  .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+    border-radius: 50%;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-preview {
+    height: auto !important;
+  }
+
+  .dz-remove {
+    display:inline-block !important;
+    width:1.2em;
+    height:1.2em;
+    text-decoration: none;
+
+    position:absolute;
+    top:5px;
+    right:5px;
+    z-index:1000;
+
+    font-size:1.2em !important;
+    line-height:1em;
+
+    text-align:center;
+    font-weight:bold;
+    border:1px solid gray !important;
+    border-radius:1.2em;
+    color:gray;
+    background-color:white;
+    opacity:.5;
+  }
+
+  .dz-remove:hover {
+      text-decoration:none !important;
+      opacity:1;
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Register page
+
+// profile picture dropzone display
+app-register {
+  app-profile-picture {
+    #profile-picture {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  // bank account form display
+  app-bank-account-form {
+    #bank-account {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Preferred meeting places display on Register & account profile pages
+
+.meeting-place .number,
+#preferred-meeting-places .number {
+  background-color: $info;
+  color:white;
+  border-radius: 38px;
+  padding: 4px 8px;
+  font-size: 14px;
+  position:relative;
+}
+
+.meeting-place .address-name {
+  font-weight: 700;
+  color: $primary;
+  padding-left: 0.5rem;
+  position: absolute;
+}
+
+.meeting-place .address-detail {
+  margin-top: 0.2rem;
+  margin-left: 2.2rem;
 }
 
 /*-----------------------------------------------------------------------*/

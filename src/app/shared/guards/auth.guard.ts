@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 
 //The authGuard is defined as a CanActivateFn function that can return multiple types (Observable, Promise, boolean, UrlTree).
-export const authGuard: CanActivateFn = ():
+export const AuthGuard: CanActivateFn = ():
   | Observable<boolean | UrlTree>
   | Promise<boolean | UrlTree>
   | boolean

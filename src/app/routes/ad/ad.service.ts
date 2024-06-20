@@ -7,37 +7,36 @@ import { AdPostResponse } from "../../shared/models/ad/ad-post-response.model"
 import { HandleErrorService } from "../../shared/services/handle-error.service"
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class AdService {
+  private contextUrl = `${API_URL}ads/`;
 
-    private contextUrl = `${API_URL}ads/`;
+  constructor(
+      private http: HttpClient,
+      private handleErrorService: HandleErrorService) { }
 
-    constructor(
-        private http: HttpClient,
-        private handleErrorService: HandleErrorService) { }
+  postAd(ad: Ad): Observable<any> {
+    const url = `${this.contextUrl}create`
+    return this.http.post(url, ad)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      )
+  }
 
-    postAd(ad: Ad): Observable<any> {
-        const url = `${this.contextUrl}create`
-        return this.http.post(url, ad)
-            .pipe(
-                catchError(this.handleErrorService.handleError<any[]>('postAd'))
-            )
-    }
+  findAdById(adId: number): Observable<AdPostResponse> {
+    const url = `${this.contextUrl}${adId}`
+    return this.http.get<AdPostResponse>(url)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      );
+  }
 
-    findAdById(adId: number): Observable<AdPostResponse> {
-        const url = `${this.contextUrl}${adId}`
-        return this.http.get<AdPostResponse>(url)
-            .pipe(
-                catchError(this.handleErrorService.handleError<AdPostResponse>('getAd'))
-            );
-    }
-
-    findMyAds(userId: number): Observable<AdPostResponse[]> {
-        const url = `${this.contextUrl}list/${userId}`
-        return this.http.get<AdPostResponse[]>(url)
-            .pipe(
-                catchError(this.handleErrorService.handleError<any[]>('getAdsList'))
-            )
-    }
+  findMyAds(userId: number): Observable<AdPostResponse[]> {
+    const url = `${this.contextUrl}list/${userId}`
+    return this.http.get<AdPostResponse[]>(url)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      );
+  }
 }

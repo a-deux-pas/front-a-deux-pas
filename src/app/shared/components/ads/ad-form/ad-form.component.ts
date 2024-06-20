@@ -1,6 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
-import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/ad/ad.service';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
@@ -39,8 +38,6 @@ export class AdFormComponent {
     new Date(),
   );
 
-  user!: User;
-  publisher: User | undefined;
   today: Date = new Date()
   selectedPicNumber: number = 1;
   articlePictures: File[] = [];
