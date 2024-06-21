@@ -1,6 +1,5 @@
 @if (isLoggedIn || onSellerAdPageUnlogged) {
 <app-navbar [isAccountMenuOpen]="isAccountMenuOpen" [isLoggedIn]="isLoggedIn"
-  [onSellerAdPageUnlogged]="onSellerAdPageUnlogged"
   (toggleMobileNavbarMenuOutput)="accountNavbarMenuToggle()"></app-navbar>
 }
 <main class="main-container">

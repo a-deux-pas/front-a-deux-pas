@@ -4,25 +4,42 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { AuthService } from '../../services/auth.service';
-import { LoginComponent } from '../login/login.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConnectionModalComponent } from '../connection-modal/connection-modal.component';
+import { AdService } from '../../../routes/ad/ad.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
   standalone: true,
-  imports: [RouterModule, CommonModule, SearchBarComponent, LoginComponent]
+  imports: [RouterModule, CommonModule, SearchBarComponent]
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   @Output() accountMenuToggleOutput: EventEmitter<void> =
     new EventEmitter<void>();
   @Input() isAccountMenuOpen: boolean = false;
   accountRoutes = accountRoutes;
   @Input() isLoggedIn!: boolean
-  @Input() onSellerAdPageUnlogged: boolean = false;
+  // envoie à navbarcomponent
+  onSellerAdPageUnlogged: boolean = false;
+  // envoie à app component
+  // @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
 
-  constructor(private authService: AuthService, public modalService: NgbModal) { }
+  isRegistrationPage: boolean = false;
+
+  constructor(private authService: AuthService, private router: Router, public modalService: NgbModal, private adService: AdService) {
+    this.router.events.subscribe(event => {
+      this.isRegistrationPage = this.router.url.includes('/inscription');
+    });
+  }
+
+  ngOnInit(): void {
+      this.adService.sellerAdPageLoaded$.subscribe((boolean) => {
+        this.onSellerAdPageUnlogged = boolean;
+        console.log('Seller ad page loaded:', boolean);
+      })
+  }
 
   emitToggleAccountMenu() {
     this.accountMenuToggleOutput.emit();
@@ -32,11 +49,17 @@ export class NavbarComponent {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
   }
 
+  goToWelcomePage() {
+    this.router.navigate(['/']);
+  }
+
   logout() {
     this.authService.logout();
   }
 
-  openModal() {
-    this.modalService.open(LoginComponent);
+   // TO DO :: if connexion is successful, check change in navbar
+   openModal() {
+    this.modalService.open(ConnectionModalComponent);
+    // this.onSellerAdPageUnlogged = false
   }
 }

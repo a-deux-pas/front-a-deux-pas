@@ -1,4 +1,5 @@
 name: front-a-deux-pas CI
+
 # Triggers the workflow on push or pull request
 on:
   push:
@@ -8,13 +9,15 @@ on:
   pull_request:
     branches:
       - "**"
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
+# Workflow run made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build:
     runs-on: ubuntu-latest
     env:
       APP_NAME: ${{ vars.APP_NAME }}
+
     # export APP_VERSION to other jobs
     outputs:
       APP_VERSION: ${{ steps.set_app_version.outputs.APP_VERSION }}
@@ -30,28 +33,39 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      # Installs the dependencies using npm ci
-      - run: npm ci
-      - run: npm run build:ci
-      # Run all Cypress tests
+
+      # Install the dependencies using npm ci
+      - name: Install dependencies
+        run: npm ci
+
+      # Build
+      - name: Build
+        run: npm run build:ci
+
+      # Run Cypress tests
       - name: Run E2E tests
         uses: cypress-io/github-action@v6
         with:
           install: false
           build: npm run build
-          start: npm start
+          start: npm start -- --host 0.0.0.0
+          wait-on: "http://localhost:4200"
+
       - name: Run Component Testing
         uses: cypress-io/github-action@v6
         with:
           install: false
           component: true
-        # Get application version from pom.xml to variable
+
+      # Get application version from pom.xml to variable
       - name: Retrieve Application Version
         id: set_app_version
         run: |
           echo APP_VERSION=$(node -p "require('./package.json').version") | tee -a $GITHUB_OUTPUT >> $GITHUB_ENV
+
       - name: Print Package.json project version
         run: echo "application version = ${{ env.APP_VERSION }}"
+
       # Upload artifact to repository
       - name: Upload Application Package
         uses: actions/upload-artifact@master
@@ -68,24 +82,22 @@ jobs:
       APP_NAME: ${{ vars.APP_NAME }}
       APP_VERSION: ${{ needs.build.outputs.APP_VERSION }}
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@master
-      # - name: Download Application Package
-      #   uses: actions/download-artifact@master
-      #   with:
-      #     name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}
-      #     path: ${{ github.workspace }}
+
       # Prepare docker build with buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@master
         with:
           driver: docker
+
       # Docker login
       - name: Login to Docker Hub
         uses: docker/login-action@master
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       # Docker build and push
       - name: Build and push
         uses: docker/build-push-action@master

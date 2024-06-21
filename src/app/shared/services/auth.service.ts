@@ -1,10 +1,12 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
 import { API_URL } from '../utils/constants/utils-constants';
-import { User } from '../models/user/user.model';
+import { jwtDecode } from 'jwt-decode';
 import { HandleErrorService } from './handle-error.service';
+import { Credentials } from '../models/user/credentials.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,52 +15,76 @@ export class AuthService {
   // A BehaviorSubject to hold and emit the current login status
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(public http: HttpClient, private router: Router, private handleErrorService: HandleErrorService) { }
+  constructor(
+    public http: HttpClient,
+    private router: Router,
+    private handleErrorService: HandleErrorService
+  ) {
+    window.addEventListener('beforeunload', () => {
+      const stayLoggedIn = localStorage.getItem('stayLoggedIn');
+      if (stayLoggedIn === 'false') {
+        this.logout();
+      }
+    });
+  }
+
+  isEmailAddressAlreadyExist(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${API_URL}check-email`, {
+      params: { email }
+    }).pipe(
+        catchError(this.handleErrorService.handleError))
+  }
+
+  isPasswordMatchesEmail(email: string, password: string): Observable<boolean> {
+    return this.http.get<boolean>(`${API_URL}check-password`, {
+      params: { email, password }
+    }).pipe(
+        catchError(this.handleErrorService.handleError))
+  }
+
+  isAliasAlreadyExist(alias: string): Observable<boolean> {
+    return this.http.get<boolean>(`${API_URL}check-alias`, {
+      params: { alias }
+    }).pipe(
+        catchError(this.handleErrorService.handleError))
+  }
 
   // Method to check if a token is present in localStorage
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
 
-  // Method to handle user login
-  login(email: string, password: string): Observable<any> {
+  // Function to extract user id from the JWT token
+  extractIdFromToken(token: string): string {
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.sub;
+  }
+
+  // Method to handle user registration and login
+  auth(credentials: Credentials, endpoint: string): Observable<any> {
     return this.http
       .post<any>(
-        `${API_URL}login`, // API endpoint for login
-        { email, password },
+        `${API_URL}${endpoint}`,
+        { email: credentials.email, password: credentials.password },
         { responseType: 'text' as 'json' } // Response type expected
       )
       .pipe(
         tap((data: any) => {
           const token = data;
-          console.log(token);
-          // If token received, store it in local storage 
+          // If token received, store it in local storage
           if (token) {
             localStorage.setItem('token', token);
+            const userId = this.extractIdFromToken(token);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('stayLoggedIn', credentials.stayLoggedIn.toString());
             this.loggedIn.next(true);
           } else {
             // Throw error if no token received
             throw new Error('No token received');
           }
         }),
-
-        // Log error and return it as observable
-        catchError((error: HttpErrorResponse) => {
-          console.error('Error:', error);
-          if (error.status === 401) {
-            return throwError(() => 'Email or password not valid');
-          }
-          return throwError(() => error);
-        })
+          catchError(this.handleErrorService.handleError)
       );
-  }
-
-  getUserDetails(userEmail: string): Observable<User> {
-    const url = `${API_URL}account/profile/${userEmail}`
-    return this.http.get<User>(url)
-      .pipe(
-        catchError(this.handleErrorService.handleError<User>('userInfo'))
-      )
   }
 
   // Method to check if the user is logged in
@@ -66,14 +92,18 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
-  // Method to log out the user
-  logout() {
-    // Remove token and userEmail from localStorage
+  logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('stayLoggedIn');
     // Update login status to false
     this.loggedIn.next(false);
     // Navigate to the home page
     this.router.navigate(['/']);
+    // TO DO : implémenter méthode logout côté back
+    // this.http.post(`${API_URL}/logout`, {}).subscribe({
+    //   next: () => this.router.navigate(['/']),
+    //   error: (error) => console.error('Error during logout:', error)
+    // });
   }
 }

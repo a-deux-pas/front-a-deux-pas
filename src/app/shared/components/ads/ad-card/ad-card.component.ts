@@ -29,7 +29,6 @@ export class AdCardComponent implements OnInit {
 
   goToAdPage(adId: number, adPublisherId: number) {
     const path = this.type === 'mine' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherId, adId];
-    
     this.router.navigate(path).then(() => {
       window.location.reload();
     });

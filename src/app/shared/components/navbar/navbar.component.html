@@ -3,7 +3,7 @@
   <!-- Top part -->
   <section class="mobile-top-nav-container">
     <div id="mobile-top-navbar">
-      <div class="mobile-logo-container mt-4 mb-2">
+      <div class="mobile-logo-container mt-4 mb-2" (click)="goToWelcomePage()">
         <span class="mobile-logo align-self-center">A DEUX PAS</span>
         <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas" />
       </div>
@@ -16,13 +16,13 @@
   <!-- Bottom part -->
   <section id="mobile-bottom-navbar">
     <ul id="mobile-bottom-navbar-icons">
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="accueil" class="navbar-icon">
-          <img class="icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'" />
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
+        <a routerLink="/" class="navbar-icon">
+          <img class="icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
           Accueil
         </a>
       </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <a routerLink="compte/annonces" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'" />
           Annonces
@@ -34,13 +34,13 @@
           Vendre
         </a>
       </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <a routerLink="compte/favoris" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'" />
           Favoris
         </a>
       </li>
-      <li>
+      <li [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <a (click)="toggleAccountMenuState()" class="navbar-icon">
           <img class="icon" id="mobile-account-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'" />
           Compte
@@ -56,7 +56,7 @@
 @if (isAccountMenuOpen) {
 <section id="account-menu">
   <a id="account-menu-close" class="close" (click)="toggleAccountMenuState()">x</a>
-  <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo">
+  <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo" (click)="goToWelcomePage()">
     <span class="mobile-logo align-self-center">A DEUX PAS</span>
     <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas" />
   </div>
@@ -79,7 +79,7 @@
 <nav class="desktop-nav-container" aria-label="barre de navigation ordinateur">
   <div id="desktop-navbar">
     <div id="desktop-navbar-display">
-      <div class="mt-2" id="desktop-logo">
+      <div class="mt-2" id="desktop-logo" (click)="goToWelcomePage()">
         <img class="desktop-footsteps" src="assets/icons/desktop-footsteps.webp" alt="icône de traces de pas" />
         <div class="text-left">
           <span class="desktop-logo">A</span>
@@ -87,15 +87,15 @@
           <span class="desktop-logo">PAS</span>
         </div>
       </div>
-      <button [hidden]="onSellerAdPageUnlogged" routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon">
-        <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus" />
+      <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
+        <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
         Vendre
       </button>
       <app-search-bar></app-search-bar>
-      <ul id="desktop-navbar-icons" [hidden]="onSellerAdPageUnlogged">
+      <ul id="desktop-navbar-icons" [hidden]="isRegistrationPage  || onSellerAdPageUnlogged">
         <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-          <a routerLink="accueil" class="navbar-icon">
-            <img class="add-icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'" />
+          <a routerLink="/" class="navbar-icon">
+            <img class="add-icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
             Accueil
           </a>
         </li>

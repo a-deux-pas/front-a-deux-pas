@@ -1,15 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.model';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from '../../../../shared/components/login/login.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
 
 @Component({
   selector: 'app-cta-seller-ad',
   standalone: true,
-  imports: [CommonModule, LoginComponent],
+  imports: [CommonModule],
   templateUrl: './cta-seller-ad.component.html',
   styleUrl: './cta-seller-ad.component.scss'
 })
@@ -61,9 +61,9 @@ export class CtaSellerAdComponent implements OnInit {
     if (this.isLoggedIn == false) { this.openModal() }
   }
 
-  // TO DO :: probably to change after lea's branch merge
+  // TO DO :: if connexion is successful, check change in navbar
   openModal() {
-    this.modalService.open(LoginComponent);
-    this.onSellerAdPageUnlogged = false
+    this.modalService.open(ConnectionModalComponent);
+    // this.onSellerAdPageUnlogged = false
   }
 }

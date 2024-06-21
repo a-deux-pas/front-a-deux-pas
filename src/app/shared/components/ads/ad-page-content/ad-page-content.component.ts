@@ -11,6 +11,7 @@ import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller-ad/cta-seller-ad.component';
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 @Component({
   selector: 'app-ad-page-content',
@@ -23,6 +24,7 @@ import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller
     NgbCarouselModule,
     CtaMyAdComponent,
     CtaSellerAdComponent,
+    NavbarComponent
   ],
   templateUrl: './ad-page-content.component.html',
   styleUrl: './ad-page-content.component.scss'
@@ -32,7 +34,7 @@ export class AdPageComponent implements OnInit {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
   onMyAd: boolean | undefined;
-  @Output() sellerAdPageLoaded = new EventEmitter<{ adId: number | null, sellerId: number | null }>();
+  @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
 
@@ -48,6 +50,7 @@ export class AdPageComponent implements OnInit {
   noMoreAds: boolean = false;
   userOtherAds: AdPostResponse[] = [];
   similarAds: AdPostResponse[] = [];
+  userId = localStorage.getItem('userId');
 
   constructor(
     private route: ActivatedRoute,
@@ -73,6 +76,7 @@ export class AdPageComponent implements OnInit {
         this.currentAd = ad;
         this.articlePictures = [
           // TO DO  :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
+          // TO DO :: commenter toutes les fix qui auront lui sur la branch suivante avec (fix Cloudinary branch)
           this.currentAd.firstArticlePictureUrl,
           this.currentAd.secondArticlePictureUrl,
           this.currentAd.thirdArticlePictureUrl,
@@ -84,7 +88,9 @@ export class AdPageComponent implements OnInit {
         this.fetchPaginatedAdsList()
         if (!this.onMyAd) {
           this.getSimilarAds()
-          this.adService.emitSellerAdPageLoaded(true);
+          if (!this.userId) {
+            this.adService.isOnSellerAdPageUnLogged(true);
+          }
         }
         this.adService.getMyAdsCount(this.currentAd.publisherId!).subscribe({
           next: (adCount: number) => {
@@ -101,8 +107,7 @@ export class AdPageComponent implements OnInit {
   }
 
   getSimilarAds(): void {
-    const userId = localStorage.getItem('userId');
-    const currentUserId = userId ? parseInt(userId) : 0;
+    const currentUserId = this.userId ? parseInt(this.userId) : 0;
     this.adService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, currentUserId).subscribe({
       next: (similarAds: AdPostResponse[]) => {
         return this.similarAds = similarAds;

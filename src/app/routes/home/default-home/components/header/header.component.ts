@@ -1,8 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { SearchBarComponent } from '../../../../../shared/components/navbar/search-bar/search-bar.component';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from '../../../../../shared/components/login/login.component';
-import { Router } from '@angular/router';
+import { ConnectionModalComponent } from '../../../../../shared/components/connection-modal/connection-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
-  constructor(public modalService: NgbModal, private router: Router) { }
+  constructor(public modalService: NgbModal) {}
 
   /*
    * This method is designed to open a modal when the 'openModal' button is clicked.
@@ -22,6 +21,6 @@ export class HeaderComponent {
    */
 
   openModal() {
-    const modalRef = this.modalService.open(LoginComponent);
+    this.modalService.open(ConnectionModalComponent);
   }
 }
