@@ -23,7 +23,6 @@ const routes: Routes = [
       import('./routes/account/account-routing.module').then(
         (mod) => mod.AccountRoutingModule
       ),
-      canActivate: [AuthGuard],
   },
   {
     path: 'inscription',

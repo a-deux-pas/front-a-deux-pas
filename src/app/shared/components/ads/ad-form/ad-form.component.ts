@@ -159,8 +159,7 @@ export class AdFormComponent {
   onSlide(slideEvent: NgbSlideEvent) {
     this.displayManagementService.onSlide(slideEvent)
   }
-
-
+// TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
     this.uploadArticlePictures().subscribe({
       next: () => {

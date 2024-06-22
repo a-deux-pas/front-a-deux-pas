@@ -21,12 +21,12 @@ export const accountRoutes: Routes = [
             {
                 path: 'rdv',
                 title: 'Mes RDV',
-                loadChildren: () => import('./meetings/meetings-routing.module').then(mod => mod.MeetingsRoutingModule),
+                loadChildren: () => import('./meetings/meetings-routing.module').then(mod => mod.MeetingsRoutingModule)
             },
             {
                 path: 'favoris',
                 title: 'Mes favoris',
-                loadChildren: () => import('./favorites/favorites-routing.module').then(mod => mod.FavoritesRoutingModule),
+                loadChildren: () => import('./favorites/favorites-routing.module').then(mod => mod.FavoritesRoutingModule)
             }
         ]
     },
@@ -36,4 +36,4 @@ export const accountRoutes: Routes = [
     imports: [RouterModule.forChild(accountRoutes)],
     exports: [RouterModule]
 })
-export class AccountRoutingModule {}
+export class AccountRoutingModule { }

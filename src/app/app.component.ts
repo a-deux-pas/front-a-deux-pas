@@ -7,7 +7,6 @@ import { DisplayManagementService } from './shared/services/display-management.s
 import { AuthService } from './shared/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AdService } from './routes/ad/ad.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -37,18 +36,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
     this.authService.isLoggedIn().subscribe((status: boolean) => {
       this.isLoggedIn = status;
-      
-      
     });
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
       console.log('is user logged in?', status);
     });
-    // window.location.reload();
   }
 
   ngAfterViewInit(): void {
-    if (this.isLoggedIn == false) {
+    if (!this.isLoggedIn) {
       console.log('this.isLoggedIn:: ', this.isLoggedIn)
       this.adService.sellerAdPageLoaded$.subscribe(hasAdAndSellerId => {
         this.onSellerAdPageUnlogged = hasAdAndSellerId;
