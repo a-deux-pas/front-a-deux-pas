@@ -1,4 +1,4 @@
-<div (click)="goToAdPage(ad.id!, ad.publisherId!)" class="card mt-4">
+<a (click)="goToAdPage(ad.id!, ad.publisherId!)" class="card mt-4 text-decoration-none">
   <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
   <div class="card-colored-border">
     <div class="card-body">
@@ -26,4 +26,4 @@
       </div>
     </div>
   </div>
-</div>
+</a>

@@ -1,24 +1,24 @@
 <section class="cta-section flex-row  text-center" [ngClass]="{'mx-auto': !isBigScreen}">
     <div class="main-actions">
-        <div (click)="startCheckout()" class="flex-column btn-cta">
+        <button (click)="startCheckout()" class="flex-column btn-cta">
             <img class="cta-btn-seller-ad" src="assets/icons/buttons/buy.webp" alt="bouton acheter l'article">
             <p class="cta-btn-text">acheter</p>
-        </div>
-        <div (click)="makeAnOffer()" class="flex-column btn-cta">
+        </button>
+        <button (click)="makeAnOffer()" class="flex-column btn-cta">
             <img class="cta-btn-seller-ad" src="assets/icons/buttons/offer.webp" alt="bouton faire une offre">
             <p class="cta-btn-text">faire une offre</p>
-        </div>
-        <div (click)="addToFavorites()" class="flex-column btn-cta">
+        </button>
+        <button (click)="addToFavorites()" class="flex-column btn-cta">
             <img class="cta-btn-seller-ad" src="assets/icons/buttons/add-to-favorites.webp"
                 alt="bouton ajouter aux favoris">
             <p class="cta-btn-text">favoris</p>
-        </div>
+        </button>
     </div>
     <div class="seller-ad-cta-encart mt-4">
         <div class="publisher-contact">
             <p id="publisher-name">{{ myAd?.publisherAlias }}</p>
-            <img (click)="goToSellerProfile()" class="cta-btn-contact-seller btn-cta"
-                src="assets/icons/buttons/arrow-right.webp" alt="bouton pour acceder aux profil du vendeur">
+            <button (click)="goToSellerProfile()" class="cta-btn-contact-seller btn-cta"
+                src="assets/icons/buttons/arrow-right.webp" alt="bouton pour acceder aux profil du vendeur"></button>
         </div>
         <div class="publisher-info mt-2 mb-1">
             <div class="flex-column">
@@ -26,9 +26,9 @@
                 <p>Membre depuis le {{ myAd?.publisherInscriptionDate }}</p>
             </div>
         </div>
-        <div (click)="contactTheSeller()" class="flex-column btn-cta">
+        <button> (click)="contactTheSeller()" class="flex-column btn-cta">
             <img id="cta-btn-contact" src="assets/icons/buttons/message.webp" alt="bouton pour contacter le vendeur">
             <p class="cta-btn-text">contacter</p>
-        </div>
+        </button>>
     </div>
 </section>
