@@ -3,7 +3,7 @@
   <!-- Top part -->
   <section class="mobile-top-nav-container">
     <div id="mobile-top-navbar">
-      <div class="mobile-logo-container mt-4 mb-2" (click)="goToWelcomePage()">
+      <div class="mobile-logo-container mt-4 mb-2">
         <span class="mobile-logo align-self-center">A DEUX PAS</span>
         <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas" />
       </div>
@@ -56,7 +56,7 @@
 @if (isAccountMenuOpen) {
 <section id="account-menu">
   <a id="account-menu-close" class="close" (click)="toggleAccountMenuState()">x</a>
-  <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo" (click)="goToWelcomePage()">
+  <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo">
     <span class="mobile-logo align-self-center">A DEUX PAS</span>
     <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas" />
   </div>
@@ -79,7 +79,7 @@
 <nav class="desktop-nav-container" aria-label="barre de navigation ordinateur">
   <div id="desktop-navbar">
     <div id="desktop-navbar-display">
-      <div class="mt-2" id="desktop-logo" (click)="goToWelcomePage()">
+      <div class="mt-2" id="desktop-logo">
         <img class="desktop-footsteps" src="assets/icons/desktop-footsteps.webp" alt="icône de traces de pas" />
         <div class="text-left">
           <span class="desktop-logo">A</span>

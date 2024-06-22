@@ -45,10 +45,6 @@ export class NavbarComponent implements OnInit {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
   }
 
-  goToWelcomePage() {
-    this.router.navigate(['/']);
-  }
-
   logout() {
     this.authService.logout();
   }
