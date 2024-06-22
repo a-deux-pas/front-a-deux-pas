@@ -15,9 +15,9 @@ export class AsyncValidatorService {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.authService.isEmailAddressAlreadyExist(control.value).pipe(
         map(exist => {
-          if (isSignup && !exist) {
+          if (!isSignup && !exist) {
             return { emailAddressNotFound: true };
-          } else if (!isSignup && exist) {
+          } else if (isSignup && exist) {
             return { emailAddressExists: true };
           } else {
             return null;
@@ -32,7 +32,7 @@ export class AsyncValidatorService {
   passwordMatchesEmailValidator(email: AbstractControl): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.authService.isPasswordMatchesEmail(email.value, control.value).pipe(
-        map(correct => (!correct? { incorrectPassword : true } : null)),
+        map(correct => (!correct ? { incorrectPassword : true } : null)),
         catchError(() => of(null))
       );
     };

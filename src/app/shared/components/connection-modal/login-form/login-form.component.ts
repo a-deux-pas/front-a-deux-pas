@@ -33,7 +33,7 @@ export class LoginFormComponent {
     this.loginForm = this.fb.group({
       email: ['',  {
         validators: [Validators.required, Validators.email],
-        asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(true),
+        asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(false),
         updateOn: 'blur'
         }
       ],

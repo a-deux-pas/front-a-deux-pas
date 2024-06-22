@@ -29,16 +29,16 @@ export class AuthService {
   }
 
   isEmailAddressAlreadyExist(email: string): Observable<boolean> {
-    return this.http.get<boolean>(`${API_URL}check-email`, {
-      params: { email }
-    }).pipe(
+    return this.http.post<boolean>(`${API_URL}check-email`,
+      email
+    ).pipe(
         catchError(this.handleErrorService.handleError))
   }
 
   isPasswordMatchesEmail(email: string, password: string): Observable<boolean> {
-    return this.http.get<boolean>(`${API_URL}check-password`, {
-      params: { email, password }
-    }).pipe(
+    return this.http.post<boolean>(`${API_URL}check-password`,
+      { email, password }
+    ).pipe(
         catchError(this.handleErrorService.handleError))
   }
 
