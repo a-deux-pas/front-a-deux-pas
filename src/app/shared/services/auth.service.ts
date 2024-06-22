@@ -29,7 +29,9 @@ export class AuthService {
   }
 
   isEmailAddressAlreadyExist(email: string): Observable<boolean> {
-    return this.http.post<boolean>(`${API_URL}check-email`, email).pipe(
+    return this.http.post<boolean>(`${API_URL}check-email`,
+      email
+    ).pipe(
         catchError(this.handleErrorService.handleError))
   }
 
