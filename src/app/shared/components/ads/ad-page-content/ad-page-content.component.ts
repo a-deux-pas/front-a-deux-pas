@@ -102,6 +102,10 @@ export class AdPageComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.adService.isOnSellerAdPageUnLogged(false);
+  }
+
   scrollToTop(): void {
     this.viewportScroller.scrollToPosition([0, 0])
   }

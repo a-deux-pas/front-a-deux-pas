@@ -28,6 +28,7 @@ export class ConnectionModalComponent {
   isFormSubmitted(formSubmitted: boolean) {
     if (formSubmitted) {
       this.activeModal.close('Close click');
+      window.location.reload();
     }
   }
 

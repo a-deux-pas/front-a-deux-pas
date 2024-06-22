@@ -50,8 +50,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     if (this.isLoggedIn == false) {
       console.log('this.isLoggedIn:: ', this.isLoggedIn)
-      // TO DO :: checker maj de la navbar si conenxion depuis la page seller Ad
-      // console.log('isLoggedInApp:: ', this.isLoggedIn)
       this.adService.sellerAdPageLoaded$.subscribe(hasAdAndSellerId => {
         this.onSellerAdPageUnlogged = hasAdAndSellerId;
         console.log('hasAdAndSellerId:: ', hasAdAndSellerId)
