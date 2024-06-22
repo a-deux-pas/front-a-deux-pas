@@ -76,7 +76,6 @@ export class AdPageComponent implements OnInit {
         this.currentAd = ad;
         this.articlePictures = [
           // TO DO  :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
-          // TO DO :: commenter toutes les fix qui auront lui sur la branch suivante avec (fix Cloudinary branch)
           this.currentAd.firstArticlePictureUrl,
           this.currentAd.secondArticlePictureUrl,
           this.currentAd.thirdArticlePictureUrl,

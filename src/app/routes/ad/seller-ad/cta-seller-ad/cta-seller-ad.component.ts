@@ -38,8 +38,8 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   makeAnOffer() {
-    if (this.isLoggedIn == false) { this.openModal() }
-  }
+    if (!this.isLoggedIn) { this.openModal() }
+}
 
   addToFavorites() {
     if (this.isLoggedIn) {
@@ -58,12 +58,10 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   contactTheSeller() {
-    if (this.isLoggedIn == false) { this.openModal() }
+    if (!this.isLoggedIn) { this.openModal() }
   }
 
-  // TO DO :: if connexion is successful, check change in navbar
   openModal() {
     this.modalService.open(ConnectionModalComponent);
-    // this.onSellerAdPageUnlogged = false
   }
 }

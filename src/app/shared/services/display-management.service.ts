@@ -28,7 +28,6 @@ export class DisplayManagementService {
         this.isBigScreenSubject.next(window.innerWidth > 1200);
     }
 
-    // TO DO : checker si ca doit rester dans ce service
     // carousel display management
     @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
 

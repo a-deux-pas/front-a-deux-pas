@@ -21,11 +21,7 @@ export class NavbarComponent implements OnInit {
   @Input() isAccountMenuOpen: boolean = false;
   accountRoutes = accountRoutes;
   @Input() isLoggedIn!: boolean
-  // envoie à navbarcomponent
   onSellerAdPageUnlogged: boolean = false;
-  // envoie à app component
-  // @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
-
   isRegistrationPage: boolean = false;
 
   constructor(private authService: AuthService, private router: Router, public modalService: NgbModal, private adService: AdService) {
@@ -57,9 +53,7 @@ export class NavbarComponent implements OnInit {
     this.authService.logout();
   }
 
-   // TO DO :: if connexion is successful, check change in navbar
    openModal() {
     this.modalService.open(ConnectionModalComponent);
-    // this.onSellerAdPageUnlogged = false
   }
 }

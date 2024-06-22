@@ -11,7 +11,6 @@ import { HandleErrorService } from "../../shared/services/handle-error.service"
 })
 export class AdService {
   private contextUrl = `${API_URL}ads/`;
-  // TO DO :: checker mise à jour de sellerAd si connexion depuis cette page
   private sellerAdPageLoadedSubject = new BehaviorSubject<boolean>(false);
   sellerAdPageLoaded$ = this.sellerAdPageLoadedSubject.asObservable();
 
