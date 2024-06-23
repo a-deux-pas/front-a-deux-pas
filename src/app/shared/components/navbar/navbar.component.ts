@@ -33,7 +33,6 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
       this.adService.sellerAdPageLoaded$.subscribe((boolean) => {
         this.onSellerAdPageUnlogged = boolean;
-        console.log('Seller ad page loaded:', boolean);
       })
   }
 
@@ -52,4 +51,8 @@ export class NavbarComponent implements OnInit {
    openModal() {
     this.modalService.open(ConnectionModalComponent);
   }
+
+  openModalOrSell(){
+    this.isLoggedIn ? this.router.navigate(['annonce/creation']) : this.openModal()
+  } 
 }

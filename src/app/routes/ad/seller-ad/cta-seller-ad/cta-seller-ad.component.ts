@@ -43,7 +43,7 @@ export class CtaSellerAdComponent implements OnInit {
 
   addToFavorites() {
     if (this.isLoggedIn) {
-      // To be implemented
+      // To be implemented ..
     } else {
       this.openModal()
     }
