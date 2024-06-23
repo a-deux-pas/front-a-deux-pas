@@ -36,10 +36,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
     this.authService.isLoggedIn().subscribe((status: boolean) => {
       this.isLoggedIn = status;
+      console.log('is user logged in?', this.isLoggedIn);
     });
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
-      console.log('is user logged in?', this.isLoggedIn);
     });
   }
 
