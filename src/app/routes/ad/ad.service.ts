@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { BehaviorSubject, Observable, Subject, catchError } from "rxjs"
+import { BehaviorSubject, Observable, catchError } from "rxjs"
 import { HttpClient } from "@angular/common/http"
 import { Ad } from "../../shared/models/ad/ad.model"
 import { API_URL } from "../../shared/utils/constants/utils-constants"

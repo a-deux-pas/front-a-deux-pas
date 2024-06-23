@@ -113,7 +113,8 @@ export class AdPageComponent implements OnInit {
     const currentUserId = this.userId ? parseInt(this.userId) : 0;
     this.adService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, currentUserId).subscribe({
       next: (similarAds: AdPostResponse[]) => {
-        return this.similarAds = similarAds;
+        this.similarAds = similarAds;
+        return similarAds;
       }
     })
   }
