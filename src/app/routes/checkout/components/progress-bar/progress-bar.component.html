@@ -14,8 +14,10 @@
     <p [class.title-checkpoint]="step >= 1">Récapitulatif</p>
     <div
       class="circle"
+      id="recap"
       [class.checkpoint]="step >= 1"
       [class.checkmark-flag]="step >= 2"
+      [class.pointer]="step >= 2"
     ></div>
   </div>
   <hr [class.checkpoint]="step > 1" />
@@ -24,8 +26,10 @@
     <p [class.title-checkpoint]="step >= 2">RDV</p>
     <div
       class="circle"
+      id="rdv"
       [class.checkpoint]="step >= 2"
       [class.checkmark-flag]="step >= 3"
+      [class.pointer]="step >= 3"
     ></div>
   </div>
   <hr [class.checkpoint]="step > 2" />

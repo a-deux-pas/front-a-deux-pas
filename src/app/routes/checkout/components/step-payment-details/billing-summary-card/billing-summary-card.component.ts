@@ -5,8 +5,9 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './billing-summary-card.component.html',
-  styleUrl: './billing-summary-card.component.scss'
+  styleUrl: './billing-summary-card.component.scss',
 })
 export class BillingSummaryCardComponent {
-
+  ad: any;
+  sumTotal: number = 100;
 }

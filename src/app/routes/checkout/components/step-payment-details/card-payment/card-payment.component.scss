@@ -1,0 +1,39 @@
+.form-container {
+  margin-right: 30%;
+  margin-left: 30%;
+}
+
+.name-and-card-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  margin-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.radio-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label,
+p {
+  font-size: small;
+}

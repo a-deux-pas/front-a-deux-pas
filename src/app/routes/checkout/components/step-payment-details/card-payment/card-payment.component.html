@@ -1,2 +1,70 @@
-<p>card-payment works!</p>
 <app-billing-summary-card></app-billing-summary-card>
+<section class="form-container">
+  <div class="col">
+    <label for="address" class="form-label">Nom et prénom</label>
+    <input
+      type="text"
+      class="form-control form-control-sm"
+      id="address"
+      name="address"
+      autocomplete="address-line1"
+    />
+  </div>
+  <div class="col">
+    <label for="address" class="form-label">Numéro de carte bancaire</label>
+    <input
+      type="text"
+      class="form-control form-control-sm"
+      id="address"
+      name="address"
+      autocomplete="address-line1"
+      placeholder="1234 1234 1234 1234"
+    />
+  </div>
+  <div class="row my-3 mt-5">
+    <div class="col">
+      <label for="address" class="form-label">Date d'expiration</label>
+      <input
+        type="text"
+        class="form-control form-control-sm"
+        id="address"
+        name="address"
+        autocomplete="address-line1"
+        placeholder="MM/AA"
+      />
+    </div>
+    <div class="col">
+      <label for="address" class="form-label">CVV</label>
+      <input
+        type="text"
+        class="form-control form-control-sm"
+        id="address"
+        name="address"
+        autocomplete="address-line1"
+        placeholder="..."
+      />
+    </div>
+  </div>
+</section>
+<section class="message-container">
+  <p><b>En validant ce formulaire votre commande sera réservée.</b></p>
+  <p>
+    Votre paiement ne sera effectif qu'une fois que le vendeur et vous aurez
+    confirmé la bonne tenue du RDV.
+  </p>
+  <p>
+    Sans retour de votre part d'ici 5 jours,
+    <b>le montant de la vente sera automatiquement débité de votre compte.</b>
+  </p>
+</section>
+<section class="radio-input-container">
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="payment" id="card" />
+    <label class="form-check-label" for="card">
+      Je confirme avoir pris connaissance des informations ci-dessus.
+    </label>
+  </div>
+</section>
+<section class="button-container">
+  <button type="submit" class="btn-primary mt-4">réserver</button>
+</section>

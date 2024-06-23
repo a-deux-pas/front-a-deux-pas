@@ -10,8 +10,8 @@ import { CityAndPostalCodeResponse } from '../../../models/user/city-and-postal-
   providedIn: 'root',
 })
 export class AdFiltersService {
-  private filteredAdsListUrl: string = `${API_URL}api/ads/list`;
-  private citiesAndPostalCodesUrl: string = `${API_URL}api/users/cities-and-postal-codes`;
+  private filteredAdsListUrl: string = `${API_URL}ads/list`;
+  private citiesAndPostalCodesUrl: string = `${API_URL}users/cities-and-postal-codes`;
 
   constructor(
     private http: HttpClient,

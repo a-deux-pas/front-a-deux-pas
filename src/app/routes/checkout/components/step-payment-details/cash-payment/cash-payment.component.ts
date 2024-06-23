@@ -8,4 +8,6 @@ import { BillingSummaryCardComponent } from '../billing-summary-card/billing-sum
   templateUrl: './cash-payment.component.html',
   styleUrl: './cash-payment.component.scss',
 })
-export class CashPaymentComponent {}
+export class CashPaymentComponent {
+  sumTotal: number = 100;
+}

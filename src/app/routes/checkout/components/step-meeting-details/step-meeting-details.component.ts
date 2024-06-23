@@ -36,9 +36,9 @@ export class StepMeetingDetailsComponent implements OnInit {
   ngOnInit() {
     window.scrollTo(0, 0);
     this.checkoutService.currentStep.subscribe((currentStep) => {
-      /*if (currentStep !== 2) {
+      if (currentStep < 2) {
         this.router.navigate(['/checkout/recapitulatif']);
-      }*/
+      }
       this.step = currentStep;
     });
   }

@@ -21,6 +21,7 @@ export class StepOrderRecapComponent implements OnInit {
   ngOnInit() {
     window.scrollTo(0, 0);
     this.checkoutService.currentStep.subscribe((currentStep) => {
+      console.log('inside recap, on init, step is ', currentStep);
       this.step = currentStep;
     });
     // Find the initially checked radio button and run the corresponding method
