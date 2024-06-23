@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CityAndPostalCodeResponse } from '../../../shared/models/user/city-and-postal-code-response.model';
 import { AdCardComponent } from '../../../shared/components/ads/ad-card/ad-card.component';
 import { AdFiltersComponent } from '../../../shared/components/ads/ad-filters/ad-filters.component';
-import { AdListComponent } from './components/ad-list/ad-list.component';
+import { AdListComponent } from '../../../shared/components/ads/ad-list/ad-list.component';
 import { AdHomeResponse } from '../../../shared/models/ad/ad-home-response.model';
 import { AdFiltersService } from '../../../shared/components/ads/ad-filters/ad-filters.service';
 import { HeaderComponent } from './components/header/header.component';

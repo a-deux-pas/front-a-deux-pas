@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AdHomeResponse } from '../../../../../shared/models/ad/ad-home-response.model';
-import { AdCardComponent } from '../../../../../shared/components/ads/ad-card/ad-card.component';
+import { AdHomeResponse } from '../../../models/ad/ad-home-response.model';
+import { AdCardComponent } from '../ad-card/ad-card.component';
 
 @Component({
   selector: 'app-ad-list',
