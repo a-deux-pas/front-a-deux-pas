@@ -164,9 +164,8 @@ ngb-carousel {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 2%;
-        row-gap: 72px;
+        justify-content: flex-start;
+        gap: 6%;
     }
 
     app-ad-card {
