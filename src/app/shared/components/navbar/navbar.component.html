@@ -3,10 +3,10 @@
   <!-- Top part -->
   <section class="mobile-top-nav-container">
     <div id="mobile-top-navbar">
-      <div class="mobile-logo-container mt-4 mb-2">
+      <a class="mobile-logo-container mt-4 mb-2 text-decoration-none" routerLink="/">
         <span class="mobile-logo align-self-center">A DEUX PAS</span>
         <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas" />
-      </div>
+      </a>
       <app-search-bar></app-search-bar>
     </div>
     <div class="mobile-top-nav-background"></div>
@@ -56,10 +56,10 @@
 @if (isAccountMenuOpen) {
 <section id="account-menu">
   <a id="account-menu-close" class="close" (click)="toggleAccountMenuState()">x</a>
-  <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo">
+  <a class="mobile-logo-container mt-4 text-decoration-none" id="mobile-account-menu-logo" routerLink="/">
     <span class="mobile-logo align-self-center">A DEUX PAS</span>
     <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas" />
-  </div>
+  </a>
   <div id="account-menu-items">
     <div id="account-menu-items-wrapper">
       @for (route of accountRoutes[0].children; track $index) {
@@ -79,14 +79,14 @@
 <nav class="desktop-nav-container" aria-label="barre de navigation ordinateur">
   <div id="desktop-navbar">
     <div id="desktop-navbar-display">
-      <div class="mt-2" id="desktop-logo">
+      <a class="mt-2 text-decoration-none" id="desktop-logo" routerLink="/">
         <img class="desktop-footsteps" src="assets/icons/desktop-footsteps.webp" alt="icône de traces de pas" />
         <div class="text-left">
           <span class="desktop-logo">A</span>
           <span class="desktop-logo">DEUX</span>
           <span class="desktop-logo">PAS</span>
         </div>
-      </div>
+      </a>
       <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
         Vendre
