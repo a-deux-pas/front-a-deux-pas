@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
-      console.log('is user logged in?', status);
+      console.log('is user logged in?', this.isLoggedIn);
     });
   }
 
