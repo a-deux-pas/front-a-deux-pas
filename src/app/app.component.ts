@@ -47,7 +47,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (!this.isLoggedIn) {
       this.adService.sellerAdPageLoaded$.subscribe(hasAdAndSellerId => {
         this.onSellerAdPageUnlogged = hasAdAndSellerId;
-        console.log('hasAdAndSellerId:: ', hasAdAndSellerId)
       });
     }
   }

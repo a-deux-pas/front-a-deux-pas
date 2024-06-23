@@ -1159,16 +1159,7 @@ ngb-carousel,
   .custom-container {
     @include make-container($padding-x: 8vh, $padding-y: 88px);
   }
-
-  /*---------------------------------*/
-
-  //Dropdown menu styling
-  .dropend:hover>.dropdown-menu {
-    position: absolute;
-    top: 0;
-    left: 100%;
-  }
-
+  
   /*---------------------------------*/
 
   //Carousel Bootsrap classes overriding

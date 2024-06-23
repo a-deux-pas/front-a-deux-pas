@@ -7,7 +7,9 @@ import { CollapseModule } from 'ngx-bootstrap/collapse'
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 import { SortableModule } from 'ngx-bootstrap/sortable'
 import { TooltipModule } from 'ngx-bootstrap/tooltip'
-
+/**
+ * This module is used to make angular split work
+ */
 @NgModule({
   imports: [
     CommonModule,

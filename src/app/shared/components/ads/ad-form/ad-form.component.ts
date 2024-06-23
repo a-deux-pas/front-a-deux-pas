@@ -173,7 +173,6 @@ export class AdFormComponent {
           this.ad.subcategory = this.ad.subcategory.name
         }
         this.ad.publisherId = parseInt(localStorage.getItem('userId')!);
-        console.log('this.ad:: ', this.ad);
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdPostResponse) => {
             this.disabledFields = true;
