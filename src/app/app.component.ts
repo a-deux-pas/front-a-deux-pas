@@ -45,7 +45,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (!this.isLoggedIn) {
-      console.log('this.isLoggedIn:: ', this.isLoggedIn)
       this.adService.sellerAdPageLoaded$.subscribe(hasAdAndSellerId => {
         this.onSellerAdPageUnlogged = hasAdAndSellerId;
         console.log('hasAdAndSellerId:: ', hasAdAndSellerId)

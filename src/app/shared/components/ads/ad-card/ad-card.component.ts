@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
 })
 export class AdCardComponent implements OnInit {
   @Input() ad!: AdPostResponse;
-  type: 'mine' | 'sellerAd' | 'unLogged' = 'unLogged';
+  type: 'loggedInUserAd' | 'sellerAd' | 'unLogged' = 'unLogged';
   currentUserId: number = parseInt(localStorage.getItem('userId')!);
 
   constructor(
@@ -21,14 +21,14 @@ export class AdCardComponent implements OnInit {
       this.ad.title = `${this.ad.title?.substring(0, 23)}.. `
     }
     if (this.currentUserId) {
-      this.type = this.ad.publisherId === this.currentUserId ? 'mine' : 'sellerAd';
+      this.type = this.ad.publisherId === this.currentUserId ? 'loggedInUserAd' : 'sellerAd';
     } else {
       this.type = 'unLogged';
     }
   }
 
   goToAdPage(adId: number, adPublisherId: number) {
-    const path = this.type === 'mine' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherId, adId];
+    const path = this.type === 'loggedInUserAd' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherId, adId];
     this.router.navigate(path).then(() => {
       window.location.reload();
     });

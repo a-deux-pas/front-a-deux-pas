@@ -1096,7 +1096,7 @@ app-register {
 
 /*-----------------------------------------------------------------------*/
 
-// Carousel Bootsrap classes overriding
+// Carousel Bootstrap classes overriding
 .article-picture-image-section-mobile .carousel-inner {
   position: relative;
   display: flex;
@@ -1145,7 +1145,6 @@ ngb-carousel,
 
 // Desktop version
 @media (min-width: 1200px) {
-
   // margin
   body {
     margin: 0;

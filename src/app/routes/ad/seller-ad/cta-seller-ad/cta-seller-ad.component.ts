@@ -38,7 +38,9 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   makeAnOffer() {
-    if (!this.isLoggedIn) { this.openModal() }
+    if (!this.isLoggedIn) { this.openModal() } else { 
+      // TO DO :: redirection vers le checkout mircea 
+    }
 }
 
   addToFavorites() {
@@ -58,7 +60,9 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   contactTheSeller() {
-    if (!this.isLoggedIn) { this.openModal() }
+    if (!this.isLoggedIn) { this.openModal() } else {
+      // TO DO :: redirection vers le seller Profile 
+    }
   }
 
   openModal() {

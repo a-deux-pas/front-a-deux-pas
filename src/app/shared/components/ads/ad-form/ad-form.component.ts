@@ -7,7 +7,7 @@ import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { NgClass } from '@angular/common'
+import { NgClass, Location } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
@@ -42,7 +42,6 @@ export class AdFormComponent {
   articlePictures: File[] = [];
   states = Object.values(ArticleState);
   categories = Object.values(Category);
-
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
@@ -52,6 +51,7 @@ export class AdFormComponent {
     private uploadPictureService: UploadPictureService,
     private router: Router,
     private displayManagementService: DisplayManagementService,
+    private location: Location
   ) {
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
@@ -89,7 +89,6 @@ export class AdFormComponent {
   files3: File[] = [];
   files4: File[] = [];
   files5: File[] = [];
-
   filesArrays: File[][] = [];
 
   onRemove(file: File, dropzoneNumber: number) {
@@ -151,7 +150,6 @@ export class AdFormComponent {
   }
 
   // image selection carrousel for mobile device
-
   togglePaused() {
     this.displayManagementService.togglePaused()
   }
@@ -159,6 +157,11 @@ export class AdFormComponent {
   onSlide(slideEvent: NgbSlideEvent) {
     this.displayManagementService.onSlide(slideEvent)
   }
+
+  goBack() {
+    this.location.back();
+  }
+
 // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
     this.uploadArticlePictures().subscribe({

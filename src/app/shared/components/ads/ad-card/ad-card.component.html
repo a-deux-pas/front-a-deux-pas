@@ -3,7 +3,7 @@
   <div class="card-colored-border">
     <div class="card-body">
       <h5 class="card-title pb-2">{{ ad.title }}</h5>
-      @if (type !== 'mine') {
+      @if (type !== 'loggedInUserAd') {
       <p class="card-text">{{ ad.publisherAlias }}</p>
       }
       @else {
@@ -12,7 +12,7 @@
       <div class="bottom-card-part">
         <p class="white-space">''</p>
         @switch(type) {
-        @case('mine') {
+        @case('loggedInUserAd') {
         <img class="cta-btn" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
         }
         @case('sellerAd') {

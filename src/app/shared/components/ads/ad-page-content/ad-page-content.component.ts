@@ -5,7 +5,7 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
-import { UiModule } from '../../../utils/module/ui/ui.module';
+import { UiModule } from '../../../utils/module/ui.module';
 import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'

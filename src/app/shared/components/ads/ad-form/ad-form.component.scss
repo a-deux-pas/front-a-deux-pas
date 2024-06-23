@@ -96,7 +96,7 @@ ngx-dropzone {
   margin: auto auto;
 }
 
-ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+ngx-dropzone-image-preview {
   align-items: center !important;
   display: flex !important;
   justify-content: center !important;
@@ -176,7 +176,7 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
     width: 423px !important;
     height: 479px !important;
 
-    >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+    >ngx-dropzone-image-preview {
       min-width: 80% !important;
       min-height: 80% !important;
       position: relative !important;
@@ -201,7 +201,7 @@ ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
       margin-top: 100% !important;
     }
 
-    >ngx-dropzone-image-preview[_nghost-ng-c3821590306] {
+    >ngx-dropzone-image-preview {
       min-width: 80% !important;
       min-height: 80% !important;
       position: relative !important;

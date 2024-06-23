@@ -22,7 +22,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/account/account-routing.module').then(
         (mod) => mod.AccountRoutingModule
-      ),
+      )
   },
   {
     path: 'inscription',
