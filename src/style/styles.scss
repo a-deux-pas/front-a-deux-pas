@@ -67,10 +67,8 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Method to create personalized containers
-@mixin make-container(
-  $padding-x: $container-padding-x,
-  $padding-y: $container-padding-y
-) {
+@mixin make-container($padding-x: $container-padding-x,
+  $padding-y: $container-padding-y) {
   width: 100%;
   margin-top: $padding-y;
   padding-right: $padding-x;
@@ -356,6 +354,10 @@ button.btn {
   height: 27.25px;
 }
 
+.btn-cta {
+  cursor: pointer;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Connection modal
@@ -479,12 +481,12 @@ textarea.form-control {
 }
 
 // Opened ng-select container bottom border radius
-.ng-select.ng-select-opened.ng-select-bottom > .ng-select-container {
+.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
   border-bottom-right-radius: 40px;
 }
 
 // Focus effects for ng-select
-.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
   border-color: $secondary;
   box-shadow: none;
 }
@@ -537,20 +539,12 @@ span.ng-value-icon.left {
   }
 }
 
-.ng-select.ng-select-multiple
-  .ng-select-container
-  .ng-value-container
-  .ng-value
-  .ng-value-icon.left {
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
   border-right: 1px solid white;
 }
 
 // Hover effects on selected value in multiselect
-.ng-select.ng-select-multiple
-  .ng-select-container
-  .ng-value-container
-  .ng-value
-  .ng-value-icon:hover {
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
   background-color: white;
   color: $primary;
 }
@@ -574,17 +568,13 @@ span.ng-value-icon.left {
 }
 
 // Dropdown panel First child option styling
-.ng-dropdown-panel.ng-select-bottom
-  .ng-dropdown-panel-items
-  .ng-option:first-child {
+.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:first-child {
   border-radius: 10px;
   border-color: $secondary;
 }
 
 // Dropdown panel first child marked option
-.ng-dropdown-panel
-  .ng-dropdown-panel-items
-  .ng-option.ng-option-marked:first-child {
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked:first-child {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 0;
@@ -606,18 +596,14 @@ span.ng-value-icon.left {
 
 // Selected option styling in dropdown panel
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
-.ng-dropdown-panel
-  .ng-dropdown-panel-items
-  .ng-option.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
 }
 
 // Selected option styling in multiselect
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected,
-.ng-dropdown-panel
-  .ng-dropdown-panel-items
-  .ng-optgroup.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
   font-weight: 400;
@@ -675,6 +661,7 @@ $card-spacer-y: 3.1875rem;
 // Card container styling
 .card {
   width: 253px;
+  cursor: pointer;
 
   &:hover {
     .card-img-top {
@@ -771,8 +758,8 @@ button.navbar-toggler {
 }
 
 // Select box styling
-.dropdown:hover > .dropdown-menu,
-.dropend:hover > .dropdown-menu {
+.dropdown:hover>.dropdown-menu,
+.dropend:hover>.dropdown-menu {
   display: block;
   margin-left: 0.125em;
   border-radius: 10px;
@@ -1057,6 +1044,7 @@ app-register {
 /*-----------------------------------------------------------------------*/
 
 @media (min-width: 768px) {
+
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .custom-container {
@@ -1099,7 +1087,7 @@ app-register {
   /*---------------------------------*/
 
   //Dropdown menu styling for better display of the ad-filters component.
-  .dropend:hover > .dropdown-menu {
+  .dropend:hover>.dropdown-menu {
     position: absolute;
     top: 0;
     left: 100%;
@@ -1107,6 +1095,53 @@ app-register {
 }
 
 /*-----------------------------------------------------------------------*/
+
+// Carousel Bootstrap classes overriding
+.article-picture-image-section-mobile .carousel-inner {
+  position: relative;
+  display: flex;
+}
+
+.article-picture-image-section-mobile .carousel-indicators {
+  display: flex;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  color: $primary !important;
+
+  &:hover,
+  &:focus {
+    color: $primary !important;
+  }
+}
+
+.carousel-control-prev-icon {
+  background-image: url("../assets/icons/buttons/arrow-left.webp") !important;
+
+  .noShow {
+    display: none;
+  }
+}
+
+.carousel-control-next-icon {
+  background-image: url("../assets/icons/buttons/arrow-right.webp") !important;
+
+  .noShow {
+    display: none;
+  }
+}
+
+[data-bs-target] {
+  background-color: $primary !important;
+}
+
+ngb-carousel,
+.carousel-control-next-icon,
+.carousel-control-prev-icon,
+.carousel-indicators {
+  display: block;
+}
 
 // Desktop version
 @media (min-width: 1200px) {
@@ -1123,6 +1158,16 @@ app-register {
   // Includes tabs and page content
   .custom-container {
     @include make-container($padding-x: 8vh, $padding-y: 88px);
+  }
+  
+  /*---------------------------------*/
+
+  //Carousel Bootsrap classes overriding
+  ngb-carousel,
+  .carousel-control-next-icon,
+  .carousel-control-prev-icon,
+  .carousel-indicators {
+    display: none;
   }
 }
 

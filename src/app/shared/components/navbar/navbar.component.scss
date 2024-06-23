@@ -179,6 +179,11 @@ ul#desktop-navbar-icons {
   cursor: pointer;
 }
 
+.text-decoration-none {
+  color:black;
+  cursor: pointer;
+}
+
 @media (min-width: 1158px) {
   #mobile-navbar, #account-menu {
     display: none;
