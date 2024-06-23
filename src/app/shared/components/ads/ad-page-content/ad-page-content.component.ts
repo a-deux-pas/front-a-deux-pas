@@ -33,7 +33,7 @@ export class AdPageComponent implements OnInit {
   @Input() adSuccessfullySubmitted: boolean | undefined;
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
-  onMyAd: boolean | undefined;
+  OnLoggedInUserAd: boolean | undefined;
   @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
@@ -62,7 +62,7 @@ export class AdPageComponent implements OnInit {
   ngOnInit(): void {
     this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
-    this.onMyAd = !this.route.snapshot.paramMap.has('sellerId');
+    this.OnLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
     this.route.queryParams.subscribe(params => {
       if (params['success'] === 'true') {
         this.adSuccessfullySubmitted = true;
@@ -85,7 +85,7 @@ export class AdPageComponent implements OnInit {
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
         this.fetchPaginatedAdsList()
-        if (!this.onMyAd) {
+        if (!this.OnLoggedInUserAd) {
           this.getSimilarAds()
           if (!this.userId) {
             this.adService.isOnSellerAdPageUnLogged(true);
@@ -146,7 +146,7 @@ export class AdPageComponent implements OnInit {
   }
 
   fetchPaginatedAdsList() {
-    this.pageSize = this.onMyAd ? 9 : 4;
+    this.pageSize = this.OnLoggedInUserAd ? 9 : 4;
     this.adService.fetchMoreAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdPostResponse[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];

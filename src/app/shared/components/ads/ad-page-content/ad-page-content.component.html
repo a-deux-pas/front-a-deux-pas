@@ -74,7 +74,7 @@
 
         <!-- CTA encart -->
         <section class="cta-encart">
-            @if (onMyAd) {
+            @if (OnLoggedInUserAd) {
             <app-cta-my-ad [myAd]="currentAd!"></app-cta-my-ad>
             } @else {
             <app-cta-seller-ad [myAd]="currentAd"></app-cta-seller-ad>
@@ -83,7 +83,7 @@
     </div>
 
     <!-- similar ads section -->
-    @if (!onMyAd && similarAds.length > 0) {
+    @if (!OnLoggedInUserAd && similarAds.length > 0) {
     <section class="mt-5 mb-5 similar-ads-list-section">
         <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
             Les annonces similaires
@@ -99,7 +99,7 @@
     <!-- user's other ads section -->
     <section class="mt-5 mb-5 other-ads-list-section">
         <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
-            @if (onMyAd) {
+            @if (OnLoggedInUserAd) {
             Mes autres annonces
             } @else {
             Les autres annonces de {{ currentAd?.publisherAlias }}
