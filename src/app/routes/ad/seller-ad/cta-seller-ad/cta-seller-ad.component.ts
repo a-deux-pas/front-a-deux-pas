@@ -25,7 +25,6 @@ export class CtaSellerAdComponent implements OnInit {
   ngOnInit(): void {
     this.authSubscription = this.authService.isLoggedIn().subscribe(status => {
       this.isLoggedIn = status;
-      console.log('this.isLoggedIn :: ', this.isLoggedIn)
     });
   }
 
