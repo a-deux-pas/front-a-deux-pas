@@ -28,10 +28,10 @@ export class AdCardComponent implements OnInit {
       this.type = 'unLogged';
     }
     if(this.ad.status === 'SOLD') {
-      this.addStatusClass('sold')
+      this.addStatusClass('soldAd')
     }
     if(this.ad.status === 'RESERVED') {
-      this.addStatusClass('reserved')
+      this.addStatusClass('reservedAd')
     }
   }
 

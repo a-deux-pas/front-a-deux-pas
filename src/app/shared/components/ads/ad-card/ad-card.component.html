@@ -1,5 +1,15 @@
 <a (click)="goToAdPage(ad.id!, ad.publisherId!)" class="card mt-4 text-decoration-none">
+  <div class="card-img-container">
+    @switch (ad.status) {
+      @case('SOLD') {
+        <p class="adSoldOrReserved">Vendu</p>
+        }
+      @case('RESERVED') {
+        <p class="adSoldOrReserved">Réservé</p>
+      }
+    }
   <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
+</div>
   <div class="card-colored-border">
     <div class="card-body">
       <h5 class="card-title pb-2">{{ ad.title }}</h5>
