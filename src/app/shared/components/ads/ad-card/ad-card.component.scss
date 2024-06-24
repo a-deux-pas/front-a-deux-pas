@@ -1,28 +1,25 @@
-.card-img-top {
-    position: relative;
-    overflow: hidden;
+// .card-img-top {
+//     position: relative;
+//     overflow: hidden;
 
-    &::after {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 20px;
-        z-index: 2;
-        content: "";
-    }
-}
+//     // &::after {
+//     //     position: absolute;
+//     //     top: 50%;
+//     //     left: 50%;
+//     //     transform: translate(-50%, -50%);
+//     //     color: white;
+//     //     font-size: 20px;
+//     //     z-index: 2;
+//     //     content: "";
+//     // }
+// }
 
 .card-img-top.reserved::after {
-    @extend .card-img-top::after;
+    // @extend .card-img-top::after;
     content: "Réservé";
     background-color: rgba(255, 159, 26, 0.62);
 }
 
-.card-img-top.sold::after {
-    @extend .card-img-top::after;
-    content: "Vendu";
-    background-color: rgba(82, 82, 82, 0.74);
-
-}
+:host ::ng-deep img .sold {
+    filter: grayscale(1) !important;
+  }

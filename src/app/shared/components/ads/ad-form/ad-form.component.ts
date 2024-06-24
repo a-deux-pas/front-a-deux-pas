@@ -164,12 +164,10 @@ export class AdFormComponent {
   }
 
   sanitizeTheForm() {
-    escapeHtml(this.ad.category!)
-    escapeHtml(this.ad.subcategory)
-    escapeHtml(this.ad.articleGender!)
+    console.log('typeof subCat:: ', typeof this.ad.subcategory)
+    
     escapeHtml(this.ad.title)
     escapeHtml(this.ad.articleDescription)
-    escapeHtml(this.ad.articleState!)
   }
 
   // TO DO :: a revoir (fix Cloudinary branch)

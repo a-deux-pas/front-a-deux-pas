@@ -5,7 +5,7 @@
     width: 40%;
 }
 
-button[type="submit"] {
+button[type="submit"].btn-sell {
     margin: 0 auto;
     margin-right: 3% !important;
 }
@@ -18,16 +18,24 @@ app-ad-card {
     display: ruby-text;
 }
 
+.no-ads-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
 @media (min-width: 1200px) {
-
+// TO DO : voir si pas possible de mutualiser avec adList de Mircea
     .myAdsList {
+        width: 100%;
         display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         justify-content: flex-start;
-        gap: 6%;
+        gap: 8%;
     }
 
-    button[type="submit"] {
+    button[type="submit"].btn-sell {
         margin-right: 0px;
     }
 }

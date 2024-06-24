@@ -19,16 +19,16 @@ import { Router } from '@angular/router';
 export class AdsComponent implements OnInit {
     isBigScreen: boolean | undefined;
     windowSizeSubscription: Subscription;
-    myAd: AdPostResponse | undefined;
+    loggedInUserAd: AdPostResponse | undefined;
     articlePictures: (string | undefined)[] = [];
-    myAds: AdPostResponse[] = [];
+    loggedInUserAds: AdPostResponse[] = [];
     currentUserId = parseInt(localStorage.getItem('userId')!)
     userOtherAds: AdPostResponse[] = [];
     noMoreAds: boolean = false;
     showSeeMorBtn!: boolean;
     adCount!: number;
     pageNumber: number = 0;
-    pageSize!: number;
+    pageSize: number = 12;
 
     constructor(
         private adService: AdService,
@@ -42,7 +42,7 @@ export class AdsComponent implements OnInit {
 
     // TO DO:: creer une 10aine d'ads pour voir si le btn see more apparait bien, parmis celle-ci en mettre en status RESERVED ou SOLD
     ngOnInit(): void {
-        this.adService.findMyAds(this.currentUserId).subscribe({
+        this.adService.findMyAds(this.currentUserId, this.pageSize).subscribe({
             next: (myAds: AdPostResponse[]) => {
                 const sortedAds = myAds.slice().sort((ad1, ad2) => {
                     if ((ad1.status === 'RESERVED' || ad1.status === 'SOLD') && !(ad2.status === 'RESERVED' || ad2.status === 'SOLD')) {
@@ -53,11 +53,12 @@ export class AdsComponent implements OnInit {
                     }
                     return 0;
                 });
-                this.myAds = sortedAds;
+                this.loggedInUserAds = sortedAds;
+                console.log('this.myAds:: ', this.loggedInUserAds)
                 this.adService.getMyAdsCount(this.currentUserId).subscribe({
                     next: (adCount: number) => {
                         this.adCount = adCount;
-                        this.showSeeMorBtn = this.adCount > 9;
+                        this.showSeeMorBtn = this.adCount > 12;
                     }
                 });
             }
@@ -70,11 +71,12 @@ export class AdsComponent implements OnInit {
     }
 
     fetchPaginatedAdsList() {
-        this.pageSize = 12;
+        console.log('this.pageNumber:: ', this.pageNumber , ' this.pageSize:: ', this.pageSize)
         this.adService.fetchMoreAds(this.currentUserId, this.pageNumber, this.pageSize).subscribe({
             next: (ads: AdPostResponse[]) => {
-                this.userOtherAds = [...this.userOtherAds, ...ads];
-                this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1) && this.adCount > 9
+                this.loggedInUserAds = [...this.loggedInUserAds, ...ads];
+                console.table( this.loggedInUserAds)
+                this.noMoreAds = this.loggedInUserAds.length >= (this.adCount - 1) && this.adCount > 12
             }
         });
     }

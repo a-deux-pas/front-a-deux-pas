@@ -8,20 +8,21 @@
         src="/assets/icons/buttons/add-white.webp" alt="icône plus">créer une annonce
     </button>
     <section class="mt-5 mb-5 myAdsList">
-      @for (myAd of myAds; track myAd) {
-      <app-ad-card [ad]="myAd"></app-ad-card>
+      @for (loggedInUserAd of loggedInUserAds; track loggedInUserAd) {
+      <app-ad-card [ad]="loggedInUserAd"></app-ad-card>
       }
     </section>
   </div>
+</div>
+
   <!-- See more button -->
   @if (!noMoreAds && showSeeMorBtn) {
-  <button type="submit" class="btn-info mt-4 mx-auto" (click)="loadMoreAds()">voir plus<img class="arrow-down-icon"
-      src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
-  </button>
-  }
-  @if (noMoreAds) {
-  <div class="no-ads-message">
-    <p><i>Fin des résultats</i></p>
-  </div>
-  }
-</div>
+    <button type="submit" class="btn-info mt-4 mx-auto " (click)="loadMoreAds()">voir plus<img class="arrow-down-icon"
+        src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
+    </button>
+    }
+    @if (noMoreAds) {
+    <div class="no-ads-message">
+      <p><i>Fin des résultats</i></p>
+    </div>
+    }
