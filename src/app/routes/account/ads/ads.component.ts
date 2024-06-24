@@ -8,6 +8,7 @@ import { DisplayManagementService } from '../../../shared/services/display-manag
 import { AdCardComponent } from '../../../shared/components/ads/ad-card/ad-card.component';
 import { Router } from '@angular/router';
 
+
 @Component({
     selector: 'app-ads',
     templateUrl: './ads.component.html',
@@ -53,7 +54,7 @@ export class AdsComponent implements OnInit {
                     }
                     return 0;
                 });
-                this.adService.getMyAdsCount(this.currentUserId!).subscribe({
+                this.adService.getMyAdsCount(this.currentUserId).subscribe({
                     next: (adCount: number) => {
                         this.adCount = adCount
                         this.showSeeMorBtn = this.adCount > 9
@@ -70,7 +71,7 @@ export class AdsComponent implements OnInit {
 
     fetchPaginatedAdsList() {
         this.pageSize = 12;
-        this.adService.fetchMoreAds(this.currentUserId!, this.pageNumber, this.pageSize).subscribe({
+        this.adService.fetchMoreAds(this.currentUserId, this.pageNumber, this.pageSize).subscribe({
             next: (ads: AdPostResponse[]) => {
                 this.userOtherAds = [...this.userOtherAds, ...ads];
                 this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1) && this.adCount > 9

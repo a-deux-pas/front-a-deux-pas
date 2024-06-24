@@ -16,6 +16,7 @@ import { Subcategory } from '../../../models/enum/subcategory.enum';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { escapeHtml } from '../../../utils/sanitizers/custom-sanitizers';
 
 @Component({
   selector: 'app-ad-form',
@@ -162,8 +163,18 @@ export class AdFormComponent {
     this.location.back();
   }
 
-// TO DO :: a revoir (fix Cloudinary branch)
+  sanitizeTheForm() {
+    escapeHtml(this.ad.category!)
+    escapeHtml(this.ad.subcategory!)
+    escapeHtml(this.ad.articleGender!)
+    escapeHtml(this.ad.title!)
+    escapeHtml(this.ad.articleDescription!)
+    escapeHtml(this.ad.articleState!)
+  }
+
+  // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
+    this.sanitizeTheForm()
     this.uploadArticlePictures().subscribe({
       next: () => {
         this.ad.creationDate = this.today;
