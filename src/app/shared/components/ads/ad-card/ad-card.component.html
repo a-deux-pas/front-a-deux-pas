@@ -1,68 +1,29 @@
-<div class="card mt-4">
-<<<<<<< HEAD
-    <div class="ad-image">
-        <img class="card-img-top" [ngClass]="{'reserved': ad.status == 'RESERVED', 'sold': ad.status == 'SOLD' }"
-            [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
-    </div>
-    <div class="card-colored-border">
-        <div class="card-body">
-            <h5 class="card-title pb-2">{{ ad.title }}</h5>
-            @if (!mine) {
-            <p class="card-text">{{ ad.publisher }}</p>
-            }
-            @else {
-            <p class="white-space">''</p>
-            }
-            <div class="bottom-card-part">
-                <p class="white-space">''</p>
-                @if (mine) {
-                <img class="cta-btn" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
-                }
-                @if (sellerAd) {
-                <img id="favorite-icon" src="assets/icons/navbar/favorites.webp" alt="icone-favoris">
-                }
-                @if (unLogged) {
-                <p class="white-space">''</p>
-                }
-                <p class="card-text" id="article-price">{{ ad.price }} €</p>
-            </div>
-        </div>
-    </div>
-</div>
-=======
-  <img
-    class="card-img-top"
-    [src]="ad.articlePictureUrl"
-    alt="article à vendre - {{ ad.title }}"
-  />
+<a (click)="goToAdPage(ad.id!, ad.publisherId!)" class="card mt-4 text-decoration-none">
+  <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
   <div class="card-colored-border">
     <div class="card-body">
       <h5 class="card-title pb-2">{{ ad.title }}</h5>
-      @if (!mine) {
-      <p class="card-text">{{ ad.publisher }}</p>
-      } @else {
+      @if (type !== 'loggedInUserAd') {
+      <p class="card-text">{{ ad.publisherAlias }}</p>
+      }
+      @else {
       <p class="white-space">''</p>
       }
       <div class="bottom-card-part">
         <p class="white-space">''</p>
-        @if (mine) {
-        <img
-          class="cta-btn"
-          src="assets/icons/buttons/edit-orange.webp"
-          alt="bouton-modifier-annonce"
-        />
-        } @if (sellerAd) {
-        <img
-          id="favorite-icon"
-          src="assets/icons/navbar/favorites.webp"
-          alt="icone-favoris"
-        />
-        } @if (unLogged) {
+        @switch(type) {
+        @case('loggedInUserAd') {
+        <img class="cta-btn" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+        }
+        @case('sellerAd') {
+        <img id="favorite-icon" src="assets/icons/navbar/favorites.webp" alt="icone-favoris">
+        }
+        @case('unLogged') {
         <p class="white-space">''</p>
+        }
         }
         <p class="card-text" id="article-price">{{ ad.price }} €</p>
       </div>
     </div>
   </div>
-</div>
->>>>>>> dev
+</a>

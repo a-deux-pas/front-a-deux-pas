@@ -1,10 +1,12 @@
 export class AdHomeResponse {
   constructor(
+    public id: number,
     public title: string,
-    public articlePictureUrl: string,
+    public firstArticlePictureUrl: string,
     public price: number,
-    public publisher: string,
+    public publisherId: number,
+    public publisherAlias: string,
     public publisherCity: string,
     public publisherPostalCode: string
-  ) {}
+  ) { }
 }

@@ -7,13 +7,11 @@
     <button (click)="createNewAd()" type="submit" class="btn-sell mt-4 mb-2"><img class="add-icon"
         src="/assets/icons/buttons/add-white.webp" alt="icône plus">créer une annonce
     </button>
-    <!-- my ads section -->
     <section class="mt-5 mb-5 myAdsList">
       @for (myAd of myAds; track myAd) {
-      <a href="/compte/annonces/mon-annonce/{{myAd.id}}">
-        <app-ad-card [ad]="myAd" [mine]="true"></app-ad-card>
-      </a>
+      <app-ad-card [ad]="myAd"></app-ad-card>
       }
     </section>
   </div>
 </div>
+<!-- TO DO :: sanitize ad form inputs -->

@@ -1,8 +1,6 @@
-@if (isLoggedIn) {
-<app-navbar
-  [isAccountMenuOpen]="isAccountMenuOpen"
-  (toggleMobileNavbarMenuOutput)="accountNavbarMenuToggle()"
-></app-navbar>
+@if (isLoggedIn || onSellerAdPageUnlogged) {
+<app-navbar [isAccountMenuOpen]="isAccountMenuOpen" [isLoggedIn]="isLoggedIn"
+  (toggleMobileNavbarMenuOutput)="accountNavbarMenuToggle()"></app-navbar>
 }
 <main class="main-container">
   <router-outlet></router-outlet>

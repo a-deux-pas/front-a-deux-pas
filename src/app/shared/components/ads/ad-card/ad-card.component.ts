@@ -1,16 +1,36 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-ad-card',
   templateUrl: './ad-card.component.html',
   standalone: true,
-  imports: [CommonModule]
 })
-export class AdCardComponent {
-  @Input() ad: any;
-  // TO DO : logique à changer une fois le processus de connexion implémenté
-  @Input() mine: boolean = false;
-  @Input() sellerAd: boolean = false;
-  @Input() unLogged: boolean = false;
+export class AdCardComponent implements OnInit {
+  @Input() ad!: AdPostResponse;
+  type: 'loggedInUserAd' | 'sellerAd' | 'unLogged' = 'unLogged';
+  currentUserId: number = parseInt(localStorage.getItem('userId')!);
+
+  constructor(
+    private router: Router, private location: Location) { }
+
+  ngOnInit() {
+    if (this.ad.title!.length > 23) {
+      this.ad.title = `${this.ad.title?.substring(0, 23)}.. `
+    }
+    if (this.currentUserId) {
+      this.type = this.ad.publisherId === this.currentUserId ? 'loggedInUserAd' : 'sellerAd';
+    } else {
+      this.type = 'unLogged';
+    }
+  }
+
+  goToAdPage(adId: number, adPublisherId: number) {
+    const path = this.type === 'loggedInUserAd' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherId, adId];
+    this.router.navigate(path).then(() => {
+      window.location.reload();
+    });
+  }
 }

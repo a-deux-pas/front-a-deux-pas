@@ -42,6 +42,10 @@
   position: absolute;
 }
 
+label {
+  width: max-content;
+}
+
 .label-and-input {
   margin-bottom: 7%;
 
@@ -159,32 +163,18 @@ ngx-dropzone-image-preview {
   }
 
   .dropzone-field {
-    grid-gap: 21px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    max-width: 859px;
-    max-height: 478px;
-  }
-
-  //// if one dropzone
-  .one-dropzone {
-    width: 859px;
-    height: 478px;
-
-    >ngx-dropzone-image-preview {
-      min-width: 70% !important;
-      min-height: 70% !important;
-      position: relative !important;
-      max-width: 859px !important;
-      max-height: 478px !important;
-    }
+    grid-gap: 21px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    max-width: 859px !important;
+    max-height: 478px !important;
   }
 
   //// if two dropzones
   .two-dropzones {
-    width: 423px;
-    height: 479px;
+    width: 423px !important;
+    height: 479px !important;
 
     >ngx-dropzone-image-preview {
       min-width: 80% !important;
@@ -197,18 +187,18 @@ ngx-dropzone-image-preview {
 
   //// if three dropzones
   .three-dropzones {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
   }
 
   .three-dropzones:first-child {
-    width: 523px;
-    height: 479px;
-    grid-area: 1 / 1 / 3 / 3;
+    width: 523px !important;
+    height: 479px !important;
+    grid-area: 1 / 1 / 3 / 3 !important;
 
     &>ngx-dropzone-label>div {
-      margin-top: 100%;
+      margin-top: 100% !important;
     }
 
     >ngx-dropzone-image-preview {
@@ -221,11 +211,11 @@ ngx-dropzone-image-preview {
   }
 
   .three-dropzones:not(:first-child) {
-    width: 316px;
-    height: 232px;
+    width: 316px !important;
+    height: 232px !important;
 
     &>ngx-dropzone-label>div {
-      margin-top: 30%;
+      margin-top: 30% !important;
     }
   }
 
@@ -244,8 +234,8 @@ ngx-dropzone-image-preview {
     grid-template-rows: auto auto;
   }
 
-  .four-dropzones :first-child,
-  .four-dropzones :nth-child(4) {
+  .four-dropzones:first-child,
+  .four-dropzones:nth-child(4) {
     width: 308px;
     height: 479px;
 
@@ -254,16 +244,16 @@ ngx-dropzone-image-preview {
     }
   }
 
-  .four-dropzones :first-child {
+  .four-dropzones:first-child {
     grid-area: 1 / 1 / 3 / 2;
   }
 
-  .four-dropzones :nth-child(4) {
+  .four-dropzones:nth-child(4) {
     grid-area: 1 / 3 / 3 / 4;
   }
 
-  .four-dropzones :nth-child(2),
-  .four-dropzones :nth-child(3) {
+  .four-dropzones:nth-child(2),
+  .four-dropzones:nth-child(3) {
     width: 215px;
     height: 232px;
 
@@ -273,13 +263,13 @@ ngx-dropzone-image-preview {
   }
 
   //// if five dropzones
-  .five-dropzones :first-child {
+  .five-dropzones:first-child {
     width: 308px;
     height: 479px;
     grid-area: 1 / 1 / 3 / 2;
   }
 
-  .five-dropzones :not(:first-child) {
+  .five-dropzones:not(:first-child) {
     width: 256.67px;
     height: 232px;
   }

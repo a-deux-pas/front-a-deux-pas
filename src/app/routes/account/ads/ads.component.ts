@@ -3,8 +3,8 @@ import { TabsAccountComponent } from '../../../shared/components/tabs-account/ta
 import { CommonModule } from '@angular/common';
 import { AdPostResponse } from '../../../shared/models/ad/ad-post-response.model';
 import { Subscription } from 'rxjs';
-import { AdService } from '../../Ad.service';
-import { UtilsService } from '../../../shared/services/utils-service';
+import { AdService } from '../../ad/ad.service';
+import { DisplayManagementService } from '../../../shared/services/display-management.service';
 import { AdCardComponent } from '../../../shared/components/ads/ad-card/ad-card.component';
 import { Router } from '@angular/router';
 
@@ -21,22 +21,28 @@ export class AdsComponent implements OnInit {
     myAd: AdPostResponse | undefined;
     articlePictures: (string | undefined)[] = [];
     myAds: AdPostResponse[] = [];
+    currentUserId = parseInt(localStorage.getItem('userId')!)
+    userOtherAds: AdPostResponse[] = [];
+
+    noMoreAds: boolean = false;
+    showSeeMorBtn!: boolean;
+    adCount!: number;
+    pageNumber: number = 0;
+    pageSize!: number;
 
     constructor(
         private adService: AdService,
-        private utilsService: UtilsService,
+        private displayManagementService: DisplayManagementService,
         private router: Router
     ) {
-        this.windowSizeSubscription = this.utilsService.isBigScreen$.subscribe(isBigScreen => {
+        this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
             this.isBigScreen = isBigScreen;
         });
     }
 
+    // TO DO:: creer une 10aine d'ads pour voir si le btn see more apparait bien, parmis celle-ci en mettre en status RESERVED ou SOLD
     ngOnInit(): void {
-        // TO DO : Mettre à jour la logique une fois que le processus de connexion sera implémenté
-        //Pas sure de devoir ajouter un paramètre à la route 
-        //Avec la connexion, on pourrait juste prendre le currentUserId depuis le storage
-        this.adService.findMyAds(1).subscribe({
+        this.adService.findMyAds(this.currentUserId).subscribe({
             next: (myAds: AdPostResponse[]) => {
                 this.myAds = myAds.sort((ad1, ad2) => {
                     if ((ad1.status === 'RESERVED' || ad1.status === 'SOLD') && !(ad2.status === 'RESERVED' || ad2.status === 'SOLD')) {
@@ -47,9 +53,27 @@ export class AdsComponent implements OnInit {
                     }
                     return 0;
                 });
+                this.adService.getMyAdsCount(this.currentUserId!).subscribe({
+                    next: (adCount: number) => {
+                        this.adCount = adCount
+                        this.showSeeMorBtn = this.adCount > 9
+                    }
+                })
             },
-            error: error => {
-                console.error(error);
+        });
+    }
+
+    loadMoreAds() {
+        this.pageNumber++;
+        this.fetchPaginatedAdsList();
+    }
+
+    fetchPaginatedAdsList() {
+        this.pageSize = 12;
+        this.adService.fetchMoreAds(this.currentUserId!, this.pageNumber, this.pageSize).subscribe({
+            next: (ads: AdPostResponse[]) => {
+                this.userOtherAds = [...this.userOtherAds, ...ads];
+                this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1) && this.adCount > 9
             }
         });
     }
@@ -57,5 +81,4 @@ export class AdsComponent implements OnInit {
     createNewAd(): void {
         this.router.navigate(['annonce/creation']);
     }
-
 }

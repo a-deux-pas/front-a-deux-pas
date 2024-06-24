@@ -1,0 +1,40 @@
+@import 'color-variables';
+
+.my-ad-cta-encart {
+    border-radius: 10px 10px 25px 10px;
+    background: #FFE2BC;
+    width: 279.854px;
+    height: 234px;
+    padding: 35px 32px;
+}
+
+.cta-btn-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cta-btn {
+    width: 40px;
+    height: 40px;
+}
+
+.cta-btn-text {
+    font-weight: 400;
+    font-size: 15px;
+    color: black !important;
+}
+
+#favorite-icon {
+    width: 32.684px;
+    height: 26.238px;
+}
+
+.favorites {
+    display: flex;
+    gap: 8px;
+}
+
+#favorite-text {
+    text-align: left;
+    font-size: 12px;
+}
