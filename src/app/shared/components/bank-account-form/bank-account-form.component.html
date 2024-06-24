@@ -1,0 +1,28 @@
+<div formGroupName="bankAccount" id="bank-account">
+  <div class="col-10 col-md-6">
+    <label for="account-holder">Nom du titulaire du compte</label>
+    <input type="text" class="form-control mt-2" name="account-holder" id="account-holder"
+    formControlName="accountHolder" required/>
+    @if(bankAccountFormGroup.get('accountHolder')?.invalid && (bankAccountFormGroup.get('accountHolder')?.dirty
+    || bankAccountFormGroup.get('accountHolder')?.touched)) {
+      <div class="error-msg mt-2">Veuillez renseigner le nom du titulaire du compte</div>
+    }
+  </div>
+
+  <div class="col-10 col-md-6 mt-5">
+    <label for="account-number">IBAN</label>
+    <input type="text" class="form-control mt-2" name="account-number" id="account-number"
+    placeholder="FRXXXXXXXXXXXXXXXXXXXXXXXXX" formControlName="accountNumber" required/>
+    @if(bankAccountFormGroup.get('accountNumber')?.invalid && (bankAccountFormGroup.get('accountNumber')?.dirty
+    || bankAccountFormGroup.get('accountNumber')?.touched)) {
+      <div class="error-msg mt-2">
+        <div [hidden]="!bankAccountFormGroup.get('accountNumber')?.errors?.['required']">
+          Veuillez renseigner votre IBAN
+        </div>
+        <div [hidden]="!bankAccountFormGroup.get('accountNumber')?.errors?.['iban']">
+          Veuillez renseigner un IBAN valide
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,17 +1,18 @@
-import { API_URL } from "../../utils/constants/utilsConstants";
+import { API_URL } from "../../utils/constants/utils-constants";
 
-let apiUrl = `${API_URL}api/account/profile`;
+let apiUrl = `${API_URL}account/profile`;
 
 context('account tabs testing', () => {
   beforeEach(() => {
+    cy.setLoggedIn();
 
-    cy.visit('http://localhost:4200/compte/profil')
-
-    cy.intercept(`${apiUrl}/presentation`, { fixture: 'user-profile' }).as('getUserPresentation')
-    cy.intercept(`${apiUrl}/schedules`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules')
-    cy.intercept(`${apiUrl}/meeting-places`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces')
+    cy.intercept(`${apiUrl}/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
+    cy.intercept(`${apiUrl}/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+    cy.intercept(`${apiUrl}/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
     // TODO add interceptor for each route one created
 
+    cy.visit('http://localhost:4200/compte/profil');
+    cy.url().should('include', '/compte/profil');
     cy.get('ul#account-tabs li').should('have.length', 4);
   });
 

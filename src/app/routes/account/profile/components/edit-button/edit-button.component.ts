@@ -9,7 +9,7 @@ export class EditButtonComponent {
   // Output event emitter for notifying parent component about edit mode changes
   @Output() editModeChange = new EventEmitter<boolean>();
   // Flag to track edit mode
-  editMode = false;
+  editMode: boolean = false;
 
   // Method to toggle edit mode and emit the change event
   toggleEditMode() {

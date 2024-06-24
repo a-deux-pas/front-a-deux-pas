@@ -1,4 +1,4 @@
-// See more about Bootstrap hescssre : https://getbootstrap.com/docs/5.3/
+// See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
 // see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
 
 // Importing Google Fonts for the logo
@@ -22,7 +22,7 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Colors
-@import 'color-variables';
+@import "color-variables";
 
 /*-----------------------------------------------------------------------*/
 
@@ -67,8 +67,10 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Method to create personalized containers
-@mixin make-container($padding-x: $container-padding-x,
-  $padding-y: $container-padding-y) {
+@mixin make-container(
+  $padding-x: $container-padding-x,
+  $padding-y: $container-padding-y
+) {
   width: 100%;
   margin-top: $padding-y;
   padding-right: $padding-x;
@@ -79,10 +81,95 @@ $h3-font-size: 1.125rem;
 
 /*-----------------------------------------------------------------------*/
 
-// Body margin adjustments
+// Margin adjustments
+html,
 body {
-  margin-left: 2vh !important;
-  margin-right: 2vh !important;
+  overflow-x: hidden;
+}
+
+.main-container {
+  margin: 11vh 2vh 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Bottom mobile navbar
+#mobile-bottom-navbar .mobile-wave-bottom-background {
+  background-color: $tertiary;
+  width: 100%;
+  height: 62px;
+  margin-top: 14px;
+}
+
+.mobile-wave-bottom-navbar {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 85px;
+  z-index: 2;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 79px;
+    background-color: $tertiary;
+    z-index: -1;
+  }
+
+  &::before {
+    right: -6px;
+    transform: rotate(-8deg);
+    border-top-right-radius: 542px 18px;
+  }
+
+  &::after {
+    left: -6px;
+    transform: rotate(8deg);
+    border-top-left-radius: 542px 18px;
+  }
+}
+
+#mobile-bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 65px;
+  z-index: 3;
+}
+
+#mobile-bottom-navbar-icons {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  font-size: 0.75rem;
+  z-index: 3;
+}
+
+ul#mobile-bottom-navbar-icons {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon .icon {
+  width: 29px;
+  margin-bottom: 3px;
+}
+
+#mobile-bottom-navbar-icons #mobile-sell-icon {
+  margin-top: -10px;
+  color: $primary;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: black;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -106,6 +193,7 @@ button.btn {
   height: 43px;
   padding: $btn-padding-x $btn-padding-y;
   text-align: justify;
+  justify-content: center;
   align-items: center;
   border-radius: $btn-border-radius;
   background-color: $primary;
@@ -115,6 +203,10 @@ button.btn {
 
   &:hover {
     background-color: darken($secondary, 25%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
   }
 }
 
@@ -156,6 +248,12 @@ button.btn {
 
   &:hover {
     background-color: darken($secondary, 10%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
+    border:#6666668f;
+    font-weight: 400;
   }
 }
 
@@ -209,7 +307,6 @@ button.btn {
 // Connection button styling
 .btn-connection {
   background-color: white;
-  width: 154px;
   height: 43px;
   flex-shrink: 0;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -254,9 +351,14 @@ button.btn {
   width: 40px;
 }
 
+.add-icon, .remove-icon {
+  width: 27.25px;
+  height: 27.25px;
+}
+
 /*-----------------------------------------------------------------------*/
 
-// Modal
+// Connection modal
 $btn-close-color: $primary;
 $modal-content-border-color: none;
 $modal-header-border-color: none;
@@ -268,14 +370,64 @@ $btn-close-focus-shadow: none;
 $btn-close-hover-opacity: none;
 $btn-close-opacity: none;
 
-span.close {
+span.close,
+a.close {
   display: inline-block;
   font-size: 1.3rem;
   transform: scaleX(1.1);
   color: $secondary;
+  z-index: 1;
 
   &:hover {
     color: black;
+  }
+}
+
+.modal-content {
+  .form-check-input[type=checkbox] {
+    border-radius: 50%;
+    border-color: $secondary;
+    &:checked {
+      background-color: $secondary;
+    }
+  }
+
+  .modal-body {
+    label.form-check-label {
+      font-size: 14.5px;
+      margin-right: 2px;
+    }
+  }
+
+.modal-footer {
+  .btn-success:disabled {
+    background-color: #9d9d9d8f;
+    }
+  }
+
+  #btn-password-visibility {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    background: transparent;
+    border: none;
+    right: 7%;
+    top: 3px;
+  }
+
+  #password-input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .eye-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+  .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control {
+    border-radius: 10px 10px 40px 5px;
   }
 }
 
@@ -301,6 +453,11 @@ textarea.form-control {
   color: rgba(0, 0, 0, 0.38) !important;
 }
 
+// Error class
+.error-msg {
+  color: $primary;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Select
@@ -322,12 +479,12 @@ textarea.form-control {
 }
 
 // Opened ng-select container bottom border radius
-.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
+.ng-select.ng-select-opened.ng-select-bottom > .ng-select-container {
   border-bottom-right-radius: 40px;
 }
 
 // Focus effects for ng-select
-.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
   border-color: $secondary;
   box-shadow: none;
 }
@@ -380,12 +537,20 @@ span.ng-value-icon.left {
   }
 }
 
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon.left {
   border-right: 1px solid white;
 }
 
 // Hover effects on selected value in multiselect
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon:hover {
   background-color: white;
   color: $primary;
 }
@@ -409,13 +574,17 @@ span.ng-value-icon.left {
 }
 
 // Dropdown panel First child option styling
-.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:first-child {
+.ng-dropdown-panel.ng-select-bottom
+  .ng-dropdown-panel-items
+  .ng-option:first-child {
   border-radius: 10px;
   border-color: $secondary;
 }
 
 // Dropdown panel first child marked option
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked:first-child {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-marked:first-child {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 0;
@@ -437,14 +606,18 @@ span.ng-value-icon.left {
 
 // Selected option styling in dropdown panel
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
 }
 
 // Selected option styling in multiselect
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-optgroup.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
   font-weight: 400;
@@ -487,8 +660,8 @@ $form-check-input-checked-color: white;
 $form-check-input-checked-bg-image: url("/assets/icons/check.webp");
 $form-check-radio-checked-bg-image: url("/assets/icons/check.webp");
 
-.form-check-input[type=checkbox],
-.form-check-input[type=radio] {
+.form-check-input[type="checkbox"],
+.form-check-input[type="radio"] {
   border: 1.7px solid $secondary;
 }
 
@@ -590,6 +763,7 @@ button.navbar-toggler {
   border: 1.5px solid $primary;
   color: black;
   list-style-type: none;
+  background-color: transparent;
 
   &:hover {
     background: rgba(255, 191, 107, 0.39);
@@ -597,8 +771,8 @@ button.navbar-toggler {
 }
 
 // Select box styling
-.dropdown:hover>.dropdown-menu,
-.dropend:hover>.dropdown-menu {
+.dropdown:hover > .dropdown-menu,
+.dropend:hover > .dropdown-menu {
   display: block;
   margin-left: 0.125em;
   border-radius: 10px;
@@ -642,7 +816,8 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 //center sub categories in their boxes
-.dropdown-menu .nav-item.dropend input[type="button"] {
+.dropdown-menu .nav-item.dropend input[type="button"],
+.dropdown-menu .nav-item.dropend button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -656,7 +831,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Set the width of the calendar and center it
 .fc {
-  width: 320px;
+  width: 302px;
   margin: 0 auto;
 }
 
@@ -684,6 +859,10 @@ a.dropdown-first-level.dropdown-toggle {
   border-left: none;
 }
 
+.fc-media-screen .fc-timegrid-cols > table {
+  width: 302px;
+}
+
 // Thicken grids
 .fc-theme-standard td {
   border: 2px solid var(--fc-border-color);
@@ -696,7 +875,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Timegrid slot styling
 .fc-timegrid-slot-label-frame.fc-scrollgrid-shrink-frame {
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   color: rgba(155, 149, 149, 0.85);
 }
 
@@ -741,12 +920,147 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
-@media (min-width: 768px) {
+// Dropzone
+.dz-progress,
+.dz-details,
+.dz-success-mark,
+.dz-error-mark,
+.dz-error-message
+{
+  display: none !important;
+}
 
+.dropzone.dz-wrapper.dz-single .dz-message {
+  background-color: white;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+  transform: none !important;
+  filter: none !important;
+}
+
+.dropzone-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropzone-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+.dropzone.dz-clickable .dz-message,
+.dropzone.dz-clickable .dz-message * {
+  color: $primary;
+  font-weight: 700;
+}
+
+// Dropzone profile picture
+app-profile-picture {
+  #dropzone {
+    width: 231px;
+  }
+
+  .dropzone.dz-wrapper {
+    height: 212px;
+    overflow: inherit !important;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-message,
+  .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+    border-radius: 50%;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-preview {
+    height: auto !important;
+  }
+
+  .dz-remove {
+    display:inline-block !important;
+    width:1.2em;
+    height:1.2em;
+    text-decoration: none;
+
+    position:absolute;
+    top:5px;
+    right:5px;
+    z-index:1000;
+
+    font-size:1.2em !important;
+    line-height:1em;
+
+    text-align:center;
+    font-weight:bold;
+    border:1px solid gray !important;
+    border-radius:1.2em;
+    color:gray;
+    background-color:white;
+    opacity:.5;
+  }
+
+  .dz-remove:hover {
+      text-decoration:none !important;
+      opacity:1;
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Register page
+
+// profile picture dropzone display
+app-register {
+  app-profile-picture {
+    #profile-picture {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  // bank account form display
+  app-bank-account-form {
+    #bank-account {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Preferred meeting places display on Register & account profile pages
+
+.meeting-place .number,
+#preferred-meeting-places .number {
+  background-color: $info;
+  color:white;
+  border-radius: 38px;
+  padding: 4px 8px;
+  font-size: 14px;
+  position:relative;
+}
+
+.meeting-place .address-name {
+  font-weight: 700;
+  color: $primary;
+  padding-left: 0.5rem;
+  position: absolute;
+}
+
+.meeting-place .address-detail {
+  margin-top: 0.2rem;
+  margin-left: 2.2rem;
+}
+
+/*-----------------------------------------------------------------------*/
+
+@media (min-width: 768px) {
   // Personalized container for "my account" pages
   // Includes tabs and page content
-  .account-container {
-    @include make-container($padding-x: 3vh, $padding-y: 13.25vh);
+  .custom-container {
+    @include make-container($padding-x: 1.3vh, $padding-y: 7.25vh);
   }
 
   /*---------------------------------*/
@@ -770,32 +1084,45 @@ a.dropdown-first-level.dropdown-toggle {
     margin: 0 auto;
     display: inline-block;
   }
+
+  /*---------------------------------*/
+
+  // Bottom navbar
+  #mobile-bottom-navbar .mobile-wave-bottom-background {
+    margin-top: 21px;
+  }
+
+  #mobile-bottom-navbar-icons #mobile-sell-icon {
+    margin-top: 0px;
+  }
+
+  /*---------------------------------*/
+
+  //Dropdown menu styling for better display of the ad-filters component.
+  .dropend:hover > .dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
 }
 
 /*-----------------------------------------------------------------------*/
 
 // Desktop version
 @media (min-width: 1200px) {
-
-  // Body margin adjustments
+  // margin
   body {
-    margin-left: 14vh !important;
-    margin-right: 14vh !important;
+    margin: 0;
+  }
+
+  .main-container {
+    margin: 8vh 14vh 0;
   }
 
   // Personalized container for "my account" pages
   // Includes tabs and page content
-  .account-container {
-    @include make-container($padding-x: 8vh, $padding-y: 13.25vh);
-  }
-
-  /*---------------------------------*/
-
-  //Dropdown menu styling
-  .dropend:hover>.dropdown-menu {
-    position: absolute;
-    top: 0;
-    left: 100%;
+  .custom-container {
+    @include make-container($padding-x: 8vh, $padding-y: 88px);
   }
 }
 

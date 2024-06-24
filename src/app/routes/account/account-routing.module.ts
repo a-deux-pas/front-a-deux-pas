@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../../shared/guards/auth.guard';
+
 
 export const accountRoutes: Routes = [
     {
         path: 'compte',
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'profil',
                 title: 'Mon profil',
-                loadChildren: () => import('./profile/profile-routing.module').then(mod => mod.ProfileRoutingModule)
+                loadComponent: () => import('./profile/profile.component').then(mod => mod.ProfileComponent)
             },
             {
                 path: 'annonces',

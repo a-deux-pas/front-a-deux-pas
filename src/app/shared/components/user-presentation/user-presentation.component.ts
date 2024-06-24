@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { User } from '../../models/user/user.model';
+import { Component, Input } from '@angular/core';
+import { UserPresentation } from '../../models/user/user-presentation.model';
 
 @Component({
     selector: 'app-user-presentation',
@@ -7,10 +7,6 @@ import { User } from '../../models/user/user.model';
     styleUrl: './user-presentation.component.scss',
     standalone: true
 })
-export class UserPresentationComponent implements OnInit{
-  @Input() user!: User;
-
-  ngOnInit(): void {
-    console.log(this.user)
-  }
+export class UserPresentationComponent {
+  @Input() user!: UserPresentation;
 }

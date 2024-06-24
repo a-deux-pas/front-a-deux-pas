@@ -1,0 +1,16 @@
+<div id="profile-picture">
+  <dropzone
+    id="dropzone"
+    [config]="config"
+    [message]="customMessage"
+    (mouseleave)="onDropzoneInteraction()">
+  </dropzone>
+  @if (!isProfilePicturePreview && hasInteractedWithDropzone) {
+    <div class="error-msg mt-5">
+      Veuillez ajouter une photo de profil pour que les autres utilisateurs
+      puissent vous reconnaître lors des rdv
+    </div>
+  }
+  <div class="error-msg mt-5">{{ errorMessage }}</div>
+</div>
+

@@ -1,1 +1,14 @@
-<full-calendar [options]="calendarOptions"></full-calendar>
+<full-calendar
+  [options]="calendarOptions"
+  (mouseleave)="onScheduleInteraction()">
+</full-calendar>
+
+@if (noScheduleFilledIn && hasInteractedWithSchedule) {
+  <div class="error-msg text-center mt-3">
+    Veuillez renseigner au moins un créneau horaire auquel vous êtes disponible
+  </div>
+}
+
+<ng-template #eventModal let-modal>
+  <app-event-modal></app-event-modal>
+</ng-template>

@@ -1,1 +1,11 @@
-<router-outlet />
+@if (isLoggedIn) {
+<app-navbar
+  [isAccountMenuOpen]="isAccountMenuOpen"
+  (toggleMobileNavbarMenuOutput)="accountNavbarMenuToggle()"
+></app-navbar>
+}
+<main class="main-container">
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer></app-footer>
