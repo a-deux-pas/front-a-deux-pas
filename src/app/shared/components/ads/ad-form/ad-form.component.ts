@@ -165,10 +165,10 @@ export class AdFormComponent {
 
   sanitizeTheForm() {
     escapeHtml(this.ad.category!)
-    escapeHtml(this.ad.subcategory!)
+    escapeHtml(this.ad.subcategory)
     escapeHtml(this.ad.articleGender!)
-    escapeHtml(this.ad.title!)
-    escapeHtml(this.ad.articleDescription!)
+    escapeHtml(this.ad.title)
+    escapeHtml(this.ad.articleDescription)
     escapeHtml(this.ad.articleState!)
   }
 
