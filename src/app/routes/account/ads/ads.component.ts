@@ -24,7 +24,6 @@ export class AdsComponent implements OnInit {
     myAds: AdPostResponse[] = [];
     currentUserId = parseInt(localStorage.getItem('userId')!)
     userOtherAds: AdPostResponse[] = [];
-
     noMoreAds: boolean = false;
     showSeeMorBtn!: boolean;
     adCount!: number;
@@ -45,7 +44,7 @@ export class AdsComponent implements OnInit {
     ngOnInit(): void {
         this.adService.findMyAds(this.currentUserId).subscribe({
             next: (myAds: AdPostResponse[]) => {
-                this.myAds = myAds.sort((ad1, ad2) => {
+                const sortedAds = myAds.slice().sort((ad1, ad2) => {
                     if ((ad1.status === 'RESERVED' || ad1.status === 'SOLD') && !(ad2.status === 'RESERVED' || ad2.status === 'SOLD')) {
                         return 1;
                     }
@@ -54,13 +53,14 @@ export class AdsComponent implements OnInit {
                     }
                     return 0;
                 });
+                this.myAds = sortedAds;
                 this.adService.getMyAdsCount(this.currentUserId).subscribe({
                     next: (adCount: number) => {
-                        this.adCount = adCount
-                        this.showSeeMorBtn = this.adCount > 9
+                        this.adCount = adCount;
+                        this.showSeeMorBtn = this.adCount > 9;
                     }
-                })
-            },
+                });
+            }
         });
     }
 
