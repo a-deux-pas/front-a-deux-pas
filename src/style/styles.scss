@@ -250,7 +250,7 @@ button.btn {
 
   &:disabled {
     background-color: #6666668f;
-    border:#6666668f;
+    border: #6666668f;
     font-weight: 400;
   }
 }
@@ -349,7 +349,8 @@ button.btn {
   width: 40px;
 }
 
-.add-icon, .remove-icon {
+.add-icon,
+.remove-icon {
   width: 27.25px;
   height: 27.25px;
 }
@@ -389,6 +390,7 @@ a.close {
   .form-check-input[type=checkbox] {
     border-radius: 50%;
     border-color: $secondary;
+
     &:checked {
       background-color: $secondary;
     }
@@ -401,9 +403,9 @@ a.close {
     }
   }
 
-.modal-footer {
-  .btn-success:disabled {
-    background-color: #9d9d9d8f;
+  .modal-footer {
+    .btn-success:disabled {
+      background-color: #9d9d9d8f;
     }
   }
 
@@ -427,8 +429,8 @@ a.close {
     height: 24px;
   }
 
-  .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
-  .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control {
+  .input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+  .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control {
     border-radius: 10px 10px 40px 5px;
   }
 }
@@ -696,23 +698,27 @@ $card-spacer-y: 3.1875rem;
   max-height: 100%;
   position: relative;
   z-index: 1;
-  width: 252px !important ;
+  width: 252px !important;
   height: 224px !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 45px;
   border-bottom-left-radius: 0px;
-  
+
 }
 
-.card-img-top.soldAd{
-  filter: grayscale(1);
+.card-img-top.soldAd {
+  filter: grayscale(0.5783132530120482);
+}
+
+@mixin filter($filters...) {
+  filter: #{$filters};
+  -webkit-filter: #{$filters};
+  -moz-filter: #{$filters};
 }
 
 .card-img-top.reservedAd {
-  background: white;
- -webkit-filter: sepia() saturate(200%) hue-rotate(320deg);
- filter: sepia(1) saturate(200%) hue-rotate(320deg);
+  @include filter(sepia(149%) brightness(78%) hue-rotate(360deg) saturate(192%) contrast(140%) invert(13%));
 }
 
 .adSoldOrReserved {
@@ -875,7 +881,7 @@ a.dropdown-first-level.dropdown-toggle {
   border-left: none;
 }
 
-.fc-media-screen .fc-timegrid-cols > table {
+.fc-media-screen .fc-timegrid-cols>table {
   width: 302px;
 }
 
@@ -941,8 +947,7 @@ a.dropdown-first-level.dropdown-toggle {
 .dz-details,
 .dz-success-mark,
 .dz-error-mark,
-.dz-error-message
-{
+.dz-error-message {
   display: none !important;
 }
 
@@ -994,31 +999,31 @@ app-profile-picture {
   }
 
   .dz-remove {
-    display:inline-block !important;
-    width:1.2em;
-    height:1.2em;
+    display: inline-block !important;
+    width: 1.2em;
+    height: 1.2em;
     text-decoration: none;
 
-    position:absolute;
-    top:5px;
-    right:5px;
-    z-index:1000;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1000;
 
-    font-size:1.2em !important;
-    line-height:1em;
+    font-size: 1.2em !important;
+    line-height: 1em;
 
-    text-align:center;
-    font-weight:bold;
-    border:1px solid gray !important;
-    border-radius:1.2em;
-    color:gray;
-    background-color:white;
-    opacity:.5;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid gray !important;
+    border-radius: 1.2em;
+    color: gray;
+    background-color: white;
+    opacity: .5;
   }
 
   .dz-remove:hover {
-      text-decoration:none !important;
-      opacity:1;
+    text-decoration: none !important;
+    opacity: 1;
   }
 }
 
@@ -1051,11 +1056,11 @@ app-register {
 .meeting-place .number,
 #preferred-meeting-places .number {
   background-color: $info;
-  color:white;
+  color: white;
   border-radius: 38px;
   padding: 4px 8px;
   font-size: 14px;
-  position:relative;
+  position: relative;
 }
 
 .meeting-place .address-name {
@@ -1174,6 +1179,7 @@ ngb-carousel,
 
 // Desktop version
 @media (min-width: 1200px) {
+
   // margin
   body {
     margin: 0;
@@ -1188,7 +1194,7 @@ ngb-carousel,
   .custom-container {
     @include make-container($padding-x: 8vh, $padding-y: 88px);
   }
-  
+
   /*---------------------------------*/
 
   //Carousel Bootsrap classes overriding

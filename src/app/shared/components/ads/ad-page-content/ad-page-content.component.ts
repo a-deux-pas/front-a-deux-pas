@@ -147,7 +147,7 @@ export class AdPageComponent implements OnInit {
 
   fetchPaginatedAdsList() {
     this.pageSize = this.onLoggedInUserAd ? 9 : 4;
-    this.adService.fetchMoreAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
+    this.adService.fetchMoreAdsInAdPage(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdPostResponse[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
@@ -156,3 +156,4 @@ export class AdPageComponent implements OnInit {
     });
   }
 }
+// TO DO: gerer dans le back, le fait de ne pas envoyer d'ad dont le status est SOLD ou RESERVED si on est sur ad-page-content

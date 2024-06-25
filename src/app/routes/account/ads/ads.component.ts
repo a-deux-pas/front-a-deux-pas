@@ -40,21 +40,10 @@ export class AdsComponent implements OnInit {
         });
     }
 
-    // TO DO:: creer une 10aine d'ads pour voir si le btn see more apparait bien, parmis celle-ci en mettre en status RESERVED ou SOLD
     ngOnInit(): void {
-        this.adService.findMyAds(this.currentUserId, this.pageSize).subscribe({
-            next: (myAds: AdPostResponse[]) => {
-                const sortedAds = myAds.slice().sort((ad1, ad2) => {
-                    if ((ad1.status === 'RESERVED' || ad1.status === 'SOLD') && !(ad2.status === 'RESERVED' || ad2.status === 'SOLD')) {
-                        return 1;
-                    }
-                    if (!(ad1.status === 'RESERVED' || ad1.status === 'SOLD') && (ad2.status === 'RESERVED' || ad2.status === 'SOLD')) {
-                        return -1;
-                    }
-                    return 0;
-                });
+        this.adService.fetchMoreAdsInAdTab(this.currentUserId, this.pageNumber, this.pageSize).subscribe({
+            next: (sortedAds: AdPostResponse[]) => {
                 this.loggedInUserAds = sortedAds;
-                console.log('this.myAds:: ', this.loggedInUserAds)
                 this.adService.getMyAdsCount(this.currentUserId).subscribe({
                     next: (adCount: number) => {
                         this.adCount = adCount;
@@ -71,11 +60,9 @@ export class AdsComponent implements OnInit {
     }
 
     fetchPaginatedAdsList() {
-        console.log('this.pageNumber:: ', this.pageNumber , ' this.pageSize:: ', this.pageSize)
-        this.adService.fetchMoreAds(this.currentUserId, this.pageNumber, this.pageSize).subscribe({
-            next: (ads: AdPostResponse[]) => {
-                this.loggedInUserAds = [...this.loggedInUserAds, ...ads];
-                console.table( this.loggedInUserAds)
+        this.adService.fetchMoreAdsInAdTab(this.currentUserId, this.pageNumber, this.pageSize).subscribe({
+            next: (moreAds: AdPostResponse[]) => {
+                this.loggedInUserAds = [...this.loggedInUserAds, ...moreAds];
                 this.noMoreAds = this.loggedInUserAds.length >= (this.adCount - 1) && this.adCount > 12
             }
         });

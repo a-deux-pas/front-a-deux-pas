@@ -15,8 +15,8 @@ export class AdService {
   sellerAdPageLoaded$ = this.sellerAdPageLoadedSubject.asObservable();
 
   constructor(
-      private http: HttpClient,
-      private handleErrorService: HandleErrorService) { }
+    private http: HttpClient,
+    private handleErrorService: HandleErrorService) { }
 
   postAd(ad: Ad): Observable<any> {
     const url = `${this.contextUrl}create`
@@ -34,37 +34,46 @@ export class AdService {
       );
   }
 
-  fetchMoreAds(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
-      const url = `${this.contextUrl}list/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-      return this.http.get<AdPostResponse[]>(url)
-          .pipe(
-            catchError(this.handleErrorService.handleError)
-          )
-  }
-
-  getMyAdsCount(userId: number): Observable<number> {
-      const url = `${this.contextUrl}count/${userId}`;
-      return this.http.get<number>(url)
-          .pipe(
-            catchError(this.handleErrorService.handleError)
-          )
-  }
-
-  getSimilarAds(category: string, publisherId: number, userId?: number): Observable<AdPostResponse[]> {
-      const url = `${this.contextUrl}similarAdsList/${category}/${publisherId}/${userId}`
-      return this.http.get<AdPostResponse[]>(url)
-          .pipe(
-            catchError(this.handleErrorService.handleError)
-          )
-  }
-
-  findMyAds(userId: number, pageSize?: number): Observable<AdPostResponse[]> {
-    const url = `${this.contextUrl}list/${userId}?pageSize=${pageSize}`
+  // EXCLUDE sold or reserved ads
+  fetchMoreAdsInAdPage(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
+    const url = `${this.contextUrl}adPageContentList/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<AdPostResponse[]>(url)
       .pipe(
         catchError(this.handleErrorService.handleError)
-      );
+      )
   }
+
+  fetchMoreAdsInAdTab(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
+    const url = `${this.contextUrl}adTablist/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return this.http.get<AdPostResponse[]>(url)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      )
+  }
+
+  getMyAdsCount(userId: number): Observable<number> {
+    const url = `${this.contextUrl}count/${userId}`;
+    return this.http.get<number>(url)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      )
+  }
+
+  getSimilarAds(category: string, publisherId: number, userId?: number): Observable<AdPostResponse[]> {
+    const url = `${this.contextUrl}similarAdsList/${category}/${publisherId}/${userId}`
+    return this.http.get<AdPostResponse[]>(url)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      )
+  }
+
+  // findMyAds(userId: number, pageSize?: number): Observable<AdPostResponse[]> {
+  //   const url = `${this.contextUrl}list/${userId}?pageSize=${pageSize}`
+  //   return this.http.get<AdPostResponse[]>(url)
+  //     .pipe(
+  //       catchError(this.handleErrorService.handleError)
+  //     );
+  // }
 
   isOnSellerAdPageUnLogged(boolean: boolean) {
     this.sellerAdPageLoadedSubject.next(boolean);
