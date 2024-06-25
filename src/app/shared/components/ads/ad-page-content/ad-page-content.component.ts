@@ -156,4 +156,3 @@ export class AdPageComponent implements OnInit {
     });
   }
 }
-// TO DO: gerer dans le back, le fait de ne pas envoyer d'ad dont le status est SOLD ou RESERVED si on est sur ad-page-content

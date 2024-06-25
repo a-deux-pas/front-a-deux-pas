@@ -34,7 +34,6 @@ export class AdService {
       );
   }
 
-  // EXCLUDE sold or reserved ads
   fetchMoreAdsInAdPage(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
     const url = `${this.contextUrl}adPageContentList/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<AdPostResponse[]>(url)
@@ -66,14 +65,6 @@ export class AdService {
         catchError(this.handleErrorService.handleError)
       )
   }
-
-  // findMyAds(userId: number, pageSize?: number): Observable<AdPostResponse[]> {
-  //   const url = `${this.contextUrl}list/${userId}?pageSize=${pageSize}`
-  //   return this.http.get<AdPostResponse[]>(url)
-  //     .pipe(
-  //       catchError(this.handleErrorService.handleError)
-  //     );
-  // }
 
   isOnSellerAdPageUnLogged(boolean: boolean) {
     this.sellerAdPageLoadedSubject.next(boolean);

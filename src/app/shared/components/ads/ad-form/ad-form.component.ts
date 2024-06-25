@@ -164,8 +164,6 @@ export class AdFormComponent {
   }
 
   sanitizeTheForm() {
-    console.log('typeof subCat:: ', typeof this.ad.subcategory)
-    
     escapeHtml(this.ad.title)
     escapeHtml(this.ad.articleDescription)
   }
