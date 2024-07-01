@@ -18,3 +18,5 @@ export class AdListComponent {
     this.loadMore.emit();
   }
 }
+
+// TODO : apres merge de l'US de Lea, utiliser adList et virer adCOunt method - utiliser lenght des otherAds

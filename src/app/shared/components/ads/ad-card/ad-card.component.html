@@ -2,10 +2,10 @@
   <div class="card-img-container">
     @switch (ad.status) {
       @case('SOLD') {
-        <p class="adSoldOrReserved">Vendu</p>
+        <p class="statusStamp">Vendu</p>
         }
       @case('RESERVED') {
-        <p class="adSoldOrReserved">Réservé</p>
+        <p class="statusStamp">Réservé</p>
       }
     }
   <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />

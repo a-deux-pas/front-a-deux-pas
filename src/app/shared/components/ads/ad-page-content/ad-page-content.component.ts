@@ -91,10 +91,12 @@ export class AdPageComponent implements OnInit {
             this.adService.isOnSellerAdPageUnLogged(true);
           }
         }
-        this.adService.getMyAdsCount(this.currentAd.publisherId!).subscribe({
+        this.adService.getMyAvailableAdsCount(this.currentAd.publisherId!).subscribe({
           next: (adCount: number) => {
             this.adCount = adCount
             this.showSeeMorBtn = this.adCount > 9
+            console.log('this.adCount:: ', this.adCount)
+            console.log()
           }
         })
       }
@@ -146,12 +148,16 @@ export class AdPageComponent implements OnInit {
   }
 
   fetchPaginatedAdsList() {
-    this.pageSize = this.onLoggedInUserAd ? 9 : 4;
-    this.adService.fetchMoreAdsInAdPage(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
+    this.pageSize = this.onLoggedInUserAd ? 8 : 5;
+    this.adService.fetchMoreAds('adPage',this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdPostResponse[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
         this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1) && this.adCount > 9
+        console.log('userAd')
+        console.table(this.userOtherAds)
+        console.log('this.pageNumber:: ', this.pageNumber)
+        console.log('this.pageSize:: ', this.pageSize)
       }
     });
   }

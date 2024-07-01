@@ -34,24 +34,34 @@ export class AdService {
       );
   }
 
-  fetchMoreAdsInAdPage(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
-    const url = `${this.contextUrl}adPageContentList/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+  fetchMoreAds(location: String, userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
+    const url = `${this.contextUrl}${location}/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<AdPostResponse[]>(url)
       .pipe(
         catchError(this.handleErrorService.handleError)
       )
   }
 
-  fetchMoreAdsInAdTab(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
-    const url = `${this.contextUrl}adTablist/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-    return this.http.get<AdPostResponse[]>(url)
-      .pipe(
-        catchError(this.handleErrorService.handleError)
-      )
-  }
+  // fetchMoreAdsInAdTab(userId: number, pageNumber: number, pageSize: number): Observable<AdPostResponse[]> {
+  //   const url = `${this.contextUrl}adTablist/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+  //   return this.http.get<AdPostResponse[]>(url)
+  //     .pipe(
+  //       catchError(this.handleErrorService.handleError)
+  //     )
+  // }
 
+      // TODO : apres merge de Lea, checker si cette méthode est encore necessaire
   getMyAdsCount(userId: number): Observable<number> {
     const url = `${this.contextUrl}count/${userId}`;
+    return this.http.get<number>(url)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      )
+  }
+
+      // TODO : apres merge de Lea, checker si cette méthode est encore necessaire
+  getMyAvailableAdsCount(userId: number): Observable<number> {
+    const url = `${this.contextUrl}countOfAvailableAds/${userId}`;
     return this.http.get<number>(url)
       .pipe(
         catchError(this.handleErrorService.handleError)

@@ -163,14 +163,14 @@ export class AdFormComponent {
     this.location.back();
   }
 
-  sanitizeTheForm() {
+  sanitizeTheInputs() {
     escapeHtml(this.ad.title)
     escapeHtml(this.ad.articleDescription)
   }
 
   // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
-    this.sanitizeTheForm()
+    this.sanitizeTheInputs()
     this.uploadArticlePictures().subscribe({
       next: () => {
         this.ad.creationDate = this.today;

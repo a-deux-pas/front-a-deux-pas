@@ -39,34 +39,43 @@ export class AdsComponent implements OnInit {
             this.isBigScreen = isBigScreen;
         });
     }
-
+    
     ngOnInit(): void {
-        this.adService.fetchMoreAdsInAdTab(this.currentUserId, this.pageNumber, this.pageSize).subscribe({
-            next: (sortedAds: AdPostResponse[]) => {
-                this.loggedInUserAds = sortedAds;
-                this.adService.getMyAdsCount(this.currentUserId).subscribe({
-                    next: (adCount: number) => {
-                        this.adCount = adCount;
-                        this.showSeeMorBtn = this.adCount > 12;
-                    }
-                });
-            }
-        });
+        this.fetchPaginatedAdsList('adTab', this.currentUserId, this.pageNumber, this.pageSize, true);
     }
 
     loadMoreAds() {
         this.pageNumber++;
-        this.fetchPaginatedAdsList();
+        this.fetchPaginatedAdsList('adTab', this.currentUserId, this.pageNumber, this.pageSize, false);
     }
 
-    fetchPaginatedAdsList() {
-        this.adService.fetchMoreAdsInAdTab(this.currentUserId, this.pageNumber, this.pageSize).subscribe({
-            next: (moreAds: AdPostResponse[]) => {
-                this.loggedInUserAds = [...this.loggedInUserAds, ...moreAds];
-                this.noMoreAds = this.loggedInUserAds.length >= (this.adCount - 1) && this.adCount > 12
+    // fetchPaginatedAdsList() {
+    //     this.adService.fetchMoreAds('adTab', this.currentUserId, this.pageNumber, this.pageSize).subscribe({
+    //         next: (moreAds: AdPostResponse[]) => {
+    //             this.loggedInUserAds = [...this.loggedInUserAds, ...moreAds];
+    //             this.noMoreAds = this.loggedInUserAds.length >= (this.adCount - 1) && this.adCount > 12
+    //         }
+    //     });
+    // }
+
+    fetchPaginatedAdsList(location: string, userId: number, pageNumber: number, pageSize: number, initialLoad: boolean): void {
+        this.adService.fetchMoreAds(location, userId, pageNumber, pageSize).subscribe({
+          next: (ads: AdPostResponse[]) => {
+            if (initialLoad) {
+              this.loggedInUserAds = ads;
+              this.adService.getMyAdsCount(userId).subscribe({
+                next: (adCount: number) => {
+                  this.adCount = adCount;
+                  this.showSeeMorBtn = this.adCount > 12;
+                }
+              });
+            } else {
+              this.loggedInUserAds = [...this.loggedInUserAds, ...ads];
+              this.noMoreAds = this.loggedInUserAds.length >= (this.adCount - 1) && this.adCount > 12;
             }
+          }
         });
-    }
+      }
 
     createNewAd(): void {
         this.router.navigate(['annonce/creation']);

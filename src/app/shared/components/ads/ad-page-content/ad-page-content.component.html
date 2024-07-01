@@ -63,7 +63,7 @@
         <section class="general-info mt-3">
             <div class="title-and-price">
                 <p id="ad-title"><b>{{ currentAd?.title }}</b></p>
-                <p id="ad-price"> {{ currentAd?.price }}€</p>
+                <p id="ad-price">{{ currentAd?.price }}€</p>
             </div>
             <div class="other-info flex-column">
                 <p id="ad-creation-date" class="mt-2">Créée le {{ currentAd?.creationDate }}</p>
@@ -97,6 +97,7 @@
     }
 
     <!-- user's other ads section -->
+    @if (userOtherAds.length > 0) {
     <section class="mt-5 mb-5 other-ads-list-section">
         <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
             @if (onLoggedInUserAd) {
@@ -113,6 +114,7 @@
             }
         </div>
     </section>
+    }
 </div>
 
 <!-- See more button -->
