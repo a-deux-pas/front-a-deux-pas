@@ -6,7 +6,7 @@ import { EditButtonComponent } from "../../../routes/account/profile/components/
 import { API_URL } from "../../utils/constants/utils-constants";
 import { RouterModule } from "@angular/router";
 
-let apiUrl = `${API_URL}account/profile`;
+let accountUrl = `${API_URL}account/profile/1/`;
 
 describe('Profile component', () => {
   beforeEach(() => {
@@ -14,9 +14,9 @@ describe('Profile component', () => {
       win.localStorage.setItem('userId', '1'); // Set userId for testing
     });
 
-    cy.intercept(`${apiUrl}/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
-    cy.intercept(`${apiUrl}/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
-    cy.intercept(`${apiUrl}/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
+    cy.intercept(`${accountUrl}presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
+    cy.intercept(`${accountUrl}schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+    cy.intercept(`${accountUrl}meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
 
     cy.mount(ProfileComponent, {
       imports: [MeetingPlacesComponent, EditButtonComponent, HttpClientModule, RouterModule.forRoot([])],
