@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { PriceRange } from '../../../models/enum/price-range.enum';
-import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdFiltersService } from './ad-filters.service';
 import { Categories } from '../../../utils/constants/categories-arrangement';
 import { CommonModule } from '@angular/common';
