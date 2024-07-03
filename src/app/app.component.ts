@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { DisplayManagementService } from './shared/services/display-management.service';
 import { AuthService } from './shared/services/auth.service';
 import { CommonModule } from '@angular/common';
-import { AdService } from './routes/ad/ad.service';
+import { AdService } from './shared/services/ad.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +19,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   isAccountMenuOpen: boolean = false;
   isLoggedIn: boolean = false;
   isBigScreen: boolean | undefined;
+  isDataLoaded: boolean = false;
   windowSizeSubscription!: Subscription;
   onSellerAdPageUnlogged!: boolean
 
@@ -38,9 +39,14 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.isLoggedIn = status;
       console.log('is user logged in?', this.isLoggedIn);
     });
+
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
     });
+
+    setTimeout(() => {
+      this.isDataLoaded = true;
+    }, 1000);
   }
 
   ngAfterViewInit(): void {
