@@ -1,3 +1,5 @@
+@import 'color-variables';
+
 #home-body {
   padding: 0 6%;
 }
@@ -15,6 +17,25 @@
   margin-top: 30px;
   margin-bottom: 25px;
   font-size: 1.25rem;
+}
+
+#hello {
+  color: $primary;
+  font-weight: 600;
+}
+
+h2 {
+  margin-left: 0 !important;
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 1158px) {
+  #hello {
+    position: relative;
+    z-index: 1;
+    margin-top: -5%;
+  }
 }
 
 // Desktop display
