@@ -1,4 +1,4 @@
-export class AdHomeResponse {
+export class AdCard {
   constructor(
     public id: number,
     public title: string,
@@ -6,7 +6,7 @@ export class AdHomeResponse {
     public price: number,
     public publisherId: number,
     public publisherAlias: string,
-    public publisherCity: string,
-    public publisherPostalCode: string
+    public favorite: boolean,
+    public status?: string,
   ) { }
 }

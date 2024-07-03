@@ -6,7 +6,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { AuthService } from '../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConnectionModalComponent } from '../connection-modal/connection-modal.component';
-import { AdService } from '../../../routes/ad/ad.service';
+import { AdService } from '../../services/ad.service';
 
 @Component({
   selector: 'app-navbar',
@@ -48,11 +48,11 @@ export class NavbarComponent implements OnInit {
     this.authService.logout();
   }
 
-   openModal() {
+  openModal() {
     this.modalService.open(ConnectionModalComponent);
   }
 
   openModalOrSell(){
-    this.isLoggedIn ? this.router.navigate(['annonce/creation']) : this.openModal()
-  } 
+    this.isLoggedIn ? this.router.navigate(['annonce/creation']) : this.openModal();
+  }
 }

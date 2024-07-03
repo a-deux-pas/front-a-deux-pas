@@ -2,7 +2,7 @@ import { AdFormComponent } from "../../components/ads/ad-form/ad-form.component"
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { AdService } from "../../../routes/ad/ad.service";
+import { AdService } from "../../services/ad.service";
 import { UploadPictureService } from "../../services/upload-picture.service";
 import { DisplayManagementService } from "../../services/display-management.service";
 import { HttpClientModule } from "@angular/common/http";
