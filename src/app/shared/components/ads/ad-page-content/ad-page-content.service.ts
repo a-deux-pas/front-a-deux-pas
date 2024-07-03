@@ -12,7 +12,7 @@ import { AdCard } from '../../../models/ad/ad-card.model';
 export class AdPageContentService {
   private contextUrl = `${API_URL}ads/`;
 
-  constructor(private http: HttpClient,private handleErrorService: HandleErrorService) { }
+  constructor(private http: HttpClient,private handleErrorService: HandleErrorService) {}
 
   // Find a specific ad
   getAdById(adId: number): Observable<AdDetails> {

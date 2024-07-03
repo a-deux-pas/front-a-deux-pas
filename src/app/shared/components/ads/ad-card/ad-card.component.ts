@@ -17,7 +17,7 @@ export class AdCardComponent implements OnInit {
   currentUserId: number = parseInt(localStorage.getItem('userId')!);
 
   constructor(
-    private router: Router, private location: Location, private adCardService: AdCardService) { }
+    private router: Router, private location: Location, private adCardService: AdCardService) {}
 
   ngOnInit() {
     if (this.ad.title.length > 23) {

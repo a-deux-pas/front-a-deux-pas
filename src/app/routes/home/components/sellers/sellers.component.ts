@@ -13,8 +13,7 @@ export class SellersComponent implements OnInit {
   userId: number = Number(localStorage.getItem('userId'));
   sellers: UserPresentation[] = [];
 
-  constructor(private sellerService: SellersService) {
-  }
+  constructor(private sellerService: SellersService) {}
 
   ngOnInit(): void {
     this.fetchSellersNearby(this.userId);

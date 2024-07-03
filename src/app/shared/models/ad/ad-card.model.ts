@@ -7,6 +7,6 @@ export class AdCard {
     public publisherId: number,
     public publisherAlias: string,
     public favorite: boolean,
-    public status?: string,
+    public status: string
   ) { }
 }

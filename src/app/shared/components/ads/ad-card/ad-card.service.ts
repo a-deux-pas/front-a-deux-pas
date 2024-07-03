@@ -12,7 +12,7 @@ export class AdCardService {
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
-  ) { }
+  ) {}
 
   updateAdFavoriteStatus(adId: number, userId: number, isFavorite: boolean): Observable<boolean> {
     const url = `${API_URL}ads/${adId}/favorite/${userId}`;
