@@ -47,7 +47,7 @@ export class MeetingPlaceFormComponent implements OnInit {
         alreadyExistValidator(this.preferredMeetingPlacesDisplay, 'name')
       ]),
       street: new FormControl('', [Validators.required, alreadyExistValidator(this.preferredMeetingPlacesDisplay, 'street')]),
-      postalCode: new FormControl('', [Validators.required, Validators.maxLength(5)]),
+      postalCode: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
       city: new FormControl('', Validators.required),
       userId: new FormControl(localStorage.getItem('userId'))
     });
