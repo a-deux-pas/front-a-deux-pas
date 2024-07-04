@@ -25,10 +25,10 @@ export class AdFiltersComponent {
 
   // selected filters
   selectedPriceRanges: string[] = [];
-  selectedCities: string[] = [];
   selectedArticleStates: string[] = [];
   selectedCategory: string = 'Catégorie';
   uniqueCitiesAndPostalCodes: string[] = [];
+  @Input() selectedCities: string[] = [];
 
   @Input() pageNumber: number = 0;
   @Output() pageNumberChange: EventEmitter<number> = new EventEmitter<number>();

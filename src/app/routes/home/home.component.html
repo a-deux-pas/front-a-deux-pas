@@ -6,6 +6,7 @@
       [(pageNumber)]="pageNumber"
       (filtersUpdated)="receiveUpdatedFilters($event)"
       [loggedInUserCity]="loggedInUserCity"
+      [selectedCities]="selectedCities"
     ></app-ad-filters>
     <app-ad-list
       [displayedAds]="filteredAds"
