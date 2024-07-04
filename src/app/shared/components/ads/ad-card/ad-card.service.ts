@@ -16,7 +16,6 @@ export class AdCardService {
 
   updateAdFavoriteStatus(adId: number, userId: number, isFavorite: boolean): Observable<boolean> {
     const url = `${API_URL}ads/${adId}/favorite/${userId}`;
-    console.log(isFavorite);
     return this.http.put<boolean>(url,
       { isFavorite },
       { responseType: 'text' as 'json'}

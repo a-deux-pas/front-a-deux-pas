@@ -16,8 +16,8 @@ import { AdService } from '../../services/ad.service';
   imports: [RouterModule, CommonModule, SearchBarComponent]
 })
 export class NavbarComponent implements OnInit {
-  @Output() accountMenuToggleOutput: EventEmitter<void> =
-    new EventEmitter<void>();
+  @Output() accountMenuToggleOutput: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
   @Input() isAccountMenuOpen: boolean = false;
   accountRoutes = accountRoutes;
   @Input() isLoggedIn!: boolean
@@ -36,12 +36,9 @@ export class NavbarComponent implements OnInit {
       })
   }
 
-  emitToggleAccountMenu() {
-    this.accountMenuToggleOutput.emit();
-  }
-
   toggleAccountMenuState() {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
+    this.accountMenuToggleOutput.emit(this.isAccountMenuOpen);
   }
 
   logout() {

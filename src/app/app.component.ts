@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
@@ -29,10 +29,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private adService: AdService
   ) { }
 
-  accountNavbarMenuToggle() {
-    this.isAccountMenuOpen = !this.isAccountMenuOpen;
-  }
-
   ngOnInit() {
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
     this.authService.isLoggedIn().subscribe((status: boolean) => {
@@ -54,6 +50,22 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.adService.sellerAdPageLoaded$.subscribe(hasAdAndSellerId => {
         this.onSellerAdPageUnlogged = hasAdAndSellerId;
       });
+    }
+  }
+
+  accountNavbarMenuToggle(isOpen: boolean) {
+    this.isAccountMenuOpen = isOpen;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    const targetElement = event.target as HTMLElement;
+    const clickedInsideMenu = targetElement.closest('#account-menu');
+    const clickedDesktopIcon = targetElement.closest('#desktop-account-icon');
+
+    // Only close the menu if clicked outside the menu and not on the desktop account icon
+    if (this.isAccountMenuOpen && clickedInsideMenu === null && clickedDesktopIcon === null) {
+      this.isAccountMenuOpen = false;
     }
   }
 }

@@ -1,11 +1,15 @@
 @if (isLoggedIn || onSellerAdPageUnlogged) {
-<app-navbar [isAccountMenuOpen]="isAccountMenuOpen" [isLoggedIn]="isLoggedIn"
-  (toggleMobileNavbarMenuOutput)="accountNavbarMenuToggle()"></app-navbar>
+  <app-navbar
+    [isAccountMenuOpen]="isAccountMenuOpen"
+    [isLoggedIn]="isLoggedIn"
+    (accountMenuToggleOutput)="accountNavbarMenuToggle($event)">
+  </app-navbar>
 }
+
 <main class="main-container">
   <router-outlet></router-outlet>
 </main>
 
 @if (isDataLoaded) {
-<app-footer></app-footer>
+  <app-footer></app-footer>
 }
