@@ -65,13 +65,10 @@ export class AdFiltersComponent {
 
   isCheckedCity(cityAndPostalCode: string): boolean {
     // check the user's city if they are logged in
-    if (this.loggedInUserCity && this.loggedInUserCity === cityAndPostalCode) {
-      this.selectedCities.push(this.loggedInUserCity);
-      return true;
-    } else {
-      return this.selectedCities.includes(cityAndPostalCode);
-    }
+    return this.loggedInUserCity && this.loggedInUserCity === cityAndPostalCode ?
+      true : this.selectedCities.includes(cityAndPostalCode);
   }
+
 
   // handling the checkbox filters every time any of the checkboxes are changed (checked / unchecked)
   handleCheckboxFiltersSelection(
