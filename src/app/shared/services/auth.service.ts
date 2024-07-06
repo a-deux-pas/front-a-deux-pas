@@ -99,10 +99,5 @@ export class AuthService {
     // Navigate to the home page
     this.router.navigate(['/']);
     window.location.reload();
-    // TO DO : implémenter méthode logout côté back
-    // this.http.post(`${API_URL}/logout`, {}).subscribe({
-    //   next: () => this.router.navigate(['/']),
-    //   error: (error) => console.error('Error during logout:', error)
-    // });
   }
 }

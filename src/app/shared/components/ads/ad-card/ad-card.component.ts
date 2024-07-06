@@ -47,11 +47,11 @@ export class AdCardComponent implements OnInit {
   updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean) {
     this.adCardService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
       next: (response) => {
-          console.log('ad updated:', response);
+          console.log(response);
           this.updateAdsFavoritesList.emit(this.ad)
       },
       error: (error) => {
-        console.error('Error updating ad:', error);
+        console.error('Error:', error);
       }
     });
   }
