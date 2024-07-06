@@ -5,11 +5,18 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DatePickerComponent } from './date-picker/date-picker.component';
+import { TimeIntervalPickerComponent } from './time-interval-picker/time-interval-picker.component';
 
 @Component({
   selector: 'app-step-meeting-details',
   standalone: true,
-  imports: [NgSelectModule, FormsModule, CommonModule, DatePickerComponent],
+  imports: [
+    NgSelectModule,
+    FormsModule,
+    CommonModule,
+    DatePickerComponent,
+    TimeIntervalPickerComponent,
+  ],
   templateUrl: './step-meeting-details.component.html',
   styleUrl: './step-meeting-details.component.scss',
 })

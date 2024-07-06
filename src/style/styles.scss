@@ -1002,6 +1002,31 @@ a.dropdown-first-level.dropdown-toggle {
   }
 }
 
+ngb-datepicker {
+  width: 500px;
+  height: 500px;
+  display: block;
+}
+
+.ngb-dp-month {
+  background-color: red;
+}
+
+.ngb-dp-day,
+.ngb-dp-weekday,
+.ngb-dp-week-number {
+  width: 1000px;
+  height: 1000px;
+}
+
+.ngb-dp-weekdays.ngb-dp-weekday {
+  color: red;
+}
+
+ngb-datepicker-month {
+  background-color: red;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Importing NgSelect and Bootstrap styles

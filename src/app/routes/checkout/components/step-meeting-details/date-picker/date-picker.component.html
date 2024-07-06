@@ -1,14 +1,1 @@
-<div class="container mt-3">
-  <h2>Custom Calendar</h2>
-  <div class="custom-dropdowns">
-    <select [(ngModel)]="currentMonth" (change)="updateCalendar()">
-      <option *ngFor="let month of months; let i = index" [value]="i">
-        {{ month }}
-      </option>
-    </select>
-    <select [(ngModel)]="currentYear" (change)="updateCalendar()">
-      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-    </select>
-  </div>
-  <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
-</div>
+<ngb-datepicker #dp [(ngModel)]="model" />

@@ -5,7 +5,10 @@
 
 .calendars-container {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 150px;
+  margin-top: 150px;
 }
 
 .terms-container {
