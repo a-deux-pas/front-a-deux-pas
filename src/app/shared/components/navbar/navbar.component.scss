@@ -142,7 +142,7 @@
   justify-content: space-around;
   align-items: center;
   height: 178px;
-  padding: 17px 3% 3% 3%;
+  padding: 0 3% 3% 3%;
   z-index: 1001;
   }
 
@@ -162,6 +162,7 @@
 ul#desktop-navbar-icons {
   list-style-type: none;
   padding-left: 0;
+  padding-top: 27px;
 }
 
 .desktop-navbar-icon {
@@ -175,6 +176,12 @@ ul#desktop-navbar-icons {
   text-decoration: none;
   color: black;
   padding-left: 45px;
+  cursor: pointer;
+}
+
+.text-decoration-none {
+  color:black;
+  cursor: pointer;
 }
 
 @media (min-width: 1158px) {
@@ -252,7 +259,7 @@ ul#desktop-navbar-icons {
   }
 
   .navbar-icon {
-    padding-left: 11px;
+    padding-left: 35px;
   }
 
   .account-menu-item {

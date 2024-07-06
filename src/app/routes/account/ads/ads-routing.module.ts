@@ -8,7 +8,7 @@ const adsRoutes: Routes = [
     path: 'mon-annonce',
     children: [
       {
-        path: ':id',
+        path: ':adId',
         loadComponent: () => import('./my-ad/my-ad.component').then(mod => mod.MyAdComponent)
       }
     ]

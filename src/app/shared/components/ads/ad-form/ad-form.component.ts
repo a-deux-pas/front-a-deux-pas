@@ -1,14 +1,13 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
-import { User } from '../../../models/user/user.model';
 import { AdService } from '../../../../routes/ad/ad.service';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, tap } from 'rxjs';
-import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { NgClass } from '@angular/common'
+import { NgClass, Location } from '@angular/common'
 import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
@@ -28,9 +27,8 @@ import { FormsModule } from '@angular/forms';
 export class AdFormComponent {
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
-
-  isBigScreen!: boolean;
-  isPostAdForm: boolean | undefined;
+  @Input() isBigScreen: boolean | undefined;
+  @Input() windowSizeSubscription!: Subscription;
 
   ad: Ad = new Ad(
     1,
@@ -39,24 +37,21 @@ export class AdFormComponent {
     new Date(),
   );
 
-  user!: User;
-  publisher: User | undefined;
   today: Date = new Date()
-  selectedPicNumber: number = 1;
+  selectedPicNumber: number = 2;
   articlePictures: File[] = [];
   states = Object.values(ArticleState);
   categories = Object.values(Category);
-
   errorWhenSubmittingMsg: boolean = false
   adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
-  windowSizeSubscription: Subscription;
 
   constructor(
     private adService: AdService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
     private displayManagementService: DisplayManagementService,
+    private location: Location
   ) {
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
@@ -94,7 +89,6 @@ export class AdFormComponent {
   files3: File[] = [];
   files4: File[] = [];
   files5: File[] = [];
-
   filesArrays: File[][] = [];
 
   onRemove(file: File, dropzoneNumber: number) {
@@ -156,36 +150,19 @@ export class AdFormComponent {
   }
 
   // image selection carrousel for mobile device
-  @ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
-
-  paused = false;
-  unpauseOnArrow = false;
-  pauseOnIndicator = false;
-  pauseOnHover = true;
-  pauseOnFocus = true;
-
   togglePaused() {
-    if (this.paused) {
-      this.carousel!.cycle();
-    } else {
-      this.carousel!.pause();
-    }
-    this.paused = !this.paused;
+    this.displayManagementService.togglePaused()
   }
 
   onSlide(slideEvent: NgbSlideEvent) {
-    if (
-      this.unpauseOnArrow &&
-      slideEvent.paused &&
-      (slideEvent.source === NgbSlideEventSource.ARROW_LEFT || slideEvent.source === NgbSlideEventSource.ARROW_RIGHT)
-    ) {
-      this.togglePaused();
-    }
-    if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
-      this.togglePaused();
-    }
+    this.displayManagementService.onSlide(slideEvent)
   }
 
+  goBack() {
+    this.location.back();
+  }
+
+// TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
     this.uploadArticlePictures().subscribe({
       next: () => {
@@ -195,22 +172,23 @@ export class AdFormComponent {
         } else {
           this.ad.subcategory = this.ad.subcategory.name
         }
-        // TODO: à enlever une fois la connexion implémentée
-        this.ad.publisherId = 1;
+        this.ad.publisherId = parseInt(localStorage.getItem('userId')!);
         this.adService.postAd(this.ad).subscribe({
           next: (ad: AdPostResponse) => {
             this.disabledFields = true;
             setTimeout(() => {
-              this.router.navigate(['compte/annonces/mon-annonce/', ad.id], {
-                queryParams: { success: true }
-              });
-            }, 1000);
+              this.disabledFields = false;
+            }, 3000);
+            this.router.navigate(['compte/annonces/mon-annonce/', ad.id], {
+              queryParams: { success: true }
+            });
           },
           error: (error: any) => {
-            console.error(error);
             this.errorWhenSubmittingMsg = true;
+            this.disabledFields = true;
             setTimeout(() => {
               this.errorWhenSubmittingMsg = false;
+              this.disabledFields = false;
             }, 3000);
           }
         });
@@ -219,9 +197,5 @@ export class AdFormComponent {
         console.error('Error occurred during image upload:', error);
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.windowSizeSubscription.unsubscribe();
   }
 }

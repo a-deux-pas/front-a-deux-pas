@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from './shared/guards/auth.guard';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'accueil',
+    path: '',
     loadComponent: () =>
-      import('./routes/home/logged-in-home/logged-in-home.component').then(
-        (mod) => mod.LoggedInHomeComponent
-      ),
-    canActivate: [authGuard],
+      import('./routes/home/home.component').then((mod) => mod.HomeComponent),
   },
   {
     path: 'annonce',
@@ -24,8 +21,6 @@ const routes: Routes = [
       import('./routes/account/account-routing.module').then(
         (mod) => mod.AccountRoutingModule
       ),
-    // TO Do: activate authGauard with test e2e
-    // canActivate: [authGuard],
   },
   {
     path: 'checkout',
@@ -33,14 +28,15 @@ const routes: Routes = [
       import('./routes/checkout/checkout-routing.module').then(
         (mod) => mod.CheckoutRoutingModule
       ),
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
   },
   {
-    path: '',
+    path: 'inscription',
     loadComponent: () =>
-      import('./routes/home/default-home/default-home.component').then(
-        (mod) => mod.DefaultHomeComponent
+      import('./routes/register/register.component').then(
+        (mod) => mod.RegisterComponent
       ),
+    canActivate: [AuthGuard],
   },
 ];
 

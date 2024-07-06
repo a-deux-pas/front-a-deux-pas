@@ -67,10 +67,8 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Method to create personalized containers
-@mixin make-container(
-  $padding-x: $container-padding-x,
-  $padding-y: $container-padding-y
-) {
+@mixin make-container($padding-x: $container-padding-x,
+  $padding-y: $container-padding-y) {
   width: 100%;
   margin-top: $padding-y;
   padding-right: $padding-x;
@@ -193,6 +191,7 @@ button.btn {
   height: 43px;
   padding: $btn-padding-x $btn-padding-y;
   text-align: justify;
+  justify-content: center;
   align-items: center;
   border-radius: $btn-border-radius;
   background-color: $primary;
@@ -202,6 +201,10 @@ button.btn {
 
   &:hover {
     background-color: darken($secondary, 25%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
   }
 }
 
@@ -243,6 +246,12 @@ button.btn {
 
   &:hover {
     background-color: darken($secondary, 10%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
+    border:#6666668f;
+    font-weight: 400;
   }
 }
 
@@ -340,9 +349,13 @@ button.btn {
   width: 40px;
 }
 
-// Error class
-.error-msg {
-  color: $primary;
+.add-icon, .remove-icon {
+  width: 27.25px;
+  height: 27.25px;
+}
+
+.btn-cta {
+  cursor: pointer;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -372,83 +385,51 @@ a.close {
   }
 }
 
-// Connection modal header
-.modal-header {
-  z-index: 1;
-}
-
-// Connection modal content
 .modal-content {
-  // wavy backgroung modal
-  .container-nav {
-    position: absolute;
-    background: $tertiary;
-    height: 15vh;
-    z-index: 0;
+  .form-check-input[type=checkbox] {
+    border-radius: 50%;
+    border-color: $secondary;
+    &:checked {
+      background-color: $secondary;
+    }
   }
 
-  .wave {
+  .modal-body {
+    label.form-check-label {
+      font-size: 14.5px;
+      margin-right: 2px;
+    }
+  }
+
+.modal-footer {
+  .btn-success:disabled {
+    background-color: #9d9d9d8f;
+    }
+  }
+
+  #btn-password-visibility {
     position: absolute;
-    height: 137px;
+    height: 24px;
+    width: 24px;
+    background: transparent;
+    border: none;
+    right: 7%;
+    top: 3px;
+  }
+
+  #password-input-wrapper {
+    position: relative;
     width: 100%;
-    background: $tertiary;
-    top: 0;
-    right: 0;
   }
 
-  .wave::before,
-  .wave::after {
-    content: "";
-    display: block;
-    position: absolute;
-    border-radius: 50% 100%;
+  .eye-icon {
+    width: 24px;
+    height: 24px;
   }
 
-  .wave::before {
-    width: 55%;
-    height: 100%;
-    background-color: $tertiary;
-    right: 0;
-    top: 40%;
-  }
-
-  .wave::after {
-    width: 55%;
-    height: 109%;
-    background-color: #fff;
-    left: 0;
-    top: 60%;
-  }
-}
-
-// toggle group
-.modal-btn {
-  margin: auto;
-  z-index: 1;
-  background-color: $primary;
-  border-radius: 10px;
-  padding: 2px;
-  height: 36px;
-  position: relative;
-
-  .btn {
-    background-color: $primary;
-    margin: 1px;
-    border-radius: 8px;
-    height: 30px;
-    line-height: 8px;
-    color: white;
-
-    &:active,
-    &:focus,
-    &:hover {
-      background-color: white;
-      color: $primary;
-    }
-
-    &.toggle {
-      width: 175px;
-    }
+  .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+  .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control {
+    border-radius: 10px 10px 40px 5px;
   }
 }
 
@@ -474,6 +455,11 @@ textarea.form-control {
   color: rgba(0, 0, 0, 0.38) !important;
 }
 
+// Error class
+.error-msg {
+  color: $primary;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Select
@@ -495,12 +481,12 @@ textarea.form-control {
 }
 
 // Opened ng-select container bottom border radius
-.ng-select.ng-select-opened.ng-select-bottom > .ng-select-container {
+.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
   border-bottom-right-radius: 40px;
 }
 
 // Focus effects for ng-select
-.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
   border-color: $secondary;
   box-shadow: none;
 }
@@ -553,20 +539,12 @@ span.ng-value-icon.left {
   }
 }
 
-.ng-select.ng-select-multiple
-  .ng-select-container
-  .ng-value-container
-  .ng-value
-  .ng-value-icon.left {
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
   border-right: 1px solid white;
 }
 
 // Hover effects on selected value in multiselect
-.ng-select.ng-select-multiple
-  .ng-select-container
-  .ng-value-container
-  .ng-value
-  .ng-value-icon:hover {
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
   background-color: white;
   color: $primary;
 }
@@ -590,17 +568,13 @@ span.ng-value-icon.left {
 }
 
 // Dropdown panel First child option styling
-.ng-dropdown-panel.ng-select-bottom
-  .ng-dropdown-panel-items
-  .ng-option:first-child {
+.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:first-child {
   border-radius: 10px;
   border-color: $secondary;
 }
 
 // Dropdown panel first child marked option
-.ng-dropdown-panel
-  .ng-dropdown-panel-items
-  .ng-option.ng-option-marked:first-child {
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked:first-child {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 0;
@@ -622,18 +596,14 @@ span.ng-value-icon.left {
 
 // Selected option styling in dropdown panel
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
-.ng-dropdown-panel
-  .ng-dropdown-panel-items
-  .ng-option.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
 }
 
 // Selected option styling in multiselect
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected,
-.ng-dropdown-panel
-  .ng-dropdown-panel-items
-  .ng-optgroup.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
   font-weight: 400;
@@ -691,6 +661,7 @@ $card-spacer-y: 3.1875rem;
 // Card container styling
 .card {
   width: 253px;
+  cursor: pointer;
 
   &:hover {
     .card-img-top {
@@ -787,8 +758,8 @@ button.navbar-toggler {
 }
 
 // Select box styling
-.dropdown:hover > .dropdown-menu,
-.dropend:hover > .dropdown-menu {
+.dropdown:hover>.dropdown-menu,
+.dropend:hover>.dropdown-menu {
   display: block;
   margin-left: 0.125em;
   border-radius: 10px;
@@ -847,7 +818,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Set the width of the calendar and center it
 .fc {
-  width: 320px;
+  width: 302px;
   margin: 0 auto;
 }
 
@@ -873,6 +844,10 @@ a.dropdown-first-level.dropdown-toggle {
 .fc-theme-standard .fc-scrollgrid {
   border-top: none;
   border-left: none;
+}
+
+.fc-media-screen .fc-timegrid-cols > table {
+  width: 302px;
 }
 
 // Thicken grids
@@ -932,7 +907,144 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
+// Dropzone
+.dz-progress,
+.dz-details,
+.dz-success-mark,
+.dz-error-mark,
+.dz-error-message
+{
+  display: none !important;
+}
+
+.dropzone.dz-wrapper.dz-single .dz-message {
+  background-color: white;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+  transform: none !important;
+  filter: none !important;
+}
+
+.dropzone-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropzone-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+.dropzone.dz-clickable .dz-message,
+.dropzone.dz-clickable .dz-message * {
+  color: $primary;
+  font-weight: 700;
+}
+
+// Dropzone profile picture
+app-profile-picture {
+  #dropzone {
+    width: 231px;
+  }
+
+  .dropzone.dz-wrapper {
+    height: 212px;
+    overflow: inherit !important;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-message,
+  .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+    border-radius: 50%;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-preview {
+    height: auto !important;
+  }
+
+  .dz-remove {
+    display:inline-block !important;
+    width:1.2em;
+    height:1.2em;
+    text-decoration: none;
+
+    position:absolute;
+    top:5px;
+    right:5px;
+    z-index:1000;
+
+    font-size:1.2em !important;
+    line-height:1em;
+
+    text-align:center;
+    font-weight:bold;
+    border:1px solid gray !important;
+    border-radius:1.2em;
+    color:gray;
+    background-color:white;
+    opacity:.5;
+  }
+
+  .dz-remove:hover {
+      text-decoration:none !important;
+      opacity:1;
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Register page
+
+// profile picture dropzone display
+app-register {
+  app-profile-picture {
+    #profile-picture {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  // bank account form display
+  app-bank-account-form {
+    #bank-account {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Preferred meeting places display on Register & account profile pages
+
+.meeting-place .number,
+#preferred-meeting-places .number {
+  background-color: $info;
+  color:white;
+  border-radius: 38px;
+  padding: 4px 8px;
+  font-size: 14px;
+  position:relative;
+}
+
+.meeting-place .address-name {
+  font-weight: 700;
+  color: $primary;
+  padding-left: 0.5rem;
+  position: absolute;
+}
+
+.meeting-place .address-detail {
+  margin-top: 0.2rem;
+  margin-left: 2.2rem;
+}
+
+/*-----------------------------------------------------------------------*/
+
 @media (min-width: 768px) {
+
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .custom-container {
@@ -975,7 +1087,7 @@ a.dropdown-first-level.dropdown-toggle {
   /*---------------------------------*/
 
   //Dropdown menu styling for better display of the ad-filters component.
-  .dropend:hover > .dropdown-menu {
+  .dropend:hover>.dropdown-menu {
     position: absolute;
     top: 0;
     left: 100%;
@@ -983,6 +1095,53 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 /*-----------------------------------------------------------------------*/
+
+// Carousel Bootstrap classes overriding
+.article-picture-image-section-mobile .carousel-inner {
+  position: relative;
+  display: flex;
+}
+
+.article-picture-image-section-mobile .carousel-indicators {
+  display: flex;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  color: $primary !important;
+
+  &:hover,
+  &:focus {
+    color: $primary !important;
+  }
+}
+
+.carousel-control-prev-icon {
+  background-image: url("../assets/icons/buttons/arrow-left.webp") !important;
+
+  .noShow {
+    display: none;
+  }
+}
+
+.carousel-control-next-icon {
+  background-image: url("../assets/icons/buttons/arrow-right.webp") !important;
+
+  .noShow {
+    display: none;
+  }
+}
+
+[data-bs-target] {
+  background-color: $primary !important;
+}
+
+ngb-carousel,
+.carousel-control-next-icon,
+.carousel-control-prev-icon,
+.carousel-indicators {
+  display: block;
+}
 
 // Desktop version
 @media (min-width: 1200px) {
@@ -999,6 +1158,16 @@ a.dropdown-first-level.dropdown-toggle {
   // Includes tabs and page content
   .custom-container {
     @include make-container($padding-x: 8vh, $padding-y: 88px);
+  }
+  
+  /*---------------------------------*/
+
+  //Carousel Bootsrap classes overriding
+  ngb-carousel,
+  .carousel-control-next-icon,
+  .carousel-control-prev-icon,
+  .carousel-indicators {
+    display: none;
   }
 }
 

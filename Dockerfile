@@ -10,13 +10,13 @@ ARG ANGULAR_CONFIG=production \
 RUN useradd -U -m -d /app/ -s /bin/bash -u ${APP_UID} app-user && \
     npm install -g @angular/cli@${ANGULAR_MAJOR_VERSION}
 
-# switch to user app and its home directory 
+# switch to user app and its home directory
 USER app-user
 WORKDIR /app
 
 # copy application files and change owner (chown) to app-user
 COPY --chown=${APP_UID}:${APP_UID} package.json angular.json tsconfig*.json /app/
-ADD --chown=${APP_UID}:${APP_UID}  src /app/src
+ADD --chown=${APP_UID}:${APP_UID} src /app/src
 
 # install dependencies and build application
 RUN npm set cache /app/.npm && \

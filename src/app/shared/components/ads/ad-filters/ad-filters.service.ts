@@ -39,13 +39,8 @@ export class AdFiltersService {
         {
           params: queryParams,
         }
-      )
-      .pipe(
-        catchError(
-          this.handleErrorService.handleError<AdHomeResponse[]>(
-            'fetchFilteredAds'
-          )
-        )
+      ).pipe(
+        catchError(this.handleErrorService.handleError)
       );
   }
 
@@ -54,11 +49,7 @@ export class AdFiltersService {
     return this.http
       .get<CityAndPostalCodeResponse[]>(this.citiesAndPostalCodesUrl)
       .pipe(
-        catchError(
-          this.handleErrorService.handleError<CityAndPostalCodeResponse[]>(
-            'fetchCitiesAndPostalCodes'
-          )
-        )
+        catchError(this.handleErrorService.handleError)
       );
   }
 }

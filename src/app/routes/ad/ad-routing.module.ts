@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../../shared/guards/auth.guard';
 
 export const adRoutes: Routes = [
     {
@@ -7,13 +8,16 @@ export const adRoutes: Routes = [
         children: [
             {
                 path: 'creation',
-                loadComponent: () => import('./create-ad/create-ad.component').then(mod => mod.CreateAdComponent)
-                // TO Do: activate authGauard with test e2e
-                // canActivate: [authGuard],
+                loadComponent: () => import('./create-ad/create-ad.component').then(mod => mod.CreateAdComponent),
+                canActivate: [AuthGuard],
+            },
+            {
+                path: ':sellerId/:adId',
+                loadComponent: () => import('./seller-ad/seller-ad.component').then(mod => mod.SellerAdComponent),
             }
         ]
     }
-];
+]
 
 @NgModule({
     imports: [RouterModule.forChild(adRoutes)],
