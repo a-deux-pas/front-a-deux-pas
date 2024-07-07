@@ -7,7 +7,7 @@ export class UserProfile {
     public id: string,
     public profilePicture: string | null, // TO DO: retirer null une fois cloudinary mis en place côté back
     public alias: string,
-    public bio: string,
+    public bio: string | null,
     public city: string,
     public street: string,
     public postalCode: string,

@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { SearchBarComponent } from '../../../../../shared/components/navbar/search-bar/search-bar.component';
+import { SearchBarComponent } from '../../../../shared/components/navbar/search-bar/search-bar.component';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { ConnectionModalComponent } from '../../../../../shared/components/connection-modal/connection-modal.component';
+import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
 
 @Component({
   selector: 'app-header',
