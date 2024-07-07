@@ -7,7 +7,6 @@ import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { NgClass, Location } from '@angular/common'
-import { AdDetails } from '../../../models/ad/ad-details.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
 import { Categories } from '../../../utils/constants/categories-arrangement';

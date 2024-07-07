@@ -14,8 +14,6 @@ import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdPageContentService } from './ad-page-content.service';
-import { AlertMessage } from '../../../models/enum/alert-message.enum';
-import { AlertType } from '../../../models/alert.model';
 
 @Component({
   selector: 'app-ad-page-content',

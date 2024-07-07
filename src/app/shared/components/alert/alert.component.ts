@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Alert, AlertType } from '../../models/alert.model';
 import { CommonModule } from '@angular/common';
-import { AlertMessage } from '../../models/enum/alert-message.enum';
 import { DisplayManagementService } from '../../services/display-management.service';
 import { tap } from 'rxjs';
 
