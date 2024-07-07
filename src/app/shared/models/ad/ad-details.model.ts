@@ -1,4 +1,4 @@
-export class AdPostResponse {
+export class AdDetails {
     constructor(
         public id?: number,
         public title?: string,
@@ -17,6 +17,6 @@ export class AdPostResponse {
         public articleState?: string,
         public articleDescription?: string,
         public status?: string,
-        public category?: string
+        public category?: string,
     ) { }
 }

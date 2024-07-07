@@ -93,17 +93,11 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('stayLoggedIn');
+    localStorage.clear();
     // Update login status to false
     this.loggedIn.next(false);
     // Navigate to the home page
     this.router.navigate(['/']);
-    // TO DO : implémenter méthode logout côté back
-    // this.http.post(`${API_URL}/logout`, {}).subscribe({
-    //   next: () => this.router.navigate(['/']),
-    //   error: (error) => console.error('Error during logout:', error)
-    // });
+    window.location.reload();
   }
 }

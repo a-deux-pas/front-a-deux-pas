@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Ad } from '../../../models/ad/ad.model';
-import { AdService } from '../../../../routes/ad/ad.service';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
@@ -8,7 +7,7 @@ import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { NgClass, Location } from '@angular/common'
-import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
+import { AdDetails } from '../../../models/ad/ad-details.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
 import { Categories } from '../../../utils/constants/categories-arrangement';
@@ -17,6 +16,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { escapeHtml } from '../../../utils/sanitizers/custom-sanitizers';
+import { AdFormService } from './ad-form.service';
 
 @Component({
   selector: 'app-ad-form',
@@ -31,6 +31,7 @@ export class AdFormComponent {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
 
+  //TODO @Erika: à voir pour changer avec AdDetails
   ad: Ad = new Ad(
     1,
     '',
@@ -48,7 +49,7 @@ export class AdFormComponent {
   disabledFields: boolean = false
 
   constructor(
-    private adService: AdService,
+    private adformService: AdFormService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
     private displayManagementService: DisplayManagementService,
@@ -180,8 +181,8 @@ export class AdFormComponent {
           this.ad.subcategory = this.ad.subcategory.name
         }
         this.ad.publisherId = parseInt(localStorage.getItem('userId')!);
-        this.adService.postAd(this.ad).subscribe({
-          next: (ad: AdPostResponse) => {
+        this.adformService.postAd(this.ad).subscribe({
+          next: (ad: AdDetails) => {
             this.disabledFields = true;
             setTimeout(() => {
               this.disabledFields = false;

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AdPostResponse } from '../../../../shared/models/ad/ad-post-response.model';
+import { AdDetails } from '../../../../shared/models/ad/ad-details.model';
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { ConnectionModalComponent } from '../../../../shared/components/connecti
   styleUrl: './cta-seller-ad.component.scss'
 })
 export class CtaSellerAdComponent implements OnInit {
-  @Input() myAd!: AdPostResponse | undefined
+  @Input() myAd!: AdDetails | undefined
   @Input() isBigScreen!: boolean;
   @Input() onSellerAdPageUnlogged: boolean = false;
   isLoggedIn!: boolean;
@@ -30,15 +30,15 @@ export class CtaSellerAdComponent implements OnInit {
 
   startCheckout() {
     if (this.isLoggedIn) {
-      // To be implemented by Mircea ;) 
+      // To be implemented by Mircea ;)
     } else {
       this.openModal()
     }
   }
 
   makeAnOffer() {
-    if (!this.isLoggedIn) { this.openModal() } else { 
-      // TO DO :: redirection vers le checkout mircea 
+    if (!this.isLoggedIn) { this.openModal() } else {
+      // TO DO :: redirection vers le checkout mircea
     }
 }
 
@@ -60,7 +60,7 @@ export class CtaSellerAdComponent implements OnInit {
 
   contactTheSeller() {
     if (!this.isLoggedIn) { this.openModal() } else {
-      // TO DO :: redirection vers le seller Profile 
+      // TO DO :: redirection vers le seller Profile
     }
   }
 

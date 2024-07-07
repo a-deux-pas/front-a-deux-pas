@@ -89,8 +89,11 @@
                 <div [hidden]="!preferredMeetingPlaceFormGroup.get('postalCode')?.errors?.['required']">
                   Veuillez renseigner un code postal
                 </div>
+                <div [hidden]="!preferredMeetingPlaceFormGroup.get('postalCode')?.errors?.['minlength']">
+                  Le code postal doit comporter au moins 5 chiffres
+                </div>
                 <div [hidden]="!preferredMeetingPlaceFormGroup.get('postalCode')?.errors?.['maxlength']">
-                  Veuillez renseigner un code postal valide
+                  Le code postal ne doit pas dépasser 5 chiffres
                 </div>
               </div>
             }
