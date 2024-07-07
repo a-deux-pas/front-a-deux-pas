@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { TimeIntervalPickerComponent } from './time-interval-picker/time-interval-picker.component';
+import { AdService } from '../../../../shared/services/ad.service';
+import { UserService } from '../../../../shared/services/user.service';
 
 @Component({
   selector: 'app-step-meeting-details',
@@ -23,21 +25,17 @@ import { TimeIntervalPickerComponent } from './time-interval-picker/time-interva
 export class StepMeetingDetailsComponent implements OnInit {
   step!: number;
   agreedToTerms: boolean = false;
-  // replace with the received ad
   ad: any;
+  user: any;
   selectedMeetingPlace!: any;
-  // replace with ad.publisher.preferredMeetingPlaces
-  meetingPlaces = [
-    { id: 1, name: 'First address' },
-    { id: 2, name: 'Second Address' },
-    { id: 3, name: 'Third Address' },
-    { id: 4, name: 'Fourth Address' },
-    { id: 5, name: 'Fifth Address' },
-  ];
+  meetingPlaces: any;
+  schedule: any;
 
   constructor(
     private checkoutService: CheckoutService,
-    private router: Router
+    private router: Router,
+    private adService: AdService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -48,6 +46,14 @@ export class StepMeetingDetailsComponent implements OnInit {
       }
       this.step = currentStep;
     });
+    this.ad = this.adService.getCheckoutAd();
+    this.userService
+      .fetchUserByAlias(this.ad.publisherAlias)
+      .subscribe((user: any) => {
+        this.user = user;
+        this.meetingPlaces = this.user.preferredMeetingPlaces;
+        this.schedule = this.user.preferredSchedules;
+      });
   }
 
   agreeToTerms() {

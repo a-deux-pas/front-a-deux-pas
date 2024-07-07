@@ -13,7 +13,7 @@
         class="custom mt-4"
         placeholder="Sélectionnez un lieu"
       >
-        @for (meetingPlace of meetingPlaces; track $index) {
+        @for (meetingPlace of meetingPlaces; track meetingPlace.id) {
         <ng-option [value]="meetingPlace">{{ meetingPlace.name }}</ng-option>
         }
       </ng-select>

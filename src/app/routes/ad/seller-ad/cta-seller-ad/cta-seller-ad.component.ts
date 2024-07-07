@@ -5,48 +5,61 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
+import { Router } from '@angular/router';
+import { AdService } from '../../../../shared/services/ad.service';
 
 @Component({
   selector: 'app-cta-seller-ad',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './cta-seller-ad.component.html',
-  styleUrl: './cta-seller-ad.component.scss'
+  styleUrl: './cta-seller-ad.component.scss',
 })
 export class CtaSellerAdComponent implements OnInit {
-  @Input() myAd!: AdDetails | undefined
+  @Input() myAd!: AdDetails | undefined;
   @Input() isBigScreen!: boolean;
   @Input() onSellerAdPageUnlogged: boolean = false;
   isLoggedIn!: boolean;
   authSubscription!: Subscription;
 
-  constructor(public modalService: NgbModal, private authService: AuthService) { }
+  constructor(
+    public modalService: NgbModal,
+    private authService: AuthService,
+    private router: Router,
+    private adService: AdService
+  ) {}
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.isLoggedIn().subscribe(status => {
-      this.isLoggedIn = status;
-    });
+    this.authSubscription = this.authService
+      .isLoggedIn()
+      .subscribe((status) => {
+        this.isLoggedIn = status;
+      });
   }
 
   startCheckout() {
     if (this.isLoggedIn) {
       // To be implemented by Mircea ;)
+      this.adService.setCheckoutAd(this.myAd);
+      this.router.navigate(['/checkout']);
     } else {
-      this.openModal()
+      this.openModal();
     }
   }
 
   makeAnOffer() {
-    if (!this.isLoggedIn) { this.openModal() } else {
+    if (!this.isLoggedIn) {
+      this.openModal();
+    } else {
       // TO DO :: redirection vers le checkout mircea
     }
-}
+  }
 
   addToFavorites() {
     if (this.isLoggedIn) {
       // To be implemented ..
     } else {
-      this.openModal()
+      this.openModal();
     }
   }
 
@@ -54,12 +67,14 @@ export class CtaSellerAdComponent implements OnInit {
     if (this.isLoggedIn) {
       // To be implemented
     } else {
-      this.openModal()
+      this.openModal();
     }
   }
 
   contactTheSeller() {
-    if (!this.isLoggedIn) { this.openModal() } else {
+    if (!this.isLoggedIn) {
+      this.openModal();
+    } else {
       // TO DO :: redirection vers le seller Profile
     }
   }

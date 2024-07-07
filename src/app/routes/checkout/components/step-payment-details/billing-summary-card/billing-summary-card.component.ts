@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AdService } from '../../../../../shared/services/ad.service';
 
 @Component({
   selector: 'app-billing-summary-card',
@@ -9,5 +10,10 @@ import { Component } from '@angular/core';
 })
 export class BillingSummaryCardComponent {
   ad: any;
-  sumTotal: number = 100;
+
+  constructor(private adService: AdService) {}
+
+  ngOnInit() {
+    this.ad = this.adService.getCheckoutAd();
+  }
 }

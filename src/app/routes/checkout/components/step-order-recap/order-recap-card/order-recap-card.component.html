@@ -1,29 +1,22 @@
 <section class="order-recap-card">
   <h3><b>Votre commande</b></h3>
   <div class="ad-details">
-    <!-- replace src value with {{ad.articlePictureUrl}} -->
     <div>
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvX0XfgixUiNaMRUia-mFNs50d2fJ9fgKVEg&s"
-        alt="photo de l'article"
-      />
+      <img src="{{ ad.firstArticlePictureUrl }}" alt="photo de l'article" />
     </div>
 
     <div class="name-and-description">
       <p class="with-custom-scrollbar">
-        <!-- replace with {{ad.articleName}} -->
-        <u>IPad </u>
+        <u>{{ ad.title }}</u>
       </p>
-      <!-- replace with {{ad.articleDescription}} -->
       <p class="with-custom-scrollbar">
-        Super IPad. Très peu utlilisé. Avec tout option...
+        {{ ad.articleDescription }}
       </p>
     </div>
   </div>
   <div class="horizontal-line"></div>
   <div class="total">
     <p>Total</p>
-    <!-- replace with {{ad.price}} -->
-    <p class="with-custom-scrollbar">100 €</p>
+    <p class="with-custom-scrollbar">{{ ad.price }} €</p>
   </div>
 </section>

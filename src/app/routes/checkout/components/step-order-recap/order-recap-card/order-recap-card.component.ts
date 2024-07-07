@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-order-recap-card',
@@ -8,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './order-recap-card.component.scss',
 })
 export class OrderRecapCardComponent {
-  ad: any;
+  @Input() ad: any;
+
+  ngOnInit() {
+    console.log(this.ad);
+  }
 }

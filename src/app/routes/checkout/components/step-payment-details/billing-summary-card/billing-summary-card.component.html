@@ -3,18 +3,16 @@
   <div class="ad-details">
     <div class="article-name-and-price">
       <p>
-        <!-- replace with {{ad.articleName}} -->
-        <u>IPad </u>
+        <u>{{ ad.title }} </u>
       </p>
-      <!-- replace with {{ad.articlePrice}} -->
-      <p>100 €</p>
+      <p>{{ ad.price }} €</p>
     </div>
   </div>
   <div class="horizontal-line"></div>
   <div class="total">
     <p>Total</p>
     <p>
-      <b>{{ sumTotal }} €</b>
+      <b>{{ ad.price }} €</b>
     </p>
   </div>
 </section>
