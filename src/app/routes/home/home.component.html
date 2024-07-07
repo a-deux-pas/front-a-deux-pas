@@ -6,15 +6,15 @@
       [(pageNumber)]="pageNumber"
       (filtersUpdated)="receiveUpdatedFilters($event)"
       [loggedInUserCity]="loggedInUserCity"
-      [selectedCities]="selectedCities"
-    ></app-ad-filters>
+      [selectedCities]="selectedCities">
+    </app-ad-filters>
     <app-ad-list
       [displayedAds]="filteredAds"
       [displayedAdsNumber]="displayedAdsNumberLoggedIn"
       [noMoreAds]="noMoreFilteredAds"
       (loadMore)="loadMoreFilteredAds()"
-      (updateAdsFavoritesList)="updateAdsFavoritesList($event)"
-    ></app-ad-list>
+      (updateAdsFavoritesList)="updateAdsFavoritesList($event)">
+    </app-ad-list>
     @if (this.favoritesAds.length > 0) {
       <h2 class="text-left fw-bold m-5">Mes favoris</h2>
       <app-ad-list
@@ -22,8 +22,8 @@
         [displayedAdsNumber]="displayedAdsNumberLoggedIn"
         [noMoreAds]="noMorefavoriteAds"
         (loadMore)="loadMoreFavoritesAds()"
-        (updateAdsFavoritesList)="updateAdsFavoritesList($event)"
-      ></app-ad-list>
+        (updateAdsFavoritesList)="updateAdsFavoritesList($event)">
+      </app-ad-list>
       }
     <h2 class="text-left fw-bold m-5 pt-4">Les vendeurs prêts de chez moi</h2>
     <app-sellers></app-sellers>
@@ -36,13 +36,13 @@
     <app-ad-filters
       [(pageNumber)]="pageNumber"
       (filtersUpdated)="receiveUpdatedFilters($event)"
-      [loggedInUserCity]="null"
-    ></app-ad-filters>
+      [loggedInUserCity]="null">
+    </app-ad-filters>
     <app-ad-list
       [displayedAds]="filteredAds"
       [displayedAdsNumber]="displayedAdsNumberUnlogged"
       [noMoreAds]="noMoreFilteredAds"
-      (loadMore)="loadMoreFilteredAds()"
-    ></app-ad-list>
+      (loadMore)="loadMoreFilteredAds()">
+    </app-ad-list>
   </section>
 }

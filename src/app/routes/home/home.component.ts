@@ -10,6 +10,9 @@ import { AdService } from '../../shared/services/ad.service';
 import { UserPresentation } from '../../shared/models/user/user-presentation.model';
 import { SellersComponent } from './components/sellers/sellers.component';
 import { HomeService } from './home.service';
+import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
+import { AlertType } from '../../shared/models/alert.model';
+import { DisplayManagementService } from '../../shared/services/display-management.service';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +37,7 @@ export class HomeComponent implements OnInit {
   // ads
   pageNumber: number = 0;
   pageSize!: number;
-  displayedAdsNumberUnlogged: number = 0;
+  displayedAdsNumberUnlogged: number = 1;
   displayedAdsNumberLoggedIn: number = 4;
   filteredAds: AdCard[] = [];
   favoritesAds: AdCard[] = [];
@@ -49,7 +52,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private homeService: HomeService,
-    private adService: AdService
+    private adService: AdService,
+    private displayManagementService: DisplayManagementService
   ) {}
 
   ngOnInit() {
@@ -153,12 +157,20 @@ export class HomeComponent implements OnInit {
       this.favoritesAds = this.favoritesAds.filter(favoriteAd => favoriteAd.id != ad.id);
       // Fetch the updated list of user's favorite ads
       this.fetchUserFavoritesAds();
+      this.displayManagementService.displayAlert({
+        message: AlertMessage.FAVORITES_REMOVED_SUCCESS,
+        type: AlertType.SUCCESS,
+      });
     }
 
     if(filteredAd) {
       if (ad.favorite) {
         // If the ad is marked as favorite, add it to the beginning of the favoritesAds list
         this.favoritesAds.unshift(ad);
+        this.displayManagementService.displayAlert({
+          message: AlertMessage.FAVORITES_ADDED_SUCCESS,
+          type: AlertType.SUCCESS,
+        });
         this.noMorefavoriteAds = this.favoritesAds.length <= 0;
       }
       filteredAd.favorite = ad.favorite;

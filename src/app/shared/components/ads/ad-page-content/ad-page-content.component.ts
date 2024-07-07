@@ -14,6 +14,8 @@ import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdPageContentService } from './ad-page-content.service';
+import { AlertMessage } from '../../../models/enum/alert-message.enum';
+import { AlertType } from '../../../models/alert.model';
 
 @Component({
   selector: 'app-ad-page-content',
@@ -32,7 +34,6 @@ import { AdPageContentService } from './ad-page-content.service';
   styleUrl: './ad-page-content.component.scss'
 })
 export class AdPageComponent implements OnInit {
-  @Input() adSuccessfullySubmitted: boolean | undefined;
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
   onLoggedInUserAd: boolean | undefined;
@@ -66,14 +67,6 @@ export class AdPageComponent implements OnInit {
     this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
-    this.route.queryParams.subscribe(params => {
-      if (params['success'] === 'true') {
-        this.adSuccessfullySubmitted = true;
-        setTimeout(() => {
-          this.adSuccessfullySubmitted = false;
-        }, 3000);
-      }
-    });
     this.adPageContentService.getAdById(adId).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
