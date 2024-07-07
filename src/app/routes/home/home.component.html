@@ -1,5 +1,48 @@
 @if (isLoggedIn) {
-  <app-logged-in-home></app-logged-in-home>
+  <section>
+    <h1 id="hello" class="text-center">Bonjour {{ this.userAlias }} !</h1>
+    <h2 class="text-left fw-bold m-5">Les annonces à deux pas</h2>
+    <app-ad-filters
+      [(pageNumber)]="pageNumber"
+      (filtersUpdated)="receiveUpdatedFilters($event)"
+      [loggedInUserCity]="loggedInUserCity"
+      [selectedCities]="selectedCities"
+    ></app-ad-filters>
+    <app-ad-list
+      [displayedAds]="filteredAds"
+      [displayedAdsNumber]="displayedAdsNumberLoggedIn"
+      [noMoreAds]="noMoreFilteredAds"
+      (loadMore)="loadMoreFilteredAds()"
+      (updateAdsFavoritesList)="updateAdsFavoritesList($event)"
+    ></app-ad-list>
+    @if (this.favoritesAds.length > 0) {
+      <h2 class="text-left fw-bold m-5">Mes favoris</h2>
+      <app-ad-list
+        [displayedAds]="favoritesAds"
+        [displayedAdsNumber]="displayedAdsNumberLoggedIn"
+        [noMoreAds]="noMorefavoriteAds"
+        (loadMore)="loadMoreFavoritesAds()"
+        (updateAdsFavoritesList)="updateAdsFavoritesList($event)"
+      ></app-ad-list>
+      }
+    <h2 class="text-left fw-bold m-5 pt-4">Les vendeurs prêts de chez moi</h2>
+    <app-sellers></app-sellers>
+  </section>
 } @else {
-  <app-default-home></app-default-home>
+  <app-header></app-header>
+  <section id="home-body">
+    <app-categories></app-categories>
+    <h1 class="section-title"><b>Les dernières annonces</b></h1>
+    <app-ad-filters
+      [(pageNumber)]="pageNumber"
+      (filtersUpdated)="receiveUpdatedFilters($event)"
+      [loggedInUserCity]="null"
+    ></app-ad-filters>
+    <app-ad-list
+      [displayedAds]="filteredAds"
+      [displayedAdsNumber]="displayedAdsNumberUnlogged"
+      [noMoreAds]="noMoreFilteredAds"
+      (loadMore)="loadMoreFilteredAds()"
+    ></app-ad-list>
+  </section>
 }

@@ -21,11 +21,10 @@ export class ProfileComponent {
   user!: UserPresentation;
   preferredSchedules!: PreferredSchedule[];
   preferredMeetingPlaces!: PreferredMeetingPlace[];
-
   presentationEditMode: boolean = false;
   scheduleEditMode: boolean = false;
   meetingPlacesEditMode: boolean = false;
-  userId = localStorage.getItem('userId');
+  userId: number = Number(localStorage.getItem('userId'));
 
   constructor(private profileService: ProfileService) {
   }
@@ -39,14 +38,14 @@ export class ProfileComponent {
   }
 
   // Fetch user's information from the service
-  fetchUserPresentation(userId: string): void {
+  private fetchUserPresentation(userId: number): void {
     this.profileService.getUserPresentation(userId).subscribe((data) => {
       this.user = data;
     });
   }
 
   // Fetch user's preferred schedules from the service
-  fetchUserPreferredSchedules(userId: string): void {
+  private fetchUserPreferredSchedules(userId: number): void {
     this.profileService.getUserPreferredSchedules(userId).subscribe((data) => {
       // Map fetched data to events array
       this.preferredSchedules = data.map(preferredSchedule => ({
@@ -60,7 +59,7 @@ export class ProfileComponent {
   }
 
   // Fetch user's preferred meeting places from the service
-  fetchPreferredMeetingPlaces(userId: string): void {
+  private fetchPreferredMeetingPlaces(userId: number): void {
     this.profileService.getPreferredMeetingPlaces(userId).subscribe((data) => {
       this.preferredMeetingPlaces = data;
     });
