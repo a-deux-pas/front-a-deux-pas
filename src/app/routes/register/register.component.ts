@@ -14,6 +14,8 @@ import { RegisterService } from './register.service';
 import { UserProfile } from '../../shared/models/user/user-profile.model';
 import { DisplayManagementService } from '../../shared/services/display-management.service';
 import { escapeHtml, formatText } from '../../shared/utils/sanitizers/custom-sanitizers';
+import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
+import { AlertType } from '../../shared/models/alert.model';
 
 @Component({
   selector: 'app-register',
@@ -39,7 +41,7 @@ export class RegisterComponent implements AfterViewInit {
     private displayManagementService: DisplayManagementService,
     private registerService: RegisterService,
     private location: Location,
-    private cd: ChangeDetectorRef,
+    private cd: ChangeDetectorRef
   ) {
     this.profileForm = this.formBuilder.group({
       alias: ['', {
@@ -106,48 +108,53 @@ export class RegisterComponent implements AfterViewInit {
               const city = formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value));
               const postalCode = escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value);
               const userProfile = new UserProfile(
-                  this.userId,
-                  '', // à remplacer par l'URL de l'image
-                  userAlias,
-                  escapeHtml(this.profileForm.get('bio')?.value) || null,
-                  city,
-                  escapeHtml(this.profileForm.get('address')?.get('street')?.value),
-                  postalCode,
-                  escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
-                  escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
-                  this.preferredSchedules,
-                  this.preferredMeetingPlaces,
-                  this.notifications
+                this.userId,
+                '', // à remplacer par l'URL de l'image
+                userAlias,
+                escapeHtml(this.profileForm.get('bio')?.value) || null,
+                city,
+                escapeHtml(this.profileForm.get('address')?.get('street')?.value),
+                postalCode,
+                escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
+                escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
+                this.preferredSchedules,
+                this.preferredMeetingPlaces,
+                this.notifications
               );
               this.registerService.saveProfile(userProfile).subscribe({
-                  next: (response) => {
-                      console.log('Profile saved:', response);
-                      localStorage.setItem('userAlias', userAlias);
-                      localStorage.setItem('userCity', `${city} (${postalCode})`);
-                      this.goBack();
-                  },
-                  error: (error) => {
-                      console.error('Error saving profile:', error);
-                      this.errorAlert();
-                  }
+                next: (response) => {
+                  console.log('Profile saved:', response);
+                  localStorage.setItem('userAlias', userAlias);
+                  localStorage.setItem('userCity', `${city} (${postalCode})`);
+                  this.goBack();
+                  setTimeout(() => {
+                    this.displayManagementService.displayAlert({
+                      message: AlertMessage.PROFILE_CREATED_SUCCESS,
+                      type: AlertType.SUCCESS
+                    });
+                  }, 100);
+                },
+                error: (error) => {
+                  console.error('Error saving profile:', error);
+                  this.displayManagementService.displayAlert({
+                    message: AlertMessage.DEFAULT_ERROR,
+                    type: AlertType.ERROR
+                  });
+                }
               });
           // }
             } else {
               console.error(`Errors: ${!this.profilePicturePreview ?
                 'Profile picture upload failed.' : ''} ${!this.userId ? 'User ID is null.' : ''}`);
-              this.errorAlert();
+              this.displayManagementService.displayAlert({
+                message: AlertMessage.UPLOAD_PICTURE_ERROR,
+                type: AlertType.ERROR
+              });
             }
       // });
   }
 
   goBack() {
     this.location.back();
-  }
-
-  errorAlert() {
-    this.showErrorAlert = true;
-    setTimeout(() => {
-      this.showErrorAlert = false;
-    }, 3000);
   }
 }
