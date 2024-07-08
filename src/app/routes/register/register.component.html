@@ -74,12 +74,15 @@
         <div class="col-6 col-md-4">
           <label for="postal-code">Code postal</label>
           <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code"
-          class="form-control mt-2" required/>
+          class="form-control mt-2" maxlength="5" required/>
           @if (profileForm.get('address')?.get('postalCode')?.errors && (profileForm.get('address')?.get('postalCode')?.dirty
           || profileForm.get('address')?.get('postalCode')?.touched)) {
             <div class="error-msg mt-2">
+              <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['minlength']">
+                Le code postal doit comporter au moins 5 chiffres
+              </div>
               <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['maxlength']">
-                Veuillez renseigner un code postal valide
+                Le code postal ne doit pas dépasser 5 chiffres
               </div>
               <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['required']">
                 Veuillez renseigner votre code postal
@@ -137,10 +140,3 @@
     </div>
   </form>
 </div>
-@if (showErrorAlert) {
-  <div class="d-flex justify-content-center">
-    <div class="alert alert-danger text-center mb-5">
-      Une erreur s'est produite, veuillez réessayer plus tard
-    </div>
-  </div>
-}

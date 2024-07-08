@@ -679,8 +679,14 @@ $card-spacer-y: 3.1875rem;
 // Bottom part of the card styling
 .bottom-card-part {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   height: 17.74px;
+}
+
+
+#article-price {
+  position: relative;
+  bottom: 9.8px;
 }
 
 // Card image styling
@@ -1159,7 +1165,7 @@ ngb-carousel,
   .custom-container {
     @include make-container($padding-x: 8vh, $padding-y: 88px);
   }
-  
+
   /*---------------------------------*/
 
   //Carousel Bootsrap classes overriding

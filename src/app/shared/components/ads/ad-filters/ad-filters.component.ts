@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { PriceRange } from '../../../models/enum/price-range.enum';
-import { AdHomeResponse } from '../../../models/ad/ad-home-response.model';
 import { AdFiltersService } from './ad-filters.service';
 import { Categories } from '../../../utils/constants/categories-arrangement';
 import { CommonModule } from '@angular/common';
+import { CityAndPostalCodeResponse } from '../../../models/user/city-and-postal-code-response.model';
 
 @Component({
   selector: 'app-ad-filters',
@@ -25,16 +25,12 @@ export class AdFiltersComponent {
 
   // selected filters
   selectedPriceRanges: string[] = [];
-  selectedCities: string[] = [];
   selectedArticleStates: string[] = [];
   selectedCategory: string = 'Catégorie';
+  uniqueCitiesAndPostalCodes: string[] = [];
+  @Input() selectedCities: string[] = [];
 
-  @Input() displayedAds: AdHomeResponse[] = [];
-  @Input() uniqueCitiesAndPostalCodes: string[] = [];
   @Input() pageNumber: number = 0;
-  pageSize: number = 8;
-  @Output() displayedAdsChange: EventEmitter<AdHomeResponse[]> =
-    new EventEmitter<AdHomeResponse[]>();
   @Output() pageNumberChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() filtersUpdated: EventEmitter<any> = new EventEmitter<{
     selectedPriceRanges: string[];
@@ -42,6 +38,7 @@ export class AdFiltersComponent {
     selectedArticleStates: string[];
     selectedCategory: string;
   }>();
+  @Input() loggedInUserCity!: string | null;
 
   // initializing values for template use
   articleStates = Object.values(ArticleState);
@@ -63,7 +60,15 @@ export class AdFiltersComponent {
     this.handleDropdownMouseLeave(this.cityDropdownRef.nativeElement);
     this.handleDropdownMouseLeave(this.categoryDropdownRef.nativeElement);
     this.handleDropdownMouseLeave(this.stateDropdownRef.nativeElement);
+    this.fetchCitiesAndPostalCodes();
   }
+
+  isCheckedCity(cityAndPostalCode: string): boolean {
+    // check the user's city if they are logged in
+    return this.loggedInUserCity && this.loggedInUserCity === cityAndPostalCode ?
+      true : this.selectedCities.includes(cityAndPostalCode);
+  }
+
 
   // handling the checkbox filters every time any of the checkboxes are changed (checked / unchecked)
   handleCheckboxFiltersSelection(
@@ -101,7 +106,6 @@ export class AdFiltersComponent {
     this.pageNumber = 0;
     this.pageNumberChange.emit(this.pageNumber);
     this.notifyFiltersUpdated();
-    this.fetchFilteredAds();
   }
 
   // handling the category filter at each click on either the category, subcategory or gender value
@@ -114,7 +118,6 @@ export class AdFiltersComponent {
     this.pageNumberChange.emit(this.pageNumber);
     this.setSelectedCategoryValue(subCategory, gender, category);
     this.notifyFiltersUpdated();
-    this.fetchFilteredAds();
   }
 
   // re-initializing the filters
@@ -145,7 +148,6 @@ export class AdFiltersComponent {
     this.pageNumber = 0;
     this.pageNumberChange.emit(this.pageNumber);
     this.notifyFiltersUpdated();
-    this.fetchFilteredAds();
   }
 
   // clearing all checkboxes for the selected http element (by its #id) and emptying its filter array
@@ -158,25 +160,6 @@ export class AdFiltersComponent {
       checkbox.checked = false;
     });
     selectedFilterValues.length = 0;
-  }
-
-  // calling the service method that makes the api call to fetch the filtered ads
-  private fetchFilteredAds() {
-    this.adFiltersService
-      .fetchFilteredAds(
-        this.selectedPriceRanges,
-        this.selectedCities,
-        this.selectedArticleStates,
-        this.selectedCategory,
-        this.pageNumber,
-        this.pageSize
-      )
-      .subscribe((filteredAds: AdHomeResponse[]) => {
-        // updating the 'displayedAds' variable
-        this.displayedAds = filteredAds;
-        // signaling to the parent component (ad-list) that the 'displayedAds' variable was updated
-        this.displayedAdsChange.emit(this.displayedAds);
-      });
   }
 
   // adding or removing values from a filter array, based on their checked or unchecked status
@@ -231,5 +214,26 @@ export class AdFiltersComponent {
     } else {
       this.selectedCategory = category;
     }
+  }
+
+  fetchCitiesAndPostalCodes() {
+    this.adFiltersService
+      .fetchCitiesAndPostalCodes()
+      .subscribe((citiesAndPostalCodes: any) => {
+        this.formatCitiesAndPostalCodesForDisplay(citiesAndPostalCodes);
+      });
+  }
+
+  private formatCitiesAndPostalCodesForDisplay(
+    citiesAndPostalCodes: CityAndPostalCodeResponse[]
+  ) {
+    citiesAndPostalCodes.forEach((cityAndPostalCode) =>
+      this.uniqueCitiesAndPostalCodes.push(
+        // formatting the string used in the 'City' filter template to display : 'City (postal code)'
+        `${cityAndPostalCode.city} (${cityAndPostalCode.postalCode})`
+      )
+    );
+    // Sort the uniqueCitiesAndPostalCodes array using localeCompare for reliable alphabetical sorting
+    this.uniqueCitiesAndPostalCodes.sort((a, b) => a.localeCompare(b));
   }
 }

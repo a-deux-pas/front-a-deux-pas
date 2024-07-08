@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AdHomeResponse } from '../../../models/ad/ad-home-response.model';
+import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdCardComponent } from '../ad-card/ad-card.component';
 
 @Component({
@@ -10,11 +10,17 @@ import { AdCardComponent } from '../ad-card/ad-card.component';
   imports: [AdCardComponent],
 })
 export class AdListComponent {
-  @Input() displayedAds: AdHomeResponse[] = [];
+  @Input() displayedAds: AdCard[] = [];
+  @Input() displayedAdsNumber!: number;
   @Input() noMoreAds: boolean = false;
   @Output() loadMore: EventEmitter<void> = new EventEmitter<void>();
+  @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
 
   loadMoreAds() {
     this.loadMore.emit();
+  }
+
+  UpdateAdsFavoritesList(ad: AdCard) {
+    this.updateAdsFavoritesList.emit(ad);
   }
 }

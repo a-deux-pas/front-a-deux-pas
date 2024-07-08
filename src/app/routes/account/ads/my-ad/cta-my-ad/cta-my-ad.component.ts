@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AdPostResponse } from '../../../../../shared/models/ad/ad-post-response.model';
+import { AdDetails } from '../../../../../shared/models/ad/ad-details.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,6 +12,6 @@ import { CommonModule } from '@angular/common';
   ]
 })
 export class CtaMyAdComponent {
-  @Input() myAd!: AdPostResponse | undefined
+  @Input() myAd!: AdDetails | undefined
   @Input() isBigScreen!: boolean;
 }

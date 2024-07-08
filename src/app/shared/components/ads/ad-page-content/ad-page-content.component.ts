@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
-import { AdService } from '../../../../routes/ad/ad.service';
-import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
+import { AdService } from '../../../services/ad.service';
+import { AdDetails } from '../../../models/ad/ad-details.model';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'
@@ -12,6 +12,8 @@ import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller-ad/cta-seller-ad.component';
 import { NavbarComponent } from '../../navbar/navbar.component';
+import { AdCard } from '../../../models/ad/ad-card.model';
+import { AdPageContentService } from './ad-page-content.service';
 
 @Component({
   selector: 'app-ad-page-content',
@@ -30,7 +32,6 @@ import { NavbarComponent } from '../../navbar/navbar.component';
   styleUrl: './ad-page-content.component.scss'
 })
 export class AdPageComponent implements OnInit {
-  @Input() adSuccessfullySubmitted: boolean | undefined;
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
   onLoggedInUserAd: boolean | undefined;
@@ -38,7 +39,7 @@ export class AdPageComponent implements OnInit {
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
 
-  currentAd: AdPostResponse | undefined;
+  currentAd: AdDetails | undefined;
   selectedPicNumber: number = 2;
   articlePictures: (string | undefined)[] = [];
   areaSizeA!: number
@@ -48,13 +49,14 @@ export class AdPageComponent implements OnInit {
   pageNumber: number = 0;
   pageSize!: number;
   noMoreAds: boolean = false;
-  userOtherAds: AdPostResponse[] = [];
-  similarAds: AdPostResponse[] = [];
+  userOtherAds: AdCard[] = [];
+  similarAds: AdCard[] = [];
   userId = localStorage.getItem('userId');
 
   constructor(
     private route: ActivatedRoute,
     private adService: AdService,
+    private adPageContentService: AdPageContentService,
     private viewportScroller: ViewportScroller,
     private displayManagementService: DisplayManagementService
   ) { }
@@ -63,16 +65,8 @@ export class AdPageComponent implements OnInit {
     this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
-    this.route.queryParams.subscribe(params => {
-      if (params['success'] === 'true') {
-        this.adSuccessfullySubmitted = true;
-        setTimeout(() => {
-          this.adSuccessfullySubmitted = false;
-        }, 3000);
-      }
-    });
-    this.adService.findAdById(adId).subscribe({
-      next: (ad: AdPostResponse) => {
+    this.adPageContentService.getAdById(adId).subscribe({
+      next: (ad: AdDetails) => {
         this.currentAd = ad;
         this.articlePictures = [
           // TO DO  :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
@@ -91,7 +85,7 @@ export class AdPageComponent implements OnInit {
             this.adService.isOnSellerAdPageUnLogged(true);
           }
         }
-        this.adService.getMyAdsCount(this.currentAd.publisherId!).subscribe({
+        this.adPageContentService.getMyAdsCount(this.currentAd.publisherId!).subscribe({
           next: (adCount: number) => {
             this.adCount = adCount
             this.showSeeMorBtn = this.adCount > 9
@@ -111,8 +105,8 @@ export class AdPageComponent implements OnInit {
 
   getSimilarAds(): void {
     const currentUserId = this.userId ? parseInt(this.userId) : 0;
-    this.adService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, currentUserId).subscribe({
-      next: (similarAds: AdPostResponse[]) => {
+    this.adPageContentService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, currentUserId).subscribe({
+      next: (similarAds: AdCard[]) => {
         this.similarAds = similarAds;
         return similarAds;
       }
@@ -147,8 +141,8 @@ export class AdPageComponent implements OnInit {
 
   fetchPaginatedAdsList() {
     this.pageSize = this.onLoggedInUserAd ? 9 : 4;
-    this.adService.fetchMoreAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
-      next: (ads: AdPostResponse[]) => {
+    this.adPageContentService.fetchUserAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
+      next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
         this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1) && this.adCount > 9

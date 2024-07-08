@@ -1,0 +1,15 @@
+@if (showAlert) {
+    <div class="d-flex justify-content-center">
+      <div id="alert"
+      class="alert text-center"
+      [ngClass]="{
+        'alert-success': this.incommingAlert.type === 'success',
+        'alert-danger': this.incommingAlert.type === 'error',
+        'fade-in': showAlert,
+        'fade-out': !showAlert
+      }"
+      role="alert">
+        {{ this.incommingAlert.message }}
+      </div>
+    </div>
+}

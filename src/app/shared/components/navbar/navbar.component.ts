@@ -6,7 +6,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { AuthService } from '../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConnectionModalComponent } from '../connection-modal/connection-modal.component';
-import { AdService } from '../../../routes/ad/ad.service';
+import { AdService } from '../../services/ad.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,8 +16,8 @@ import { AdService } from '../../../routes/ad/ad.service';
   imports: [RouterModule, CommonModule, SearchBarComponent]
 })
 export class NavbarComponent implements OnInit {
-  @Output() accountMenuToggleOutput: EventEmitter<void> =
-    new EventEmitter<void>();
+  @Output() accountMenuToggleOutput: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
   @Input() isAccountMenuOpen: boolean = false;
   accountRoutes = accountRoutes;
   @Input() isLoggedIn!: boolean
@@ -36,23 +36,20 @@ export class NavbarComponent implements OnInit {
       })
   }
 
-  emitToggleAccountMenu() {
-    this.accountMenuToggleOutput.emit();
-  }
-
   toggleAccountMenuState() {
     this.isAccountMenuOpen = !this.isAccountMenuOpen;
+    this.accountMenuToggleOutput.emit(this.isAccountMenuOpen);
   }
 
   logout() {
     this.authService.logout();
   }
 
-   openModal() {
+  openModal() {
     this.modalService.open(ConnectionModalComponent);
   }
 
   openModalOrSell(){
-    this.isLoggedIn ? this.router.navigate(['annonce/creation']) : this.openModal()
-  } 
+    this.isLoggedIn ? this.router.navigate(['annonce/creation']) : this.openModal();
+  }
 }
