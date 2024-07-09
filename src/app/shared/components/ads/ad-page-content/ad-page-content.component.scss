@@ -49,12 +49,6 @@ a {
     text-decoration: none;
 }
 
-// traditionally used for interlinear annotations
-// ruby-text can also be used in order to dynamically center an element
-app-ad-card {
-    display: ruby-text;
-}
-
 app-split-area {
     height: inherit !important;
     max-width: 845px;
@@ -78,40 +72,6 @@ ngb-carousel {
 .img-wrapper {
     width: 335px;
     height: 333px;
-}
-
-@media (min-width: 1200px) and (max-width: 1540px) {
-    // .ad-page-container {
-    // margin-top: 10%;
-    // }
-
-    // .main-sections {
-    //     margin: 0 auto;
-    //     display: grid;
-    //     grid-column-gap: 80px;
-    // }
-
-    // .article-picture-image-section {
-    //     margin: 0 auto;
-    //     height: 380px;
-    //     display: grid;
-    //     grid-area: 1 / 1 / 2 / 4;
-
-    //     img {
-    //         margin-left: 0;
-    //     }
-    // }
-
-    // .cta-encart {
-    //     margin: 0 auto;
-    //     grid-area: 2 / 2 / 3 / 3;
-    // }
-
-    // .general-info {
-    //     margin: 0 auto;
-    //     max-width: 845px;
-    //     grid-area: 3 / 1 / 4 / 4;
-    // }
 }
 
 @media (min-width: 1200px) {
@@ -163,25 +123,4 @@ ngb-carousel {
         width: 100%;
         height: 100%;
     }
-
-    // .resizable-pictures {
-    //     width: 880px;
-    //     height: 300px;
-    //     background: grey;
-    // }
-
-    // // User's other ads section
-    // .user-other-ads,
-    // .similar-ads {
-    //     width: 100%;
-    //     display: flex;
-    //     flex-direction: row;
-    //     flex-wrap: wrap;
-    //     justify-content: flex-start;
-    //     gap: 6%;
-    // }
-
-    // app-ad-card {
-    //     display: inline;
-    // }
 }

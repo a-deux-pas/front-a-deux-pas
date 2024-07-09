@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdCardComponent } from '../ad-card/ad-card.component';
 
@@ -9,7 +9,7 @@ import { AdCardComponent } from '../ad-card/ad-card.component';
   standalone: true,
   imports: [AdCardComponent],
 })
-export class AdListComponent implements OnInit {
+export class AdListComponent {
   @Input() displayedAds: AdCard[] = [];
   @Input() displayedAdsNumber!: number;
   @Input() noMoreAds: boolean = false;
@@ -17,20 +17,8 @@ export class AdListComponent implements OnInit {
   @Output() loadMore: EventEmitter<void> = new EventEmitter<void>();
   @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
   
-  ngOnInit() {
-    console.error('ici')
-    console.table(this.displayedAds)
-    console.log('displayedAdsNumber:: ', this.displayedAdsNumber)
-    console.log('this.displayedAds.length:: ', this.displayedAds.length)
-    console.log('this.displayedAdsNumber:: ', this.displayedAdsNumber)
-    console.log('noMoreAds:: ', this.noMoreAds)
-    console.log('showingSimilarAds:: ', this.showingSimilarAds)
- 
-  }
-
   loadMoreAds() {
     this.loadMore.emit();
-
   }
 
   UpdateAdsFavoritesList(ad: AdCard) {

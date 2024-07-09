@@ -7,19 +7,14 @@
 
 button[type="submit"].btn-sell {
     margin: 0 auto;
-    margin-right: 3% !important;
 }
 
 a {
     text-decoration: none;
 }
 
-// app-ad-card {
-//     display: ruby-text;
-// }
-
 @media (min-width: 1200px) {
     button[type="submit"].btn-sell {
-        margin-right: 0px;
+        margin-right: 3% !important;
     }
 }
