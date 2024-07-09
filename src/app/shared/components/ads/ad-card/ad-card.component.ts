@@ -1,13 +1,11 @@
-import { Component, Input, OnInit, ElementRef, Renderer2, ViewEncapsulation, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdCardService } from './ad-card.service';
 
 @Component({
   selector: 'app-ad-card',
   templateUrl: './ad-card.component.html',
-  encapsulation: ViewEncapsulation.None,
   styleUrl: './ad-card.component.scss',
   standalone: true,
 })
@@ -18,7 +16,7 @@ export class AdCardComponent implements OnInit {
   currentUserId: number = parseInt(localStorage.getItem('userId')!);
 
   constructor(
-    private router: Router, private location: Location, private adCardService: AdCardService, private renderer: Renderer2,  private el: ElementRef) {}
+    private router: Router, private adCardService: AdCardService, private renderer: Renderer2,  private el: ElementRef) {}
 
     
   ngOnInit() {
@@ -67,4 +65,6 @@ export class AdCardComponent implements OnInit {
       }
     });
   }
+
+  
 }

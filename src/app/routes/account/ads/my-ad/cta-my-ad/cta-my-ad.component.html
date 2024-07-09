@@ -14,8 +14,14 @@
     }
     }
     <div class="favorites mt-2">
-        <img id="favorite-icon" class="btn-cta" src="assets/icons/navbar/favorites.webp" alt="icône favoris">
+        @if(favCount === 0) {
+        <img id="favorite-icon" class="btn-cta" src="assets/icons/navbar/favorites.webp" alt="icône favoris vide">
         <p id="favorite-text">n’a pas encore tapé dans l’oeil d’un membre</p>
+        } @else {
+        <img id="favorite-icon" class="btn-cta" src="assets/icons/buttons/added-to-favorites-card.webp"
+            alt="icône favoris remplie">
+        <p id="favorite-text">par {{ favCount }} {{ favCount === 1 ? 'membre' : 'membres' }}</p>
+        }
     </div>
     <div class="cta-btn-section mt-4 mb-1">
         <div class="flex-column">

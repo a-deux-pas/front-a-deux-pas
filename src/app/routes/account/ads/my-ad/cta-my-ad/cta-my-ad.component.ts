@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AdDetails } from '../../../../../shared/models/ad/ad-details.model';
 import { CommonModule } from '@angular/common';
+import { CtaMyAdService } from './cta-my-ad.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cta-my-ad',
@@ -11,7 +13,22 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ]
 })
-export class CtaMyAdComponent {
+export class CtaMyAdComponent implements OnInit {
   @Input() myAd!: AdDetails | undefined
   @Input() isBigScreen!: boolean;
+  favCount!: number;
+
+  constructor(
+    private ctaMyAdService: CtaMyAdService,
+    private activatedRoute: ActivatedRoute
+  ) { }
+
+
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe(params => {
+      this.ctaMyAdService.getFavoriteCount(+params['adId']).subscribe(favCount =>
+        this.favCount = favCount)
+    })
+  }
 }
+

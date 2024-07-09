@@ -3,20 +3,17 @@ import { TabsAccountComponent } from '../../../shared/components/tabs-account/ta
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { DisplayManagementService } from '../../../shared/services/display-management.service';
-import { AdCardComponent } from '../../../shared/components/ads/ad-card/ad-card.component';
 import { Router } from '@angular/router';
 import { AdCard } from '../../../shared/models/ad/ad-card.model';
 import { AdPageContentService } from '../../../shared/components/ads/ad-page-content/ad-page-content.service';
 import { AdListComponent } from '../../../shared/components/ads/ad-list/ad-list.component';
-
-
 
 @Component({
     selector: 'app-ads',
     templateUrl: './ads.component.html',
     styleUrl: './ads.component.scss',
     standalone: true,
-    imports: [TabsAccountComponent, CommonModule, AdCardComponent, AdListComponent]
+    imports: [TabsAccountComponent, CommonModule, AdListComponent]
 })
 export class AdsComponent implements OnInit {
     isBigScreen: boolean | undefined;
