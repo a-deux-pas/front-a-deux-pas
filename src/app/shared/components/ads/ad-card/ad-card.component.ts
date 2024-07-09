@@ -30,7 +30,9 @@ export class AdCardComponent implements OnInit {
     } else {
       this.type = 'unLogged';
     }
-    this.addStatusClass(this.ad.status!)
+    if (this.ad.status) {
+      this.addStatusClass(this.ad.status);
+    }
   }
 
   addStatusClass(newStatus: string) {

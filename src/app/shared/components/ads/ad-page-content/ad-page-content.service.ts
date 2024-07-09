@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HandleErrorService } from '../../../services/handle-error.service';
 import { Observable, catchError } from 'rxjs';
-import { AdDetails } from '../../../models/ad/ad-details.model';
 import { API_URL } from '../../../utils/constants/utils-constants';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { Ad } from '../../../models/ad/ad.model';
@@ -24,7 +23,7 @@ export class AdPageContentService {
   }
 
   // Fetch a list of ads published by a specific user
-  fetchUserAds(location: String, userId: number, pageNumber: number, pageSize: number): Observable<AdCard[]> {
+  fetchUserAds(location: string, userId: number, pageNumber: number, pageSize: number): Observable<AdCard[]> {
     const url = `${this.contextUrl}${location}/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<AdCard[]>(url)
       .pipe(
