@@ -8,7 +8,7 @@
         src="/assets/icons/buttons/add-white.webp" alt="icône plus">créer une annonce
     </button>
     <section class="mt-5 mb-5">
-      <app-ad-list [displayedAds]="loggedInUserAd" [displayedAdsNumber]="12" [noMoreAds]="noMoreAds"
+      <app-ad-list [displayedAds]="loggedInUserAds" [displayedAdsNumber]="12" [noMoreAds]="noMoreAds"
         (loadMore)="loadMoreAds()"></app-ad-list>
     </section>
   </div>

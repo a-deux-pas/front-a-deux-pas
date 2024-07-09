@@ -7,12 +7,13 @@ import { DisplayManagementService } from './shared/services/display-management.s
 import { AuthService } from './shared/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AdService } from './shared/services/ad.service';
+import { AlertComponent } from './shared/components/alert/alert.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, NavbarComponent, FooterComponent],
+  imports: [RouterOutlet, CommonModule, NavbarComponent, FooterComponent, AlertComponent],
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'front';

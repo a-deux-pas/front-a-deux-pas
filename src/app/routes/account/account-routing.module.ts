@@ -26,7 +26,7 @@ export const accountRoutes: Routes = [
             {
                 path: 'favoris',
                 title: 'Mes favoris',
-                loadChildren: () => import('./favorites/favorites-routing.module').then(mod => mod.FavoritesRoutingModule)
+                loadComponent: () => import('./favorites/favorites.component').then(mod => mod.FavoritesComponent)
             }
         ]
     },

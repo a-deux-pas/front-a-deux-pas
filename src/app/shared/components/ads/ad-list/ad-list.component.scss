@@ -3,7 +3,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8%;
+  gap: 3%;
 }
 
 .no-ads-message {
@@ -26,12 +26,4 @@
   justify-content: center;
   margin-top: 40px;
   margin-bottom: 40px;
-}
-
-// Desktop display
-@media (min-width: 892px) {
-  .ad-list-container {
-    justify-content: flex-start;
-    gap: 8%;
-  }
 }

@@ -18,13 +18,19 @@ export class AdListComponent implements OnInit {
   @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
   
   ngOnInit() {
+    console.error('ici')
     console.table(this.displayedAds)
     console.log('displayedAdsNumber:: ', this.displayedAdsNumber)
+    console.log('this.displayedAds.length:: ', this.displayedAds.length)
+    console.log('this.displayedAdsNumber:: ', this.displayedAdsNumber)
+    console.log('noMoreAds:: ', this.noMoreAds)
     console.log('showingSimilarAds:: ', this.showingSimilarAds)
+ 
   }
 
   loadMoreAds() {
     this.loadMore.emit();
+
   }
 
   UpdateAdsFavoritesList(ad: AdCard) {

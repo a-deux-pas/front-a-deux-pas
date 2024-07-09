@@ -29,8 +29,7 @@
     />
     <h2>Désolé, aucun résultat ne correspond à votre recherche</h2>
   </div>
-}
-@if (noMoreAds){
+} @else if (noMoreAds) {
   <div class="no-ads-message">
     <p><i>Fin des résultats</i></p>
   </div>

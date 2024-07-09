@@ -1,12 +1,5 @@
-@if (adSuccessfullySubmitted) {
-<div class="d-flex justify-content-center">
-    <div class="alert alert-success text-center mb-5">
-        Votre annonce "<strong>{{ currentAd?.title }}</strong>" a bien été créée
-    </div>
-</div>
-}
-<div id="ad-page-container">
-<div class="main-sections">
+<div class="custom-container">
+    <div class="main-sections">
 
     <!-- image view on desktop device -->
     <section class="article-picture-image-section">
@@ -109,15 +102,3 @@
 }
 
 </div>
-
-<!-- See more button
-@if (!noMoreAds && showSeeMorBtn) {
-<button type="submit" class="btn-info mt-4 mx-auto" (click)="loadMoreAds()">voir plus<img class="arrow-down-icon"
-        src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
-</button>
-}
-@if (noMoreAds) {
-<div class="no-ads-message">
-    <p><i>Fin des résultats</i></p>
-</div>
-} -->

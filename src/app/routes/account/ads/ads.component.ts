@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TabsAccountComponent } from '../../../shared/components/tabs-account/tabs-account.component';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { AdService } from '../../../shared/services/ad.service';
 import { DisplayManagementService } from '../../../shared/services/display-management.service';
 import { AdCardComponent } from '../../../shared/components/ads/ad-card/ad-card.component';
 import { Router } from '@angular/router';
@@ -19,7 +18,7 @@ import { AdListComponent } from '../../../shared/components/ads/ad-list/ad-list.
     standalone: true,
     imports: [TabsAccountComponent, CommonModule, AdCardComponent, AdListComponent]
 })
-export class AdsComponent implements OnInit, AfterViewInit {
+export class AdsComponent implements OnInit {
     isBigScreen: boolean | undefined;
     windowSizeSubscription: Subscription;
     loggedInUserAd: AdCard[] = [];
@@ -28,12 +27,10 @@ export class AdsComponent implements OnInit, AfterViewInit {
     currentUserId = parseInt(localStorage.getItem('userId')!)
     userOtherAds: AdCard[] = [];
     noMoreAds: boolean = false;
-    adCount!: number;
     pageNumber: number = 0;
     pageSize: number = 12;
-// CHEcKE asynchronicité de l'affichage des ads , interet de nomeoreAd et adCount
+
     constructor(
-        private mainAdService: AdService,
         private adPageContentService: AdPageContentService,
         private displayManagementService: DisplayManagementService,
         private router: Router
@@ -45,10 +42,6 @@ export class AdsComponent implements OnInit, AfterViewInit {
     
     ngOnInit(): void {
         this.fetchPaginatedAdsList('adTab', this.currentUserId, this.pageNumber, this.pageSize, true);
-    }
-
-    ngAfterViewInit(): void {
-      this.fetchPaginatedAdsList('adTab', this.currentUserId, this.pageNumber, this.pageSize, true);
     }
 
     loadMoreAds() {
@@ -64,7 +57,7 @@ export class AdsComponent implements OnInit, AfterViewInit {
                console.table(this.loggedInUserAds)
             } else {
               this.loggedInUserAds = [...this.loggedInUserAds, ...ads];
-              this.noMoreAds = this.loggedInUserAds.length >= (this.adCount - 1) && this.adCount > 12;
+              this.noMoreAds = ads.length <= 0;
             }
           }
         });

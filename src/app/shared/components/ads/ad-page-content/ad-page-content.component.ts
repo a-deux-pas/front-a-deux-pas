@@ -5,7 +5,6 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
-import { AngularSplitModuledule } from '../../../utils/module/angular-split.module';
 import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
@@ -15,21 +14,19 @@ import { NavbarComponent } from '../../navbar/navbar.component';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdPageContentService } from './ad-page-content.service';
 import { AdListComponent } from '../ad-list/ad-list.component';
-import { Ad } from '../../../models/ad/ad.model';
 
 @Component({
   selector: 'app-ad-page-content',
   standalone: true,
   imports: [
     AdCardComponent,
-    AdListComponent,
     AngularSplitModule,
-    AngularSplitModuledule,
     CommonModule,
     NgbCarouselModule,
     CtaMyAdComponent,
     CtaSellerAdComponent,
-    NavbarComponent
+    NavbarComponent,
+    AdListComponent
   ],
   templateUrl: './ad-page-content.component.html',
   styleUrl: './ad-page-content.component.scss'
@@ -42,14 +39,12 @@ export class AdPageComponent implements OnInit {
   @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
-
   currentAd: AdDetails | undefined;
   selectedPicNumber: number = 2;
   articlePictures: (string | undefined)[] = [];
   areaSizeA!: number
   areaSizeB!: number
   showSeeMorBtn!: boolean;
-  adCount!: number;
   pageNumber: number = 0;
   pageSize!: number;
   noMoreAds: boolean = false;
@@ -57,7 +52,6 @@ export class AdPageComponent implements OnInit {
   similarAds: AdCard[] = [];
   userId = localStorage.getItem('userId');
   displayedAdsCount!: number
-
   constructor(
     private route: ActivatedRoute,
     private adService: AdService,
@@ -65,7 +59,7 @@ export class AdPageComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     private displayManagementService: DisplayManagementService,
   ) { }
-
+  
   ngOnInit(): void {
     this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
@@ -82,7 +76,7 @@ export class AdPageComponent implements OnInit {
       next: (ad: AdDetails) => {
         this.currentAd = ad;
         this.articlePictures = [
-          // TO DO  :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
+          // TO DO :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
           this.currentAd.firstArticlePictureUrl,
           this.currentAd.secondArticlePictureUrl,
           this.currentAd.thirdArticlePictureUrl,
@@ -98,19 +92,16 @@ export class AdPageComponent implements OnInit {
             this.adService.isOnSellerAdPageUnLogged(true);
           }
         }
-        this.displayedAdsCount = this.onLoggedInUserAd ?  9 : 4;
+        this.displayedAdsCount = this.onLoggedInUserAd ? 8 : 4;
       }
     });
   }
-
   ngOnDestroy() {
     this.adService.isOnSellerAdPageUnLogged(false);
   }
-
   scrollToTop(): void {
     this.viewportScroller.scrollToPosition([0, 0])
   }
-
   getSimilarAds(): void {
     const currentUserId = this.userId ? parseInt(this.userId) : 0;
     this.adPageContentService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, currentUserId).subscribe({
@@ -120,7 +111,6 @@ export class AdPageComponent implements OnInit {
       }
     })
   }
-
   setSplitAreasSizes(nPictures: number) {
     switch (nPictures) {
       case 3:
@@ -133,26 +123,23 @@ export class AdPageComponent implements OnInit {
         return [50, 50]
     }
   }
-
   togglePaused() {
     this.displayManagementService.togglePaused()
   }
-
   onSlide(slideEvent: NgbSlideEvent) {
     this.displayManagementService.onSlide(slideEvent)
   }
-
   loadMoreAds() {
     this.pageNumber++;
     this.fetchPaginatedAdsList();
   }
-
   fetchPaginatedAdsList() {
     this.pageSize = this.onLoggedInUserAd ? 9 : 4;
-    this.adPageContentService.fetchUserAds('adPage',this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
+    this.adPageContentService.fetchUserAds('adPage', this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
+        this.noMoreAds = ads.length <= 0;
       }
     });
   }
