@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Ad } from '../../../models/ad/ad.model';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
@@ -32,13 +31,8 @@ export class AdFormComponent {
   @Input() windowSizeSubscription!: Subscription;
 
   //TODO @Erika: à voir pour changer avec AdDetails
-  ad: Ad = new Ad(
-    1,
-    '',
-    '',
-    new Date(),
-  );
-
+          // TODO : revoir mapping depuis le front (sur cette US ou la suivante)
+  ad!: AdDetails;
   today: Date = new Date()
   selectedPicNumber: number = 2;
   articlePictures: File[] = [];
@@ -50,6 +44,7 @@ export class AdFormComponent {
 
   constructor(
     private adformService: AdFormService,
+    // TODO :: surement à virer (fix Cloudinary)
     private uploadPictureService: UploadPictureService,
     private router: Router,
     private displayManagementService: DisplayManagementService,
@@ -165,8 +160,8 @@ export class AdFormComponent {
   }
 
   sanitizeTheInputs() {
-    escapeHtml(this.ad.title)
-    escapeHtml(this.ad.articleDescription)
+    escapeHtml(this.ad.title!)
+    escapeHtml(this.ad.articleDescription!)
   }
 
   // TO DO :: a revoir (fix Cloudinary branch)
@@ -174,7 +169,7 @@ export class AdFormComponent {
     this.sanitizeTheInputs()
     this.uploadArticlePictures().subscribe({
       next: () => {
-        this.ad.creationDate = this.today;
+        this.ad.creationDate = this.today.toISOString();
         if (this.ad.category == "Autre") {
           this.ad.subcategory = Subcategory.OTHER_SUBCATEGORY;
         } else {

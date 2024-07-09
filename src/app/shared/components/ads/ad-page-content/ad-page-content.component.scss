@@ -1,5 +1,6 @@
 @import 'color-variables';
 
+
 .article-picture-image-section-mobile {
     display: flex;
     justify-content: center;
@@ -36,7 +37,7 @@
     font-weight: 400;
 }
 
-#other-ad-section-title {
+.other-ad-section-title {
     font-weight: 700;
 }
 
@@ -80,36 +81,44 @@ ngb-carousel {
 }
 
 @media (min-width: 1200px) and (max-width: 1540px) {
-    .main-sections {
-        margin: 0 auto;
-        display: grid;
-        grid-column-gap: 80px;
-    }
+    // .ad-page-container {
+    // margin-top: 10%;
+    // }
 
-    .article-picture-image-section {
-        margin: 0 auto;
-        height: 380px;
-        display: grid;
-        grid-area: 1 / 1 / 2 / 4;
+    // .main-sections {
+    //     margin: 0 auto;
+    //     display: grid;
+    //     grid-column-gap: 80px;
+    // }
 
-        img {
-            margin-left: 0;
-        }
-    }
+    // .article-picture-image-section {
+    //     margin: 0 auto;
+    //     height: 380px;
+    //     display: grid;
+    //     grid-area: 1 / 1 / 2 / 4;
 
-    .cta-encart {
-        margin: 0 auto;
-        grid-area: 2 / 2 / 3 / 3;
-    }
+    //     img {
+    //         margin-left: 0;
+    //     }
+    // }
 
-    .general-info {
-        margin: 0 auto;
-        max-width: 845px;
-        grid-area: 3 / 1 / 4 / 4;
-    }
+    // .cta-encart {
+    //     margin: 0 auto;
+    //     grid-area: 2 / 2 / 3 / 3;
+    // }
+
+    // .general-info {
+    //     margin: 0 auto;
+    //     max-width: 845px;
+    //     grid-area: 3 / 1 / 4 / 4;
+    // }
 }
 
-@media (min-width: 1540px) {
+@media (min-width: 1200px) {
+    #ad-page-container {
+        margin-top: 10%;
+        }
+
     .main-sections {
         grid-template-columns: repeat(2fr, 1fr) !important;
         display: grid;
@@ -155,24 +164,24 @@ ngb-carousel {
         height: 100%;
     }
 
-    .resizable-pictures {
-        width: 880px;
-        height: 300px;
-        background: grey;
-    }
+    // .resizable-pictures {
+    //     width: 880px;
+    //     height: 300px;
+    //     background: grey;
+    // }
 
-    // User's other ads section
-    .user-other-ads,
-    .similar-ads {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 6%;
-    }
+    // // User's other ads section
+    // .user-other-ads,
+    // .similar-ads {
+    //     width: 100%;
+    //     display: flex;
+    //     flex-direction: row;
+    //     flex-wrap: wrap;
+    //     justify-content: flex-start;
+    //     gap: 6%;
+    // }
 
-    app-ad-card {
-        display: inline;
-    }
+    // app-ad-card {
+    //     display: inline;
+    // }
 }

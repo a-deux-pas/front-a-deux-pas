@@ -1,6 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../services/ad.service';
-import { adServiceToMaybeRemove } from '../../../../routes/ad/ad.service';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
@@ -15,12 +14,15 @@ import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdPageContentService } from './ad-page-content.service';
+import { AdListComponent } from '../ad-list/ad-list.component';
+import { Ad } from '../../../models/ad/ad.model';
 
 @Component({
   selector: 'app-ad-page-content',
   standalone: true,
   imports: [
     AdCardComponent,
+    AdListComponent,
     AngularSplitModule,
     AngularSplitModuledule,
     CommonModule,
@@ -54,6 +56,7 @@ export class AdPageComponent implements OnInit {
   userOtherAds: AdCard[] = [];
   similarAds: AdCard[] = [];
   userId = localStorage.getItem('userId');
+  displayedAdsCount!: number
 
   constructor(
     private route: ActivatedRoute,
@@ -61,7 +64,6 @@ export class AdPageComponent implements OnInit {
     private adPageContentService: AdPageContentService,
     private viewportScroller: ViewportScroller,
     private displayManagementService: DisplayManagementService,
-    private otherAdService: adServiceToMaybeRemove
   ) { }
 
   ngOnInit(): void {
@@ -96,14 +98,7 @@ export class AdPageComponent implements OnInit {
             this.adService.isOnSellerAdPageUnLogged(true);
           }
         }
-        this.otherAdService.getMyAvailableAdsCount(this.currentAd.publisherId!).subscribe({
-          next: (adCount: number) => {
-            this.adCount = adCount
-            this.showSeeMorBtn = this.adCount > 9
-            console.log('this.adCount:: ', this.adCount)
-            console.log()
-          }
-        })
+        this.displayedAdsCount = this.onLoggedInUserAd ?  9 : 4;
       }
     });
   }
@@ -158,11 +153,6 @@ export class AdPageComponent implements OnInit {
       next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
-        this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1) && this.adCount > 9
-        console.log('userAd')
-        console.table(this.userOtherAds)
-        console.log('this.pageNumber:: ', this.pageNumber)
-        console.log('this.pageSize:: ', this.pageSize)
       }
     });
   }

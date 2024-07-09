@@ -14,26 +14,11 @@ a {
     text-decoration: none;
 }
 
-app-ad-card {
-    display: ruby-text;
-}
-
-.no-ads-message {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+// app-ad-card {
+//     display: ruby-text;
+// }
 
 @media (min-width: 1200px) {
-    .myAdsList {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 6%;
-    }
-
     button[type="submit"].btn-sell {
         margin-right: 0px;
     }

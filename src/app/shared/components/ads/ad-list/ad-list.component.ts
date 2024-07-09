@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdCardComponent } from '../ad-card/ad-card.component';
 
@@ -9,12 +9,19 @@ import { AdCardComponent } from '../ad-card/ad-card.component';
   standalone: true,
   imports: [AdCardComponent],
 })
-export class AdListComponent {
+export class AdListComponent implements OnInit {
   @Input() displayedAds: AdCard[] = [];
   @Input() displayedAdsNumber!: number;
   @Input() noMoreAds: boolean = false;
+  @Input() showingSimilarAds: boolean = false;
   @Output() loadMore: EventEmitter<void> = new EventEmitter<void>();
   @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
+  
+  ngOnInit() {
+    console.table(this.displayedAds)
+    console.log('displayedAdsNumber:: ', this.displayedAdsNumber)
+    console.log('showingSimilarAds:: ', this.showingSimilarAds)
+  }
 
   loadMoreAds() {
     this.loadMore.emit();
@@ -24,5 +31,3 @@ export class AdListComponent {
     this.updateAdsFavoritesList.emit(ad);
   }
 }
-
-// TODO : apres merge de l'US de Lea, utiliser adList et virer adCOunt method - utiliser lenght des otherAds

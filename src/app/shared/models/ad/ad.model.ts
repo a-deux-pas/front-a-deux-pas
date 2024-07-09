@@ -16,3 +16,4 @@ export class Ad {
         public articlePictures?: ArticlePicture[],
     ) { }
 }
+// TODO :: surement file to delete

@@ -5,6 +5,7 @@ import { Observable, catchError } from 'rxjs';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { API_URL } from '../../../utils/constants/utils-constants';
 import { AdCard } from '../../../models/ad/ad-card.model';
+import { Ad } from '../../../models/ad/ad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,9 @@ export class AdPageContentService {
   constructor(private http: HttpClient,private handleErrorService: HandleErrorService) {}
 
   // Find a specific ad
-  getAdById(adId: number): Observable<AdDetails> {
+  getAdById(adId: number): Observable<Ad> {
     const url = `${this.contextUrl}${adId}`
-    return this.http.get<AdDetails>(url).pipe(
+    return this.http.get<Ad>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
@@ -29,14 +30,6 @@ export class AdPageContentService {
       .pipe(
         catchError(this.handleErrorService.handleError)
       )
-  }
-
-  // TODO: checker si cette méthode est nécéssaire
-  getMyAdsCount(userId: number): Observable<number> {
-    const url = `${this.contextUrl}count/${userId}`;
-    return this.http.get<number>(url).pipe(
-      catchError(this.handleErrorService.handleError)
-    );
   }
 
   // Find ads with a specific category
