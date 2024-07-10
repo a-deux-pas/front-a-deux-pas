@@ -38,7 +38,7 @@ export class AdPageComponent implements OnInit {
   @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
-  currentAd: AdDetails | undefined;
+  currentAd!: AdDetails | undefined;
   selectedPicNumber: number = 2;
   articlePictures: (string | undefined)[] = [];
   areaSizeA!: number
@@ -58,7 +58,7 @@ export class AdPageComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     private displayManagementService: DisplayManagementService,
   ) { }
-  
+
   ngOnInit(): void {
     this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
@@ -87,12 +87,15 @@ export class AdPageComponent implements OnInit {
       }
     });
   }
+
   ngOnDestroy() {
     this.adService.isOnSellerAdPageUnLogged(false);
   }
+
   scrollToTop(): void {
     this.viewportScroller.scrollToPosition([0, 0])
   }
+
   getSimilarAds(): void {
     const currentUserId = this.userId ? parseInt(this.userId) : 0;
     this.adPageContentService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, currentUserId).subscribe({
@@ -102,6 +105,7 @@ export class AdPageComponent implements OnInit {
       }
     })
   }
+
   setSplitAreasSizes(nPictures: number) {
     switch (nPictures) {
       case 3:
@@ -114,16 +118,20 @@ export class AdPageComponent implements OnInit {
         return [50, 50]
     }
   }
+
   togglePaused() {
     this.displayManagementService.togglePaused()
   }
+
   onSlide(slideEvent: NgbSlideEvent) {
     this.displayManagementService.onSlide(slideEvent)
   }
+
   loadMoreAds() {
     this.pageNumber++;
     this.fetchPaginatedAdsList();
   }
+  
   fetchPaginatedAdsList() {
     this.pageSize = this.onLoggedInUserAd ? 9 : 4;
     this.adPageContentService.fetchUserAds('adPage', this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({

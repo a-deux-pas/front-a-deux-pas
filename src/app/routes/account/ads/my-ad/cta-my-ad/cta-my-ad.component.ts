@@ -14,9 +14,10 @@ import { ActivatedRoute } from '@angular/router';
   ]
 })
 export class CtaMyAdComponent implements OnInit {
-  @Input() myAd!: AdDetails | undefined
+  @Input() myAd!: AdDetails | undefined;
   @Input() isBigScreen!: boolean;
   favCount!: number;
+  adId!: number;
 
   constructor(
     private ctaMyAdService: CtaMyAdService,
@@ -26,9 +27,9 @@ export class CtaMyAdComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.ctaMyAdService.getFavoriteCount(+params['adId']).subscribe(favCount =>
-        this.favCount = favCount)
+      this.adId = +params['adId']
     })
+    this.ctaMyAdService.getFavoriteCount(this.adId).subscribe(favCount =>
+      this.favCount = favCount)
   }
 }
-
