@@ -7,7 +7,6 @@ import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { NgClass, Location } from '@angular/common'
-import { AdDetails } from '../../../models/ad/ad-details.model';
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
 import { Categories } from '../../../utils/constants/categories-arrangement';
@@ -16,6 +15,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { AdFormService } from './ad-form.service';
+import { AlertMessage } from '../../../models/enum/alert-message.enum';
+import { AlertType } from '../../../models/alert.model';
 
 @Component({
   selector: 'app-ad-form',
@@ -43,8 +44,6 @@ export class AdFormComponent {
   articlePictures: File[] = [];
   states = Object.values(ArticleState);
   categories = Object.values(Category);
-  errorWhenSubmittingMsg: boolean = false
-  adSuccessfullySubmitted: boolean = false
   disabledFields: boolean = false
 
   constructor(
@@ -168,34 +167,39 @@ export class AdFormComponent {
     this.uploadArticlePictures().subscribe({
       next: () => {
         this.ad.creationDate = this.today;
-        if (this.ad.category == "Autre") {
-          this.ad.subcategory = Subcategory.OTHER_SUBCATEGORY;
-        } else {
-          this.ad.subcategory = this.ad.subcategory.name
-        }
+        this.ad.subcategory = this.ad.category == "Autre" ?
+          Subcategory.OTHER_SUBCATEGORY :
+          this.ad.subcategory.name;
         this.ad.publisherId = parseInt(localStorage.getItem('userId')!);
         this.adformService.postAd(this.ad).subscribe({
-          next: (ad: AdDetails) => {
+          next: (ad: Ad) => {
+            // @Erika, je te laisse checker si cela est vraiment nécéssaire
             this.disabledFields = true;
             setTimeout(() => {
               this.disabledFields = false;
-            }, 3000);
-            this.router.navigate(['compte/annonces/mon-annonce/', ad.id], {
-              queryParams: { success: true }
             });
+            this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
+            setTimeout(() => {
+              this.displayManagementService.displayAlert({
+                message: AlertMessage.AD_CREATED_SUCCES,
+                type: AlertType.SUCCESS
+              });
+            }, 100);
           },
           error: (error: any) => {
-            this.errorWhenSubmittingMsg = true;
-            this.disabledFields = true;
-            setTimeout(() => {
-              this.errorWhenSubmittingMsg = false;
-              this.disabledFields = false;
-            }, 3000);
+            this.displayManagementService.displayAlert({
+              message: AlertMessage.DEFAULT_ERROR,
+              type: AlertType.ERROR
+            });
           }
         });
       },
       error: (error: any) => {
         console.error('Error occurred during image upload:', error);
+        this.displayManagementService.displayAlert({
+          message: AlertMessage.UPLOAD_PICTURE_ERROR,
+          type: AlertType.ERROR
+        });
       }
     });
   }
