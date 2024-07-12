@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { AdCard } from '../../../models/ad/ad-card.model';
-import { AdCardService } from './ad-card.service';
+import { AdService } from '../../../services/ad.service';
 
 @Component({
   selector: 'app-ad-card',
@@ -17,7 +17,7 @@ export class AdCardComponent implements OnInit {
   currentUserId: number = parseInt(localStorage.getItem('userId')!);
 
   constructor(
-    private router: Router, private location: Location, private adCardService: AdCardService) {}
+    private router: Router, private location: Location, private adService: AdService) {}
 
   ngOnInit() {
     if (this.ad.title.length > 23) {
@@ -43,9 +43,8 @@ export class AdCardComponent implements OnInit {
     this.updateAdFavoriteStatus(this.ad.id, this.currentUserId, this.ad.favorite)
   }
 
-  // TODO: ajouter alert Success et Error
   updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean) {
-    this.adCardService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
+    this.adService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
       next: (response) => {
           console.log(response);
           this.updateAdsFavoritesList.emit(this.ad)

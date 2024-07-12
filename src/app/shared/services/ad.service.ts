@@ -55,4 +55,13 @@ export class AdService {
       catchError(this.handleErrorService.handleError)
     );
   }
+
+  updateAdFavoriteStatus(adId: number, userId: number, isFavorite: boolean): Observable<boolean> {
+    const url = `${API_URL}ads/${adId}/favorite/${userId}`;
+    return this.http.put<boolean>(url, isFavorite,
+      { responseType: 'text' as 'json'}
+    ).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }

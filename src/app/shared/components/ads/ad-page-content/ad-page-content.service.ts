@@ -15,8 +15,8 @@ export class AdPageContentService {
   constructor(private http: HttpClient,private handleErrorService: HandleErrorService) {}
 
   // Find a specific ad
-  getAdById(adId: number): Observable<AdDetails> {
-    const url = `${this.contextUrl}${adId}`
+  getAdById(adId: number, userId: number): Observable<AdDetails> {
+    const url = `${this.contextUrl}${adId}/${userId}`
     return this.http.get<AdDetails>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );

@@ -65,7 +65,8 @@ export class AdPageComponent implements OnInit {
     this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
-    this.adPageContentService.getAdById(adId).subscribe({
+
+    this.adPageContentService.getAdById(adId, Number(this.userId)).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
         this.articlePictures = [
@@ -78,6 +79,7 @@ export class AdPageComponent implements OnInit {
         ].filter(url => !!url);
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
+
         this.fetchPaginatedAdsList()
         if (!this.onLoggedInUserAd) {
           this.getSimilarAds()
@@ -85,6 +87,7 @@ export class AdPageComponent implements OnInit {
             this.adService.isOnSellerAdPageUnLogged(true);
           }
         }
+
         this.adPageContentService.getMyAdsCount(this.currentAd.publisherId!).subscribe({
           next: (adCount: number) => {
             this.adCount = adCount
@@ -141,10 +144,10 @@ export class AdPageComponent implements OnInit {
 
   fetchPaginatedAdsList() {
     this.pageSize = this.onLoggedInUserAd ? 9 : 4;
-    this.adPageContentService.fetchUserAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
+    this.adPageContentService.fetchUserAds(this.currentAd?.publisherId!, this.pageNumber, this.pageSize).subscribe({
       next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
-        this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
+        this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd?.id);
         this.noMoreAds = this.userOtherAds.length >= (this.adCount - 1) && this.adCount > 9
       }
     });
