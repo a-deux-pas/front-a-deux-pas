@@ -13,12 +13,11 @@ export class AdCardComponent implements OnInit {
   @Input() ad!: AdCard;
   @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
   type: 'loggedInUserAd' | 'sellerAd' | 'unLogged' = 'unLogged';
-  currentUserId: number = parseInt(localStorage.getItem('userId')!);
+  currentUserId: number = Number(localStorage.getItem('userId')!);
 
   constructor(
     private router: Router, private adCardService: AdCardService, private renderer: Renderer2,  private el: ElementRef) {}
 
-    
   ngOnInit() {
     if (this.ad.title.length > 23) {
       this.ad.title = `${this.ad.title?.substring(0, 23)}.. `
@@ -54,6 +53,7 @@ export class AdCardComponent implements OnInit {
   }
 
   // TODO: ajouter alert Success et Error
+  // @Lea => je peux le virer ce commentaire ? 
   updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean) {
     this.adCardService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
       next: (response) => {

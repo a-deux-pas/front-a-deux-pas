@@ -20,7 +20,7 @@ export class AdsComponent implements OnInit {
   windowSizeSubscription: Subscription;
   articlePictures: (string | undefined)[] = [];
   loggedInUserAds: AdCard[] = [];
-  currentUserId = parseInt(localStorage.getItem('userId')!)
+  currentUserId = Number(localStorage.getItem('userId')!)
   userOtherAds: AdCard[] = [];
   noMoreAds: boolean = false;
   pageNumber: number = 0;
