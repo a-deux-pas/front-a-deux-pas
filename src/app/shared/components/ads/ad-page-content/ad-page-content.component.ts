@@ -45,7 +45,7 @@ export class AdPageComponent implements OnInit {
   areaSizeB!: number
   showSeeMorBtn!: boolean;
   pageNumber: number = 0;
-  pageSize: number = 5;
+  pageSize!: number;
   noMoreAds: boolean = false;
   userOtherAds: AdCard[] = [];
   similarAds: AdCard[] = [];
@@ -62,10 +62,11 @@ export class AdPageComponent implements OnInit {
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
+    this.pageSize = this.onLoggedInUserAd ? 9 : 5;
     this.adPageContentService.getAdById(adId).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
-        this.userId = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')!) : 0;
+          this.userId = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')!) : 0;
         this.articlePictures = [
           // TO DO :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
           this.currentAd.firstArticlePictureUrl,
@@ -123,18 +124,17 @@ export class AdPageComponent implements OnInit {
 
   loadMoreAds() {
     this.pageNumber++;
+    this.pageSize = 5 ? this.pageSize = 4 : 5;
     this.fetchPaginatedAdsList();
   }
 
   fetchPaginatedAdsList() {
-    this.displayedAdsCount = 4;
     this.adPageContentService.fetchUserAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize, this.userId).subscribe({
       next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
-        console.log('userOtherad:: ', this.userOtherAds)
         this.noMoreAds = ads.length <= 0;
-        this.pageSize = this.onLoggedInUserAd ? 8 : 4;
+        this.displayedAdsCount = this.onLoggedInUserAd ? 8 : 4;
       }
     });
   }
