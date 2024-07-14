@@ -65,6 +65,4 @@ export class AdCardComponent implements OnInit {
       }
     });
   }
-
-  
 }

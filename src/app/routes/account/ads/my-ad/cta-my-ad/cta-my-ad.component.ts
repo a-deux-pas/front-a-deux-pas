@@ -24,7 +24,6 @@ export class CtaMyAdComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) { }
 
-
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       this.adId = +params['adId']

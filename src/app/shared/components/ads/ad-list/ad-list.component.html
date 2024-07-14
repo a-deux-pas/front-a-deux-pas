@@ -1,38 +1,29 @@
 @if (displayedAds && displayedAds.length > 0) {
-  <div class="ad-list-container">
-    @for (ad of displayedAds; track ad) {
-      <app-ad-card
-        class="item" [ad]="ad"
-        (updateAdsFavoritesList)="UpdateAdsFavoritesList($event)">
-      </app-ad-card>
-    }
-  </div>
+<div class="ad-list-container">
+  @for (ad of displayedAds; track ad) {
+  <app-ad-card class="item" [ad]="ad" (updateAdsFavoritesList)="UpdateAdsFavoritesList($event)">
+  </app-ad-card>
+  }
+</div>
 }
-@if ( showingSimilarAds == false) {
-  @if (displayedAds && displayedAds.length >= this.displayedAdsNumber && !noMoreAds) {
-    <div class="single-button-container">
-      <button type="submit" class="btn-info mt-4" (click)="loadMoreAds()">
-        voir plus
-        <img
-          class="arrow-down-icon"
-          src="/assets/icons/buttons/arrow-down.webp"
-          alt="icône de flèche vers le bas"
-        />
-      </button>
-    </div>
-  }
-  @if (displayedAds.length === 0) {
-    <div class="no-ads-message">
-      <img
-        class="desktop-footsteps"
-        src="/assets/icons/no-result.webp"
-        alt="icône de traces de pas"
-      />
-      <h2>Désolé, aucun résultat ne correspond à votre recherche</h2>
-    </div>
-  } @else if (noMoreAds) {
-    <div class="no-ads-message">
-      <p><i>Fin des résultats</i></p>
-    </div>
-  }
+@if (showingSimilarAds == false) {
+@if (displayedAds && displayedAds.length >= displayedAdsNumber && !noMoreAds) {
+
+<div class="single-button-container">
+  <button type="submit" class="btn-info mt-4" (click)="loadMoreAds()">
+    voir plus
+    <img class="arrow-down-icon" src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas" />
+  </button>
+</div>
+}
+@if (displayedAds.length === 0) {
+<div class="no-ads-message">
+  <img class="desktop-footsteps" src="/assets/icons/no-result.webp" alt="icône de traces de pas" />
+  <h2>Désolé, aucun résultat ne correspond à votre recherche</h2>
+</div>
+} @else if (noMoreAds) {
+<div class="no-ads-message">
+  <p><i>Fin des résultats</i></p>
+</div>
+}
 }

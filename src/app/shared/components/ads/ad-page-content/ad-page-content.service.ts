@@ -12,7 +12,7 @@ import { Ad } from '../../../models/ad/ad.model';
 export class AdPageContentService {
   private contextUrl = `${API_URL}ads/`;
 
-  constructor(private http: HttpClient,private handleErrorService: HandleErrorService) {}
+  constructor(private http: HttpClient, private handleErrorService: HandleErrorService) { }
 
   // Find a specific ad
   getAdById(adId: number): Observable<Ad> {
@@ -23,12 +23,11 @@ export class AdPageContentService {
   }
 
   // Fetch a list of ads published by a specific user
-  fetchUserAds(location: string, userId: number, pageNumber: number, pageSize: number): Observable<AdCard[]> {
-    const url = `${this.contextUrl}${location}/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-    return this.http.get<AdCard[]>(url)
-      .pipe(
-        catchError(this.handleErrorService.handleError)
-      )
+  fetchUserAds(publisherId: number, pageNumber: number, pageSize: number, loggedInUserId: number): Observable<AdCard[]> {
+    const url = `${this.contextUrl}adPageContentList/${publisherId}/${loggedInUserId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return this.http.get<AdCard[]>(url).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
   }
 
   // Find ads with a specific category

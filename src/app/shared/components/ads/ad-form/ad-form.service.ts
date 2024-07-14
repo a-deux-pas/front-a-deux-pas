@@ -3,7 +3,7 @@ import { HandleErrorService } from '../../../services/handle-error.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { API_URL } from '../../../utils/constants/utils-constants';
-import { AdDetails } from '../../../models/ad/ad-details.model';
+import { Ad } from '../../../models/ad/ad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class AdFormService {
     private handleErrorService: HandleErrorService
   ) { }
 
-  postAd(ad: AdDetails): Observable<any> {
+  postAd(ad: Ad): Observable<any> {
     const url = `${API_URL}ads/create`
     return this.http.post(url, ad).pipe(
       catchError(this.handleErrorService.handleError)

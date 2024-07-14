@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { AdFormService } from './ad-form.service';
 import { AlertMessage } from '../../../models/enum/alert-message.enum';
 import { AlertType } from '../../../models/alert.model';
+import { escapeHtml } from '../../../utils/sanitizers/custom-sanitizers';
 
 @Component({
   selector: 'app-ad-form',
@@ -31,7 +32,7 @@ export class AdFormComponent {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
 
-  //TODO: check if I'll have to merge adModel and adDetails model (fix cloudinary branch)
+  // TO DO: check if I'll have to merge adModel and adDetails model (fix cloudinary branch)
   ad: Ad = new Ad(
     1,
     '',
@@ -162,8 +163,20 @@ export class AdFormComponent {
     this.location.back();
   }
 
-// TO DO :: a revoir (fix Cloudinary branch)
+  sanitizeTheInputs() {
+    escapeHtml(this.ad.title)
+    escapeHtml(this.ad.articleDescription)
+    escapeHtml(this.ad.creationDate!)
+    escapeHtml(this.ad.articleState!)
+    escapeHtml(this.ad.adStatus!)
+    escapeHtml(this.ad.category!)
+    escapeHtml(this.ad.subcategory)
+    escapeHtml(this.ad.articleGender!)
+  }
+
+  // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
+    this.sanitizeTheInputs()
     this.uploadArticlePictures().subscribe({
       next: () => {
         this.ad.creationDate = this.today.toISOString();
@@ -173,11 +186,6 @@ export class AdFormComponent {
         this.ad.publisherId = parseInt(localStorage.getItem('userId')!);
         this.adformService.postAd(this.ad).subscribe({
           next: (ad: Ad) => {
-            // @Erika, je te laisse checker si cela est vraiment nécéssaire
-            this.disabledFields = true;
-            setTimeout(() => {
-              this.disabledFields = false;
-            });
             this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
             setTimeout(() => {
               this.displayManagementService.displayAlert({

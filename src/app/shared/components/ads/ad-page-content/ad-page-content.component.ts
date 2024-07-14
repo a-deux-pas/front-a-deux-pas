@@ -1,7 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { AdService } from '../../../services/ad.service';
 import { AdDetails } from '../../../models/ad/ad-details.model';
-import { CommonModule, ViewportScroller } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
@@ -49,23 +49,23 @@ export class AdPageComponent implements OnInit {
   noMoreAds: boolean = false;
   userOtherAds: AdCard[] = [];
   similarAds: AdCard[] = [];
-  userId = localStorage.getItem('userId');
+  userId!: number;
   displayedAdsCount!: number
+
   constructor(
     private route: ActivatedRoute,
     private adService: AdService,
     private adPageContentService: AdPageContentService,
-    private viewportScroller: ViewportScroller,
     private displayManagementService: DisplayManagementService,
   ) { }
 
   ngOnInit(): void {
-    this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
     this.adPageContentService.getAdById(adId).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
+        this.userId = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')!) : 0;
         this.articlePictures = [
           // TO DO :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
           this.currentAd.firstArticlePictureUrl,
@@ -83,7 +83,6 @@ export class AdPageComponent implements OnInit {
             this.adService.isOnSellerAdPageUnLogged(true);
           }
         }
-        this.displayedAdsCount = this.onLoggedInUserAd ? 8 : 4;
       }
     });
   }
@@ -92,13 +91,8 @@ export class AdPageComponent implements OnInit {
     this.adService.isOnSellerAdPageUnLogged(false);
   }
 
-  scrollToTop(): void {
-    this.viewportScroller.scrollToPosition([0, 0])
-  }
-
   getSimilarAds(): void {
-    const currentUserId = this.userId ? parseInt(this.userId) : 0;
-    this.adPageContentService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, currentUserId).subscribe({
+    this.adPageContentService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, this.userId).subscribe({
       next: (similarAds: AdCard[]) => {
         this.similarAds = similarAds;
         return similarAds;
@@ -131,14 +125,16 @@ export class AdPageComponent implements OnInit {
     this.pageNumber++;
     this.fetchPaginatedAdsList();
   }
-  
+
+  // TO DO : checker displayedADs number
   fetchPaginatedAdsList() {
-    this.pageSize = this.onLoggedInUserAd ? 9 : 4;
-    this.adPageContentService.fetchUserAds('adPage', this.currentAd!.publisherId!, this.pageNumber, this.pageSize).subscribe({
+    this.pageSize = this.onLoggedInUserAd ? 9 : 5;
+    this.adPageContentService.fetchUserAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize, this.userId).subscribe({
       next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
         this.noMoreAds = ads.length <= 0;
+        this.displayedAdsCount = this.onLoggedInUserAd ? 8 : 4;
       }
     });
   }
