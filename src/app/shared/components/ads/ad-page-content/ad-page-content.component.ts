@@ -45,7 +45,7 @@ export class AdPageComponent implements OnInit {
   areaSizeB!: number
   showSeeMorBtn!: boolean;
   pageNumber: number = 0;
-  pageSize!: number;
+  pageSize: number = 5;
   noMoreAds: boolean = false;
   userOtherAds: AdCard[] = [];
   similarAds: AdCard[] = [];
@@ -126,15 +126,15 @@ export class AdPageComponent implements OnInit {
     this.fetchPaginatedAdsList();
   }
 
-  // TO DO : checker displayedADs number
   fetchPaginatedAdsList() {
-    this.pageSize = this.onLoggedInUserAd ? 9 : 5;
+    this.displayedAdsCount = 4;
     this.adPageContentService.fetchUserAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize, this.userId).subscribe({
       next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
+        console.log('userOtherad:: ', this.userOtherAds)
         this.noMoreAds = ads.length <= 0;
-        this.displayedAdsCount = this.onLoggedInUserAd ? 8 : 4;
+        this.pageSize = this.onLoggedInUserAd ? 8 : 4;
       }
     });
   }
