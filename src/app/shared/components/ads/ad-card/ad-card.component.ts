@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdCardService } from './ad-card.service';
 
@@ -14,10 +13,10 @@ export class AdCardComponent implements OnInit {
   @Input() ad!: AdCard;
   @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
   type: 'loggedInUserAd' | 'sellerAd' | 'unLogged' = 'unLogged';
-  currentUserId: number = parseInt(localStorage.getItem('userId')!);
+  currentUserId: number = Number(localStorage.getItem('userId')!);
 
   constructor(
-    private router: Router, private location: Location, private adCardService: AdCardService) {}
+    private router: Router, private adCardService: AdCardService, private renderer: Renderer2,  private el: ElementRef) {}
 
   ngOnInit() {
     if (this.ad.title.length > 23) {
@@ -27,6 +26,16 @@ export class AdCardComponent implements OnInit {
       this.type = this.ad.publisherId === this.currentUserId ? 'loggedInUserAd' : 'sellerAd';
     } else {
       this.type = 'unLogged';
+    }
+    if (this.ad.status) {
+      this.addStatusClass(this.ad.status);
+    }
+  }
+
+  addStatusClass(newStatus: string) {
+    const imgElement = this.el.nativeElement.querySelector('.card-img-top');
+    if (imgElement) {
+      this.renderer.addClass(imgElement, newStatus);
     }
   }
 
@@ -43,7 +52,6 @@ export class AdCardComponent implements OnInit {
     this.updateAdFavoriteStatus(this.ad.id, this.currentUserId, this.ad.favorite)
   }
 
-  // TODO: ajouter alert Success et Error
   updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean) {
     this.adCardService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
       next: (response) => {

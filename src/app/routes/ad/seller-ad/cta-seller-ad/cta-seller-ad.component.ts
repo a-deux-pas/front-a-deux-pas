@@ -14,7 +14,7 @@ import { ConnectionModalComponent } from '../../../../shared/components/connecti
   styleUrl: './cta-seller-ad.component.scss'
 })
 export class CtaSellerAdComponent implements OnInit {
-  @Input() myAd!: AdDetails | undefined
+  @Input() ad!: AdDetails | undefined;
   @Input() isBigScreen!: boolean;
   @Input() onSellerAdPageUnlogged: boolean = false;
   isLoggedIn!: boolean;
@@ -40,7 +40,7 @@ export class CtaSellerAdComponent implements OnInit {
     if (!this.isLoggedIn) { this.openModal() } else {
       // TO DO :: redirection vers le checkout mircea
     }
-}
+  }
 
   addToFavorites() {
     if (this.isLoggedIn) {

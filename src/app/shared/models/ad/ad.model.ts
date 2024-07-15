@@ -5,7 +5,7 @@ export class Ad {
         public id: number,
         public title: string,
         public articleDescription: string,
-        public creationDate?: Date,
+        public creationDate?: string,
         public articleState?: string,
         public price?: number,
         public adStatus?: string,

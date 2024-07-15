@@ -16,13 +16,14 @@
     </div>
     <div class="seller-ad-cta-encart mt-4">
         <div class="publisher-contact">
-            <p id="publisher-name">{{ myAd?.publisherAlias }}</p>
-            <a (click)="goToSellerProfile()" class="btn-cta text-decoration-none"> <img id="cta-btn-contact-seller" src="assets/icons/buttons/arrow-right.webp" alt="bouton pour acceder aux profil du vendeur"> </a>
+            <p id="publisher-name">{{ ad?.publisherAlias }}</p>
+            <a (click)="goToSellerProfile()" class="btn-cta text-decoration-none"> <img id="cta-btn-contact-seller"
+                    src="assets/icons/buttons/arrow-right.webp" alt="bouton pour acceder aux profil du vendeur"> </a>
         </div>
         <div class="publisher-info mt-2 mb-1">
             <div class="flex-column">
-                <p>{{ myAd?.publisherCity }}</p>
-                <p>Membre depuis le {{ myAd?.publisherInscriptionDate }}</p>
+                <p>{{ ad?.publisherCity }}</p>
+                <p>Membre depuis le {{ ad?.publisherInscriptionDate }}</p>
             </div>
         </div>
         <a (click)="contactTheSeller()" class="flex-column btn-cta text-decoration-none">
@@ -31,3 +32,4 @@
         </a>
     </div>
 </section>
+<!-- TO DO :: rebosser display du cta quand se fera le processus de checkout en fonction des differents ad.status -->
