@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HandleErrorService } from '../../shared/services/handle-error.service';
-import { API_URL } from '../../shared/utils/constants/utils-constants';
-import { Observable, catchError } from 'rxjs';
-import { UserPresentation } from '../../shared/models/user/user-presentation.model';
+import { HandleErrorService } from './handle-error.service';
+import { UserPresentation } from '../models/user/user-presentation.model';
+import { API_URL } from '../utils/constants/utils-constants';
+import { catchError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HomeService {
+export class UserService {
 
   constructor(
     private http: HttpClient,

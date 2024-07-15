@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cta-seller-ad',
@@ -17,19 +18,23 @@ export class CtaSellerAdComponent implements OnInit {
   @Input() myAd!: AdDetails | undefined
   @Input() isBigScreen!: boolean;
   @Input() onSellerAdPageUnlogged: boolean = false;
-  isLoggedIn!: boolean;
+  isUserLoggedIn!: boolean;
   authSubscription!: Subscription;
 
-  constructor(public modalService: NgbModal, private authService: AuthService) { }
+  constructor(
+    public modalService: NgbModal,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.authSubscription = this.authService.isLoggedIn().subscribe(status => {
-      this.isLoggedIn = status;
+      this.isUserLoggedIn = status;
     });
   }
 
   startCheckout() {
-    if (this.isLoggedIn) {
+    if (this.isUserLoggedIn) {
       // To be implemented by Mircea ;)
     } else {
       this.openModal()
@@ -37,30 +42,37 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   makeAnOffer() {
-    if (!this.isLoggedIn) { this.openModal() } else {
+    if (!this.isUserLoggedIn) { this.openModal() } else {
       // TO DO :: redirection vers le checkout mircea
     }
-}
+  }
 
   addToFavorites() {
-    if (this.isLoggedIn) {
+    if (this.isUserLoggedIn) {
       // To be implemented ..
     } else {
       this.openModal()
     }
   }
 
-  goToSellerProfile() {
-    if (this.isLoggedIn) {
-      // To be implemented
+  goToSellerProfile(sellerAlias: string | undefined, sellerId: number |undefined) {
+    if (this.isUserLoggedIn) {
+      if (sellerAlias && sellerId) {
+        let seller : NavigationExtras = { queryParams: { sellerId } };
+        this.router.navigate(['/profil', sellerAlias], {
+          state : { seller }
+        });
+      }
     } else {
       this.openModal()
     }
   }
 
-  contactTheSeller() {
-    if (!this.isLoggedIn) { this.openModal() } else {
-      // TO DO :: redirection vers le seller Profile
+  contactTheSeller(sellerAlias: string | undefined, sellerId: number |undefined) {
+    if (this.isUserLoggedIn) {
+      this.goToSellerProfile(sellerAlias, sellerId);
+    } else {
+      this.openModal()
     }
   }
 

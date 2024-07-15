@@ -57,14 +57,12 @@ export class AdPageComponent implements OnInit {
     private route: ActivatedRoute,
     private adService: AdService,
     private adPageContentService: AdPageContentService,
-    private viewportScroller: ViewportScroller,
     private displayManagementService: DisplayManagementService
   ) { }
 
   ngOnInit(): void {
-    this.scrollToTop();
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
-    this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
+    this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
     this.adPageContentService.getAdById(adId).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
@@ -97,10 +95,6 @@ export class AdPageComponent implements OnInit {
 
   ngOnDestroy() {
     this.adService.isOnSellerAdPageUnLogged(false);
-  }
-
-  scrollToTop(): void {
-    this.viewportScroller.scrollToPosition([0, 0])
   }
 
   getSimilarAds(): void {

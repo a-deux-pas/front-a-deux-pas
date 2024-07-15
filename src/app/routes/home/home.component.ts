@@ -9,10 +9,10 @@ import { AdCard } from '../../shared/models/ad/ad-card.model';
 import { AdService } from '../../shared/services/ad.service';
 import { UserPresentation } from '../../shared/models/user/user-presentation.model';
 import { SellersComponent } from './components/sellers/sellers.component';
-import { HomeService } from './home.service';
 import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
 import { AlertType } from '../../shared/models/alert.model';
 import { DisplayManagementService } from '../../shared/services/display-management.service';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private homeService: HomeService,
+    private userService: UserService,
     private adService: AdService,
     private displayManagementService: DisplayManagementService
   ) {}
@@ -79,18 +79,20 @@ export class HomeComponent implements OnInit {
   }
 
   private fetchAdsByUserLocation() {
-    if (!this.userAlias && !this.loggedInUserCity) {
+    if (!this.userAlias || !this.loggedInUserCity) {
       this.getUserAliasAndLocation(this.userId);
     } else {
-      this.selectedCities.push(this.loggedInUserCity!);
+      this.selectedCities.push(this.loggedInUserCity);
       this.fetchPaginatedAdsList(true);
     }
   }
 
   private getUserAliasAndLocation(userId: number): void  {
-    this.homeService.getUserAliasAndLocation(userId).subscribe((data: UserPresentation) => {
+    this.userService.getUserAliasAndLocation(userId).subscribe((data: UserPresentation) => {
       this.userAlias = data.alias;
       this.loggedInUserCity = `${data.city} (${data.postalCode})`;
+      localStorage.setItem('userAlias', this.userAlias);
+      localStorage.setItem('userCity', this.loggedInUserCity);
       this.selectedCities.push(this.loggedInUserCity);
       this.fetchPaginatedAdsList(true);
     })

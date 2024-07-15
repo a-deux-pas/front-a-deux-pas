@@ -30,8 +30,8 @@ export class AdCardComponent implements OnInit {
     }
   }
 
-  goToAdPage(adId: number, adPublisherId: number) {
-    const path = this.type === 'loggedInUserAd' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherId, adId];
+  goToAdPage(adId: number, adPublisherAlias: string) {
+    const path = this.type === 'loggedInUserAd' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherAlias, adId];
     this.router.navigate(path).then(() => {
       window.location.reload();
     });

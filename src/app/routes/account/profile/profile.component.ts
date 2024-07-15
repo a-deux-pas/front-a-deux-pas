@@ -9,13 +9,22 @@ import { UserPresentationComponent } from '../../../shared/components/user-prese
 import { EditButtonComponent } from './components/edit-button/edit-button.component';
 import { TabsAccountComponent } from '../../../shared/components/tabs-account/tabs-account.component';
 import { CommonModule } from '@angular/common';
+import { UserPresentationService } from '../../../shared/components/user-presentation/user-presentation.service';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   standalone: true,
-  imports: [TabsAccountComponent, EditButtonComponent, UserPresentationComponent, ScheduleComponent, MeetingPlacesComponent, CommonModule]
+  imports: [
+    TabsAccountComponent,
+    EditButtonComponent,
+    UserPresentationComponent,
+    ScheduleComponent,
+    MeetingPlacesComponent,
+    CommonModule
+  ]
 })
 export class ProfileComponent {
   user!: UserPresentation;
@@ -25,21 +34,34 @@ export class ProfileComponent {
   scheduleEditMode: boolean = false;
   meetingPlacesEditMode: boolean = false;
   userId: number = Number(localStorage.getItem('userId'));
+  userAlias: string | null = localStorage.getItem('userAlias');
 
-  constructor(private profileService: ProfileService) {
-  }
+  constructor(
+    private profileService: ProfileService,
+    private userService: UserService,
+    private userPresentationService: UserPresentationService
+  ) {}
 
   ngOnInit(): void {
+    if (!this.userAlias && this.userId) {
+      this.getUserAlias(this.userId)
+    }
+    this.fetchUserPresentation(this.userAlias!);
     if (this.userId) {
-      this.fetchUserPresentation(this.userId);
       this.fetchUserPreferredSchedules(this.userId);
       this.fetchPreferredMeetingPlaces(this.userId);
     }
   }
 
+  private getUserAlias(userId: number): void  {
+    this.userService.getUserAliasAndLocation(userId).subscribe((data: UserPresentation) => {
+      this.userAlias = data.alias;
+    })
+  }
+
   // Fetch user's information from the service
-  private fetchUserPresentation(userId: number): void {
-    this.profileService.getUserPresentation(userId).subscribe((data) => {
+  private fetchUserPresentation(userAlias: string): void {
+    this.userPresentationService.getUserPresentation(userAlias).subscribe((data) => {
       this.user = data;
     });
   }

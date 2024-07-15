@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SellersService } from './sellers.service';
 import { UserPresentation } from '../../../../shared/models/user/user-presentation.model';
+import { NavigationExtras, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sellers',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './sellers.component.html',
   styleUrl: './sellers.component.scss'
 })
@@ -13,7 +14,7 @@ export class SellersComponent implements OnInit {
   userId: number = Number(localStorage.getItem('userId'));
   sellers: UserPresentation[] = [];
 
-  constructor(private sellerService: SellersService) {}
+  constructor(private sellerService: SellersService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchSellersNearby(this.userId);
@@ -27,5 +28,12 @@ export class SellersComponent implements OnInit {
         seller.salesNumber =  Math.floor(Math.random() * 101).toString()
       });
     })
+  }
+
+  goToSellerProfile(alias: string, seller: UserPresentation): void {
+    let sellerObject: NavigationExtras = { queryParams: { seller } };
+    this.router.navigate(['/profil', alias],
+      { state: { seller : sellerObject } },
+    );
   }
 }
