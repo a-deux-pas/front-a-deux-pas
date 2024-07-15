@@ -1,7 +1,7 @@
 @if (displayedAds && displayedAds.length > 0) {
   <div class="ad-list-container">
     @for (ad of displayedAds; track ad) {
-    <app-ad-card class="item" [ad]="ad"></app-ad-card>
+      <app-ad-card class="item" [ad]="ad"></app-ad-card>
     }
   </div>
 }
