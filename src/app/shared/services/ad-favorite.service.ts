@@ -13,6 +13,7 @@ import { AdDetails } from '../models/ad/ad-details.model';
   providedIn: 'root'
 })
 export class AdFavoriteService {
+  contextUrl = `${API_URL}ads/`;
   updateAdsFavoritesList: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -22,7 +23,7 @@ export class AdFavoriteService {
   ) {}
 
   getUserFavoritesAd(userId: number, pageNumber: number, pageSize: number): Observable<AdCard[]> {
-    const url = `${API_URL}ads/favorites/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    const url = `${this.contextUrl}favorites/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<AdCard[]>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
@@ -30,7 +31,7 @@ export class AdFavoriteService {
 
   sendNewAdFavoriteStatus(adId: number, userId: number, isFavorite: boolean): Observable<boolean> {
     console.log("ajout en favori", adId);
-    const url = `${API_URL}ads/${adId}/favorite/${userId}`;
+    const url = `${this.contextUrl}${adId}/favorite/${userId}`;
     return this.http.put<boolean>(url, isFavorite,
       { responseType: 'text' as 'json'}
     ).pipe(

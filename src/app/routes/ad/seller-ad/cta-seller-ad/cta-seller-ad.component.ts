@@ -49,14 +49,18 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   addToFavorites() {
-    if (this.ad) {
-      this.ad.favorite = !this.ad.favorite;
-      this.adFavoriteService.updateAdFavoriteStatus(
-        this.ad.id,
-        this.currentUserId,
-        this.ad.favorite,
-        this.ad
-      );
+    if (this.isLoggedIn) {
+      if (this.ad) {
+        this.ad.favorite = !this.ad.favorite;
+        this.adFavoriteService.updateAdFavoriteStatus(
+          this.ad.id,
+          this.currentUserId,
+          this.ad.favorite,
+          this.ad
+        );
+      }
+    } else {
+      this.openModal()
     }
   }
 
