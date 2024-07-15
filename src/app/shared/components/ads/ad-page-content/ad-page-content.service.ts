@@ -23,8 +23,8 @@ export class AdPageContentService {
   }
 
   // Fetch a list of ads published by a specific user
-  fetchUserAds(publisherId: number, pageNumber: number, pageSize: number, loggedInUserId: number): Observable<AdCard[]> {
-    const url = `${this.contextUrl}adPageContentList/${publisherId}/${loggedInUserId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+  fetchUserAds(publisherId: number, pageNumber: number, pageSize: number, loggedInUserId: number, adId: number): Observable<AdCard[]> {
+    const url = `${this.contextUrl}adPageContentList/${publisherId}/${loggedInUserId}/${adId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<AdCard[]>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
