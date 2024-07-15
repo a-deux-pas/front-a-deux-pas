@@ -166,12 +166,6 @@ export class AdFormComponent {
   sanitizeTheInputs() {
     escapeHtml(this.ad.title)
     escapeHtml(this.ad.articleDescription)
-    escapeHtml(this.ad.creationDate!)
-    escapeHtml(this.ad.articleState!)
-    escapeHtml(this.ad.adStatus!)
-    escapeHtml(this.ad.category!)
-    escapeHtml(this.ad.subcategory)
-    escapeHtml(this.ad.articleGender!)
   }
 
   // TO DO :: a revoir (fix Cloudinary branch)

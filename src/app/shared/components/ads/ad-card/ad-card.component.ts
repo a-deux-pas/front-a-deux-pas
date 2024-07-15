@@ -52,8 +52,6 @@ export class AdCardComponent implements OnInit {
     this.updateAdFavoriteStatus(this.ad.id, this.currentUserId, this.ad.favorite)
   }
 
-  // TODO: ajouter alert Success et Error
-  // @Lea => je peux le virer ce commentaire ? 
   updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean) {
     this.adCardService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
       next: (response) => {

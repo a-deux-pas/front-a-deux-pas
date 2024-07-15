@@ -62,7 +62,7 @@ export class AdPageComponent implements OnInit {
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
-    this.pageSize = this.onLoggedInUserAd ? 9 : 4;
+    this.pageSize = this.onLoggedInUserAd ? 9 : 5;
     this.adPageContentService.getAdById(adId).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
@@ -133,7 +133,7 @@ export class AdPageComponent implements OnInit {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.userOtherAds = this.userOtherAds.filter(ad => ad.id !== this.currentAd!.id);
         this.noMoreAds = ads.length <= 0;
-        this.displayedAdsCount = this.onLoggedInUserAd ? 8 : 4;
+        this.displayedAdsCount = this.onLoggedInUserAd ? 9 : 3;
       }
     });
   }
