@@ -62,7 +62,7 @@ export class AdPageComponent implements OnInit {
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
-    this.pageSize = this.onLoggedInUserAd ? 9 : 5;
+    this.pageSize = this.onLoggedInUserAd ? 9 : 4;
     this.adPageContentService.getAdById(adId).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
@@ -124,7 +124,6 @@ export class AdPageComponent implements OnInit {
 
   loadMoreAds() {
     this.pageNumber++;
-    this.pageSize = 5 ? this.pageSize = 4 : 5;
     this.fetchPaginatedAdsList();
   }
 
