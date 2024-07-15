@@ -5,10 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
-import { AdService } from '../../../../shared/services/ad.service';
-import { DisplayManagementService } from '../../../../shared/services/display-management.service';
-import { AlertMessage } from '../../../../shared/models/enum/alert-message.enum';
-import { AlertType } from '../../../../shared/models/alert.model';
+import { AdFavoriteService } from '../../../../shared/services/ad-favorite.service';
 
 @Component({
   selector: 'app-cta-seller-ad',
@@ -18,7 +15,7 @@ import { AlertType } from '../../../../shared/models/alert.model';
   styleUrl: './cta-seller-ad.component.scss'
 })
 export class CtaSellerAdComponent implements OnInit {
-  @Input() myAd!: AdDetails | undefined
+  @Input() ad!: AdDetails | undefined;
   @Input() isBigScreen!: boolean;
   @Input() onSellerAdPageUnlogged: boolean = false;
   currentUserId: number = Number(localStorage.getItem('userId'));
@@ -28,8 +25,7 @@ export class CtaSellerAdComponent implements OnInit {
   constructor(
     public modalService: NgbModal,
     private authService: AuthService,
-    private adService: AdService,
-    private displayManagementService: DisplayManagementService
+    private adFavoriteService: AdFavoriteService
   ) {}
 
   ngOnInit(): void {
@@ -53,32 +49,15 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   addToFavorites() {
-    if (this.myAd) {
-      this.myAd.favorite = !this.myAd.favorite;
-      this.updateAdFavoriteStatus(this.myAd?.id, this.currentUserId, this.myAd.favorite);
+    if (this.ad) {
+      this.ad.favorite = !this.ad.favorite;
+      this.adFavoriteService.updateAdFavoriteStatus(
+        this.ad.id,
+        this.currentUserId,
+        this.ad.favorite,
+        this.ad
+      );
     }
-  }
-
-  updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean) {
-    this.adService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
-      next: (response) => {
-          console.log(response);
-          if (isfavorite) {
-            this.displayManagementService.displayAlert({
-              message: AlertMessage.FAVORITES_ADDED_SUCCESS,
-              type: AlertType.SUCCESS,
-            });
-          } else {
-            this.displayManagementService.displayAlert({
-              message: AlertMessage.FAVORITES_REMOVED_SUCCESS,
-              type: AlertType.SUCCESS,
-            });
-          }
-      },
-      error: (error) => {
-        console.error('Error:', error);
-      }
-    });
   }
 
   goToSellerProfile() {

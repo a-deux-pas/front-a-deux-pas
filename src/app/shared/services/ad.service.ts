@@ -48,20 +48,4 @@ export class AdService {
   isOnSellerAdPageUnLogged(boolean: boolean) {
     this.sellerAdPageLoadedSubject.next(boolean);
   }
-
-  getUserFavoritesAd(userId: number, pageNumber: number, pageSize: number): Observable<AdCard[]> {
-    const url = `${API_URL}ads/favorites/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-    return this.http.get<AdCard[]>(url).pipe(
-      catchError(this.handleErrorService.handleError)
-    );
-  }
-
-  updateAdFavoriteStatus(adId: number, userId: number, isFavorite: boolean): Observable<boolean> {
-    const url = `${API_URL}ads/${adId}/favorite/${userId}`;
-    return this.http.put<boolean>(url, isFavorite,
-      { responseType: 'text' as 'json'}
-    ).pipe(
-      catchError(this.handleErrorService.handleError)
-    );
-  }
 }
