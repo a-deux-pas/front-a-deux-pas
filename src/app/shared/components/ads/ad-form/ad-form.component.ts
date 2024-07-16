@@ -15,8 +15,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { AdFormService } from './ad-form.service';
-import { AlertMessage } from '../../../models/enum/alert-message.enum';
-import { AlertType } from '../../../models/alert.model';
+import { escapeHtml } from '../../../utils/sanitizers/custom-sanitizers';
+import { ALERTS } from '../../../utils/constants/alert-constants';
 
 @Component({
   selector: 'app-ad-form',
@@ -31,12 +31,12 @@ export class AdFormComponent {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
 
-  //TODO @Erika: à voir pour changer avec AdDetails
+  // TO DO: check if I'll have to merge adModel and adDetails model (fix cloudinary branch)
   ad: Ad = new Ad(
     1,
     '',
     '',
-    new Date(),
+    '',
   );
 
   today: Date = new Date()
@@ -143,8 +143,10 @@ export class AdFormComponent {
         });
       }),
       catchError((error: any) => {
-        console.error('Error occurred during image upload:', error);
-        throw error;
+        this.displayManagementService.displayAlert(
+          ALERTS.UPLOAD_PICTURE_ERROR,
+        );
+        throw error; // TO DO: @erika, je te laisse voir si cela est nécéssaire au moment du fix cloudinary
       })
     );
   }
@@ -162,43 +164,35 @@ export class AdFormComponent {
     this.location.back();
   }
 
-// TO DO :: a revoir (fix Cloudinary branch)
+  sanitizeTheInputs() {
+    escapeHtml(this.ad.title)
+    escapeHtml(this.ad.articleDescription)
+  }
+
+  // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
+    this.sanitizeTheInputs()
     this.uploadArticlePictures().subscribe({
       next: () => {
-        this.ad.creationDate = this.today;
+        this.ad.creationDate = this.today.toISOString();
         this.ad.subcategory = this.ad.category == "Autre" ?
           Subcategory.OTHER_SUBCATEGORY :
           this.ad.subcategory.name;
-        this.ad.publisherId = parseInt(localStorage.getItem('userId')!);
+        this.ad.publisherId = Number(localStorage.getItem('userId'));
         this.adformService.postAd(this.ad).subscribe({
           next: (ad: Ad) => {
-            // @Erika, je te laisse checker si cela est vraiment nécéssaire
-            this.disabledFields = true;
-            setTimeout(() => {
-              this.disabledFields = false;
-            });
             this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
             setTimeout(() => {
-              this.displayManagementService.displayAlert({
-                message: AlertMessage.AD_CREATED_SUCCES,
-                type: AlertType.SUCCESS
-              });
+              this.displayManagementService.displayAlert(
+                ALERTS.AD_CREATED_SUCCES
+              );
             }, 100);
           },
-          error: (error: any) => {
-            this.displayManagementService.displayAlert({
-              message: AlertMessage.DEFAULT_ERROR,
-              type: AlertType.ERROR
-            });
+          error: () => {
+            this.displayManagementService.displayAlert(
+              ALERTS.DEFAULT_ERROR,
+            );
           }
-        });
-      },
-      error: (error: any) => {
-        console.error('Error occurred during image upload:', error);
-        this.displayManagementService.displayAlert({
-          message: AlertMessage.UPLOAD_PICTURE_ERROR,
-          type: AlertType.ERROR
         });
       }
     });

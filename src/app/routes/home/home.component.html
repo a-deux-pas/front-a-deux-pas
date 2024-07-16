@@ -12,8 +12,7 @@
       [displayedAds]="filteredAds"
       [displayedAdsNumber]="displayedAdsNumberLoggedIn"
       [noMoreAds]="noMoreFilteredAds"
-      (loadMore)="loadMoreFilteredAds()"
-      (updateAdsFavoritesList)="updateAdsFavoritesList($event)">
+      (loadMore)="loadMoreFilteredAds()">
     </app-ad-list>
     @if (this.favoritesAds.length > 0) {
       <h2 class="text-left fw-bold m-5">Mes favoris</h2>
@@ -21,8 +20,7 @@
         [displayedAds]="favoritesAds"
         [displayedAdsNumber]="displayedAdsNumberLoggedIn"
         [noMoreAds]="noMorefavoriteAds"
-        (loadMore)="loadMoreFavoritesAds()"
-        (updateAdsFavoritesList)="updateAdsFavoritesList($event)">
+        (loadMore)="loadMoreFavoritesAds()">
       </app-ad-list>
     }
     <h2 class="text-left fw-bold m-5 pt-4">Les vendeurs prêts de chez moi</h2>
