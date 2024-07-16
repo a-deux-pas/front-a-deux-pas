@@ -20,7 +20,12 @@ export class ImageService {
     public upload(image: File): Observable<any> {
         const formData = new FormData();
         formData.append('multipartFile', image);
-        console.log('formData:: ', formData)
+
+        // Vérification du contenu de FormData
+        formData.forEach((value, key) => {
+            console.log(`${key}: ${value}`);
+        });
+
         return this.httpClient.post<any>(this.imageURL + 'upload', formData);
     }
 

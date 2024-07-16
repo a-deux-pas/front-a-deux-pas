@@ -26,8 +26,8 @@ export class ImageComponent implements OnInit {
   }
 
   onFileChange(event: any) {
+
     this.image = event.target.files[0];
-    console.log('this.image:: ', this.image)
     this.imageMin = null;
     const fr = new FileReader();
     fr.onload = (evento: any) => {
@@ -38,23 +38,14 @@ export class ImageComponent implements OnInit {
     }
   }
 
-  onUpload(): void {
-    // if (this.image) {
-    //   this.imageService.upload(this.image).subscribe(
-    //     data => {
-    //       this.fetchImages();
-    //     },
-    //     err => {
-    //       this.reset();
-    //       this.fetchImages();
-    //     }
-    //   );
-    // }
-
+  onUpload(event: Event): void {
+    event.preventDefault()
     if (this.image) {
       console.log('this.image:: ', this.image)
       this.imageService.upload(this.image).subscribe({
         next: (data) => {
+          console.error(data)
+
           this.fetchImages();
         },
         error: error => {
