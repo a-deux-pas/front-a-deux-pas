@@ -1,16 +1,8 @@
-@if (adSuccessfullySubmitted) {
-<div class="d-flex justify-content-center">
-    <div class="alert alert-success text-center mb-5">
-        Votre annonce "<strong>{{ currentAd?.title }}</strong>" a bien été créée
-    </div>
-</div>
-}
 <div class="custom-container">
     <div class="main-sections">
 
         <!-- image view on desktop device -->
         <section class="article-picture-image-section">
-            @if (articlePictures.length > 1) {
             <div class="split-article-pictures-section">
                 <as-split direction="horizontal">
                     <as-split-area [size]="areaSizeA" #splitAreaA>
@@ -44,11 +36,6 @@
                     </as-split-area>
                 </as-split>
             </div>
-            }
-            @else {
-            <!-- TO DO :: enlever le @else apres merge de l'US back de Mircea -->
-            <img class="single-picture-section mx-auto" src="{{articlePictures[0]}}" alt="{{ currentAd?.title }} 1" />
-            }
         </section>
 
         <!-- image view on mobile device -->
@@ -69,7 +56,7 @@
         <section class="general-info mt-3">
             <div class="title-and-price">
                 <p id="ad-title"><b>{{ currentAd?.title }}</b></p>
-                <p id="ad-price">{{ currentAd?.price }} €</p>
+                <p id="ad-price">{{ currentAd?.price }}€</p>
             </div>
             <div class="other-info flex-column">
                 <p id="ad-creation-date" class="mt-2">Créée le {{ currentAd?.creationDate }}</p>
@@ -80,60 +67,37 @@
 
         <!-- CTA encart -->
         <section class="cta-encart">
-            @if (onMyAd) {
+            @if (onLoggedInUserAd) {
             <app-cta-my-ad [myAd]="currentAd!"></app-cta-my-ad>
             } @else {
-            <app-cta-seller-ad [myAd]="currentAd"></app-cta-seller-ad>
+            <app-cta-seller-ad [ad]="currentAd"></app-cta-seller-ad>
             }
         </section>
     </div>
 
     <!-- similar ads section -->
-    <!-- TO DO :: quand process de connexion implémenté, rendre la recuperation du currentUserid dynamique -->
-    <!-- TO DO :: quand process de connexion implémenté, faire en sorte que les annonces du current user ne puissent pas apparaitre dans cette section -->
-    <!-- TO DO :: quand process de connexion implémenté, rendre la recuperation du currentUserid dynamique -->
-    @if (!onMyAd) {
-    <section class="mt-5 mb-5 similar-ads-list-section">
-        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+    @if (!onLoggedInUserAd && similarAds.length > 0) {
+    <section class="mt-5 mb-5">
+        <h3 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
             Les annonces similaires
         </h3>
-        <div class="similar-ads">
-            @for (similarAd of similarAds; track similarAd) {
-            <a href="/annonce/{{similarAd.publisherId}}/{{similarAd.id}}">
-                <app-ad-card [ad]="similarAd" [currentUserId]=currentAd!.publisherId!></app-ad-card>
-            </a>
-            }
-        </div>
+        <app-ad-list [displayedAds]="similarAds" [displayedAdsNumber]="displayedAdsCount" [noMoreAds]="noMoreAds"
+            (loadMore)="loadMoreAds()" [showingSimilarAds]="true"></app-ad-list>
     </section>
     }
 
-    <!-- current user other ads section -->
-    <!-- TO DO :: quand process de connexion implémenté, conditionner la redirection du click sur les autres annonces vers myAd ou sellerAd -->
-    <!-- TO DO :: quand process de connexion implémenté, rendre la recuperation du currentUserid dynamique -->
-    <section class="mt-5 mb-5 other-ads-list-section">
-        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
-            @if (onMyAd) {
+    <!-- user's other ads section -->
+    @if (userOtherAds.length > 0) {
+    <section class="mt-5 mb-5">
+        <h3 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+            @if (onLoggedInUserAd) {
             Mes autres annonces
             } @else {
             Les autres annonces de {{ currentAd?.publisherAlias }}
             }
         </h3>
-        <div class="user-other-ads">
-            @for (otherAd of userOtherAds; track otherAd) {
-            <app-ad-card [ad]="otherAd" [currentUserId]=currentAd!.publisherId!></app-ad-card>
-            }
-        </div>
+        <app-ad-list [displayedAds]="userOtherAds" [displayedAdsNumber]="displayedAdsCount" [noMoreAds]="noMoreAds"
+            (loadMore)="loadMoreAds()"></app-ad-list>
     </section>
+    }
 </div>
-
-<!-- See more button -->
-@if (!noMoreAds && showSeeMorBtn) {
-<button type="submit" class="btn-info mt-4 mx-auto" (click)="loadMoreAds()">voir plus<img class="arrow-down-icon"
-        src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
-</button>
-}
-@if (noMoreAds) {
-<div class="no-ads-message">
-    <p><i>Fin des résultats</i></p>
-</div>
-}

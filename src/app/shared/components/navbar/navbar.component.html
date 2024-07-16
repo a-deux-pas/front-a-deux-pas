@@ -3,10 +3,10 @@
   <!-- Top part -->
   <section class="mobile-top-nav-container">
     <div id="mobile-top-navbar">
-      <div class="mobile-logo-container mt-4 mb-2">
+      <a class="mobile-logo-container mt-4 mb-2 text-decoration-none" routerLink="/">
         <span class="mobile-logo align-self-center">A DEUX PAS</span>
-        <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
-      </div>
+        <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas" />
+      </a>
       <app-search-bar></app-search-bar>
     </div>
     <div class="mobile-top-nav-background"></div>
@@ -16,33 +16,33 @@
   <!-- Bottom part -->
   <section id="mobile-bottom-navbar">
     <ul id="mobile-bottom-navbar-icons">
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-        <a routerLink="accueil" class="navbar-icon">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
+        <a routerLink="/" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
           Accueil
         </a>
       </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <a routerLink="compte/annonces" class="navbar-icon">
-          <img class="icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'"/>
+          <img class="icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'" />
           Annonces
         </a>
       </li>
       <li>
-        <a routerLink="annonce/creation" class="navbar-icon" id="mobile-sell-icon">
-          <img class="icon" src="assets/icons/navbar/add-orange-green.webp" alt="icône 'Vendre'"/>
+        <a class="navbar-icon" id="mobile-sell-icon" (click)="openModalOrSell()">
+          <img class="icon" src="assets/icons/navbar/add-orange-green.webp" alt="icône 'Vendre'" />
           Vendre
         </a>
       </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <a routerLink="compte/favoris" class="navbar-icon">
-          <img class="icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'"/>
+          <img class="icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'" />
           Favoris
         </a>
       </li>
-      <li>
+      <li [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <a (click)="toggleAccountMenuState()" class="navbar-icon">
-          <img class="icon" id="mobile-account-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
+          <img class="icon" id="mobile-account-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'" />
           Compte
         </a>
       </li>
@@ -54,82 +54,87 @@
 
 <!-- Account menu -->
 @if (isAccountMenuOpen) {
-  <section id="account-menu">
-    <a id="account-menu-close" class="close" (click)="toggleAccountMenuState()">x</a>
-    <div class="mobile-logo-container mt-4" id="mobile-account-menu-logo">
-      <span class="mobile-logo align-self-center">A DEUX PAS</span>
-      <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas"/>
-    </div>
-    <div id="account-menu-items">
-      <div id="account-menu-items-wrapper">
-        @for (route of accountRoutes[0].children; track $index) {
-          <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{ route.title }}</a>
-        }
-        <div id="account-menu-separator">
-          <div id="account-menu-line"></div>
-        </div>
-        <a routerLink="" class="account-menu-item" id="logout" (click)="toggleAccountMenuState()">Se déconnecter</a>
+<section id="account-menu">
+  <a id="account-menu-close" class="close" (click)="toggleAccountMenuState()">x</a>
+  <a class="mobile-logo-container mt-4 text-decoration-none" id="mobile-account-menu-logo" routerLink="/">
+    <span class="mobile-logo align-self-center">A DEUX PAS</span>
+    <img class="mobile-footsteps" src="assets/icons/mobile-footsteps.webp" alt="icône de traces de pas" />
+  </a>
+  <div id="account-menu-items">
+    <div id="account-menu-items-wrapper">
+      @for (route of accountRoutes[0].children; track $index) {
+      <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{
+        route.title }}</a>
+      }
+      <div id="account-menu-separator">
+        <div id="account-menu-line"></div>
       </div>
+      <a routerLink="" class="account-menu-item" id="logout" (click)="toggleAccountMenuState()">Se déconnecter</a>
     </div>
-  </section>
+  </div>
+</section>
 }
 
 <!-- Desktop navbar -->
 <nav class="desktop-nav-container" aria-label="barre de navigation ordinateur">
   <div id="desktop-navbar">
     <div id="desktop-navbar-display">
-      <div class="mt-2" id="desktop-logo">
-        <img class="desktop-footsteps" src="assets/icons/desktop-footsteps.webp" alt="icône de traces de pas"/>
-          <div class="text-left">
-            <span class="desktop-logo">A</span>
-            <span class="desktop-logo">DEUX</span>
-            <span class="desktop-logo">PAS</span>
-          </div>
-      </div>
-      <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon">
+      <a class="mt-2 text-decoration-none" id="desktop-logo" routerLink="/">
+        <img class="desktop-footsteps" src="assets/icons/desktop-footsteps.webp" alt="icône de traces de pas" />
+        <div class="text-left">
+          <span class="desktop-logo">A</span>
+          <span class="desktop-logo">DEUX</span>
+          <span class="desktop-logo">PAS</span>
+        </div>
+      </a>
+      <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
         Vendre
       </button>
       <app-search-bar></app-search-bar>
-      <ul id="desktop-navbar-icons">
+      <ul id="desktop-navbar-icons" [hidden]="isRegistrationPage  || onSellerAdPageUnlogged">
         <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
-          <a routerLink="accueil" class="navbar-icon">
+          <a routerLink="/" class="navbar-icon">
             <img class="add-icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
             Accueil
           </a>
         </li>
         <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
           <a routerLink="compte/annonces" class="navbar-icon">
-            <img class="add-icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'"/>
+            <img class="add-icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'" />
             Annonces
           </a>
         </li>
         <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}">
           <a routerLink="compte/favoris" class="navbar-icon">
-            <img class="add-icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'"/>
+            <img class="add-icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'" />
             Favoris
           </a>
         </li>
         <li>
           <a (click)="toggleAccountMenuState()" id="desktop-account-icon" class="mb-2">
-            <img class="add-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'"/>
+            <img class="add-icon" src="assets/icons/navbar/account.webp" alt="icône 'Compte'" />
             Compte
           </a>
           @if (isAccountMenuOpen) {
-            <div id="dropdown-content">
-              <ul>
-                @for (route of accountRoutes[0].children; track $index) {
-                    <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{ route.title }}</a>
-                }
-                <div id="account-menu-separator">
-                  <div id="account-menu-line"></div>
-                </div>
-                <li><a routerLink="" class="account-menu-item" id="logout" (click)="toggleAccountMenuState()">Se déconnecter</a></li>
-              </ul>
-            </div>
+          <div id="dropdown-content">
+            <ul>
+              @for (route of accountRoutes[0].children; track $index) {
+              <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{
+                route.title }}</a>
+              }
+              <div id="account-menu-separator">
+                <div id="account-menu-line"></div>
+              </div>
+              <li><a routerLink="" class="account-menu-item" id="logout" (click)="logout()">Se déconnecter</a></li>
+            </ul>
+          </div>
           }
         </li>
       </ul>
+      <button [hidden]="!onSellerAdPageUnlogged" (click)="openModal()" type="submit" class="btn-connection">
+        se connecter
+      </button>
     </div>
   </div>
   <div class="desktop-curve-container">

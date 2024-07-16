@@ -1,20 +1,12 @@
-@if (errorWhenSubmittingMsg) {
-<div class="d-flex justify-content-center">
-  <div class="alert alert-danger text-center mb-5">
-    Une erreur s'est produite, veuillez réessayer plus tard
-  </div>
-</div>
-}
 <form #adForm="ngForm" (ngSubmit)="onSubmit()" class="custom-container">
   <div class="centered-elements">
     <h2 class="text-center bold-title-700 mb-5">{{ formTitle }}</h2>
-
     <h3 class="bold-title-700">Photo(s)</h3>
 
     <!-- number of article picture image selection -->
     <div class="mx-auto mb-5" id="select-pic-number">
       <ng-select [clearable]="false" [(ngModel)]="selectedPicNumber" name="selectedPicNumber" class="custom mt-4"
-        placeholder="2 photos" [disabled]="disabledFields">
+        placeholder="2 photos">
         @for (number of [2, 3, 4, 5]; track number; let i = $index) {
         <ng-option [id]="'select-pic-number' + selectedPicNumber" [value]="number">
           {{ number }} photos
@@ -23,64 +15,37 @@
       </ng-select>
     </div>
 
-    <!-- DropzoneJsTest -->
-    <!-- TO DO : si dropzone Ok -> penser à supprimer ngx-dropzone -->
-    <p>dropzoneJs</p>
-    <section id="adFormDesktopDropzone" class="dropzone-field mx-auto">
-      @for (n of getArray(selectedPicNumber); track n; let i = $index) {
-      <div [class.two-dropzones]="selectedPicNumber === 2" [class.three-dropzones]="selectedPicNumber === 3"
-        [class.four-dropzones]="selectedPicNumber === 4" [class.five-dropzones]="selectedPicNumber === 5">
-        <dropzone class="mb-5" id="dropzone-{{i}}" [config]="config" [message]="'ajouter une photo'"
-          (mouseleave)="onDropzoneInteraction()"></dropzone>
-      </div>
-      }
-
-      @if (!isProfilePictureUploaded && hasInteractedWithDropzone) {
-      <div class="error-msg">Veuillez ajouter une photo de profil pour que les autres utilisateurs puissent vous
-        reconnaître lors des rdv</div>
-      }
-      <div class="error-msg">{{ errorMessage }}</div>
-
-    </section>
-
-
-
-    <!-- <form action="/target" id="my-dropzone" (click)="checkThumbnail()"
-      class="dropzone photoDragAndDrop mx-auto mb-5 container d-flex justify-content-center align-items-center">
-      <div class="dz-preview dz-file-preview" [ngStyle]="{ 'display': files.length > 0 ? 'block' : 'none' }">
-        <div class="dz-details">
-          <img data-dz-thumbnail />
-        </div>
-      </div>
-      <div class="dz-message" [ngStyle]="{ 'display': files.length > 0 ? 'none' : 'block' }">
-        <div class="add-picture-btn">
-          <img class="add-picture-icon" src="assets/icons/buttons/add-orange.webp" alt="icone-d-ajout">
-          <p class="add-picture-btn-text">ajouter une photo</p>
-        </div>
-      </div>
-    </form> -->
-
+    <!-- TO DO :: will be changed in order to use dropzoneJs instead (fix Cloudinary branch)  -->
     <!-- image selection section on desktop device -->
-    <!-- <div class="dropzone-field mx-auto mb-5"> -->
-    <!-- @for (n of getArray(selectedPicNumber); track n; let i = $index) {
-    <form action="/target" id="my-dropzone" name="article-picture" class="dropzone"
-      [class.two-dropzones]="selectedPicNumber === 2" [class.three-dropzones]="selectedPicNumber === 3"
-      [class.four-dropzones]="selectedPicNumber === 4" [class.five-dropzones]="selectedPicNumber === 5"> -->
-    <!-- <ngx-dropzone-label class="center mx-auto">
-          <div class="add-picture-btn">
-            <img class="add-picture-icon" src="assets/icons/buttons/add-orange.webp" alt="icone-d-ajout">
-            <p class="add-picture-btn-text">ajouter une photo</p>
-          </div>
-        </ngx-dropzone-label>
-        @for (f of getFilesArray(i); track f) {
-        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [removable]="true" [file]="f"
-          (removed)="onRemove(f, i)">
-        </ngx-dropzone-image-preview> -->
-    <!-- } -->
-    <!-- </form>
-    } -->
-    <!-- </div> -->
+    <div>
+      <div class="dropzone-field mx-auto mb-5">
+        @for (n of getArray(selectedPicNumber); track n; let i = $index) {
+        <ngx-dropzone #dropzoneEl name="article-picture" class="dropzone"
+          [ngClass]="{'d-none': isBigScreen == false, 'block': isBigScreen == true}" id="dropzone{{i}}"
+          (change)="onSelectPicture($event, i)" [multiple]="false" [class.two-dropzones]="selectedPicNumber === 2"
+          [class.three-dropzones]="selectedPicNumber === 3" [class.four-dropzones]="selectedPicNumber === 4"
+          [class.five-dropzones]="selectedPicNumber === 5" accept="image/jpeg,image/jpg,image/png,image/svg,image/webp">
+          <ngx-dropzone-label class="center mx-auto">
+            <div class="add-picture-btn">
+              <img class="add-picture-icon" src="assets/icons/buttons/add-orange.webp" alt="icone-d-ajout">
+              <p class="add-picture-btn-text">ajouter une photo</p>
+            </div>
+          </ngx-dropzone-label>
+          @for (f of getFilesArray(i); track f) {
+          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [removable]="true" [file]="f"
+            (removed)="onRemove(f, i)">
+          </ngx-dropzone-image-preview>
+          }
+        </ngx-dropzone>
+        }
+      </div>
 
+      <<<<<<< HEAD @if (files2.length==0 && adForm.submitted) { <div>
+        <span class="error-msg">Veuillez ajouter au moins deux photos</span>
+    </div>
+    }
+    =======
+    <!-- TO DO :: will be changed in order to use dropzoneJs instead (fix Cloudinary branch)-->
     <!-- Carrousel section for image selection on mobile device -->
     <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true" (slide)="onSlide($event)"
       class="center" [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
@@ -95,7 +60,7 @@
             <div class="add-picture-btn">
               <img id="ad-picture-{{i}}" class="add-picture-icon" src="assets/icons/buttons/add-orange.webp"
                 alt="icone-d-ajout">
-              <p class="add-picture-btn-text">ajouter une photo</p>
+              <p class="add-picture-btn-text-{{i}}">ajouter une photo</p>
             </div>
           </ngx-dropzone-label>
           @for (f of getFilesArray(picNumber); track f; let i = $index) {
@@ -113,12 +78,14 @@
     <span class="error-msg">Veuillez ajouter au moins deux photos</span>
   </div>
   }
+  </div>
+  >>>>>>> dev
 
   <!-- Category choice section -->
   <div class="mx-auto mt-5" style="width: 246px;">
     <label for="cat">Choisissez une catégorie</label>
     <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom mt-4 mb-4"
-      #adCategory="ngModel" [disabled]="disabledFields" required maxlength="100">
+      #adCategory="ngModel" required maxlength="100">
       @for (category of categories; track category) {
       <ng-option [value]="category">
         {{ category }}
@@ -141,7 +108,7 @@
   <div class="mx-auto" style="width: 246px;">
     <label class="mt-4" for="sub-cat">Choisissez une sous-catégorie</label>
     <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4 mb-4" #subcategory="ngModel"
-      [disabled]="disabledFields" [required]="ad.category !== 'Autre'" maxlength="100">
+      [required]="ad.category !== 'Autre'" maxlength="100">
       @for (subCat of getSubCategories(); track subCat) {
       <ng-option [value]="subCat">
         {{ subCat.name }}
@@ -161,12 +128,10 @@
   }
 
   <!-- article gender choice section -->
-  @if (ad.subcategory) {
-  @if (ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') {
+  @if (ad.subcategory && (ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas')) {
   <div class="mx-auto mb-2" style="width: 246px;">
     <label class="mt-4" for="sub-cat-gender">Choisissez un genre</label>
-    <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" #gender="ngModel"
-      [disabled]="disabledFields" required>
+    <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" #gender="ngModel" required>
       @for (subCatGender of getSubCategoriesGender(); track subCatGender) {
       <ng-option [value]="subCatGender">
         {{ subCatGender }}
@@ -184,7 +149,6 @@
     }
   </div>
   }
-  }
 
   <!-- General information section -->
   <h3 class="bold-title-700 mb-5 mt-5">Informations générales</h3>
@@ -193,7 +157,7 @@
   <div class="label-and-input mt-5 mx-auto" id="ad-title">
     <label for="ad-title" class="form-label">Titre</label>
     <textarea [(ngModel)]="ad.title" class="form-control form-control-sm mb-4" name="ad-title" rows="3" #title="ngModel"
-      [disabled]="disabledFields" required></textarea>
+      required></textarea>
     @if (title.errors) {
     <div class="error-container">
       @if (title.touched && title.errors['required'] || adForm.submitted == true && adForm.invalid == true &&
@@ -219,8 +183,7 @@
   <div class="label-and-input mt-5 mx-auto" id="ad-description">
     <label for="ad-description" class="form-label">Description</label>
     <textarea [(ngModel)]="ad.articleDescription" class="form-control form-control-sm mx-auto mb-4"
-      name="ad-description" id="ad-description" rows="3" #description="ngModel" [disabled]="disabledFields"
-      required></textarea>
+      name="ad-description" id="ad-description" rows="3" #description="ngModel" required></textarea>
     @if (description.errors) {
     <div class="error-container">
       @if (description.touched && description.errors['required'] || adForm.submitted == true && adForm.invalid == true
@@ -239,7 +202,7 @@
   <div class="col-2 mt-5 mx-auto" [ngClass]="{'state-and-price-input-correction': !isBigScreen}">
     <label class="mt-4" for="state">Choisissez un état</label>
     <ng-select [(ngModel)]="ad.articleState" name="state" class="custom mb-4 mt-4" placeholder="État" #state="ngModel"
-      id="ad-status" [disabled]="disabledFields" required maxlength="150">
+      id="ad-status" required maxlength="150">
       @for (state of states; track state; let i = $index) {
       <ng-option [value]="state">
         {{ state }}
@@ -262,8 +225,7 @@
     <label for="ad-price" name="ad-price" class="mb-2">Prix</label>
     <div class="test">
       <input [(ngModel)]="ad.price" name="price" id="ad-price" type="number"
-        class="col-8 mx-auto form-control mb-4 d-inline" #price="ngModel" required number min="0.1"
-        [disabled]="disabledFields">
+        class="col-8 mx-auto form-control mb-4 d-inline" #price="ngModel" required number min="0.1">
       <span class="input-group-addon d-inline">&nbsp;&nbsp;&nbsp;€</span>
     </div>
     @if (price.errors) {
@@ -282,6 +244,9 @@
 
   <div class="bottom-btns mb-5 mt-5">
     <button type="button" class="btn-secondary mt-4" (click)="goBack()">annuler</button>
-    <button type="submit" class="btn-primary mt-4">publier</button>
+    <<<<<<< HEAD <button type="submit" class="btn-primary mt-4">publier</button>
+      =======
+      <button type="submit" class="btn-primary mt-4" [disabled]="adForm.invalid">publier</button>
+      >>>>>>> dev
   </div>
 </form>

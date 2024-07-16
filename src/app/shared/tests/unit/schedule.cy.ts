@@ -16,6 +16,7 @@ describe('schedule component', () => {
     // Assuming there's an event on the calendar
     // Simulate clicking the event
     cy.get('.fc-event').first().click();
+    cy.contains('button', 'supprimer').click();
     // Confirm the deletion dialog
     cy.on('window:confirm', () => true);
     // Assert that the event is removed

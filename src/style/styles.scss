@@ -1,4 +1,4 @@
-// See more about Bootstrap hescssre : https://getbootstrap.com/docs/5.3/
+// See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
 // see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
 
 // Importing Google Fonts for the logo
@@ -22,7 +22,7 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Colors
-@import 'color-variables';
+@import "color-variables";
 
 /*-----------------------------------------------------------------------*/
 
@@ -109,7 +109,7 @@ body {
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 50%;
     height: 79px;
@@ -191,6 +191,7 @@ button.btn {
   height: 43px;
   padding: $btn-padding-x $btn-padding-y;
   text-align: justify;
+  justify-content: center;
   align-items: center;
   border-radius: $btn-border-radius;
   background-color: $primary;
@@ -200,6 +201,10 @@ button.btn {
 
   &:hover {
     background-color: darken($secondary, 25%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
   }
 }
 
@@ -241,6 +246,12 @@ button.btn {
 
   &:hover {
     background-color: darken($secondary, 10%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
+    border: #6666668f;
+    font-weight: 400;
   }
 }
 
@@ -338,9 +349,19 @@ button.btn {
   width: 40px;
 }
 
+.add-icon,
+.remove-icon {
+  width: 27.25px;
+  height: 27.25px;
+}
+
+.btn-cta {
+  cursor: pointer;
+}
+
 /*-----------------------------------------------------------------------*/
 
-// Modal
+// Connection modal
 $btn-close-color: $primary;
 $modal-content-border-color: none;
 $modal-header-border-color: none;
@@ -358,9 +379,59 @@ a.close {
   font-size: 1.3rem;
   transform: scaleX(1.1);
   color: $secondary;
+  z-index: 1;
 
   &:hover {
     color: black;
+  }
+}
+
+.modal-content {
+  .form-check-input[type=checkbox] {
+    border-radius: 50%;
+    border-color: $secondary;
+
+    &:checked {
+      background-color: $secondary;
+    }
+  }
+
+  .modal-body {
+    label.form-check-label {
+      font-size: 14.5px;
+      margin-right: 2px;
+    }
+  }
+
+  .modal-footer {
+    .btn-success:disabled {
+      background-color: #9d9d9d8f;
+    }
+  }
+
+  #btn-password-visibility {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    background: transparent;
+    border: none;
+    right: 7%;
+    top: 3px;
+  }
+
+  #password-input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .eye-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+  .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control {
+    border-radius: 10px 10px 40px 5px;
   }
 }
 
@@ -384,6 +455,11 @@ textarea.form-control {
 // Placeholders color
 .form-control::placeholder {
   color: rgba(0, 0, 0, 0.38) !important;
+}
+
+// Error class
+.error-msg {
+  color: $primary;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -585,11 +661,19 @@ $card-height: 332px;
 $card-spacer-y: 3.1875rem;
 
 // Card container styling
+.card-img-container {
+  position: absolute;
+  border-bottom: 7px solid #ffbf6b;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 0px;
+}
+
 .card {
   width: 253px;
+  cursor: pointer;
 
   &:hover {
-    .card-img-top {
+    .card-img-container {
       border-bottom: 7px solid $info;
     }
 
@@ -604,23 +688,53 @@ $card-spacer-y: 3.1875rem;
 // Bottom part of the card styling
 .bottom-card-part {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   height: 17.74px;
 }
 
+
+#article-price {
+  position: relative;
+  bottom: 9.8px;
+}
+
 // Card image styling
+@mixin filter($filters...) {
+  filter: #{$filters};
+  -webkit-filter: #{$filters};
+  -moz-filter: #{$filters};
+}
+
 .card-img-top {
   max-width: 100%;
   max-height: 100%;
-  position: absolute;
+  position: relative;
   z-index: 1;
-  width: 252px;
-  height: 224px;
-  border-bottom: 7px solid $secondary;
+  width: 252px !important;
+  height: 224px !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border-bottom-right-radius: 50px;
+  border-bottom-right-radius: 45px;
   border-bottom-left-radius: 0px;
+
+  &.SOLD {
+    @include filter(grayscale(0.5783132530120482));
+  }
+
+  &.RESERVED {
+    @include filter(sepia(149%) brightness(78%) hue-rotate(360deg) saturate(192%) contrast(140%) invert(13%));
+  }
+}
+
+.statusStamp {
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #FFF;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 // Card border styling
@@ -637,6 +751,7 @@ $card-spacer-y: 3.1875rem;
 
 // Card title styling
 .card-title {
+  margin-top: 3%;
   font-weight: 700;
   font-size: 0.875rem;
 }
@@ -675,6 +790,7 @@ button.navbar-toggler {
   border: 1.5px solid $primary;
   color: black;
   list-style-type: none;
+  background-color: transparent;
 
   &:hover {
     background: rgba(255, 191, 107, 0.39);
@@ -727,7 +843,8 @@ a.dropdown-first-level.dropdown-toggle {
 }
 
 //center sub categories in their boxes
-.dropdown-menu .nav-item.dropend input[type="button"] {
+.dropdown-menu .nav-item.dropend input[type="button"],
+.dropdown-menu .nav-item.dropend button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -741,7 +858,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Set the width of the calendar and center it
 .fc {
-  width: 320px;
+  width: 302px;
   margin: 0 auto;
 }
 
@@ -769,6 +886,10 @@ a.dropdown-first-level.dropdown-toggle {
   border-left: none;
 }
 
+.fc-media-screen .fc-timegrid-cols>table {
+  width: 302px;
+}
+
 // Thicken grids
 .fc-theme-standard td {
   border: 2px solid var(--fc-border-color);
@@ -781,7 +902,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 // Timegrid slot styling
 .fc-timegrid-slot-label-frame.fc-scrollgrid-shrink-frame {
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   color: rgba(155, 149, 149, 0.85);
 }
 
@@ -826,111 +947,7 @@ a.dropdown-first-level.dropdown-toggle {
 
 /*-----------------------------------------------------------------------*/
 
-// Dropzone profile picture
-.dropzone.dz-wrapper {
-  // height: 212px;
-  overflow: inherit !important;
-}
-
-.dropzone-field {
-  grid-gap: 21px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  max-width: 859px;
-  max-height: 478px;
-}
-
-.two-dropzones .dropzone.dz-wrapper {
-  width: 423px;
-  height: 479px;
-}
-
-.three-dropzones .dropzone.dz-wrapper {
-  // display: grid;
-  // grid-template-columns: 1fr;
-  // grid-template-rows: auto auto;
-}
-
-.three-dropzones:first-child .dropzone.dz-wrapper {
-  width: 523px;
-  height: 479px;
-  grid-area: 1 / 1 / 3 / 3;
-}
-
-.three-dropzones:not(:first-child) .dropzone.dz-wrapper {
-  width: 316px;
-  height: 232px;
-}
-
-.three-dropzones:nth-child(2) .dropzone.dz-wrapper {
-  grid-area: 1 / 3 / 2 / 4;
-}
-
-.three-dropzones:nth-child(3) .dropzone.dz-wrapper {
-  grid-area: 2 / 3 / 3 / 4;
-}
-
-.four-dropzones .dropzone.dz-wrapper {
-  // display: grid;
-  // grid-template-columns: 1fr;
-  // grid-template-rows: auto auto;
-}
-
-.four-dropzones:first-child .dropzone.dz-wrapper,
-.four-dropzones:nth-child(4) .dropzone.dz-wrapper {
-  width: 308px;
-  height: 479px;
-}
-
-.four-dropzones:first-child .dropzone.dz-wrapper {
-  grid-area: 1 / 1 / 3 / 2;
-}
-
-.four-dropzones:nth-child(4) .dropzone.dz-wrapper {
-  grid-area: 1 / 3 / 3 / 4;
-}
-
-.four-dropzones:nth-child(2) .dropzone.dz-wrapper,
-.four-dropzones:nth-child(3) .dropzone.dz-wrapper {
-  width: 215px;
-  height: 232px;
-}
-
-.five-dropzones:first-child .dropzone.dz-wrapper {
-  width: 308px;
-  height: 479px;
-  grid-area: 1 / 1 / 3 / 2;
-}
-
-.five-dropzones:not(:first-child) .dropzone.dz-wrapper {
-  width: 256.67px;
-  height: 232px;
-}
-
-.dropzone.dz-wrapper.dz-single .dz-message {
-  border-radius: 50%;
-  background-color: white;
-}
-
-#adFormDesktopDropzone .dropzone.dz-wrapper.dz-single .dz-message {
-  border-radius: 0%;
-  background-color: white;
-}
-
-.dropzone.dz-wrapper.dz-single .dz-preview {
-  height: auto !important;
-}
-
-//Penser à gerer cette transformation dans le back
-.dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
-  border-radius: 50%;
-}
-
-#adFormDesktopDropzone .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
-  border-radius: 0%;
-}
-
+// Dropzone
 .dz-progress,
 .dz-details,
 .dz-success-mark,
@@ -939,32 +956,8 @@ a.dropdown-first-level.dropdown-toggle {
   display: none !important;
 }
 
-.dz-remove {
-  display: inline-block !important;
-  width: 1.2em;
-  height: 1.2em;
-  text-decoration: none;
-
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  z-index: 1000;
-
-  font-size: 1.2em !important;
-  line-height: 1em;
-
-  text-align: center;
-  font-weight: bold;
-  border: 1px solid gray !important;
-  border-radius: 1.2em;
-  color: gray;
+.dropzone.dz-wrapper.dz-single .dz-message {
   background-color: white;
-  opacity: .5;
-}
-
-.dz-remove:hover {
-  text-decoration: none !important;
-  opacity: 1;
 }
 
 .dropzone .dz-preview:hover .dz-image img {
@@ -972,8 +965,122 @@ a.dropdown-first-level.dropdown-toggle {
   filter: none !important;
 }
 
-/*-----------------------------------------------------------------------*/
+.dropzone-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+.dropzone-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+.dropzone.dz-clickable .dz-message,
+.dropzone.dz-clickable .dz-message * {
+  color: $primary;
+  font-weight: 700;
+}
+
+// Dropzone profile picture
+app-profile-picture {
+  #dropzone {
+    width: 231px;
+  }
+
+  .dropzone.dz-wrapper {
+    height: 212px;
+    overflow: inherit !important;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-message,
+  .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+    border-radius: 50%;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-preview {
+    height: auto !important;
+  }
+
+  .dz-remove {
+    display: inline-block !important;
+    width: 1.2em;
+    height: 1.2em;
+    text-decoration: none;
+
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1000;
+
+    font-size: 1.2em !important;
+    line-height: 1em;
+
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid gray !important;
+    border-radius: 1.2em;
+    color: gray;
+    background-color: white;
+    opacity: .5;
+  }
+
+  .dz-remove:hover {
+    text-decoration: none !important;
+    opacity: 1;
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Register page
+
+// profile picture dropzone display
+app-register {
+  app-profile-picture {
+    #profile-picture {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  // bank account form display
+  app-bank-account-form {
+    #bank-account {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Preferred meeting places display on Register & account profile pages
+
+.meeting-place .number,
+#preferred-meeting-places .number {
+  background-color: $info;
+  color: white;
+  border-radius: 38px;
+  padding: 4px 8px;
+  font-size: 14px;
+  position: relative;
+}
+
+.meeting-place .address-name {
+  font-weight: 700;
+  color: $primary;
+  padding-left: 0.5rem;
+  position: absolute;
+}
+
+.meeting-place .address-detail {
+  margin-top: 0.2rem;
+  margin-left: 2.2rem;
+}
+
+/*-----------------------------------------------------------------------*/
 
 @media (min-width: 768px) {
 
@@ -1015,11 +1122,20 @@ a.dropdown-first-level.dropdown-toggle {
   #mobile-bottom-navbar-icons #mobile-sell-icon {
     margin-top: 0px;
   }
+
+  /*---------------------------------*/
+
+  //Dropdown menu styling for better display of the ad-filters component.
+  .dropend:hover>.dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
 }
 
 /*-----------------------------------------------------------------------*/
 
-// Carousel Bootsrap classes overriding
+// Carousel Bootstrap classes overriding
 .article-picture-image-section-mobile .carousel-inner {
   position: relative;
   display: flex;
@@ -1082,15 +1198,6 @@ ngb-carousel,
   // Includes tabs and page content
   .custom-container {
     @include make-container($padding-x: 8vh, $padding-y: 88px);
-  }
-
-  /*---------------------------------*/
-
-  //Dropdown menu styling
-  .dropend:hover>.dropdown-menu {
-    position: absolute;
-    top: 0;
-    left: 100%;
   }
 
   /*---------------------------------*/

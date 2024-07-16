@@ -1,31 +1,40 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'accueil',
-    loadComponent: () => import('./routes/home/logged-in-home/logged-in-home.component').then(mod => mod.LoggedInHomeComponent)
+    path: '',
+    loadComponent: () =>
+      import('./routes/home/home.component').then(
+        (mod) => mod.HomeComponent
+      )
   },
   {
     path: 'annonce',
-    loadChildren: () => import('./routes/ad/ad-routing.module').then(mod => mod.AdRoutingModule)
+    loadChildren: () =>
+      import('./routes/ad/ad-routing.module').then(
+        (mod) => mod.AdRoutingModule
+      ),
   },
   {
     path: 'compte',
-    loadChildren: () => import('./routes/account/account-routing.module').then(mod => mod.AccountRoutingModule)
+    loadChildren: () =>
+      import('./routes/account/account-routing.module').then(
+        (mod) => mod.AccountRoutingModule
+      )
   },
   {
-    path: '',
-    loadComponent: () => import('./routes/home/default-home/default-home.component').then(mod => mod.DefaultHomeComponent)
-  },
-  {
-    path: 'upload',
-    loadComponent: () => import('./shared/components/ads/ad-form/image/image.component').then(mod => mod.ImageComponent)
+    path: 'inscription',
+    loadComponent: () => import('./routes/register/register.component').then(
+      (mod) => mod.RegisterComponent
+    ),
+    canActivate: [AuthGuard],
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

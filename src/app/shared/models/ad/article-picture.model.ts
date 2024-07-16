@@ -1,8 +1,6 @@
-import { Ad } from "./ad.model";
-
 export class ArticlePicture {
     constructor(
         public url: string,
-        public ad?: Ad,
+        public adId?: number,
         public id?: number) { }
 }

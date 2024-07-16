@@ -1,37 +1,66 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AdPostResponse } from '../../../models/ad/ad-post-response.model';
+import { Component, Input, OnInit, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { AdCard } from '../../../models/ad/ad-card.model';
+import { AdCardService } from './ad-card.service';
 
 @Component({
   selector: 'app-ad-card',
   templateUrl: './ad-card.component.html',
+  styleUrl: './ad-card.component.scss',
   standalone: true,
 })
 export class AdCardComponent implements OnInit {
-  @Input() ad!: AdPostResponse;
-  // TO DO : logique à changer une fois le processus de connexion implémenté
-  @Input() currentUserId: number = 1;
-  @Input() type: 'mine' | 'sellerAd' | 'unLogged' = 'unLogged';
+  @Input() ad!: AdCard;
+  @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
+  type: 'loggedInUserAd' | 'sellerAd' | 'unLogged' = 'unLogged';
+  currentUserId: number = Number(localStorage.getItem('userId')!);
+
   constructor(
-  ) { }
+    private router: Router, private adCardService: AdCardService, private renderer: Renderer2, private el: ElementRef) { }
 
   ngOnInit() {
-    if (this.ad.publisherId === this.currentUserId) {
-      this.type = 'mine';
-    } else if (this.ad.publisherId !== this.currentUserId) {
-      this.type = 'sellerAd';
+    if (this.ad.title.length > 23) {
+      this.ad.title = `${this.ad.title?.substring(0, 23)}.. `
+    }
+    if (this.currentUserId) {
+      this.type = this.ad.publisherId === this.currentUserId ? 'loggedInUserAd' : 'sellerAd';
     } else {
       this.type = 'unLogged';
     }
-    console.log(this.ad.title, ' - ', this.ad.publisherId, ' - ', this.currentUserId)
+    if (this.ad.status) {
+      this.addStatusClass(this.ad.status);
+    }
   }
 
-  // TO DO :: essayer de comprendre pourquoi this.router.navigate ne fonctionne pas
-  // goToAdPage() {
-  //   if (this.type === 'mine') {
-  //     console.log('ici')
-  //     this.router.navigate([`compte/annonces/mon-annonce/${this.ad.id}`]);
-  //   } else {
-  //     this.router.navigate([`/annonce/${this.ad.publisherId}/${this.ad.id}`]);
-  //   }
-  // }
+  addStatusClass(newStatus: string) {
+    const imgElement = this.el.nativeElement.querySelector('.card-img-top');
+    if (imgElement) {
+      this.renderer.addClass(imgElement, newStatus);
+    }
+  }
+
+  goToAdPage(adId: number, adPublisherId: number) {
+    const path = this.type === 'loggedInUserAd' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherId, adId];
+    this.router.navigate(path).then(() => {
+      window.location.reload();
+    });
+  }
+
+  addToFavorites(event: Event) {
+    event.stopPropagation();
+    this.ad.favorite = !this.ad.favorite;
+    this.updateAdFavoriteStatus(this.ad.id, this.currentUserId, this.ad.favorite)
+  }
+
+  updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean) {
+    this.adCardService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.updateAdsFavoritesList.emit(this.ad)
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }
+    });
+  }
 }
