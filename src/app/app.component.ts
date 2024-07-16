@@ -4,16 +4,11 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { Subscription } from 'rxjs';
 import { DisplayManagementService } from './shared/services/display-management.service';
-<<<<<<< HEAD
-import { AdPageComponent } from './shared/components/ads/ad-page-content/ad-page-content.component';
-import { AdFormComponent } from './shared/components/ads/ad-form/ad-form.component';
-=======
 import { AuthService } from './shared/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AdService } from './shared/services/ad.service';
 import { AlertComponent } from './shared/components/alert/alert.component';
 
->>>>>>> dev
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
