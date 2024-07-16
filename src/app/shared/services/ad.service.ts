@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core"
 import { BehaviorSubject, Observable, catchError } from "rxjs"
 import { HttpClient } from "@angular/common/http"
-import { API_URL } from "../utils/constants/utils-constants"
+import { API_URL } from "../utils/constants/util-constants"
 import { HandleErrorService } from "./handle-error.service"
 import { AdCard } from "../models/ad/ad-card.model"
 

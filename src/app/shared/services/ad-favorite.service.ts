@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { HandleErrorService } from './handle-error.service';
-import { API_URL } from '../utils/constants/utils-constants';
+import { API_URL } from '../utils/constants/util-constants';
 import { AdCard } from '../models/ad/ad-card.model';
 import { catchError, Observable } from 'rxjs';
-import { AlertMessage } from '../models/enum/alert-message.enum';
-import { AlertType } from '../models/alert.model';
 import { DisplayManagementService } from './display-management.service';
 import { AdDetails } from '../models/ad/ad-details.model';
+import { ALERTS } from '../utils/constants/alert-constants';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +29,6 @@ export class AdFavoriteService {
   }
 
   sendNewAdFavoriteStatus(adId: number, userId: number, isFavorite: boolean): Observable<boolean> {
-    console.log("ajout en favori", adId);
     const url = `${this.contextUrl}${adId}/favorite/${userId}`;
     return this.http.put<boolean>(url, isFavorite,
       { responseType: 'text' as 'json'}
@@ -41,27 +39,22 @@ export class AdFavoriteService {
 
   updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean, ad: AdCard | AdDetails): void {
     this.sendNewAdFavoriteStatus(adId, userId, isfavorite).subscribe({
-      next: (response) => {
-        console.log(response);
+      next: () => {
         this.updateAdsFavoritesList.emit(ad);
         if (isfavorite) {
-          this.displayManagementService.displayAlert({
-            message: AlertMessage.FAVORITES_ADDED_SUCCESS,
-            type: AlertType.SUCCESS,
-          });
+          this.displayManagementService.displayAlert(
+            ALERTS.FAVORITES_ADDED_SUCCESS
+          );
         } else {
-          this.displayManagementService.displayAlert({
-            message: AlertMessage.FAVORITES_REMOVED_SUCCESS,
-            type: AlertType.SUCCESS,
-          });
+          this.displayManagementService.displayAlert(
+            ALERTS.FAVORITES_REMOVED_SUCCESS
+          );
         }
       },
-      error: (error) => {
-        console.error('Error:', error);
-        this.displayManagementService.displayAlert({
-          message: AlertMessage.DEFAULT_ERROR,
-          type: AlertType.ERROR,
-        });
+      error: () => {
+        this.displayManagementService.displayAlert(
+          ALERTS.DEFAULT_ERROR
+        );
       }
     });
   }

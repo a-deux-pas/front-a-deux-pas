@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HandleErrorService } from '../../../services/handle-error.service';
 import { Observable, catchError } from 'rxjs';
-import { API_URL } from '../../../utils/constants/utils-constants';
+import { API_URL } from '../../../utils/constants/util-constants';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 
@@ -12,7 +12,10 @@ import { AdDetails } from '../../../models/ad/ad-details.model';
 export class AdPageContentService {
   private contextUrl = `${API_URL}ads/`;
 
-  constructor(private http: HttpClient, private handleErrorService: HandleErrorService) { }
+  constructor(
+    private http: HttpClient,
+    private handleErrorService: HandleErrorService
+  ) {}
 
   // Find a specific ad
   getAdById(adId: number, userId: number): Observable<AdDetails> {

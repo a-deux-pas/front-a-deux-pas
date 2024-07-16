@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
-import { API_URL } from '../utils/constants/utils-constants';
+import { API_URL } from '../utils/constants/util-constants';
 import { jwtDecode } from 'jwt-decode';
 import { HandleErrorService } from './handle-error.service';
 import { Credentials } from '../models/user/credentials.model';
