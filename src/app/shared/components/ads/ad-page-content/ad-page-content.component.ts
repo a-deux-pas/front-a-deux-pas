@@ -62,12 +62,13 @@ export class AdPageComponent implements OnInit {
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
+    this.userId = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')!) : 0;
+
     this.pageSize = this.onLoggedInUserAd ? 8 : 4;
     this.displayedAdsCount = this.pageSize;
-    this.adPageContentService.getAdById(adId).subscribe({
+    this.adPageContentService.getAdById(adId, this.userId).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
-        this.userId = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')!) : 0;
         this.articlePictures = [
           // TO DO :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
           this.currentAd.firstArticlePictureUrl,
@@ -78,6 +79,7 @@ export class AdPageComponent implements OnInit {
         ].filter(url => !!url);
         this.selectedPicNumber = this.articlePictures.length;
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
+
         this.fetchPaginatedAdsList()
         if (!this.onLoggedInUserAd) {
           this.getSimilarAds()
@@ -94,7 +96,11 @@ export class AdPageComponent implements OnInit {
   }
 
   getSimilarAds(): void {
-    this.adPageContentService.getSimilarAds(this.currentAd?.category!, this.currentAd?.publisherId!, this.userId).subscribe({
+    this.adPageContentService.getSimilarAds(
+      this.currentAd?.category!,
+      this.currentAd?.publisherId!,
+      this.userId
+    ).subscribe({
       next: (similarAds: AdCard[]) => {
         this.similarAds = similarAds;
         return similarAds;
@@ -129,7 +135,13 @@ export class AdPageComponent implements OnInit {
   }
 
   fetchPaginatedAdsList() {
-    this.adPageContentService.fetchUserAds(this.currentAd!.publisherId!, this.pageNumber, this.pageSize, this.userId, this.currentAd?.id!).subscribe({
+    this.adPageContentService.fetchUserAds(
+      this.currentAd?.publisherId!,
+      this.pageNumber,
+      this.pageSize,
+      this.userId,
+      this.currentAd?.id!
+    ).subscribe({
       next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.noMoreAds = ads.length <= 0;

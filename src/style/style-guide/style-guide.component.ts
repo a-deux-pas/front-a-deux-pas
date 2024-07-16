@@ -112,7 +112,6 @@ export class StyleGuideComponent {
   // Mircea : to rename once you've finalised your method as this bit of code just gives you your search terms ;)
   methodToFilter(genderName: string | undefined, subCategoryName: string) {
     this.selectedCatFilter = genderName ?? subCategoryName;
-    console.log(' subCategoryName ', subCategoryName, 'genderName ', genderName)
   }
 
   ngOnDestroy(): void {

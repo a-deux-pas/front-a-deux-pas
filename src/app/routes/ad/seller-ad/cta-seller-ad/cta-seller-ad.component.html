@@ -8,9 +8,11 @@
             <img class="cta-btn-seller-ad" src="assets/icons/buttons/offer.webp" alt="bouton faire une offre">
             <p class="cta-btn-text">faire une offre</p>
         </a>
-        <a (click)="addToFavorites()" class="flex-column btn-cta text-decoration-none">
-            <img class="cta-btn-seller-ad" src="assets/icons/buttons/add-to-favorites.webp"
-                alt="bouton ajouter aux favoris">
+        <a type="button"
+          class="flex-column btn-cta text-decoration-none"
+          (click)="addToFavorites()">
+            <img class="cta-btn-seller-ad" src="assets/icons/buttons/add-to-favorites.webp" alt="icône favoris" [hidden]="ad?.favorite">
+            <img class="cta-btn-seller-ad" src="assets/icons/buttons/added-to-favorites.webp" alt="icône favoris" [hidden]="!ad?.favorite">
             <p class="cta-btn-text">favoris</p>
         </a>
     </div>

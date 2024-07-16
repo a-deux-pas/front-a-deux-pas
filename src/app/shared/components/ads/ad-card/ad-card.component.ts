@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdCard } from '../../../models/ad/ad-card.model';
-import { AdCardService } from './ad-card.service';
+import { AdFavoriteService } from '../../../services/ad-favorite.service';
 
 @Component({
   selector: 'app-ad-card',
@@ -16,7 +16,11 @@ export class AdCardComponent implements OnInit {
   currentUserId: number = Number(localStorage.getItem('userId')!);
 
   constructor(
-    private router: Router, private adCardService: AdCardService, private renderer: Renderer2,  private el: ElementRef) {}
+    private router: Router,
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private adFavoriteService: AdFavoriteService
+  ) {}
 
   ngOnInit() {
     if (this.ad.title.length > 23) {
@@ -49,18 +53,11 @@ export class AdCardComponent implements OnInit {
   addToFavorites(event: Event) {
     event.stopPropagation();
     this.ad.favorite = !this.ad.favorite;
-    this.updateAdFavoriteStatus(this.ad.id, this.currentUserId, this.ad.favorite)
-  }
-
-  updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean) {
-    this.adCardService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
-      next: (response) => {
-          console.log(response);
-          this.updateAdsFavoritesList.emit(this.ad)
-      },
-      error: (error) => {
-        console.error('Error:', error);
-      }
-    });
+    this.adFavoriteService.updateAdFavoriteStatus(
+      this.ad.id,
+      this.currentUserId,
+      this.ad.favorite,
+      this.ad
+    );
   }
 }

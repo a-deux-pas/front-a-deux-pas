@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
+import { AdFavoriteService } from '../../../../shared/services/ad-favorite.service';
 
 @Component({
   selector: 'app-cta-seller-ad',
@@ -17,10 +18,15 @@ export class CtaSellerAdComponent implements OnInit {
   @Input() ad!: AdDetails | undefined;
   @Input() isBigScreen!: boolean;
   @Input() onSellerAdPageUnlogged: boolean = false;
+  currentUserId: number = Number(localStorage.getItem('userId'));
   isLoggedIn!: boolean;
   authSubscription!: Subscription;
 
-  constructor(public modalService: NgbModal, private authService: AuthService) { }
+  constructor(
+    public modalService: NgbModal,
+    private authService: AuthService,
+    private adFavoriteService: AdFavoriteService
+  ) {}
 
   ngOnInit(): void {
     this.authSubscription = this.authService.isLoggedIn().subscribe(status => {
@@ -44,7 +50,15 @@ export class CtaSellerAdComponent implements OnInit {
 
   addToFavorites() {
     if (this.isLoggedIn) {
-      // To be implemented ..
+      if (this.ad) {
+        this.ad.favorite = !this.ad.favorite;
+        this.adFavoriteService.updateAdFavoriteStatus(
+          this.ad.id,
+          this.currentUserId,
+          this.ad.favorite,
+          this.ad
+        );
+      }
     } else {
       this.openModal()
     }
