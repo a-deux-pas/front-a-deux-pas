@@ -14,6 +14,7 @@ import { NavbarComponent } from '../../navbar/navbar.component';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdPageContentService } from './ad-page-content.service';
 import { AdListComponent } from '../ad-list/ad-list.component';
+import { ArticleState } from '../../../models/enum/article-state.enum';
 
 @Component({
   selector: 'app-ad-page-content',
@@ -50,7 +51,8 @@ export class AdPageComponent implements OnInit {
   userOtherAds: AdCard[] = [];
   similarAds: AdCard[] = [];
   userId!: number;
-  displayedAdsCount!: number
+  displayedAdsCount!: number;
+  isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -69,43 +71,29 @@ export class AdPageComponent implements OnInit {
     this.adPageContentService.getAdById(adId, this.userId).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
-        this.articlePictures = [
-          // TO DO :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
-          this.currentAd.firstArticlePictureUrl,
-          this.currentAd.secondArticlePictureUrl,
-          this.currentAd.thirdArticlePictureUrl,
-          this.currentAd.fourthArticlePictureUrl,
-          this.currentAd.fifthArticlePictureUrl
-        ].filter(url => !!url);
-        this.selectedPicNumber = this.articlePictures.length;
-        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
+          this.articlePictures = [
+            // TO DO : to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
+            this.currentAd.firstArticlePictureUrl,
+            this.currentAd.secondArticlePictureUrl,
+            this.currentAd.thirdArticlePictureUrl,
+            this.currentAd.fourthArticlePictureUrl,
+            this.currentAd.fifthArticlePictureUrl
+          ].filter(url => !!url);
+          [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length)
 
-        this.fetchPaginatedAdsList()
-        if (!this.onLoggedInUserAd) {
-          this.getSimilarAds()
-          if (!this.userId) {
+          this.fetchPaginatedAdsList();
+
+          if (!this.onLoggedInUserAd) {
+            this.getSimilarAds()
+          } else {
             this.adService.isOnSellerAdPageUnLogged(true);
           }
-        }
+
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 600);
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.adService.isOnSellerAdPageUnLogged(false);
-  }
-
-  getSimilarAds(): void {
-    this.adPageContentService.getSimilarAds(
-      this.currentAd?.category!,
-      this.currentAd?.publisherId!,
-      this.userId
-    ).subscribe({
-      next: (similarAds: AdCard[]) => {
-        this.similarAds = similarAds;
-        return similarAds;
-      }
-    })
   }
 
   setSplitAreasSizes(nPictures: number) {
@@ -129,13 +117,28 @@ export class AdPageComponent implements OnInit {
     this.displayManagementService.onSlide(slideEvent)
   }
 
-  loadMoreAds() {
-    this.pageNumber++;
-    this.fetchPaginatedAdsList();
+  articleStateDisplay(): string {
+    return this.currentAd?.articleState === ArticleState.MINT_CONDITION
+    || this.currentAd?.articleState === ArticleState.GOOD_CONDITION ?
+      `${this.currentAd?.articleState} état`:
+      `État ${this.currentAd?.articleState.toLowerCase()}`;
+  }
+
+  getSimilarAds(): void {
+    this.adPageContentService.getSimilarAds(
+      this.currentAd?.category!,
+      this.currentAd?.publisherId!,
+      this.userId
+    ).subscribe({
+      next: (similarAds: AdCard[]) => {
+        this.similarAds = similarAds;
+        return similarAds;
+      }
+    })
   }
 
   fetchPaginatedAdsList() {
-    this.adPageContentService.fetchUserAds(
+    this.adService.fetchUserAds(
       this.currentAd?.publisherId!,
       this.pageNumber,
       this.pageSize,
@@ -147,5 +150,14 @@ export class AdPageComponent implements OnInit {
         this.noMoreAds = ads.length <= 0;
       }
     });
+  }
+
+  loadMoreAds() {
+    this.pageNumber++;
+    this.fetchPaginatedAdsList();
+  }
+
+  ngOnDestroy() {
+    this.adService.isOnSellerAdPageUnLogged(false);
   }
 }

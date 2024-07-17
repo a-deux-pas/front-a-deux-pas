@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserPresentationService } from '../../shared/components/user-presentation/user-presentation.service';
 import { AdListComponent } from '../../shared/components/ads/ad-list/ad-list.component';
 import { AdCard } from '../../shared/models/ad/ad-card.model';
-import { AdPageContentService } from '../../shared/components/ads/ad-page-content/ad-page-content.service';
 import { SearchBarComponent } from "../../shared/components/navbar/search-bar/search-bar.component";
+import { AdService } from '../../shared/services/ad.service';
 
 @Component({
   selector: 'app-seller-profile',
@@ -22,6 +22,7 @@ export class SellerProfileComponent {
   seller!: UserPresentation;
   sellerAlias!: string;
   sellerId!: number;
+  loggedInUserId: number = Number(localStorage.getItem('userId'));
   // ads
   pageNumber: number = 0;
   pageSize: number = 8;
@@ -33,7 +34,7 @@ export class SellerProfileComponent {
     private userPresentationService: UserPresentationService,
     private router: Router,
     private route: ActivatedRoute,
-    private adPageContentService: AdPageContentService
+    private adService: AdService
   ) {
       this.navigation = this.router.getCurrentNavigation()?.extras.state;
       // get seller object if the user accesses the seller profile from the home page
@@ -65,10 +66,16 @@ export class SellerProfileComponent {
   }
 
   private fetchSellerAds(): void {
-    // TO DO: deplacer la méthode dans le adService une fois PR d'Erika mergée
-    this.adPageContentService.fetchUserAds(this.sellerId ?? this.seller.id, this.pageNumber, this.pageSize)
+    console.log(this.pageNumber);
+    this.adService.fetchUserAds(
+      this.sellerId ?? this.seller.id,
+      this.pageNumber,
+      this.pageSize,
+      this.loggedInUserId,
+      " "
+    )
     .subscribe((ads: AdCard[]) => {
-      this.sellerAds = ads;
+      this.sellerAds = [...this.sellerAds, ...ads];
       this.noMoreAds = ads.length <= 0;
     });
   }

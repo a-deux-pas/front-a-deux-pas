@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   isDataLoaded: boolean = false;
   windowSizeSubscription!: Subscription;
   logginSubscription!: Subscription;
-  onSellerAdPageUnlogged!: boolean
+  onSellerAdPageUnlogged!: boolean;
 
   constructor(
     private displayManagementService: DisplayManagementService,
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => {
       this.isDataLoaded = true;
-    }, 1000);
+    }, 1500);
   }
 
   ngAfterViewInit(): void {
