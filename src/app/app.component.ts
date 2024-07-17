@@ -22,17 +22,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   isBigScreen: boolean | undefined;
   isDataLoaded: boolean = false;
   windowSizeSubscription!: Subscription;
+  logginSubscription!: Subscription;
   onSellerAdPageUnlogged!: boolean
 
   constructor(
     private displayManagementService: DisplayManagementService,
     private authService: AuthService,
     private adService: AdService
-  ) { }
+  ) {}
 
   ngOnInit() {
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
-    this.authService.isLoggedIn().subscribe((status: boolean) => {
+    this.logginSubscription = this.authService.isLoggedIn().subscribe((status: boolean) => {
       this.isLoggedIn = status;
       console.log('is user logged in?', this.isLoggedIn);
     });
@@ -68,5 +69,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (this.isAccountMenuOpen && clickedInsideMenu === null && clickedDesktopIcon === null) {
       this.isAccountMenuOpen = false;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.adService.isOnSellerAdPageUnLogged(false);
+    this.windowSizeSubscription.unsubscribe();
+    this.logginSubscription.unsubscribe();
   }
 }

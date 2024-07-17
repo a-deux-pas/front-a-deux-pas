@@ -169,7 +169,7 @@ export class AdFormComponent {
     escapeHtml(this.ad.articleDescription)
   }
 
-  // TO DO :: a revoir (fix Cloudinary branch)
+  // TO DO : a revoir (fix Cloudinary branch)
   onSubmit() {
     this.sanitizeTheInputs()
     this.uploadArticlePictures().subscribe({
@@ -196,5 +196,9 @@ export class AdFormComponent {
         });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.windowSizeSubscription.unsubscribe();
   }
 }

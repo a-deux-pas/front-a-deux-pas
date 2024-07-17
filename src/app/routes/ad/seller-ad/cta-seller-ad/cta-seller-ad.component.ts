@@ -22,7 +22,7 @@ export class CtaSellerAdComponent implements OnInit {
   isUserLoggedIn!: boolean;
   currentUserId: number = Number(localStorage.getItem('userId'));
   isLoggedIn!: boolean;
-  authSubscription!: Subscription;
+  logginSubscription!: Subscription;
 
   constructor(
     public modalService: NgbModal,
@@ -32,7 +32,7 @@ export class CtaSellerAdComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.isLoggedIn().subscribe(status => {
+    this.logginSubscription = this.authService.isLoggedIn().subscribe(status => {
       this.isUserLoggedIn = status;
     });
   }
@@ -47,7 +47,7 @@ export class CtaSellerAdComponent implements OnInit {
 
   makeAnOffer() {
     if (!this.isUserLoggedIn) { this.openModal() } else {
-      // TO DO :: redirection vers le checkout mircea
+      // TO DO : redirection vers le checkout mircea
     }
   }
 
@@ -90,5 +90,9 @@ export class CtaSellerAdComponent implements OnInit {
 
   openModal() {
     this.modalService.open(ConnectionModalComponent);
+  }
+
+  ngOnDestroy(): void {
+    this.logginSubscription.unsubscribe();
   }
 }

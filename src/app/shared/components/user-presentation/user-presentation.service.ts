@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HandleErrorService } from '../../services/handle-error.service';
 import { UserPresentation } from '../../models/user/user-presentation.model';
-import { API_URL } from '../../utils/constants/utils-constants';
+import { API_URL } from '../../utils/constants/util-constants';
 import { catchError, Observable } from 'rxjs';
 
 @Injectable({

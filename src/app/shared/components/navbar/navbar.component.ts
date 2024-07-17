@@ -31,9 +31,9 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.adService.sellerAdPageLoaded$.subscribe((boolean) => {
-        this.onSellerAdPageUnlogged = boolean;
-      })
+    this.adService.sellerAdPageLoaded$.subscribe((boolean) => {
+      this.onSellerAdPageUnlogged = boolean;
+    })
   }
 
   toggleAccountMenuState() {
@@ -49,7 +49,11 @@ export class NavbarComponent implements OnInit {
     this.modalService.open(ConnectionModalComponent);
   }
 
-  openModalOrSell(){
+  openModalOrSell() {
     this.isLoggedIn ? this.router.navigate(['annonce/creation']) : this.openModal();
+  }
+
+  ngOnDestroy() {
+    this.adService.isOnSellerAdPageUnLogged(false);
   }
 }

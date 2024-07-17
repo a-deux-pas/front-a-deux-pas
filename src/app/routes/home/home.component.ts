@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
   noMoreFilteredAds: boolean = false;
   noMorefavoriteAds: boolean = false;
   favoritesSubscription!: Subscription;
+  logginSubscription!: Subscription;
   // filters
   selectedPriceRanges: string[] = [];
   selectedCities: string[] = [];
@@ -70,7 +71,7 @@ export class HomeComponent implements OnInit {
 
   private subscribeToLoginStatus() {
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
-    this.authService.isLoggedIn().subscribe((status: boolean) => {
+    this.logginSubscription = this.authService.isLoggedIn().subscribe((status: boolean) => {
       this.isLoggedIn = status;
     });
   }
@@ -177,8 +178,7 @@ export class HomeComponent implements OnInit {
 
   ngOnDestroy(): void {
     // Clean subscription to prevent memory leaks
-    if (this.favoritesSubscription) {
-      this.favoritesSubscription.unsubscribe();
-    }
+    this.favoritesSubscription.unsubscribe();
+    this.logginSubscription.unsubscribe();
   }
 }
