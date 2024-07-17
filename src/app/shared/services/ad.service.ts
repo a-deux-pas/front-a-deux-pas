@@ -16,7 +16,7 @@ export class AdService {
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
-  ) {}
+  ) { }
 
   // Fetch the ads that match the filtering criteria passed as query params
   fetchFilteredAds(
@@ -49,6 +49,7 @@ export class AdService {
     this.sellerAdPageLoadedSubject.next(boolean);
   }
 
+  // TO DO :: utiliser contexturl
   getUserFavoritesAd(userId: number, pageNumber: number, pageSize: number): Observable<AdCard[]> {
     const url = `${API_URL}ads/favorites/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<AdCard[]>(url).pipe(

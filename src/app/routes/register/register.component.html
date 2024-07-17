@@ -1,32 +1,32 @@
 <div class="custom-container">
   <h2 class="bold-title-700 text-center mb-5">Créer mon compte</h2>
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-    <app-profile-picture
-      (thumbnailGenerated)="getUserprofilePicture('thumbnailGenerated', $event)"
+    <app-profile-picture (thumbnailGenerated)="getUserprofilePicture('thumbnailGenerated', $event)"
       (fileRemoved)="getUserprofilePicture('fileRemoved', $event)">
+
     </app-profile-picture>
 
     <div class="row justify-content-center mt-3">
       <div class="col-10 col-md-4">
         <label for="alias">Mon pseudo</label>
-        <input type="text" formControlName="alias" id="alias" name="alias" class="form-control mt-2"
-        minlength="3" maxlength="30" required/>
+        <input type="text" formControlName="alias" id="alias" name="alias" class="form-control mt-2" minlength="3"
+          maxlength="30" required />
         @if (profileForm.get('alias')?.errors && (profileForm.get('alias')?.dirty
         || profileForm.get('alias')?.touched)) {
-          <div class="error-msg mt-3">
-            <div [hidden]="!profileForm.get('alias')?.errors?.['required']">
-              Veuillez renseigner votre pseudo
-            </div>
-            <div [hidden]="!profileForm.get('alias')?.errors?.['minlength']">
-              Votre pseudo doit comporter au moins 3 caractères
-            </div>
-            <div [hidden]="!profileForm.get('alias')?.errors?.['maxlength']">
-              Votre pseudo ne doit pas dépasser 30 caractères
-            </div>
-            <div [hidden]="!profileForm.get('alias')?.errors?.['aliasExists']">
-              Ce pseudo existe déjà
-            </div>
+        <div class="error-msg mt-3">
+          <div [hidden]="!profileForm.get('alias')?.errors?.['required']">
+            Veuillez renseigner votre pseudo
           </div>
+          <div [hidden]="!profileForm.get('alias')?.errors?.['minlength']">
+            Votre pseudo doit comporter au moins 3 caractères
+          </div>
+          <div [hidden]="!profileForm.get('alias')?.errors?.['maxlength']">
+            Votre pseudo ne doit pas dépasser 30 caractères
+          </div>
+          <div [hidden]="!profileForm.get('alias')?.errors?.['aliasExists']">
+            Ce pseudo existe déjà
+          </div>
+        </div>
         }
       </div>
     </div>
@@ -34,20 +34,20 @@
     <div class="row justify-content-center mt-4">
       <div class="col-12 col-md-6 mt-4">
         <label for="bio" class="form-label">Ma présentation</label>
-        <textarea formControlName="bio" class="form-control form-control-sm mt-2" name="bio" id="bio"
-          rows="3" minlength="10" maxlength="600">
+        <textarea formControlName="bio" class="form-control form-control-sm mt-2" name="bio" id="bio" rows="3"
+          minlength="10" maxlength="600">
         </textarea>
       </div>
       @if (profileForm.get('bio')?.errors && (profileForm.get('bio')?.dirty
       || profileForm.get('bio')?.touched)) {
-        <div class="error-msg text-center mt-3">
-          <div [hidden]="!profileForm.get('bio')?.errors?.['minlength']">
-            Votre présentation doit comporter au moins 10 caractères
-          </div>
-          <div [hidden]="!profileForm.get('bio')?.errors?.['maxlength']">
-            Votre présentation ne doit pas dépasser 600 caractères
-          </div>
+      <div class="error-msg text-center mt-3">
+        <div [hidden]="!profileForm.get('bio')?.errors?.['minlength']">
+          Votre présentation doit comporter au moins 10 caractères
         </div>
+        <div [hidden]="!profileForm.get('bio')?.errors?.['maxlength']">
+          Votre présentation ne doit pas dépasser 600 caractères
+        </div>
+      </div>
       }
     </div>
 
@@ -61,12 +61,12 @@
         <div class="col-12 col-md-8">
           <label for="street">Rue</label>
           <mapbox-address-autofill>
-            <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street" class="form-control mt-2"
-            placeholder="Numéro et nom de rue" required/>
+            <input type="text" formControlName="street" autocomplete="address-line1" id="street" name="street"
+              class="form-control mt-2" placeholder="Numéro et nom de rue" required />
           </mapbox-address-autofill>
           @if (profileForm.get('address')?.get('street')?.errors && (profileForm.get('address')?.get('street')?.dirty
           || profileForm.get('address')?.get('street')?.touched)) {
-            <div class="error-msg mt-2">Veuillez renseigner votre rue</div>
+          <div class="error-msg mt-2">Veuillez renseigner votre rue</div>
           }
         </div>
       </div>
@@ -74,29 +74,30 @@
         <div class="col-6 col-md-4">
           <label for="postal-code">Code postal</label>
           <input type="text" formControlName="postalCode" autocomplete="postal-code" id="postal-code" name="postal-code"
-          class="form-control mt-2" maxlength="5" required/>
-          @if (profileForm.get('address')?.get('postalCode')?.errors && (profileForm.get('address')?.get('postalCode')?.dirty
+            class="form-control mt-2" maxlength="5" required />
+          @if (profileForm.get('address')?.get('postalCode')?.errors &&
+          (profileForm.get('address')?.get('postalCode')?.dirty
           || profileForm.get('address')?.get('postalCode')?.touched)) {
-            <div class="error-msg mt-2">
-              <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['minlength']">
-                Le code postal doit comporter au moins 5 chiffres
-              </div>
-              <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['maxlength']">
-                Le code postal ne doit pas dépasser 5 chiffres
-              </div>
-              <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['required']">
-                Veuillez renseigner votre code postal
-              </div>
+          <div class="error-msg mt-2">
+            <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['minlength']">
+              Le code postal doit comporter au moins 5 chiffres
             </div>
+            <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['maxlength']">
+              Le code postal ne doit pas dépasser 5 chiffres
+            </div>
+            <div [hidden]="!profileForm.get('address')?.get('postalCode')?.errors?.['required']">
+              Veuillez renseigner votre code postal
+            </div>
+          </div>
           }
         </div>
         <div class="col-6 col-md-4">
           <label for="city">Ville</label>
           <input type="text" formControlName="city" autocomplete="address-level2" id="city" name="city"
-          class="form-control mt-2" required/>
+            class="form-control mt-2" required />
           @if (profileForm.get('address')?.get('city')?.errors && (profileForm.get('address')?.get('city')?.dirty
           || profileForm.get('address')?.get('city')?.touched)) {
-            <div class="error-msg mt-2">Veuillez renseigner votre ville</div>
+          <div class="error-msg mt-2">Veuillez renseigner votre ville</div>
           }
         </div>
       </div>
@@ -107,16 +108,15 @@
         <h3 class="mt-5 bold-title-700">Mes lieux de RDV préférés</h3>
       </div>
     </div>
-    <app-meeting-place-form (addPreferredMeetingPlaces)="getUserPreferredMeetingPlaces($event)"></app-meeting-place-form>
+    <app-meeting-place-form
+      (addPreferredMeetingPlaces)="getUserPreferredMeetingPlaces($event)"></app-meeting-place-form>
 
     <div class="row justify-content-center">
       <div class="col-12 col-md-9">
         <h3 class="my-5 bold-title-700">Mes disponibilités</h3>
       </div>
     </div>
-    <app-schedule
-      [editMode]="scheduleEditMode"
-      (addPreferredSchedules)="getUserPreferredSchedules($event)">
+    <app-schedule [editMode]="scheduleEditMode" (addPreferredSchedules)="getUserPreferredSchedules($event)">
     </app-schedule>
 
     <div class="row justify-content-center">

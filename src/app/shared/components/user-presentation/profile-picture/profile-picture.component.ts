@@ -1,5 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
+import { ImageService } from '../../../services/image.service';
 
 @Component({
   selector: 'app-profile-picture',
@@ -8,6 +10,7 @@ import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-
   templateUrl: './profile-picture.component.html'
 })
 export class ProfilePictureComponent implements AfterViewInit {
+  profilePictureForm: any;
   hasInteractedWithDropzone: boolean = false;
   pictureData = new FormData();
   isProfilePicturePreview: boolean = false;
@@ -21,9 +24,9 @@ export class ProfilePictureComponent implements AfterViewInit {
     acceptedFiles: 'image/*',
     uploadMultiple: false,
     createImageThumbnails: true,
-    resizeMethod:"contain",
-    thumbnailWidth:230,
-    thumbnailHeight:230,
+    resizeMethod: "contain",
+    thumbnailWidth: 230,
+    thumbnailHeight: 230,
     addRemoveLinks: true,
     dictRemoveFile: "×",
     clickable: true,
@@ -37,21 +40,28 @@ export class ProfilePictureComponent implements AfterViewInit {
     </div>
   `;
 
-  constructor() {}
+  constructor(public parentForm: FormGroupDirective, private imageService: ImageService) { }
 
   ngAfterViewInit(): void {
     const dropzone = this.dropzoneComponent.directiveRef?.dropzone();
 
     dropzone.on('thumbnail', (file: File) => {
       this.isProfilePicturePreview = true;
-      this.pictureData.set('userProfilePicture', file);
-      console.log(this.pictureData.get('userProfilePicture'));
+      // this.pictureData.set('multipartFile', file);
+      // console.log(this.pictureData.get('multipartFile'));
+
+      this.pictureData.append('multipartFile', file);
+      console.error('1.pictureData in profilePictureComponent::')
+      this.pictureData.forEach((value, key) => {
+        console.log(`${key}: ${value}`)
+        console.log(value);
+      });
       this.thumbnailGenerated.emit(this.pictureData);
     });
 
     dropzone.on('removedfile', () => {
-      this.pictureData.delete('userProfilePicture');
-      console.log(this.pictureData.get('userProfilePicture'));
+      this.pictureData.delete('multipartFile');
+      console.log(this.pictureData.get('multipartFile'));
       this.isProfilePicturePreview = false;
       this.fileRemoved.emit(this.pictureData);
     });
@@ -59,9 +69,13 @@ export class ProfilePictureComponent implements AfterViewInit {
     dropzone.on('error', (error: any) => {
       console.error('Upload failed:', error);
       this.errorMessage =
-      "il y a eu une erreur lors du chargement de votre image, veuillez réessayer plus tard"
+        "il y a eu une erreur lors du chargement de votre image, veuillez réessayer plus tard"
     });
   }
+
+  // uploadProfilePicture(): any {
+  //   this.imageService.upload( this.pictureData.get('multipartFile')!);
+  // }
 
   onDropzoneInteraction(): void {
     this.hasInteractedWithDropzone = true;

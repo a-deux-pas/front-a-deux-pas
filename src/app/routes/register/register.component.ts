@@ -1,4 +1,4 @@
-import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { ProfilePictureComponent } from '../../shared/components/user-presentation/profile-picture/profile-picture.component';
@@ -16,6 +16,7 @@ import { DisplayManagementService } from '../../shared/services/display-manageme
 import { escapeHtml, formatText } from '../../shared/utils/sanitizers/custom-sanitizers';
 import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
 import { AlertType } from '../../shared/models/alert.model';
+import { ImageService } from '../../shared/services/image.service';
 
 @Component({
   selector: 'app-register',
@@ -25,6 +26,7 @@ import { AlertType } from '../../shared/models/alert.model';
   templateUrl: './register.component.html'
 })
 export class RegisterComponent implements AfterViewInit {
+  profilPictureUrl!: string;
   profileForm: FormGroup;
   userProfilePicture!: FormData;
   profilePicturePreview: boolean = false;
@@ -41,14 +43,16 @@ export class RegisterComponent implements AfterViewInit {
     private displayManagementService: DisplayManagementService,
     private registerService: RegisterService,
     private location: Location,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    // TO DO :: une fois que ca fonctionne à remplacer par image upload service
+    private imageService: ImageService
   ) {
     this.profileForm = this.formBuilder.group({
       alias: ['', {
-        validators:[Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-          asyncValidators: this.asyncValidatorService.uniqueAliasValidator(),
-          updateOn: 'blur'
-        }
+        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+        asyncValidators: this.asyncValidatorService.uniqueAliasValidator(),
+        updateOn: 'blur'
+      }
       ],
       bio: ['', [Validators.minLength(10), Validators.maxLength(600)]],
       address: this.formBuilder.group({
@@ -68,6 +72,12 @@ export class RegisterComponent implements AfterViewInit {
       console.log('thumbnail generated');
       this.profilePicturePreview = true;
       this.userProfilePicture = userPicture;
+      // console.log(' this.userProfilePicture generated:: ', this.userProfilePicture, ' type : ', typeof this.userProfilePicture)
+      console.error('2. this.userProfilePicture generated in profilePictureComponent::')
+      this.userProfilePicture.forEach((value, key) => {
+        console.log(`${key}: ${value}`)
+        console.log(value);
+      });
     } else if (eventType === 'fileRemoved') {
       console.log('thumbnail removed');
       this.userProfilePicture = userPicture;
@@ -97,61 +107,63 @@ export class RegisterComponent implements AfterViewInit {
     );
   }
 
-  onSubmit() {
-    if (this.profilePicturePreview && this.userId) {
-      // TO DO: Créer un service pour envoyer l'image au back
-      // this.uploadPicture(this.userProfilePicture).subscribe({
-      //     next: (response: any) => {
-              // si le backend renvoie l'url de l'image
-              // const profilePictureUrl = response.url;
-              const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
-              const city = formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value));
-              const postalCode = escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value);
-              const userProfile = new UserProfile(
-                this.userId,
-                '', // à remplacer par l'URL de l'image
-                userAlias,
-                escapeHtml(this.profileForm.get('bio')?.value) || null,
-                city,
-                escapeHtml(this.profileForm.get('address')?.get('street')?.value),
-                postalCode,
-                escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
-                escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
-                this.preferredSchedules,
-                this.preferredMeetingPlaces,
-                this.notifications
-              );
-              this.registerService.saveProfile(userProfile).subscribe({
-                next: (response) => {
-                  console.log('Profile saved:', response);
-                  localStorage.setItem('userAlias', userAlias);
-                  localStorage.setItem('userCity', `${city} (${postalCode})`);
-                  this.goBack();
-                  setTimeout(() => {
-                    this.displayManagementService.displayAlert({
-                      message: AlertMessage.PROFILE_CREATED_SUCCESS,
-                      type: AlertType.SUCCESS
-                    });
-                  }, 100);
-                },
-                error: (error) => {
-                  console.error('Error saving profile:', error);
-                  this.displayManagementService.displayAlert({
-                    message: AlertMessage.DEFAULT_ERROR,
-                    type: AlertType.ERROR
-                  });
-                }
-              });
-          // }
-            } else {
-              console.error(`Errors: ${!this.profilePicturePreview ?
-                'Profile picture upload failed.' : ''} ${!this.userId ? 'User ID is null.' : ''}`);
-              this.displayManagementService.displayAlert({
-                message: AlertMessage.UPLOAD_PICTURE_ERROR,
-                type: AlertType.ERROR
-              });
-            }
-      // });
+
+  async onSubmit() {
+    try {
+      if (!this.profilePicturePreview || !this.userId) {
+        throw new Error('Profile picture upload failed or User ID is null.');
+      }
+
+      // TO DO :: faire bouger cette partie en dessus de la ligne avec const userAlias
+      // Upload profile picture
+      const uploadResponse = await this.imageService.upload(this.userProfilePicture, `profilePicture-${escapeHtml(this.profileForm.get('alias')?.value)}`).toPromise();
+      if (!uploadResponse.imageUrl) {
+        throw new Error('Failed to upload profile picture.');
+      }
+      this.profilPictureUrl = uploadResponse.imageUrl;
+      console.log('Uploaded profile picture URL:', this.profilPictureUrl);
+
+      // Prepare user profile data
+      const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
+      const city = formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value));
+      const postalCode = escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value);
+      const userProfile = new UserProfile(
+        this.userId,
+        this.profilPictureUrl,
+        userAlias,
+        escapeHtml(this.profileForm.get('bio')?.value) || null,
+        city,
+        escapeHtml(this.profileForm.get('address')?.get('street')?.value),
+        postalCode,
+        escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
+        escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
+        this.preferredSchedules,
+        this.preferredMeetingPlaces,
+        this.notifications
+      );
+
+      // Save user profile
+      const saveResponse = await this.registerService.saveProfile(userProfile).toPromise();
+      console.log('Profile saved:', saveResponse);
+      localStorage.setItem('userAlias', userAlias);
+      localStorage.setItem('userCity', `${city} (${postalCode})`);
+
+      // Display success message and navigate back
+      this.goBack();
+      setTimeout(() => {
+        this.displayManagementService.displayAlert({
+          message: AlertMessage.PROFILE_CREATED_SUCCESS,
+          type: AlertType.SUCCESS
+        });
+      }, 100);
+
+    } catch (error) {
+      console.error('Error submitting profile:', error);
+      this.displayManagementService.displayAlert({
+        message: AlertMessage.DEFAULT_ERROR,
+        type: AlertType.ERROR
+      });
+    }
   }
 
   goBack() {
