@@ -6,7 +6,7 @@
     <!-- number of article picture image selection -->
     <div class="mx-auto mb-5" id="select-pic-number">
       <ng-select [clearable]="false" [(ngModel)]="selectedPicNumber" name="selectedPicNumber" class="custom mt-4"
-        placeholder="2 photos">
+        placeholder="2 photos" (change)="updateDropzoneDimension(selectedPicNumber)">
         @for (number of [2, 3, 4, 5]; track number; let i = $index) {
         <ng-option [id]="'select-pic-number' + selectedPicNumber" [value]="number">
           {{ number }} photos
@@ -18,68 +18,54 @@
     <!-- TO DO :: will be changed in order to use dropzoneJs instead (fix Cloudinary branch)  -->
     <!-- image selection section on desktop device -->
     <div>
-      <div class="dropzone-field mx-auto mb-5">
+      <div class="dropzone-field mx-auto mb-5"
+        [ngClass]="{'d-none': isBigScreen == false, 'block': isBigScreen == true}">
         @for (n of getArray(selectedPicNumber); track n; let i = $index) {
-        <ngx-dropzone #dropzoneEl name="article-picture" class="dropzone"
-          [ngClass]="{'d-none': isBigScreen == false, 'block': isBigScreen == true}" id="dropzone{{i}}"
-          (change)="onSelectPicture($event, i)" [multiple]="false" [class.two-dropzones]="selectedPicNumber === 2"
-          [class.three-dropzones]="selectedPicNumber === 3" [class.four-dropzones]="selectedPicNumber === 4"
-          [class.five-dropzones]="selectedPicNumber === 5" accept="image/jpeg,image/jpg,image/png,image/svg,image/webp">
-          <ngx-dropzone-label class="center mx-auto">
-            <div class="add-picture-btn">
-              <img class="add-picture-icon" src="assets/icons/buttons/add-orange.webp" alt="icone-d-ajout">
-              <p class="add-picture-btn-text">ajouter une photo</p>
-            </div>
-          </ngx-dropzone-label>
-          @for (f of getFilesArray(i); track f) {
-          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [removable]="true" [file]="f"
-            (removed)="onRemove(f, i)">
-          </ngx-dropzone-image-preview>
-          }
-        </ngx-dropzone>
+        <dropzone name="article-picture" [config]="config" [message]="customMessage"
+          (mouseleave)="onDropzoneInteraction()" class="articlePicDropzones" id="dropzone-{{i}}">
+        </dropzone>
         }
       </div>
 
-      <<<<<<< HEAD @if (files2.length==0 && adForm.submitted) { <div>
+      @if (files2.length==0 && adForm.submitted) { <div>
         <span class="error-msg">Veuillez ajouter au moins deux photos</span>
+      </div>
+      }
+
+      <!-- TO DO :: will be changed in order to use dropzoneJs instead (fix Cloudinary branch)-->
+      <!-- Carrousel section for image selection on mobile device -->
+      <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true" (slide)="onSlide($event)"
+        class="center" [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
+        @for (picNumber of getArray(selectedPicNumber); track picNumber; let i = $index) {
+        <ng-template ngbSlide>
+          <div class="carousel-caption">
+          </div>
+          <ngx-dropzone class="carousel-item-mobile dropzone d-block w-50" (change)="onSelectPicture($event, picNumber)"
+            [multiple]="false" [accept]="'image/jpeg,image/jpg,image/png,image/svg,image/webp'"
+            [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
+            <ngx-dropzone-label class="center mx-auto">
+              <div class="add-picture-btn">
+                <img id="ad-picture-{{i}}" class="add-picture-icon" src="assets/icons/buttons/add-orange.webp"
+                  alt="icone-d-ajout">
+                <p class="add-picture-btn-text-{{i}}">ajouter une photo</p>
+              </div>
+            </ngx-dropzone-label>
+            @for (f of getFilesArray(picNumber); track f; let i = $index) {
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true"
+              (removed)="onRemove(f, picNumber)"></ngx-dropzone-image-preview>
+            }
+          </ngx-dropzone>
+        </ng-template>
+        }
+      </ngb-carousel>
+    </div>
+
+    @if (files2.length == 0 && adForm.submitted) {
+    <div>
+      <span class="error-msg">Veuillez ajouter au moins deux photos</span>
     </div>
     }
-    =======
-    <!-- TO DO :: will be changed in order to use dropzoneJs instead (fix Cloudinary branch)-->
-    <!-- Carrousel section for image selection on mobile device -->
-    <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true" (slide)="onSlide($event)"
-      class="center" [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
-      @for (picNumber of getArray(selectedPicNumber); track picNumber; let i = $index) {
-      <ng-template ngbSlide>
-        <div class="carousel-caption">
-        </div>
-        <ngx-dropzone class="carousel-item-mobile dropzone d-block w-50" (change)="onSelectPicture($event, picNumber)"
-          [multiple]="false" [accept]="'image/jpeg,image/jpg,image/png,image/svg,image/webp'"
-          [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
-          <ngx-dropzone-label class="center mx-auto">
-            <div class="add-picture-btn">
-              <img id="ad-picture-{{i}}" class="add-picture-icon" src="assets/icons/buttons/add-orange.webp"
-                alt="icone-d-ajout">
-              <p class="add-picture-btn-text-{{i}}">ajouter une photo</p>
-            </div>
-          </ngx-dropzone-label>
-          @for (f of getFilesArray(picNumber); track f; let i = $index) {
-          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true"
-            (removed)="onRemove(f, picNumber)"></ngx-dropzone-image-preview>
-          }
-        </ngx-dropzone>
-      </ng-template>
-      }
-    </ngb-carousel>
   </div>
-
-  @if (files2.length == 0 && adForm.submitted) {
-  <div>
-    <span class="error-msg">Veuillez ajouter au moins deux photos</span>
-  </div>
-  }
-  </div>
-  >>>>>>> dev
 
   <!-- Category choice section -->
   <div class="mx-auto mt-5" style="width: 246px;">
@@ -244,9 +230,6 @@
 
   <div class="bottom-btns mb-5 mt-5">
     <button type="button" class="btn-secondary mt-4" (click)="goBack()">annuler</button>
-    <<<<<<< HEAD <button type="submit" class="btn-primary mt-4">publier</button>
-      =======
-      <button type="submit" class="btn-primary mt-4" [disabled]="adForm.invalid">publier</button>
-      >>>>>>> dev
+    <button type="submit" class="btn-primary mt-4" [disabled]="adForm.invalid">publier</button>
   </div>
 </form>

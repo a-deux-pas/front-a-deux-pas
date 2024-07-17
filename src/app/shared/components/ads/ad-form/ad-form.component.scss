@@ -90,6 +90,7 @@ input::-webkit-inner-spin-button {
 }
 
 // drag and drop
+// TODO :: à virer?
 ngx-dropzone,
 .dropzone {
   width: 350px;
@@ -97,6 +98,7 @@ ngx-dropzone,
   margin: auto auto;
 }
 
+// TODO :: à virer
 ngx-dropzone-image-preview {
   align-items: center !important;
   display: flex !important;
@@ -161,108 +163,5 @@ ngx-dropzone-image-preview {
     grid-template-rows: repeat(2, 1fr) !important;
     max-width: 859px !important;
     max-height: 478px !important;
-  }
-
-  //// if two dropzones
-  .two-dropzones {
-    width: 423px !important;
-    height: 479px !important;
-
-    >ngx-dropzone-image-preview {
-      min-width: 80% !important;
-      min-height: 80% !important;
-      position: relative !important;
-      max-width: 400px !important;
-      max-height: 460px !important;
-    }
-  }
-
-  //// if three dropzones
-  .three-dropzones {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto auto !important;
-  }
-
-  .three-dropzones:first-child {
-    width: 523px !important;
-    height: 479px !important;
-    grid-area: 1 / 1 / 3 / 3 !important;
-
-    &>ngx-dropzone-label>div {
-      margin-top: 100% !important;
-    }
-
-    >ngx-dropzone-image-preview {
-      min-width: 80% !important;
-      min-height: 80% !important;
-      position: relative !important;
-      max-width: 400px !important;
-      max-height: 460px !important;
-    }
-  }
-
-  .three-dropzones:not(:first-child) {
-    width: 316px !important;
-    height: 232px !important;
-
-    &>ngx-dropzone-label>div {
-      margin-top: 30% !important;
-    }
-  }
-
-  .three-dropzones:nth-child(2) {
-    grid-area: 1 / 3 / 2 / 4;
-  }
-
-  .three-dropzones:nth-child(3) {
-    grid-area: 2 / 3 / 3 / 4;
-  }
-
-  //// if four dropzones
-  .four-dropzones {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-  }
-
-  .four-dropzones:first-child,
-  .four-dropzones:nth-child(4) {
-    width: 308px;
-    height: 479px;
-
-    &>ngx-dropzone-label>div {
-      margin-top: 87%;
-    }
-  }
-
-  .four-dropzones:first-child {
-    grid-area: 1 / 1 / 3 / 2;
-  }
-
-  .four-dropzones:nth-child(4) {
-    grid-area: 1 / 3 / 3 / 4;
-  }
-
-  .four-dropzones:nth-child(2),
-  .four-dropzones:nth-child(3) {
-    width: 215px;
-    height: 232px;
-
-    &>ngx-dropzone-label>div {
-      margin-top: 30%;
-    }
-  }
-
-  //// if five dropzones
-  .five-dropzones:first-child {
-    width: 308px;
-    height: 479px;
-    grid-area: 1 / 1 / 3 / 2;
-  }
-
-  .five-dropzones:not(:first-child) {
-    width: 256.67px;
-    height: 232px;
   }
 }

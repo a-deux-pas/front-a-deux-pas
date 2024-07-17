@@ -40,7 +40,7 @@ export class AdPageComponent implements OnInit {
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
   currentAd!: AdDetails | undefined;
   selectedPicNumber: number = 2;
-  articlePictures: (string | undefined)[] = [];
+  articlePictures: (string)[] = [];
   areaSizeA!: number
   areaSizeB!: number
   showSeeMorBtn!: boolean;
@@ -60,33 +60,29 @@ export class AdPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
-    this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
-    this.pageSize = this.onLoggedInUserAd ? 8 : 4;
-    this.displayedAdsCount = this.pageSize;
-    this.adPageContentService.getAdById(adId).subscribe({
-      next: (ad: AdDetails) => {
-        this.currentAd = ad;
-        this.userId = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')!) : 0;
-        this.articlePictures = [
-          // TO DO :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
-          this.currentAd.firstArticlePictureUrl,
-          this.currentAd.secondArticlePictureUrl,
-          this.currentAd.thirdArticlePictureUrl,
-          this.currentAd.fourthArticlePictureUrl,
-          this.currentAd.fifthArticlePictureUrl
-        ].filter(url => !!url);
-        this.selectedPicNumber = this.articlePictures.length;
-        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
-        this.fetchPaginatedAdsList()
-        if (!this.onLoggedInUserAd) {
-          this.getSimilarAds()
-          if (!this.userId) {
-            this.adService.isOnSellerAdPageUnLogged(true);
-          }
-        }
-      }
-    });
+    // const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
+    // this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
+    // this.pageSize = this.onLoggedInUserAd ? 8 : 4;
+    // this.displayedAdsCount = this.pageSize;
+    // this.adPageContentService.getAdById(adId).subscribe({
+    //   next: (ad: AdDetails) => {
+    //     this.currentAd = ad;
+    //     this.userId = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')!) : 0;
+    //     this.articlePictures = [
+    //       // TO DO :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
+    //       this.currentAd.articlePictures!
+    //     ].filter(url => !!url);
+    //     this.selectedPicNumber = this.articlePictures.length;
+    //     [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
+    //     this.fetchPaginatedAdsList()
+    //     if (!this.onLoggedInUserAd) {
+    //       this.getSimilarAds()
+    //       if (!this.userId) {
+    //         this.adService.isOnSellerAdPageUnLogged(true);
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   ngOnDestroy() {

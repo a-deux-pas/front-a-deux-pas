@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { FormGroupDirective } from '@angular/forms';
 import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
 import { ImageService } from '../../../services/image.service';
 
@@ -47,15 +47,7 @@ export class ProfilePictureComponent implements AfterViewInit {
 
     dropzone.on('thumbnail', (file: File) => {
       this.isProfilePicturePreview = true;
-      // this.pictureData.set('multipartFile', file);
-      // console.log(this.pictureData.get('multipartFile'));
-
       this.pictureData.append('multipartFile', file);
-      console.error('1.pictureData in profilePictureComponent::')
-      this.pictureData.forEach((value, key) => {
-        console.log(`${key}: ${value}`)
-        console.log(value);
-      });
       this.thumbnailGenerated.emit(this.pictureData);
     });
 
@@ -66,16 +58,13 @@ export class ProfilePictureComponent implements AfterViewInit {
       this.fileRemoved.emit(this.pictureData);
     });
 
+    // TO DO : voir si c'est à garder
     dropzone.on('error', (error: any) => {
       console.error('Upload failed:', error);
       this.errorMessage =
         "il y a eu une erreur lors du chargement de votre image, veuillez réessayer plus tard"
     });
   }
-
-  // uploadProfilePicture(): any {
-  //   this.imageService.upload( this.pictureData.get('multipartFile')!);
-  // }
 
   onDropzoneInteraction(): void {
     this.hasInteractedWithDropzone = true;
