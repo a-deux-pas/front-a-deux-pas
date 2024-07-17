@@ -36,7 +36,7 @@ import { PreferredSchedule } from '../../../../../shared/models/user/preferred-s
   ],
 })
 export class DatePickerComponent implements ControlValueAccessor {
-  today = inject(NgbCalendar).getToday();
+  // today = inject(NgbCalendar).getToday();
   selectedDate: NgbDateStruct | undefined;
   model: NgbDateStruct | undefined;
 
@@ -50,7 +50,7 @@ export class DatePickerComponent implements ControlValueAccessor {
   daysOfCurrentMonth: NgbDateStruct[] = [];
 
   constructor() {
-    this.startDate = this.today;
+    this.startDate = this.getTomorrowDate();
     this.endDate = this.getLastDayOfCurrentMonth();
   }
 
@@ -64,6 +64,18 @@ export class DatePickerComponent implements ControlValueAccessor {
     this.dateSelected.emit(this.selectedDate);
     this.model = this.selectedDate;
     console.log('selected day in datepicker: ', this.selectedDate);
+  }
+
+  private getTomorrowDate(): NgbDateStruct {
+    let today = new Date();
+    let tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    return {
+      year: tomorrow.getFullYear(),
+      month: tomorrow.getMonth() + 1,
+      day: tomorrow.getDate(),
+    };
   }
 
   private extractCurrentMonthDays() {
@@ -138,9 +150,6 @@ export class DatePickerComponent implements ControlValueAccessor {
 
   writeValue(value: NgbDateStruct): void {
     this.selectedDate = value;
-    console.log('@@@@@@@@@@@', this.isSelectedDate(value));
-    // Update the view with the new value
-    //this.onDateSelect(this.selectedDate);
   }
 
   registerOnChange(fn: any): void {
@@ -151,7 +160,5 @@ export class DatePickerComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    // handle the disabled state
-  }
+  setDisabledState?(isDisabled: boolean): void {}
 }
