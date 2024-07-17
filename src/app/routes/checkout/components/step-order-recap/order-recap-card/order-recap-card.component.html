@@ -1,17 +1,15 @@
 <section class="order-recap-card">
   <h3><b>Votre commande</b></h3>
   <div class="ad-details">
-    <div>
-      <img src="{{ ad.firstArticlePictureUrl }}" alt="photo de l'article" />
-    </div>
+    <img src="{{ ad.firstArticlePictureUrl }}" alt="photo de l'article" />
 
     <div class="name-and-description">
-      <p class="with-custom-scrollbar">
+      <div class="with-custom-scrollbar text-container">
         <u>{{ ad.title }}</u>
-      </p>
-      <p class="with-custom-scrollbar">
+      </div>
+      <div class="with-custom-scrollbar text-container">
         {{ ad.articleDescription }}
-      </p>
+      </div>
     </div>
   </div>
   <div class="horizontal-line"></div>

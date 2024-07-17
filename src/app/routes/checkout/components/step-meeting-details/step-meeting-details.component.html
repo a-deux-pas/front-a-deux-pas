@@ -1,73 +1,87 @@
-<section class="meeting-details-container">
-  <div class="calendars-container">
-    <app-date-picker></app-date-picker>
-    <app-time-interval-picker></app-time-interval-picker>
-  </div>
-  <div class="row row-gap-3 justify-content-center mt-4">
-    <div class="textarea-container">
-      <label for="meeting place" class="form-label"><b>Lieu du RDV</b></label>
-      <ng-select
-        [(ngModel)]="selectedMeetingPlace"
-        name="meeting place"
-        id="meeting place"
-        class="custom mt-4"
-        placeholder="Sélectionnez un lieu"
-      >
-        @for (meetingPlace of meetingPlaces; track meetingPlace.id) {
-        <ng-option [value]="meetingPlace">{{ meetingPlace.name }}</ng-option>
-        }
-      </ng-select>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <section class="meeting-details-container">
+    <div class="calendars-container">
+      <app-date-picker
+        (dateSelected)="onDateSelected($event)"
+        [sellerPreferredSchedules]="preferredSchedules"
+        formControlName="selectedDate"
+      ></app-date-picker>
+      <app-time-interval-picker
+        class="interval-picker-container"
+        (timeSelected)="onTimeSelected($event)"
+        [sellerPreferredSchedules]="preferredSchedules"
+        [selectedDate]="selectedDate"
+        formControlName="selectedTime"
+      ></app-time-interval-picker>
     </div>
-  </div>
-
-  <div class="distinctive-sign-and-info-container">
-    <div class="textarea-container">
-      <label for="sign" class="form-label"><b>Signe distinctif </b></label>
-      <textarea
-        class="form-control form-control-sm"
-        name="sign"
-        id="sign"
-        rows="3"
-        style="width: 25vw"
-        placeholder="Indiquez un signe distinctif qui permettra de vous reconnaître le jour J"
-      ></textarea>
-    </div>
-    <div class="textarea-container">
-      <label for="info" class="form-label">
-        <b>Informations complémentaires</b></label
-      >
-      <textarea
-        class="form-control form-control-sm"
-        name="info"
-        id="info"
-        rows="3"
-        style="width: 25vw"
-        placeholder="Indiquez toute autre information que vous trouvez utile à partager"
-      ></textarea>
-    </div>
-  </div>
-
-  <div class="terms-container">
-    <div class="form-check">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="terms"
-        id="terms"
-        (click)="agreeToTerms()"
-      />
-      <label class="form-check-label" for="terms">
-        <p>
-          Une fois le RDV fixé, je m'engage à m'y rendre ou à prévenir le
-          vendeur <b>au plus tard 24h avant</b>
-        </p>
-      </label>
+    <div class="row row-gap-3 justify-content-center mt-4">
+      <div class="textarea-container">
+        <label for="meeting place" class="form-label"><b>Lieu du RDV</b></label>
+        <ng-select
+          formControlName="meetingPlace"
+          name="meeting place"
+          id="meetingPlace"
+          class="custom mt-4"
+          placeholder="Sélectionnez un lieu"
+        >
+          @for (meetingPlace of meetingPlaces; track meetingPlace) {
+          <ng-option [value]="meetingPlace">{{ meetingPlace.name }}</ng-option>
+          }
+        </ng-select>
+      </div>
     </div>
 
-    @if (agreedToTerms) {
-    <button type="submit" class="btn-primary mt-4" (click)="nextStep()">
-      proposer le RDV
-    </button>
-    }
-  </div>
-</section>
+    <div class="distinctive-sign-and-info-container">
+      <div class="textarea-container">
+        <label for="sign" class="form-label"><b>Signe distinctif </b></label>
+        <textarea
+          formControlName="sign"
+          class="form-control form-control-sm"
+          name="sign"
+          id="sign"
+          rows="3"
+          style="width: 25vw"
+          placeholder="Indiquez un signe distinctif qui permettra de vous reconnaître le jour J"
+        ></textarea>
+      </div>
+      <div class="textarea-container">
+        <label for="info" class="form-label">
+          <b>Informations complémentaires</b></label
+        >
+        <textarea
+          formControlName="info"
+          class="form-control form-control-sm"
+          name="info"
+          id="info"
+          rows="3"
+          style="width: 25vw"
+          placeholder="Indiquez toute autre information que vous trouvez utile à partager"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="terms-container">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="terms"
+          id="terms"
+          (click)="agreeToTerms()"
+        />
+        <label class="form-check-label" for="terms">
+          <p>
+            Une fois le RDV fixé, je m'engage à m'y rendre ou à prévenir le
+            vendeur <b>au plus tard 24h avant</b>
+          </p>
+        </label>
+      </div>
+
+      <!-- @if (agreedToTerms ) { -->
+      <button type="submit" class="btn-primary mt-4" [disabled]="!form.valid">
+        proposer le RDV
+      </button>
+      <!--}-->
+    </div>
+  </section>
+</form>

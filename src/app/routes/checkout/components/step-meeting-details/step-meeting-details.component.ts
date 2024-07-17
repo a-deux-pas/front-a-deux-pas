@@ -1,13 +1,21 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CheckoutService } from '../../checkout.service';
 import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { TimeIntervalPickerComponent } from './time-interval-picker/time-interval-picker.component';
 import { AdService } from '../../../../shared/services/ad.service';
 import { UserService } from '../../../../shared/services/user.service';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { BuyerProposedMeetingRequest } from '../../../../shared/models/meeting/buyer-proposed-meeting-request.model';
 
 @Component({
   selector: 'app-step-meeting-details',
@@ -17,28 +25,48 @@ import { UserService } from '../../../../shared/services/user.service';
     FormsModule,
     CommonModule,
     DatePickerComponent,
+    ReactiveFormsModule,
     TimeIntervalPickerComponent,
   ],
   templateUrl: './step-meeting-details.component.html',
   styleUrl: './step-meeting-details.component.scss',
 })
 export class StepMeetingDetailsComponent implements OnInit {
+  form: FormGroup;
   step!: number;
   agreedToTerms: boolean = false;
+
   ad: any;
-  user: any;
-  selectedMeetingPlace!: any;
+  seller: any;
+  proposedMeeting: BuyerProposedMeetingRequest | null = null;
   meetingPlaces: any;
-  schedule: any;
+  preferredSchedules: any;
+
+  /* buyerDistinctiveSign: string | null = null;
+  sellerDistinctiveSign: string | null = null;
+  selectedMeetingPlace: string | null = null;*/
+  selectedTime: string | null = null;
+  selectedDate: NgbDateStruct | undefined;
 
   constructor(
     private checkoutService: CheckoutService,
     private router: Router,
     private adService: AdService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    private formBuilder: FormBuilder
+  ) {
+    this.form = this.formBuilder.group({
+      meetingPlace: [null, Validators.required],
+      sign: [null],
+      info: [null],
+      selectedDate: [Validators.required],
+      selectedTime: [null, Validators.required],
+      terms: [false, Validators.requiredTrue],
+    });
+  }
 
   ngOnInit() {
+    console.log('selected date in meeting detail', this.selectedDate);
     window.scrollTo(0, 0);
     this.checkoutService.currentStep.subscribe((currentStep) => {
       if (currentStep < 2) {
@@ -47,21 +75,35 @@ export class StepMeetingDetailsComponent implements OnInit {
       this.step = currentStep;
     });
     this.ad = this.adService.getCheckoutAd();
-    this.userService
-      .fetchUserByAlias(this.ad.publisherAlias)
-      .subscribe((user: any) => {
-        this.user = user;
-        this.meetingPlaces = this.user.preferredMeetingPlaces;
-        this.schedule = this.user.preferredSchedules;
-      });
+    this.seller = this.userService.getCheckoutSeller();
+    this.meetingPlaces = this.seller.preferredMeetingPlaces;
+    this.preferredSchedules = this.seller.preferredSchedules;
+  }
+
+  onDateSelected(date: NgbDateStruct) {
+    this.form.get('selectedDate')?.setValue(date);
+    this.form.get('selectedTime')?.setValue(null);
+    this.selectedDate = date;
+  }
+
+  onTimeSelected(timeInterval: string) {
+    this.form.get('selectedTime')?.setValue(timeInterval);
+    this.selectedTime = timeInterval;
   }
 
   agreeToTerms() {
-    this.agreedToTerms = true;
+    const currentTermsValue = this.form.get('terms')?.value;
+    this.form.get('terms')?.patchValue(!currentTermsValue);
+    console.log(this.form);
   }
 
-  nextStep() {
-    this.checkoutService.updateStep(3);
-    this.router.navigate(['/checkout/paiement']);
+  onSubmit() {
+    if (this.form.valid) {
+      console.log('Form Submitted', this.form);
+      this.checkoutService.updateStep(3);
+      // TODO : save meeting state to service
+
+      this.router.navigate(['/checkout/paiement']);
+    }
   }
 }

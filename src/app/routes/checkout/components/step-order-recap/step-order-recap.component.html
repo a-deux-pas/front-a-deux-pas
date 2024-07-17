@@ -29,7 +29,13 @@
   </div>
 </section>
 <section class="buttons-container">
-  <button type="submit" class="btn-secondary mt-4">annuler</button>
+  <button
+    type="submit"
+    class="btn-secondary mt-4"
+    (click)="returnToAdDetails()"
+  >
+    annuler
+  </button>
   <button type="submit" class="btn-primary mt-4" (click)="nextStep()">
     valider
   </button>

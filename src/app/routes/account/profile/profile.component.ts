@@ -15,7 +15,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
   standalone: true,
-  imports: [TabsAccountComponent, EditButtonComponent, UserPresentationComponent, ScheduleComponent, MeetingPlacesComponent, CommonModule]
+  imports: [
+    TabsAccountComponent,
+    EditButtonComponent,
+    UserPresentationComponent,
+    ScheduleComponent,
+    MeetingPlacesComponent,
+    CommonModule,
+  ],
 })
 export class ProfileComponent {
   user!: UserPresentation;
@@ -26,8 +33,7 @@ export class ProfileComponent {
   meetingPlacesEditMode: boolean = false;
   userId: number = Number(localStorage.getItem('userId'));
 
-  constructor(private profileService: ProfileService) {
-  }
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
     if (this.userId) {
@@ -48,12 +54,12 @@ export class ProfileComponent {
   private fetchUserPreferredSchedules(userId: number): void {
     this.profileService.getUserPreferredSchedules(userId).subscribe((data) => {
       // Map fetched data to events array
-      this.preferredSchedules = data.map(preferredSchedule => ({
+      this.preferredSchedules = data.map((preferredSchedule) => ({
         id: preferredSchedule.id,
         startTime: preferredSchedule.startTime,
         endTime: preferredSchedule.endTime,
         daysOfWeek: preferredSchedule.daysOfWeek,
-        userId: preferredSchedule.userId
+        userId: preferredSchedule.userId,
       }));
     });
   }

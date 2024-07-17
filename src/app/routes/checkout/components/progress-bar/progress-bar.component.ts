@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CheckoutService } from '../../checkout.service';
 import { Router } from '@angular/router';
+import { AdService } from '../../../../shared/services/ad.service';
 
 @Component({
   selector: 'app-progress-bar',
@@ -12,11 +13,11 @@ import { Router } from '@angular/router';
 export class ProgressBarComponent implements OnInit {
   step!: number;
   paymentMethod: string = '';
-  // replace with the received ad
   ad: any;
 
   constructor(
     private checkoutService: CheckoutService,
+    private adService: AdService,
     private router: Router
   ) {}
 
@@ -32,6 +33,8 @@ export class ProgressBarComponent implements OnInit {
       if (rdvDiv)
         if (this.step === 3) rdvDiv.onclick = () => this.returnToRdvPage();
         else rdvDiv.onclick = null;
+
+      if (step === 2) this.ad = this.adService.getCheckoutAd();
     });
 
     this.checkoutService.currentPaymentMethod.subscribe(

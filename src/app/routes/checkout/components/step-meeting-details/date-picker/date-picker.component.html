@@ -1,1 +1,24 @@
-<ngb-datepicker #dp [(ngModel)]="model" />
+<ngb-datepicker
+  #dp
+  [(ngModel)]="model"
+  [dayTemplate]="t"
+  [startDate]="today"
+  (dateSelect)="onDateSelect($event)"
+>
+</ngb-datepicker>
+
+<ng-template
+  #t
+  let-date="date"
+  let-currentMonth="currentMonth"
+  let-disabled="disabled"
+>
+  <span
+    class="custom-day"
+    [class.selected]="isSelectedDate(date) && isSelectable(date)"
+    [class.highlighted]="isSelectable(date) && !isSelectedDate(date)"
+    [class.disabled]="!isSelectable(date)"
+  >
+    {{ date.day }}
+  </span>
+</ng-template>

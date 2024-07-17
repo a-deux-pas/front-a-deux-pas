@@ -67,8 +67,10 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Method to create personalized containers
-@mixin make-container($padding-x: $container-padding-x,
-  $padding-y: $container-padding-y) {
+@mixin make-container(
+  $padding-x: $container-padding-x,
+  $padding-y: $container-padding-y
+) {
   width: 100%;
   margin-top: $padding-y;
   padding-right: $padding-x;
@@ -250,7 +252,7 @@ button.btn {
 
   &:disabled {
     background-color: #6666668f;
-    border:#6666668f;
+    border: #6666668f;
     font-weight: 400;
   }
 }
@@ -349,7 +351,8 @@ button.btn {
   width: 40px;
 }
 
-.add-icon, .remove-icon {
+.add-icon,
+.remove-icon {
   width: 27.25px;
   height: 27.25px;
 }
@@ -386,7 +389,7 @@ a.close {
 }
 
 .modal-content {
-  .form-check-input[type=checkbox] {
+  .form-check-input[type="checkbox"] {
     border-radius: 50%;
     border-color: $secondary;
     &:checked {
@@ -401,9 +404,9 @@ a.close {
     }
   }
 
-.modal-footer {
-  .btn-success:disabled {
-    background-color: #9d9d9d8f;
+  .modal-footer {
+    .btn-success:disabled {
+      background-color: #9d9d9d8f;
     }
   }
 
@@ -427,8 +430,13 @@ a.close {
     height: 24px;
   }
 
-  .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
-  .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control {
+  .input-group:not(.has-validation)
+    > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(
+      .form-floating
+    ),
+  .input-group:not(.has-validation)
+    > .form-floating:not(:last-child)
+    > .form-control {
     border-radius: 10px 10px 40px 5px;
   }
 }
@@ -481,12 +489,12 @@ textarea.form-control {
 }
 
 // Opened ng-select container bottom border radius
-.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
+.ng-select.ng-select-opened.ng-select-bottom > .ng-select-container {
   border-bottom-right-radius: 40px;
 }
 
 // Focus effects for ng-select
-.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
   border-color: $secondary;
   box-shadow: none;
 }
@@ -539,12 +547,20 @@ span.ng-value-icon.left {
   }
 }
 
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon.left {
   border-right: 1px solid white;
 }
 
 // Hover effects on selected value in multiselect
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon:hover {
   background-color: white;
   color: $primary;
 }
@@ -568,13 +584,17 @@ span.ng-value-icon.left {
 }
 
 // Dropdown panel First child option styling
-.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:first-child {
+.ng-dropdown-panel.ng-select-bottom
+  .ng-dropdown-panel-items
+  .ng-option:first-child {
   border-radius: 10px;
   border-color: $secondary;
 }
 
 // Dropdown panel first child marked option
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked:first-child {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-marked:first-child {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 0;
@@ -596,14 +616,18 @@ span.ng-value-icon.left {
 
 // Selected option styling in dropdown panel
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
 }
 
 // Selected option styling in multiselect
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-optgroup.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
   font-weight: 400;
@@ -682,7 +706,6 @@ $card-spacer-y: 3.1875rem;
   justify-content: center;
   height: 17.74px;
 }
-
 
 #article-price {
   position: relative;
@@ -764,8 +787,8 @@ button.navbar-toggler {
 }
 
 // Select box styling
-.dropdown:hover>.dropdown-menu,
-.dropend:hover>.dropdown-menu {
+.dropdown:hover > .dropdown-menu,
+.dropend:hover > .dropdown-menu {
   display: block;
   margin-left: 0.125em;
   border-radius: 10px;
@@ -918,8 +941,7 @@ a.dropdown-first-level.dropdown-toggle {
 .dz-details,
 .dz-success-mark,
 .dz-error-mark,
-.dz-error-message
-{
+.dz-error-message {
   display: none !important;
 }
 
@@ -971,31 +993,31 @@ app-profile-picture {
   }
 
   .dz-remove {
-    display:inline-block !important;
-    width:1.2em;
-    height:1.2em;
+    display: inline-block !important;
+    width: 1.2em;
+    height: 1.2em;
     text-decoration: none;
 
-    position:absolute;
-    top:5px;
-    right:5px;
-    z-index:1000;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1000;
 
-    font-size:1.2em !important;
-    line-height:1em;
+    font-size: 1.2em !important;
+    line-height: 1em;
 
-    text-align:center;
-    font-weight:bold;
-    border:1px solid gray !important;
-    border-radius:1.2em;
-    color:gray;
-    background-color:white;
-    opacity:.5;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid gray !important;
+    border-radius: 1.2em;
+    color: gray;
+    background-color: white;
+    opacity: 0.5;
   }
 
   .dz-remove:hover {
-      text-decoration:none !important;
-      opacity:1;
+    text-decoration: none !important;
+    opacity: 1;
   }
 }
 
@@ -1028,11 +1050,11 @@ app-register {
 .meeting-place .number,
 #preferred-meeting-places .number {
   background-color: $info;
-  color:white;
+  color: white;
   border-radius: 38px;
   padding: 4px 8px;
   font-size: 14px;
-  position:relative;
+  position: relative;
 }
 
 .meeting-place .address-name {
@@ -1050,7 +1072,6 @@ app-register {
 /*-----------------------------------------------------------------------*/
 
 @media (min-width: 768px) {
-
   // Personalized container for "my account" pages
   // Includes tabs and page content
   .custom-container {
@@ -1093,7 +1114,7 @@ app-register {
   /*---------------------------------*/
 
   //Dropdown menu styling for better display of the ad-filters component.
-  .dropend:hover>.dropdown-menu {
+  .dropend:hover > .dropdown-menu {
     position: absolute;
     top: 0;
     left: 100%;
@@ -1177,29 +1198,109 @@ ngb-carousel,
   }
 }
 
+/*---------------------------------*/
+
+//Calendar Desktop
+
 ngb-datepicker {
-  width: 500px;
-  height: 500px;
-  display: block;
+  border-radius: 3% !important;
 }
 
-.ngb-dp-month {
-  background-color: red;
-}
-
-.ngb-dp-day,
-.ngb-dp-weekday,
-.ngb-dp-week-number {
-  width: 1000px;
-  height: 1000px;
-}
-
-.ngb-dp-weekdays.ngb-dp-weekday {
-  color: red;
+ngb-datepicker-navigation-select > .form-select {
+  color: $primary;
+  font-size: large !important;
+  font-weight: bold !important;
+  text-align: center;
 }
 
 ngb-datepicker-month {
-  background-color: red;
+  width: 400px;
+  height: 400px;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: #f8f9fa;
+  border-radius: 3% !important;
+}
+
+.ngb-dp-header {
+  padding: 5% !important;
+}
+
+.ngb-dp-week {
+  width: 100% !important;
+  height: 100% !important;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5% !important;
+  padding-right: 5% !important;
+}
+
+.ngb-dp-month .ngb-dp-week:last-child {
+  padding-bottom: 5% !important;
+}
+
+.ngb-dp-day {
+  text-align: center;
+  width: 14.2857% !important;
+  height: 100% !important;
+  align-content: center;
+  padding-bottom: 0.5% !important;
+  padding-right: 0.5% !important;
+  padding-left: 0.5% !important;
+  padding-top: 0.5% !important;
+  cursor: default !important;
+}
+
+.custom-day {
+  height: 100% !important;
+  width: 100% !important;
+  font-size: medium;
+  font-weight: bold;
+  align-content: center;
+  background-color: #f8f9fa !important;
+}
+
+.ngb-dp-weekday {
+  color: #282727 !important;
+  width: 14.2857% !important;
+  height: 100% !important;
+  align-content: center;
+  font-size: medium !important;
+  font-weight: 550;
+  font-style: normal !important;
+}
+
+.ngb-dp-navigation-chevron {
+  color: white;
+}
+
+.ngb-dp-arrow {
+  border-radius: 50%;
+  background-color: $primary;
+  width: 3rem !important;
+  height: 3rem !important;
+  justify-content: center;
+  flex: none !important;
+}
+
+.ngb-dp-arrow-next {
+  justify-content: center !important;
+}
+
+.ngb-dp-weekdays {
+  border-bottom: 0 !important;
+}
+
+.form-select {
+  font-size: larger !important;
+  border-radius: 0 !important;
+  height: 3rem !important;
+}
+
+.ngb-dp-navigation-select {
+  margin-left: 5% !important;
+  margin-right: 5% !important;
 }
 
 /*-----------------------------------------------------------------------*/

@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { CheckoutService } from '../../checkout.service';
 import { OrderRecapCardComponent } from './order-recap-card/order-recap-card.component';
 import { AdService } from '../../../../shared/services/ad.service';
+import { UserService } from '../../../../shared/services/user.service';
+import { Seller } from '../../../../shared/models/user/checkout-seller.model';
 
 @Component({
   selector: 'app-step-order-recap',
@@ -15,10 +17,12 @@ export class StepOrderRecapComponent implements OnInit {
   constructor(
     private router: Router,
     private checkoutService: CheckoutService,
-    private adService: AdService
+    private adService: AdService,
+    private userService: UserService
   ) {}
 
   ad: any;
+  seller: Seller | undefined;
   step!: number;
 
   ngOnInit() {
@@ -30,6 +34,11 @@ export class StepOrderRecapComponent implements OnInit {
     this.checkoutService.currentStep.subscribe((currentStep) => {
       this.step = currentStep;
     });
+    this.userService
+      .fetchUserByAlias(this.ad.publisherAlias)
+      .subscribe((seller: Seller) => {
+        this.seller = seller;
+      });
     // Find the initially checked radio button and run the corresponding method
     const checkedRadio = document.querySelector(
       'input[name="payment"]:checked'
@@ -43,8 +52,13 @@ export class StepOrderRecapComponent implements OnInit {
     this.checkoutService.updatePaymentMethod(paymentMethod);
   }
 
+  returnToAdDetails() {
+    this.router.navigate([`/annonce/${this.seller?.id}/${this.ad?.id}`]);
+  }
+
   nextStep() {
     this.checkoutService.updateStep(2);
+    this.userService.setCheckoutseller(this.seller);
     this.router.navigate(['/checkout/rdv']);
   }
 }

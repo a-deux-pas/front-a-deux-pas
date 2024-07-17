@@ -22,6 +22,7 @@
 
 .ad-details {
   display: flex;
+  justify-content: space-between;
   margin-top: 60px;
   margin-bottom: 20px;
 }
@@ -37,10 +38,9 @@ h3 {
 }
 
 img {
-  width: 100%;
-  height: 100%;
-  padding-right: 15%;
-  height: auto;
+  width: 200px;
+  height: 150px;
+  margin-right: 15%;
 }
 
 .name-and-description {
@@ -49,10 +49,15 @@ img {
   justify-content: space-between;
 }
 
-p {
-  max-width: 200px;
-  max-height: 200px;
-  overflow: auto;
+.text-container {
+  max-width: 300px;
+  max-height: 50px;
+  //text-overflow: ellipsis !important; // uncomment this for single line before truncating
+  overflow: hidden !important;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; // number of lines to show before truncating
+  line-clamp: 2;
 }
 
 // Scroll bar customization

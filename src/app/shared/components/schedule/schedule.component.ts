@@ -1,18 +1,32 @@
-import { Component , signal, ChangeDetectorRef, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core'; // useful for typechecking
+import {
+  Component,
+  signal,
+  ChangeDetectorRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import {
+  CalendarOptions,
+  DateSelectArg,
+  EventApi,
+  EventClickArg,
+} from '@fullcalendar/core'; // useful for typechecking
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PreferredSchedule } from '../../models/user/preferred-schedule.model';
-import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventModalComponent } from './event-modal/event-modal.component';
 
 @Component({
-    selector: 'app-schedule',
-    templateUrl: './schedule.component.html',
-    standalone: true,
-    imports: [FullCalendarModule, EventModalComponent]
+  selector: 'app-schedule',
+  templateUrl: './schedule.component.html',
+  standalone: true,
+  imports: [FullCalendarModule, EventModalComponent],
 })
 export class ScheduleComponent implements OnChanges {
   // Signal for tracking current events
@@ -28,13 +42,16 @@ export class ScheduleComponent implements OnChanges {
   noScheduleFilledIn: boolean = false;
 
   // Calendar options configuration
-  calendarOptions: CalendarOptions = ({
+  calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
     plugins: [timeGridPlugin, dayGridPlugin, interactionPlugin],
     themeSystem: 'bootstrap5',
     headerToolbar: false,
-    dayHeaderContent: function(arg) {
-      return arg.date.toLocaleDateString('fr-FR', { weekday: 'short' }).toUpperCase().replace(/\./g, '');
+    dayHeaderContent: function (arg) {
+      return arg.date
+        .toLocaleDateString('fr-FR', { weekday: 'short' })
+        .toUpperCase()
+        .replace(/\./g, '');
     }, // display the day of the week
     slotLabelContent: (arg) => {
       const date = new Date(arg.date);
@@ -43,21 +60,24 @@ export class ScheduleComponent implements OnChanges {
     },
     allDaySlot: false,
     firstDay: 1,
-    slotDuration:'01:00',
+    slotDuration: '01:00',
     slotMinTime: '08:00',
     slotMaxTime: '22:00',
     locale: 'fr',
     height: 401.5,
-    contentHeight:'auto',
+    contentHeight: 'auto',
     displayEventTime: true,
     selectOverlap: false,
     select: this.handleTimeSelect.bind(this),
     eventsSet: this.handleEvents.bind(this),
     // for mobile devices
     longPressDelay: 50,
-  });
+  };
 
-  constructor(private changeDetector: ChangeDetectorRef, public modalService: NgbModal) {}
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    public modalService: NgbModal
+  ) {}
 
   // Handle edit mode change
   ngOnChanges(changes: SimpleChanges) {
@@ -84,14 +104,19 @@ export class ScheduleComponent implements OnChanges {
 
   // Handle event click
   handleEventClick(clickInfo: EventClickArg) {
-    const modalRef = this.modalService.open(EventModalComponent, { centered: true });
-    modalRef.result.then((result) => {
-      if (result === 'delete') {
-        clickInfo.event.remove();
-      }
-    }, (reason) => {
-      console.log(`Modal dismissed by user action: ${reason}`);
+    const modalRef = this.modalService.open(EventModalComponent, {
+      centered: true,
     });
+    modalRef.result.then(
+      (result) => {
+        if (result === 'delete') {
+          clickInfo.event.remove();
+        }
+      },
+      (reason) => {
+        console.log(`Modal dismissed by user action: ${reason}`);
+      }
+    );
   }
 
   // Handle time selection
@@ -124,7 +149,7 @@ export class ScheduleComponent implements OnChanges {
         Number(event.id), // id
         [event.start!.getDay()], // daysOfWeek
         event.startStr.split('T')[1].split('+')[0], // startTime
-        event.endStr.split('T')[1].split('+')[0],  // endTime
+        event.endStr.split('T')[1].split('+')[0], // endTime
         Number(localStorage.getItem('userId'))
       );
       newPreferredSchedules.push(newPreferredSchedule);
