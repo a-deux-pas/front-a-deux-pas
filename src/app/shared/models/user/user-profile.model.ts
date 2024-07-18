@@ -5,7 +5,7 @@ import { PreferredSchedule } from "./preferred-schedule.model";
 export class UserProfile {
   constructor(
     public id: string,
-    public profilePicture: string,
+    public profilePicture: FormData,
     public alias: string,
     public bio: string | null,
     public city: string,

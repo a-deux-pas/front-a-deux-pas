@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer2, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, Input, ElementRef, Renderer2, OnInit, AfterViewInit, AfterViewChecked, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
@@ -20,6 +20,7 @@ import { escapeHtml } from '../../../utils/sanitizers/custom-sanitizers';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { ImageService } from '../../../services/image.service';
 import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
+import { any } from 'cypress/types/bluebird';
 
 @Component({
   selector: 'app-ad-form',
@@ -43,8 +44,12 @@ export class AdFormComponent implements AfterViewChecked {
   categories = Object.values(Category);
   disabledFields: boolean = false;
   hasInteractedWithDropzone: boolean = false;
+  @ViewChildren(DropzoneComponent) dropzoneComponents!: QueryList<DropzoneComponent>;
+  @ViewChild('dropzoneContainer') dropzoneContainer!: ElementRef;
+  filesArrays: FormData[] = [];
 
   // TO DO : mutualiser ca qqpart pour eviter la repetition entre adForm et profilePic componenet
+  // TODO :: variabiliser thumbnailWidth et thumbnailHeight ?
   config: DropzoneConfigInterface = {
     url: '/',
     acceptedFiles: 'image/*',
@@ -84,6 +89,7 @@ export class AdFormComponent implements AfterViewChecked {
 
   ngAfterViewChecked(): void {
     this.updateDropzoneDimension(this.selectedPicNumber);
+    this.updateArticlePicture()
   }
 
   // article category selection section
@@ -111,53 +117,39 @@ export class AdFormComponent implements AfterViewChecked {
     this.ad.articleGender = undefined
   }
 
-  // picture upload
-  files1: File[] = [];
-  files2: File[] = [];
-  files3: File[] = [];
-  files4: File[] = [];
-  files5: File[] = [];
-  filesArrays: File[][] = [];
-
-  onRemove(file: File, dropzoneNumber: number) {
-    const filesArray = this.getFilesArray(dropzoneNumber);
-    filesArray.splice(filesArray.indexOf(file), 1);
+  updateArticlePicture(): void {
+    if (this.dropzoneContainer) {
+      this.dropzoneComponents.forEach((dropzoneComp: DropzoneComponent, index: number) => {
+        const dropzone = dropzoneComp.directiveRef?.dropzone();
+        if (dropzone) {
+          dropzone.on('thumbnail', (addedFile: File) => {
+            const fileExistsInArray = this.filesArrays.some(formData => formData.get('multipartFile') === addedFile);
+            if (!fileExistsInArray) {
+              const formData = new FormData();
+              formData.append('multipartFile', addedFile);
+              if (index = 0) {
+                this.filesArrays.unshift(formData);
+              } else {
+                this.filesArrays.push(formData);
+              }
+            }
+          });
+          dropzone.on('removedfile', (removedfile: File) => {
+            const formDataToRemove = this.filesArrays.find(formData => formData.get('multipartFile') === removedfile);
+            if (formDataToRemove) {
+              const indexToRemove = this.filesArrays.indexOf(formDataToRemove);
+              if (indexToRemove !== -1) {
+                this.filesArrays.splice(indexToRemove, 1);
+              }
+            }
+          });
+        }
+      });
+    }
   }
-
-  onSelectPicture(event: { addedFiles: any; }, dropzoneNumber: number): void {
-    const newPictureInDropzone = this.getFilesArray(dropzoneNumber);
-    newPictureInDropzone.splice(0, newPictureInDropzone.length);
-    newPictureInDropzone.push(...event.addedFiles);
-    this.filesArrays = [this.files1, this.files2, this.files3, this.files4, this.files5];
-  }
-
-  // createAdPictureArray() {
-  //   this.filesArrays.forEach(filesArray => {
-  //     if (filesArray.length > 0) {
-  //       this.articlePictures.push(filesArray[0]);
-  //     }
-  //   });
-  // }
 
   getArray(length: number): any[] {
     return Array.from({ length }, (_, index) => index);
-  }
-
-  getFilesArray(dropzoneNumber: number): File[] {
-    switch (dropzoneNumber) {
-      case 0:
-        return this.files1;
-      case 1:
-        return this.files2;
-      case 2:
-        return this.files3;
-      case 3:
-        return this.files4;
-      case 4:
-        return this.files5;
-      default:
-        return [];
-    }
   }
 
   updateDropzoneDimension(dropzoneCount: number) {
@@ -194,59 +186,50 @@ export class AdFormComponent implements AfterViewChecked {
       dzWrapper.forEach((wrapper: any) => {
         this.renderer.setStyle(wrapper, 'overflow', 'visible');
       });
-      const dzMessages = this.el.nativeElement.querySelectorAll('.dz-message');
-      dzMessages.forEach((dzMessage: any) => {
-        const nextSibling = dzMessage.nextElementSibling;
-        if (nextSibling && nextSibling.classList.contains('dz-preview')) {
-          this.renderer.setStyle(dzMessage, 'display', 'none !important');
-        }
-      });
-    } else {
-      console.error('Elements with class dz-wrapper not found');
     }
   }
 
+  // TODO  :: à virer ?
   onDropzoneInteraction(): void {
     this.hasInteractedWithDropzone = true;
   }
 
-  // uploadArticlePictures(): Observable<any> {
-  //   this.ad.articlePictures = [];
-  //   this.createAdPictureArray();
+  uploadArticlePictures(): Observable<any> {
+    this.ad.articlePictures = [];
 
-  //   let uploadObservables: Observable<any>[] = [];
+    let uploadObservables: Observable<any>[] = [];
 
-  //   for (let i = 0; i < this.articlePictures.length; i++) {
-  //     let publicId = `articlePicture-${this.ad.title}-${i + 1}`;
-  //     uploadObservables.push(
-  //       this.imageService.upload(this.articlePictures[i], publicId).pipe(
-  //         map(response => ({
-  //           secure_url: response.secure_url
-  //         })),
-  //         catchError((error: any) => {
-  //           console.error('Error occurred during image upload:', error);
-  //           // Handle the error as needed, e.g., return a fallback value
-  //           return of({ secure_url: null });
-  //         })
-  //       )
-  //     );
-  //   }
+    let trimmedAdTitle = escapeHtml(this.ad.title!).trim();
 
-  //   return forkJoin(uploadObservables).pipe(
-  //     tap((responses: any[]) => {
-  //       responses.forEach(response => {
-  //         if (response.secure_url) {
-  //           let newArticlePicture: String = new String(response.secure_url);
-  //           this.ad.articlePictures!.push(newArticlePicture);
-  //         }
-  //       });
-  //     }),
-  //     catchError((error: any) => {
-  //       console.error('Error occurred during image upload:', error);
-  //       throw error;
-  //     })
-  //   );
-  // }
+    for (let i = 0; i < this.filesArrays.length; i++) {
+      let publicId = `articlePicture-${trimmedAdTitle}-${i + 1}`;
+      uploadObservables.push(
+        this.imageService.upload(this.filesArrays[i], publicId).pipe(
+          map(response => ({
+            imageUrl: response.imageUrl
+
+          })),
+          catchError((error: any) => {
+            console.error('Error occurred during image upload:', error);
+            // Handle the error as needed, e.g., return a fallback value
+            return of({ secure_url: null });
+          })
+        )
+      );
+    }
+    return forkJoin(uploadObservables).pipe(
+      tap((responses: any[]) => {
+        this.ad.articlePictures = responses
+          .filter(response => response.imageUrl)
+          .map(response => response.imageUrl);
+        console.log('articlePictures after upload:', this.ad.articlePictures);
+      }),
+      catchError((error: any) => {
+        console.error('Error occurred during image upload:', error);
+        throw error;
+      })
+    );
+  }
 
   // image selection carrousel for mobile device
   togglePaused() {
@@ -268,39 +251,39 @@ export class AdFormComponent implements AfterViewChecked {
 
   // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
-    //   this.sanitizeTheInputs()
-    //   this.uploadArticlePictures().subscribe({
-    //     next: () => {
-    //       this.ad.creationDate = this.today.toISOString();
-    //       this.ad.subcategory = this.ad.category == "Autre" ?
-    //         Subcategory.OTHER_SUBCATEGORY :
-    //         this.ad.subcategory.name;
-    //       this.ad.publisherId = Number(localStorage.getItem('userId')!);
-    //       this.adformService.postAd(this.ad).subscribe({
-    //         next: (ad: AdDetails) => {
-    //           this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
-    //           setTimeout(() => {
-    //             this.displayManagementService.displayAlert({
-    //               message: AlertMessage.AD_CREATED_SUCCES,
-    //               type: AlertType.SUCCESS
-    //             });
-    //           }, 100);
-    //         },
-    //         error: (error: any) => {
-    //           this.displayManagementService.displayAlert({
-    //             message: AlertMessage.DEFAULT_ERROR,
-    //             type: AlertType.ERROR
-    //           });
-    //         }
-    //       });
-    //     },
-    //     error: (error: any) => {
-    //       console.error('Error occurred during image upload:', error);
-    //       this.displayManagementService.displayAlert({
-    //         message: AlertMessage.UPLOAD_PICTURE_ERROR,
-    //         type: AlertType.ERROR
-    //       });
-    //     }
-    //   });
+    this.sanitizeTheInputs()
+    this.uploadArticlePictures().subscribe({
+      next: () => {
+        this.ad.creationDate = this.today.toISOString();
+        this.ad.subcategory = this.ad.category == "Autre" ?
+          Subcategory.OTHER_SUBCATEGORY :
+          this.ad.subcategory.name;
+        this.ad.publisherId = Number(localStorage.getItem('userId')!);
+        this.adformService.postAd(this.ad).subscribe({
+          next: (ad: AdDetails) => {
+            this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
+            setTimeout(() => {
+              this.displayManagementService.displayAlert({
+                message: AlertMessage.AD_CREATED_SUCCES,
+                type: AlertType.SUCCESS
+              });
+            }, 100);
+          },
+          error: (error: any) => {
+            this.displayManagementService.displayAlert({
+              message: AlertMessage.DEFAULT_ERROR,
+              type: AlertType.ERROR
+            });
+          }
+        });
+      },
+      error: (error: any) => {
+        console.error('Error occurred during image upload:', error);
+        this.displayManagementService.displayAlert({
+          message: AlertMessage.UPLOAD_PICTURE_ERROR,
+          type: AlertType.ERROR
+        });
+      }
+    });
   }
 }

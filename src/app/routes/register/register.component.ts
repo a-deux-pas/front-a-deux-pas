@@ -116,12 +116,12 @@ export class RegisterComponent implements AfterViewInit {
 
       // TO DO :: faire bouger cette partie en dessus de la ligne avec const userAlias
       // Upload profile picture
-      const uploadResponse = await this.imageService.upload(this.userProfilePicture, `profilePicture-${escapeHtml(this.profileForm.get('alias')?.value)}`).toPromise();
-      if (!uploadResponse.imageUrl) {
-        throw new Error('Failed to upload profile picture.');
-      }
-      this.profilPictureUrl = uploadResponse.imageUrl;
-      console.log('Uploaded profile picture URL:', this.profilPictureUrl);
+      // const uploadResponse = await this.imageService.upload(this.userProfilePicture, `profilePicture-${escapeHtml(this.profileForm.get('alias')?.value)}`).toPromise();
+      // if (!uploadResponse.imageUrl) {
+      //   throw new Error('Failed to upload profile picture.');
+      // }
+      // this.profilPictureUrl = uploadResponse.imageUrl;
+      // console.log('Uploaded profile picture URL:', this.profilPictureUrl);
 
       // Prepare user profile data
       const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
@@ -129,7 +129,7 @@ export class RegisterComponent implements AfterViewInit {
       const postalCode = escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value);
       const userProfile = new UserProfile(
         this.userId,
-        this.profilPictureUrl,
+        this.userProfilePicture,
         userAlias,
         escapeHtml(this.profileForm.get('bio')?.value) || null,
         city,
