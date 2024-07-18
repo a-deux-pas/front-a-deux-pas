@@ -1032,111 +1032,82 @@ app-profile-picture {
   }
 }
 
-// Dropzone article pictures
+app-ad-form {
 
-//// if two dropzones
-.two-dropzones {
-  width: 423px !important;
-  height: 479px !important;
+  .two-dropzones,
+  .two-dropzones .dz-message {
+    width: 423px !important;
+    height: 479px !important;
+  }
 
-  // TODO :: à virer
-  // >ngx-dropzone-image-preview {
-  //   min-width: 80% !important;
-  //   min-height: 80% !important;
-  //   position: relative !important;
-  //   max-width: 400px !important;
-  //   max-height: 460px !important;
-  // }
-}
+  .three-dropzones,
+  .three-dropzones .dz-message {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+  }
 
-//// if three dropzones
-.three-dropzones {
-  display: grid !important;
-  grid-template-columns: 1fr !important;
-  grid-template-rows: auto auto !important;
-}
+  .three-dropzones:first-child,
+  .three-dropzones:first-child .dz-message {
+    width: 523px !important;
+    height: 479px !important;
+    grid-area: 1 / 1 / 3 / 3 !important;
+  }
 
-.three-dropzones:first-child {
-  width: 523px !important;
-  height: 479px !important;
-  grid-area: 1 / 1 / 3 / 3 !important;
+  .three-dropzones:not(:first-child),
+  .three-dropzones:not(:first-child) .dz-message {
+    width: 316px !important;
+    height: 232px !important;
+  }
 
-  // &>ngx-dropzone-label>div {
-  //   margin-top: 100% !important;
-  // }
+  .three-dropzones:nth-child(2),
+  .three-dropzones:nth-child(2) .dz-message {
+    grid-area: 1 / 3 / 2 / 4;
+  }
 
-  // TODO :: à virer
-  // >ngx-dropzone-image-preview {
-  //   min-width: 80% !important;
-  //   min-height: 80% !important;
-  //   position: relative !important;
-  //   max-width: 400px !important;
-  //   max-height: 460px !important;
-  // }
-}
+  .three-dropzones:nth-child(3),
+  .three-dropzones:nth-child(3) .dz-message {
+    grid-area: 2 / 3 / 3 / 4;
+  }
 
-.three-dropzones:not(:first-child) {
-  width: 316px !important;
-  height: 232px !important;
+  .four-dropzones:first-child,
+  .four-dropzones:first-child .dz-message,
+  .four-dropzones:nth-child(4),
+  .four-dropzones:nth-child(4) .dz-message {
+    width: 308px !important;
+    height: 479px !important;
+  }
 
-  // &>ngx-dropzone-label>div {
-  //   margin-top: 30% !important;
-  // }
-}
+  .four-dropzones:first-child,
+  .four-dropzones:first-child .dz-message {
+    grid-area: 1 / 1 / 3 / 2;
+  }
 
-.three-dropzones:nth-child(2) {
-  grid-area: 1 / 3 / 2 / 4;
-}
+  .four-dropzones:nth-child(4),
+  .four-dropzones:nth-child(4) .dz-message {
+    grid-area: 1 / 3 / 3 / 4;
+  }
 
-.three-dropzones:nth-child(3) {
-  grid-area: 2 / 3 / 3 / 4;
-}
+  .four-dropzones:nth-child(2),
+  .four-dropzones:nth-child(3),
+  .four-dropzones:nth-child(2) .dz-message,
+  .four-dropzones:nth-child(3) .dz-message {
+    width: 215px !important;
+    height: 232px !important;
+  }
 
-//// if four dropzones
-.four-dropzones {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto;
-}
+  .five-dropzones:first-child,
+  .five-dropzones:first-child .dz-message {
+    width: 308px !important;
+    height: 479px !important;
+    grid-area: 1 / 1 / 3 / 2 !important;
+  }
 
-.four-dropzones:first-child,
-.four-dropzones:nth-child(4) {
-  width: 308px;
-  height: 479px;
-
-  // &>ngx-dropzone-label>div {
-  //   margin-top: 87%;
-  // }
-}
-
-.four-dropzones:first-child {
-  grid-area: 1 / 1 / 3 / 2;
-}
-
-.four-dropzones:nth-child(4) {
-  grid-area: 1 / 3 / 3 / 4;
-}
-
-.four-dropzones:nth-child(2),
-.four-dropzones:nth-child(3) {
-  width: 215px;
-  height: 232px;
-
-  // &>ngx-dropzone-label>div {
-  //   margin-top: 30%;
-  // }
-}
-
-//// if five dropzones
-.five-dropzones:first-child {
-  width: 308px;
-  height: 479px;
-  grid-area: 1 / 1 / 3 / 2;
-}
-
-.five-dropzones:not(:first-child) {
-  width: 256.67px;
-  height: 232px;
+  .five-dropzones:not(:first-child),
+  .five-dropzones:not(:first-child) .dz-message {
+    width: 256.67px !important;
+    height: 232px !important;
+  }
 }
 
 /*-----------------------------------------------------------------------*/

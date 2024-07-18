@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer2, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, ElementRef, Renderer2, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
@@ -28,7 +28,7 @@ import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-
   standalone: true,
   imports: [FormsModule, NgSelectModule, NgxDropzoneModule, NgClass, NgbCarousel, NgbSlide, DropzoneModule]
 })
-export class AdFormComponent implements AfterViewInit {
+export class AdFormComponent implements AfterViewChecked {
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
   @Input() isBigScreen: boolean | undefined;
@@ -66,6 +66,7 @@ export class AdFormComponent implements AfterViewInit {
     </div>
   `;
 
+
   constructor(
     private adformService: AdFormService,
     private uploadPictureService: UploadPictureService,
@@ -81,10 +82,9 @@ export class AdFormComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewChecked(): void {
     this.updateDropzoneDimension(this.selectedPicNumber);
   }
-
 
   // article category selection section
   getSubCategories() {
@@ -161,20 +161,15 @@ export class AdFormComponent implements AfterViewInit {
   }
 
   updateDropzoneDimension(dropzoneCount: number) {
-
     let dropzoneClass: string = '';
-    const dzWrappers = this.el.nativeElement.querySelectorAll('.dz-wrapper');
-
-    dzWrappers.forEach((dzWrapper: any) => {
-      this.renderer.removeClass(dzWrapper, 'two-dropzones');
-      this.renderer.removeClass(dzWrapper, 'three-dropzones');
-      this.renderer.removeClass(dzWrapper, 'four-dropzones');
-      this.renderer.removeClass(dzWrapper, 'five-dropzones');
-      this.renderer.removeClass(dzWrapper, 'block');
+    const dropzones = this.el.nativeElement.querySelectorAll('.articlePicDropzones');
+    dropzones.forEach((dropzone: any) => {
+      this.renderer.removeClass(dropzone, 'two-dropzones');
+      this.renderer.removeClass(dropzone, 'three-dropzones');
+      this.renderer.removeClass(dropzone, 'four-dropzones');
+      this.renderer.removeClass(dropzone, 'five-dropzones');
     });
-
-    if (dzWrappers.length > 0) {
-      console.log('Found dz-wrapper elements:', dzWrappers);
+    if (dropzones.length > 0) {
       switch (dropzoneCount) {
         case 2:
           dropzoneClass = 'two';
@@ -189,11 +184,22 @@ export class AdFormComponent implements AfterViewInit {
           dropzoneClass = 'five';
           break;
         default:
-          console.log('Value is unknown');
+          dropzoneClass = 'two';
       }
-      let newClass: string = `${dropzoneClass}-dropzones`
-      dzWrappers.forEach((dzWrapper: any) => {
-        this.renderer.addClass(dzWrapper, `${newClass}`);
+      let newClass: string = `${dropzoneClass}-dropzones`;
+      dropzones.forEach((dropzone: any) => {
+        this.renderer.addClass(dropzone, `${newClass}`);
+      });
+      const dzWrapper = this.el.nativeElement.querySelectorAll('.dz-wrapper');
+      dzWrapper.forEach((wrapper: any) => {
+        this.renderer.setStyle(wrapper, 'overflow', 'visible');
+      });
+      const dzMessages = this.el.nativeElement.querySelectorAll('.dz-message');
+      dzMessages.forEach((dzMessage: any) => {
+        const nextSibling = dzMessage.nextElementSibling;
+        if (nextSibling && nextSibling.classList.contains('dz-preview')) {
+          this.renderer.setStyle(dzMessage, 'display', 'none !important');
+        }
       });
     } else {
       console.error('Elements with class dz-wrapper not found');
