@@ -66,13 +66,12 @@ export class SellerProfileComponent {
   }
 
   private fetchSellerAds(): void {
-    console.log(this.pageNumber);
     this.adService.fetchUserAds(
       this.sellerId ?? this.seller.id,
+      this.loggedInUserId,
+      " ",
       this.pageNumber,
       this.pageSize,
-      this.loggedInUserId,
-      " "
     )
     .subscribe((ads: AdCard[]) => {
       this.sellerAds = [...this.sellerAds, ...ads];
