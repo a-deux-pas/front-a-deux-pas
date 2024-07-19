@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserPresentationComponent } from "../../shared/components/user-presentation/user-presentation.component";
-import { UserPresentation } from '../../shared/models/user/user-presentation.model';
+import { UserPresentation } from '../../shared/models/user/user-presentation.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserPresentationService } from '../../shared/components/user-presentation/user-presentation.service';
 import { AdListComponent } from '../../shared/components/ads/ad-list/ad-list.component';

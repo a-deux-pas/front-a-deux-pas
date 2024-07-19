@@ -20,6 +20,7 @@ export class FavoritesComponent implements OnInit {
   favoritesAds: AdCard[] = [];
   noMorefavoriteAds: boolean = false;
   favoritesSubscription!: Subscription;
+  favoritesLoading: boolean = true;
 
   constructor(
     private adFavoriteService: AdFavoriteService
@@ -28,6 +29,9 @@ export class FavoritesComponent implements OnInit {
   ngOnInit(): void {
     this.fetchUserFavoritesAds();
     this.updateAdsFavoritesList();
+    setTimeout(() => {
+      this.favoritesLoading = false;
+    });
   }
 
   private fetchUserFavoritesAds(): void {

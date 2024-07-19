@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HandleErrorService } from '../../services/handle-error.service';
-import { UserPresentation } from '../../models/user/user-presentation.model';
+import { UserPresentation } from '../../models/user/user-presentation.interface';
 import { API_URL } from '../../utils/constants/util-constants';
 import { catchError, Observable } from 'rxjs';
 

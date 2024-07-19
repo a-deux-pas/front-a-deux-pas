@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserPresentation } from '../../../shared/models/user/user-presentation.model';
+import { UserPresentation } from '../../../shared/models/user/user-presentation.interface';
 import { ProfileService } from './profile.service';
 import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
@@ -11,6 +11,7 @@ import { TabsAccountComponent } from '../../../shared/components/tabs-account/ta
 import { CommonModule } from '@angular/common';
 import { UserPresentationService } from '../../../shared/components/user-presentation/user-presentation.service';
 import { UserService } from '../../../shared/services/user.service';
+import { UserAliasAndLocation } from '../../../shared/models/user/user-alias-and-location.interface';
 
 @Component({
   selector: 'app-profile',
@@ -35,6 +36,7 @@ export class ProfileComponent {
   meetingPlacesEditMode: boolean = false;
   userId: number = Number(localStorage.getItem('userId'));
   userAlias: string | null = localStorage.getItem('userAlias');
+  profileLoading: boolean = true;
 
   constructor(
     private profileService: ProfileService,
@@ -46,15 +48,20 @@ export class ProfileComponent {
     if (!this.userAlias && this.userId) {
       this.getUserAlias(this.userId)
     }
-    this.fetchUserPresentation(this.userAlias!);
+    if (this.userAlias) {
+      this.fetchUserPresentation(this.userAlias);
+    }
     if (this.userId) {
       this.fetchUserPreferredSchedules(this.userId);
       this.fetchPreferredMeetingPlaces(this.userId);
     }
+    setTimeout(() => {
+      this.profileLoading = false;
+    }, 50);
   }
 
   private getUserAlias(userId: number): void  {
-    this.userService.getUserAliasAndLocation(userId).subscribe((data: UserPresentation) => {
+    this.userService.getUserAliasAndLocation(userId).subscribe((data: UserAliasAndLocation) => {
       this.userAlias = data.alias;
     })
   }
