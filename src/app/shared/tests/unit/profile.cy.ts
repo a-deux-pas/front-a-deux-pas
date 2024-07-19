@@ -6,17 +6,19 @@ import { EditButtonComponent } from "../../../routes/account/profile/components/
 import { API_URL } from "../../utils/constants/util-constants";
 import { RouterModule } from "@angular/router";
 
-let accountUrl = `${API_URL}account/profile/1/`;
+let accountUrl = `${API_URL}`;
 
 describe('Profile component', () => {
   beforeEach(() => {
     cy.window().then((win) => {
-      win.localStorage.setItem('userId', '1'); // Set userId for testing
+      win.localStorage.setItem('userId', '1');
+      win.localStorage.setItem('userAlias', 'supercalifragilisticexpialidocious');
     });
 
-    cy.intercept(`${accountUrl}presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
-    cy.intercept(`${accountUrl}schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
-    cy.intercept(`${accountUrl}meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
+    cy.intercept(`${accountUrl}users/supercalifragilisticexpialidocious/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
+    cy.intercept(`${accountUrl}users/1/alias-and-location*`, { fixture: 'user-profile' }).as('getUserPreferredSchedules');
+    cy.intercept(`${accountUrl}account/profile/1/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+    cy.intercept(`${accountUrl}account/profile/1/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
 
     cy.mount(ProfileComponent, {
       imports: [MeetingPlacesComponent, EditButtonComponent, HttpClientModule, RouterModule.forRoot([])],
