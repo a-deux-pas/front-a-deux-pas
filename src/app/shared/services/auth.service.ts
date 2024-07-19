@@ -77,7 +77,6 @@ export class AuthService {
             const userId = this.extractIdFromToken(token);
             localStorage.setItem('userId', userId);
             localStorage.setItem('stayLoggedIn', credentials.stayLoggedIn.toString());
-            this.loggedIn.next(true);
           } else {
             // Throw error if no token received
             throw new Error('No token received');
@@ -92,12 +91,16 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
+  // Method to update login status
+  updateLoginStatus(status: boolean) {
+    this.loggedIn.next(status);
+  }
+
   logout(): void {
-    localStorage.clear();
-    // Update login status to false
-    this.loggedIn.next(false);
-    // Navigate to the home page
-    this.router.navigate(['/']);
-    window.location.reload();
+    this.router.navigate(['/']).then(() => {
+      // Update login status to false
+      this.loggedIn.next(false);
+      localStorage.clear();
+    });
   }
 }

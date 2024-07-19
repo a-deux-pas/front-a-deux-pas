@@ -7,7 +7,7 @@
     class="btn-close align-self-end m-4"
     data-bs-dismiss="modal"
     aria-label="Close"
-    (click)="activeModal.dismiss('Cross click')"
+    (click)="closeModal()"
   >
     <span class="close">x</span>
   </button>
@@ -44,13 +44,13 @@
     <ng-container>
       @if(isLoginFormVisible) {
         <app-login-form
-          (formSubmitted)="isFormSubmitted($event)"
+          (formSubmitted)="isFormSubmitted($event, 'login')"
           (error)="showError($event)">
         </app-login-form>
       }
       @if(!isLoginFormVisible) {
         <app-register-form
-          (formSubmitted)="isFormSubmitted($event)"
+          (formSubmitted)="isFormSubmitted($event, 'register')"
           (error)="showError($event)">
         </app-register-form>
       }

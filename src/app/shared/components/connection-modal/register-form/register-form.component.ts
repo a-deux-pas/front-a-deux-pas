@@ -63,7 +63,6 @@ export class RegisterFormComponent {
       this.authService.auth(credentials,'signup').subscribe({
         next: (data: any) => {
           if (data) {
-          this.router.navigate(['/inscription']);
           this.isFormSubmitted = true;
           this.formSubmitted.emit(this.isFormSubmitted);
           }

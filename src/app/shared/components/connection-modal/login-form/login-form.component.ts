@@ -75,7 +75,7 @@ export class LoginFormComponent {
           if (data) {
             this.isFormSubmitted = true;
             this.formSubmitted.emit(this.isFormSubmitted);
-            window.location.reload()
+            window.location.reload();
           }
         },
         error: (error: any) => {
