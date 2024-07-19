@@ -7,11 +7,11 @@ import { AdFiltersComponent } from '../../shared/components/ads/ad-filters/ad-fi
 import { AdListComponent } from '../../shared/components/ads/ad-list/ad-list.component';
 import { AdCard } from '../../shared/models/ad/ad-card.model';
 import { AdService } from '../../shared/services/ad.service';
-import { UserPresentation } from '../../shared/models/user/user-presentation.model';
 import { SellersComponent } from './components/sellers/sellers.component';
 import { UserService } from '../../shared/services/user.service';
 import { AdFavoriteService } from '../../shared/services/ad-favorite.service';
 import { Subscription } from 'rxjs';
+import { UserAliasAndLocation } from '../../shared/models/user/user-alias-and-location.interface';
 
 @Component({
   selector: 'app-home',
@@ -28,11 +28,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  isLoggedIn: boolean = false;
+  isUserLoggedIn: boolean = false;
   // local storage items
   userId: number = Number(localStorage.getItem('userId'));
   userAlias: string | null = localStorage.getItem('userAlias');
   loggedInUserCity: string | null = localStorage.getItem('userCity');
+  isUserCityExistsWithAds: string | null = localStorage.getItem('isUserCityExistsWithAds');
   // ads
   pageNumber: number = 0;
   pageSize!: number;
@@ -42,62 +43,79 @@ export class HomeComponent implements OnInit {
   favoritesAds: AdCard[] = [];
   noMoreFilteredAds: boolean = false;
   noMorefavoriteAds: boolean = false;
-  favoritesSubscription!: Subscription;
-  logginSubscription!: Subscription;
   // filters
   selectedPriceRanges: string[] = [];
   selectedCities: string[] = [];
   selectedArticleStates: string[] = [];
   selectedCategory: string = 'Catégorie';
+   // subscriptions
+  favoritesSubscription!: Subscription;
+  logginSubscription!: Subscription;
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private adService: AdService,
-    private adFavoriteService: AdFavoriteService
+    private adFavoriteService: AdFavoriteService,
   ) {}
 
   ngOnInit() {
-    this.subscribeToLoginStatus();
-    this.initializePageSize();
-    this.updateAdsFavoritesList();
-    if (this.isLoggedIn) {
-      this.fetchAdsByUserLocation();
-      this.fetchUserFavoritesAds();
-    } else {
-      this.fetchPaginatedAdsList(true);
-    }
-  }
-
-  private subscribeToLoginStatus() {
-    // Subscribe to the isLoggedIn observable to keep track of the user's login status
-    this.logginSubscription = this.authService.isLoggedIn().subscribe((status: boolean) => {
-      this.isLoggedIn = status;
+    this.logginSubscription = this.logginSubscription = this.authService.isLoggedIn()
+    .subscribe((isLoggedIn: boolean) => {
+      this.isUserLoggedIn = isLoggedIn
+      this.initializePageSize();
+      this.updateAdsFavoritesList();
+      if (this.isUserLoggedIn) {
+        this.fetchAdsByUserLocation();
+        this.fetchUserFavoritesAds();
+      } else {
+        this.fetchPaginatedAdsList(true);
+      }
     });
   }
 
   private initializePageSize() {
-    this.pageSize = this.isLoggedIn ? 4 : 8;
+    this.pageSize = this.isUserLoggedIn ? 4 : 8;
   }
 
   private fetchAdsByUserLocation() {
-    if (!this.userAlias || !this.loggedInUserCity) {
+    if (!this.userAlias || !this.loggedInUserCity || !this.isUserCityExistsWithAds) {
       this.getUserAliasAndLocation(this.userId);
     } else {
-      this.selectedCities.push(this.loggedInUserCity);
+      this.adsDisplay(this.loggedInUserCity, this.isUserCityExistsWithAds);
       this.fetchPaginatedAdsList(true);
     }
   }
 
   private getUserAliasAndLocation(userId: number): void  {
-    this.userService.getUserAliasAndLocation(userId).subscribe((data: UserPresentation) => {
-      this.userAlias = data.alias;
-      this.loggedInUserCity = `${data.city} (${data.postalCode})`;
-      localStorage.setItem('userAlias', this.userAlias);
-      localStorage.setItem('userCity', this.loggedInUserCity);
-      this.selectedCities.push(this.loggedInUserCity);
+    this.userService.getUserAliasAndLocation(userId).subscribe((data: UserAliasAndLocation) => {
+      if (data?.alias) {
+        this.userAlias = data.alias;
+        localStorage.setItem('userAlias', this.userAlias);
+      }
+
+      if (data?.city && data?.postalCode) {
+        this.loggedInUserCity = `${data.city} (${data.postalCode})`;
+        localStorage.setItem('userCity', this.loggedInUserCity);
+      } else {
+        this.pageSize = 8;
+      }
+
+      this.isUserCityExistsWithAds = String(data?.isExistingLocationWithAds)
+      localStorage.setItem('isUserCityExistsWithAds', this.isUserCityExistsWithAds);
+
+      this.adsDisplay(this.loggedInUserCity, this.isUserCityExistsWithAds);
       this.fetchPaginatedAdsList(true);
-    })
+    });
+  }
+
+  private adsDisplay(loggedInUserCity: string | null, isUserCityExistsWithAds: string | null) {
+    if (loggedInUserCity && isUserCityExistsWithAds === 'true') {
+      this.selectedCities.push(loggedInUserCity);
+    } else {
+      this.loggedInUserCity = null;
+      this.pageSize = 8;
+    }
   }
 
   loadMoreFilteredAds() {
