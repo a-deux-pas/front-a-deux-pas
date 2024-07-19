@@ -80,9 +80,9 @@ export class CtaSellerAdComponent implements OnInit {
     }
   }
 
-  contactTheSeller(sellerAlias: string | undefined, sellerId: number |undefined) {
+  contactTheSeller(adPublisherEmail: string | undefined,) {
     if (this.isUserLoggedIn) {
-      this.goToSellerProfile(sellerAlias, sellerId);
+      window.location.href = `mailto:${adPublisherEmail}`;
     } else {
       this.openModal()
     }

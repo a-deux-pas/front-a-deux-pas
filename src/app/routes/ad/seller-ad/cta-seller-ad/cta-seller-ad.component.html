@@ -29,7 +29,7 @@
                 <p>Membre depuis le {{ ad?.publisherInscriptionDate }}</p>
             </div>
         </div>
-        <a (click)="contactTheSeller(ad?.publisherAlias, ad?.publisherId)" class="flex-column btn-cta text-decoration-none">
+        <a (click)="contactTheSeller(ad?.publisherEmail)" class="flex-column btn-cta text-decoration-none">
             <img id="cta-btn-contact" src="assets/icons/buttons/message.webp" alt="bouton pour contacter le vendeur">
             <p class="cta-btn-text">contacter</p>
         </a>
