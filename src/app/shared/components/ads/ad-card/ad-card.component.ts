@@ -41,11 +41,16 @@ export class AdCardComponent implements OnInit {
     }
   }
 
-  goToAdPage(adId: number, adPublisherAlias: string) {
-    const path = this.type === 'loggedInUserAd'
-      ? `/compte/annonces/mon-annonce/${adId}`
-      : `/annonce/${adPublisherAlias}/${adId}`;
-      window.location.href = path;
+  goToAdPage(adId: number, adPublisherAlias: string, adPublisherId: number) {
+    if (this.type === 'loggedInUserAd') {
+      window.location.href = `/compte/annonces/mon-annonce/${adId}`;
+    } else {
+      if (!this.currentUserId) {
+        // Store adPublisherId in sessionStorage
+        sessionStorage.setItem('adPublisherId', adPublisherId.toString());
+      }
+      window.location.href = `/annonce/${adPublisherAlias}/${adId}`;
+    }
   }
 
   addToFavorites(event: Event) {

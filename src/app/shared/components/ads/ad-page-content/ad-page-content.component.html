@@ -85,9 +85,9 @@
     <!-- similar ads section -->
     @if (!onLoggedInUserAd && similarAds.length > 0) {
       <section class="mt-5 mb-5">
-        <h3 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+        <h2 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
           Les annonces similaires
-        </h3>
+        </h2>
         <app-ad-list [displayedAds]="similarAds" [displayedAdsNumber]="displayedAdsCount" [noMoreAds]="noMoreAds"
           (loadMore)="loadMoreAds()" [showingSimilarAds]="true"></app-ad-list>
       </section>
@@ -96,13 +96,13 @@
     <!-- user's other ads section -->
     @if (userOtherAds.length > 0) {
       <section class="mt-5 mb-5">
-        <h3 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+        <h2 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
           @if (onLoggedInUserAd) {
             Mes autres annonces
           } @else {
             Les autres annonces de {{ currentAd?.publisherAlias }}
           }
-        </h3>
+        </h2>
         <app-ad-list [displayedAds]="userOtherAds" [displayedAdsNumber]="displayedAdsCount" [noMoreAds]="noMoreAds"
           (loadMore)="loadMoreAds()"></app-ad-list>
       </section>

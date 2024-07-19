@@ -36,6 +36,7 @@ export class AdPageComponent implements OnInit {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
   onLoggedInUserAd: boolean | undefined;
+  onSellerAd!: boolean;
   @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
@@ -50,7 +51,8 @@ export class AdPageComponent implements OnInit {
   noMoreAds: boolean = false;
   userOtherAds: AdCard[] = [];
   similarAds: AdCard[] = [];
-  userId!: number;
+  loggedInUserId!: number;
+  adPublisherId!: number;
   displayedAdsCount!: number;
   isLoading: boolean = true;
 
@@ -58,37 +60,43 @@ export class AdPageComponent implements OnInit {
     private route: ActivatedRoute,
     private adService: AdService,
     private adPageContentService: AdPageContentService,
-    private displayManagementService: DisplayManagementService
+    private displayManagementService: DisplayManagementService,
   ) {}
 
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
+    this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
+    this.loggedInUserId = Number(localStorage.getItem('userId'));
+    sessionStorage.removeItem('adPublisherId');
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
-    this.userId = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')!) : 0;
-
-    this.pageSize = this.onLoggedInUserAd ? 8 : 4;
-    this.displayedAdsCount = this.pageSize;
-    this.adPageContentService.getAdById(adId, this.userId).subscribe({
+    this.onSellerAd = !this.onLoggedInUserAd;
+    // change navbar if no user logged in
+    if (!this.loggedInUserId) {
+      this.adService.isOnSellerAdPageUnLogged(true);
+    }
+    // fetch the ad
+    this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
-          this.articlePictures = [
-            // TO DO : to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
-            this.currentAd.firstArticlePictureUrl,
-            this.currentAd.secondArticlePictureUrl,
-            this.currentAd.thirdArticlePictureUrl,
-            this.currentAd.fourthArticlePictureUrl,
-            this.currentAd.fifthArticlePictureUrl
-          ].filter(url => !!url);
-          [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length)
+        this.articlePictures = [
+          // TO DO : to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
+          this.currentAd.firstArticlePictureUrl,
+          this.currentAd.secondArticlePictureUrl,
+          this.currentAd.thirdArticlePictureUrl,
+          this.currentAd.fourthArticlePictureUrl,
+          this.currentAd.fifthArticlePictureUrl
+        ].filter(url => !!url);
+        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length)
+        // fetch the ads list
+        this.pageSize = this.onLoggedInUserAd ? 8 : 4;
+        this.displayedAdsCount = this.pageSize;
+        this.fetchPaginatedAdsList();
 
-          this.fetchPaginatedAdsList();
-
-          if (!this.onLoggedInUserAd) {
-            this.getSimilarAds()
-          } else {
-            this.adService.isOnSellerAdPageUnLogged(true);
-          }
-
+        if (this.onSellerAd) {
+          // fetch ads list with the same category
+          this.getSimilarAds();
+        }
+        // Waits pictures loading
         setTimeout(() => {
           this.isLoading = false;
         }, 600);
@@ -128,7 +136,7 @@ export class AdPageComponent implements OnInit {
     this.adPageContentService.getSimilarAds(
       this.currentAd?.category!,
       this.currentAd?.publisherId!,
-      this.userId
+      this.loggedInUserId
     ).subscribe({
       next: (similarAds: AdCard[]) => {
         this.similarAds = similarAds;
@@ -140,10 +148,10 @@ export class AdPageComponent implements OnInit {
   fetchPaginatedAdsList() {
     this.adService.fetchUserAds(
       this.currentAd?.publisherId!,
+      this.onSellerAd ? this.adPublisherId : this.loggedInUserId,
+      this.currentAd?.id!,
       this.pageNumber,
-      this.pageSize,
-      this.userId,
-      this.currentAd?.id!
+      this.pageSize
     ).subscribe({
       next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
@@ -158,6 +166,6 @@ export class AdPageComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.adService.isOnSellerAdPageUnLogged(false);
+    this.adService.isOnSellerAdPageUnLogged(false)
   }
 }
