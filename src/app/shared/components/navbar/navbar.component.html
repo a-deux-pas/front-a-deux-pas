@@ -16,13 +16,15 @@
   <!-- Bottom part -->
   <section id="mobile-bottom-navbar">
     <ul id="mobile-bottom-navbar-icons">
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}"
+      [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <a routerLink="/" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/home.webp" alt="icône 'Accueil'"/>
           Accueil
         </a>
       </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}"
+      [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <a routerLink="compte/annonces" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/adds.webp" alt="icône 'Annonces'" />
           Annonces
@@ -34,7 +36,8 @@
           Vendre
         </a>
       </li>
-      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
+      <li routerLinkActive="active-icon" [routerLinkActiveOptions]="{exact: true}"
+      [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <a routerLink="compte/favoris" class="navbar-icon">
           <img class="icon" src="assets/icons/navbar/favorites.webp" alt="icône 'Favoris'" />
           Favoris
@@ -87,7 +90,8 @@
           <span class="desktop-logo">PAS</span>
         </div>
       </a>
-      <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon" [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
+      <button routerLink="annonce/creation" class="btn-sell" id="desktop-sell-icon"
+      [hidden]="isRegistrationPage || onSellerAdPageUnlogged">
         <img class="add-icon" src="assets/icons/buttons/add-white.webp" alt="icône plus"/>
         Vendre
       </button>
@@ -120,8 +124,9 @@
           <div id="dropdown-content">
             <ul>
               @for (route of accountRoutes[0].children; track $index) {
-              <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">{{
-                route.title }}</a>
+              <a [routerLink]="'compte/' + route.path" class="account-menu-item" (click)="toggleAccountMenuState()">
+                {{ route.title }}
+              </a>
               }
               <div id="account-menu-separator">
                 <div id="account-menu-line"></div>
