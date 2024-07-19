@@ -87,6 +87,23 @@ body {
 
 .main-container {
   margin: 11vh 2vh 0;
+  min-height: 100vh;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Animation
+.fade-in {
+  animation: fadeIn 0.9s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
 }
 
 /*-----------------------------------------------------------------------*/
