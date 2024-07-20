@@ -1,4 +1,30 @@
 <div class="custom-container">
   <app-tabs-account></app-tabs-account>
-  <p>meetings works!</p>
+  <div class="meetings-container">
+    <nav>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'proposed'" (click)="navigateTo('proposed')">
+            <img src="../../../../assets/icons/meetings/proposed.webp"><br>
+            Proposés</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'to-confirm'" (click)="navigateTo('to-confirm')">
+            <img src="../../../../assets/icons/meetings/to-be-confirmed.webp"><br>
+            À confirmer</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'planned'" (click)="navigateTo('planned')">
+            <img src="../../../../assets/icons/meetings/planned.webp"><br>
+            Planifiés</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'to-finalize'" (click)="navigateTo('to-finalize')">
+            <img src="../../../../assets/icons/meetings/to-be-finalized.webp"><br>
+            À finaliser</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <router-outlet></router-outlet>
 </div>

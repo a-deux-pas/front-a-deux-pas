@@ -1,4 +1,4 @@
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, LOCALE_ID } from '@angular/core';
 import { AppComponent } from './app/app.component';
 import { AccountRoutingModule } from './app/routes/account/account-routing.module';
 import { AdRoutingModule } from './app/routes/ad/ad-routing.module';
@@ -10,13 +10,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { withInterceptorsFromDi, provideHttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { AuthInterceptor } from './app/shared/interceptors/auth-interceptor';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
+
+registerLocaleData(localeFr);
 
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(BrowserModule, NgbModule, NgSelectModule, FormsModule, AppRoutingModule, StyleGuideRoutingModule, AdRoutingModule, AccountRoutingModule),
         provideHttpClient(withInterceptorsFromDi()),
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: LOCALE_ID, useValue: 'fr' }, 
     ]
 })
   .catch(err => console.error(err));

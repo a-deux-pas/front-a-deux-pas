@@ -30,6 +30,13 @@ const routes: Routes = [
         (mod) => mod.RegisterComponent
       ),
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'meeting',
+    loadComponent: () => import('./routes/register/register.component').then(
+        (mod) => mod.RegisterComponent
+      ),
+    canActivate: [AuthGuard],
   }
 ];
 
