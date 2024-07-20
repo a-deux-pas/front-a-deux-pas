@@ -11,20 +11,10 @@ import { Seller } from '../models/user/checkout-seller.model';
 export class UserService {
   private contextUrl = `${API_URL}users/`;
 
-  private checkoutSeller: any;
-
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
   ) {}
-
-  // Seller state management methods
-  setCheckoutseller(seller: any): void {
-    this.checkoutSeller = seller;
-  }
-  getCheckoutSeller(): any {
-    return this.checkoutSeller;
-  }
 
   fetchUserByAlias(alias: string): Observable<any> {
     const url = `${this.contextUrl}${alias}`;

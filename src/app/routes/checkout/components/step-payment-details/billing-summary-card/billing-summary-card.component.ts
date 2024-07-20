@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AdService } from '../../../../../shared/services/ad.service';
+import { CheckoutService } from '../../../checkout.service';
 
 @Component({
   selector: 'app-billing-summary-card',
@@ -11,9 +11,9 @@ import { AdService } from '../../../../../shared/services/ad.service';
 export class BillingSummaryCardComponent {
   ad: any;
 
-  constructor(private adService: AdService) {}
+  constructor(private checkoutservice: CheckoutService) {}
 
   ngOnInit() {
-    this.ad = this.adService.getCheckoutAd();
+    this.ad = this.checkoutservice.getCheckoutAd();
   }
 }

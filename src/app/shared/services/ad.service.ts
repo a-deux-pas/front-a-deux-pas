@@ -13,21 +13,10 @@ export class AdService {
   private sellerAdPageLoadedSubject = new BehaviorSubject<boolean>(false);
   sellerAdPageLoaded$ = this.sellerAdPageLoadedSubject.asObservable();
 
-  // store the checkout ad's state
-  private checkoutAd: any;
-
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
   ) {}
-
-  // Ad state management methods
-  setCheckoutAd(ad: any): void {
-    this.checkoutAd = ad;
-  }
-  getCheckoutAd(): any {
-    return this.checkoutAd;
-  }
 
   // Fetch the ads that match the filtering criteria passed as query params
   fetchFilteredAds(

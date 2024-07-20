@@ -1223,6 +1223,17 @@ ngb-datepicker-month {
   border-radius: 3% !important;
 }
 
+@media (max-width: 1330px) {
+  ngb-datepicker-month {
+    width: 300px;
+    height: 300px;
+  }
+  ngb-datepicker-navigation-select > .form-select {
+    text-align: justify !important;
+    font-size: 13px !important;
+  }
+}
+
 .ngb-dp-header {
   padding: 5% !important;
 }

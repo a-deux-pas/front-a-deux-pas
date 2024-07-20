@@ -6,14 +6,19 @@
         [sellerPreferredSchedules]="preferredSchedules"
         formControlName="selectedDate"
       ></app-date-picker>
-      <app-time-interval-picker
-        class="interval-picker-container"
-        (timeSelected)="onTimeSelected($event)"
-        [sellerPreferredSchedules]="preferredSchedules"
-        [selectedDate]="selectedDate"
-        formControlName="selectedTime"
-      ></app-time-interval-picker>
+      <div class="interval-picker-container">
+        <app-time-interval-picker
+          (timeSelected)="onTimeSelected($event)"
+          [sellerPreferredSchedules]="preferredSchedules"
+          [selectedDate]="selectedDate"
+          formControlName="selectedTime"
+        ></app-time-interval-picker>
+        @if (form.get('selectedTime')?.errors) {
+        <div class="error-msg mt-2">Veuillez sélectionner un créneau</div>
+        }
+      </div>
     </div>
+
     <div class="row row-gap-3 justify-content-center mt-4">
       <div class="textarea-container">
         <label for="meeting place" class="form-label"><b>Lieu du RDV</b></label>
@@ -28,6 +33,11 @@
           <ng-option [value]="meetingPlace">{{ meetingPlace.name }}</ng-option>
           }
         </ng-select>
+        @if (form.get('meetingPlace')?.errors &&
+        (form.get('meetingPlace')?.dirty || form.get('meetingPlace')?.touched))
+        {
+        <div class="error-msg mt-2">Veuillez sélectionner un lieu de RDV</div>
+        }
       </div>
     </div>
 
@@ -43,6 +53,17 @@
           style="width: 25vw"
           placeholder="Indiquez un signe distinctif qui permettra de vous reconnaître le jour J"
         ></textarea>
+        @if (form.get('sign')?.errors && (form.get('sign')?.dirty ||
+        form.get('sign')?.touched)) {
+        <div class="error-msg mt-2">
+          <div [hidden]="!form.get('sign')?.errors?.['minlength']">
+            Veuillez renseigner au moins 5 caractères
+          </div>
+          <div [hidden]="!form.get('sign')?.errors?.['maxlength']">
+            Veuillez ne pas dépasser les 600 caractères
+          </div>
+        </div>
+        }
       </div>
       <div class="textarea-container">
         <label for="info" class="form-label">
@@ -57,6 +78,17 @@
           style="width: 25vw"
           placeholder="Indiquez toute autre information que vous trouvez utile à partager"
         ></textarea>
+        @if (form.get('info')?.errors && (form.get('info')?.dirty ||
+        form.get('info')?.touched)) {
+        <div class="error-msg mt-2">
+          <div [hidden]="!form.get('info')?.errors?.['minlength']">
+            Veuillez renseigner au moins 5 caractères
+          </div>
+          <div [hidden]="!form.get('info')?.errors?.['maxlength']">
+            Veuillez ne pas dépasser les 600 caractères
+          </div>
+        </div>
+        }
       </div>
     </div>
 

@@ -2,7 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { CheckoutService } from '../../checkout.service';
 import { OrderRecapCardComponent } from './order-recap-card/order-recap-card.component';
-import { AdService } from '../../../../shared/services/ad.service';
 import { UserService } from '../../../../shared/services/user.service';
 import { Seller } from '../../../../shared/models/user/checkout-seller.model';
 
@@ -17,7 +16,6 @@ export class StepOrderRecapComponent implements OnInit {
   constructor(
     private router: Router,
     private checkoutService: CheckoutService,
-    private adService: AdService,
     private userService: UserService
   ) {}
 
@@ -26,7 +24,7 @@ export class StepOrderRecapComponent implements OnInit {
   step!: number;
 
   ngOnInit() {
-    this.ad = this.adService.getCheckoutAd();
+    this.ad = this.checkoutService.getCheckoutAd();
     if (!this.ad) {
       this.router.navigate(['']);
     }
@@ -58,7 +56,7 @@ export class StepOrderRecapComponent implements OnInit {
 
   nextStep() {
     this.checkoutService.updateStep(2);
-    this.userService.setCheckoutseller(this.seller);
+    this.checkoutService.setCheckoutseller(this.seller);
     this.router.navigate(['/checkout/rdv']);
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BillingSummaryCardComponent } from '../billing-summary-card/billing-summary-card.component';
-import { AdService } from '../../../../../shared/services/ad.service';
 import { FormsModule, NgForm } from '@angular/forms';
+import { CheckoutService } from '../../../checkout.service';
 
 @Component({
   selector: 'app-cash-payment',
@@ -13,17 +13,17 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class CashPaymentComponent {
   articlePrice: number | null = null;
 
-  constructor(private adService: AdService) {
-    this.articlePrice = adService.getCheckoutAd().price;
+  constructor(private checkoutService: CheckoutService) {
+    this.articlePrice = this.checkoutService.getCheckoutAd().price;
     console.log(this.articlePrice);
   }
 
   onSubmit(form: NgForm) {
     console.log(form);
-    if (form.valid) {
-      console.log('Form Submitted!', form);
-    } else {
-      console.log('Form is not valid');
-    }
+    this.checkoutService
+      .postProposedMeeting(this.checkoutService.getProposedMeeting())
+      .subscribe((response: any) => {
+        console.log('response : ', response);
+      });
   }
 }

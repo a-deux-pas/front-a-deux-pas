@@ -12,8 +12,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { TimeIntervalPickerComponent } from './time-interval-picker/time-interval-picker.component';
-import { AdService } from '../../../../shared/services/ad.service';
-import { UserService } from '../../../../shared/services/user.service';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BuyerProposedMeetingRequest } from '../../../../shared/models/meeting/buyer-proposed-meeting-request.model';
 
@@ -38,27 +36,21 @@ export class StepMeetingDetailsComponent implements OnInit {
 
   ad: any;
   seller: any;
-  proposedMeeting: BuyerProposedMeetingRequest | null = null;
+  proposedMeeting: BuyerProposedMeetingRequest | undefined;
   meetingPlaces: any;
   preferredSchedules: any;
 
-  /* buyerDistinctiveSign: string | null = null;
-  sellerDistinctiveSign: string | null = null;
-  selectedMeetingPlace: string | null = null;*/
-  selectedTime: string | null = null;
   selectedDate: NgbDateStruct | undefined;
 
   constructor(
     private checkoutService: CheckoutService,
     private router: Router,
-    private adService: AdService,
-    private userService: UserService,
     private formBuilder: FormBuilder
   ) {
     this.form = this.formBuilder.group({
       meetingPlace: [null, Validators.required],
-      sign: [null],
-      info: [null],
+      sign: [null, [Validators.minLength(5), Validators.maxLength(600)]],
+      info: [null, [Validators.minLength(5), Validators.maxLength(600)]],
       selectedDate: [Validators.required],
       selectedTime: [null, Validators.required],
       terms: [false, Validators.requiredTrue],
@@ -74,8 +66,8 @@ export class StepMeetingDetailsComponent implements OnInit {
       }
       this.step = currentStep;
     });
-    this.ad = this.adService.getCheckoutAd();
-    this.seller = this.userService.getCheckoutSeller();
+    this.ad = this.checkoutService.getCheckoutAd();
+    this.seller = this.checkoutService.getCheckoutSeller();
     this.meetingPlaces = this.seller.preferredMeetingPlaces;
     this.preferredSchedules = this.seller.preferredSchedules;
   }
@@ -88,7 +80,6 @@ export class StepMeetingDetailsComponent implements OnInit {
 
   onTimeSelected(timeInterval: string) {
     this.form.get('selectedTime')?.setValue(timeInterval);
-    this.selectedTime = timeInterval;
   }
 
   agreeToTerms() {
@@ -101,9 +92,43 @@ export class StepMeetingDetailsComponent implements OnInit {
     if (this.form.valid) {
       console.log('Form Submitted', this.form);
       this.checkoutService.updateStep(3);
-      // TODO : save meeting state to service
 
+      this.saveProposedMeetingToService();
+      console.log(this.checkoutService.getProposedMeeting());
       this.router.navigate(['/checkout/paiement']);
+    } else {
+      console.error('Invalid Form');
     }
+  }
+
+  private saveProposedMeetingToService() {
+    const localStorageId = localStorage.getItem('userId');
+    const buyerId = localStorageId ? +localStorageId : -1;
+    const proposedMeetingPlaceId = this.form.get('meetingPlace')?.value.id;
+    const proposedDateAndTime = this.form.get('selectedDate')?.value;
+    const buyerAdditionalInfo = this.form.get('info')?.value;
+    const buyerDistinctiveSign = this.form.get('sign')?.value;
+    this.addHoursAndMinutes(proposedDateAndTime);
+
+    this.proposedMeeting = new BuyerProposedMeetingRequest(
+      buyerId,
+      this.seller.id,
+      this.ad.id,
+      proposedMeetingPlaceId,
+      proposedDateAndTime,
+      buyerAdditionalInfo,
+      buyerDistinctiveSign
+    );
+
+    this.checkoutService.setProposedMeeting(this.proposedMeeting);
+  }
+
+  private addHoursAndMinutes(proposedDateAndTime: any) {
+    const [hours, minutes] = this.form
+      .get('selectedTime')
+      ?.value.split(' : ')
+      .map(Number);
+    proposedDateAndTime.hours = hours;
+    proposedDateAndTime.minutes = minutes;
   }
 }

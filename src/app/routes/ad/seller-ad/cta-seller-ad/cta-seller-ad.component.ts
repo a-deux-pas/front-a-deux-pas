@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
 import { Router } from '@angular/router';
-import { AdService } from '../../../../shared/services/ad.service';
+import { CheckoutService } from '../../../checkout/checkout.service';
 
 @Component({
   selector: 'app-cta-seller-ad',
@@ -26,7 +26,7 @@ export class CtaSellerAdComponent implements OnInit {
     public modalService: NgbModal,
     private authService: AuthService,
     private router: Router,
-    private adService: AdService
+    private checkoutService: CheckoutService
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +40,7 @@ export class CtaSellerAdComponent implements OnInit {
   startCheckout() {
     if (this.isLoggedIn) {
       // To be implemented by Mircea ;)
-      this.adService.setCheckoutAd(this.myAd);
+      this.checkoutService.setCheckoutAd(this.myAd);
       this.router.navigate(['/checkout']);
     } else {
       this.openModal();
@@ -52,6 +52,8 @@ export class CtaSellerAdComponent implements OnInit {
       this.openModal();
     } else {
       // TO DO :: redirection vers le checkout mircea
+      this.checkoutService.setCheckoutAd(this.myAd);
+      this.router.navigate(['/checkout']);
     }
   }
 

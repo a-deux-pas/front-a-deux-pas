@@ -3,16 +3,11 @@ import {
   Component,
   EventEmitter,
   forwardRef,
-  inject,
   Input,
   LOCALE_ID,
   Output,
 } from '@angular/core';
-import {
-  NgbCalendar,
-  NgbDatepickerModule,
-  NgbDateStruct,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import {
   ControlValueAccessor,
   FormsModule,
@@ -36,7 +31,6 @@ import { PreferredSchedule } from '../../../../../shared/models/user/preferred-s
   ],
 })
 export class DatePickerComponent implements ControlValueAccessor {
-  // today = inject(NgbCalendar).getToday();
   selectedDate: NgbDateStruct | undefined;
   model: NgbDateStruct | undefined;
 
@@ -89,7 +83,7 @@ export class DatePickerComponent implements ControlValueAccessor {
     console.log('curent month days : ', this.daysOfCurrentMonth);
   }
 
-  getLastDayOfCurrentMonth(): NgbDateStruct {
+  private getLastDayOfCurrentMonth(): NgbDateStruct {
     const now = new Date();
     const lastDayDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
     return {
@@ -135,7 +129,7 @@ export class DatePickerComponent implements ControlValueAccessor {
     }
   }
 
-  extractSellerPreferredDayIndexes() {
+  private extractSellerPreferredDayIndexes() {
     this.dayIndexesArr = [];
     this.sellerPreferredSchedules?.forEach((schedule) => {
       this.dayIndexesArr.push(schedule.daysOfWeek[0]);
