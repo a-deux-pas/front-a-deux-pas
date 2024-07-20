@@ -17,6 +17,7 @@ import { escapeHtml, formatText } from '../../shared/utils/sanitizers/custom-san
 import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
 import { AlertType } from '../../shared/models/alert.model';
 import { ImageService } from '../../shared/services/image.service';
+import { Picture } from '../../shared/models/picture.model';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +29,7 @@ import { ImageService } from '../../shared/services/image.service';
 export class RegisterComponent implements AfterViewInit {
   profilPictureUrl!: string;
   profileForm: FormGroup;
-  userProfilePicture!: FormData;
+  userProfilePicture!: File | null;
   profilePicturePreview: boolean = false;
   preferredMeetingPlaces: PreferredMeetingPlace[] = [];
   scheduleEditMode: boolean = true;
@@ -67,20 +68,14 @@ export class RegisterComponent implements AfterViewInit {
     this.displayManagementService.configureAddressAutofill();
   }
 
-  getUserprofilePicture(eventType: string, userPicture: FormData): void {
+  getUserprofilePicture(eventType: string, userPicture: File): void {
     if (eventType === 'thumbnailGenerated' && userPicture) {
-      console.log('thumbnail generated');
       this.profilePicturePreview = true;
+      // this.userProfilePicture.append('profilePicture', userPicture)
       this.userProfilePicture = userPicture;
-      // console.log(' this.userProfilePicture generated:: ', this.userProfilePicture, ' type : ', typeof this.userProfilePicture)
-      console.error('2. this.userProfilePicture generated in profilePictureComponent::')
-      this.userProfilePicture.forEach((value, key) => {
-        console.log(`${key}: ${value}`)
-        console.log(value);
-      });
     } else if (eventType === 'fileRemoved') {
-      console.log('thumbnail removed');
-      this.userProfilePicture = userPicture;
+      // this.userProfilePicture.delete('profilePicture')
+      this.userProfilePicture = null;
       this.profilePicturePreview = false;
     }
     this.cd.detectChanges();
@@ -108,28 +103,74 @@ export class RegisterComponent implements AfterViewInit {
   }
 
 
-  async onSubmit() {
-    try {
-      if (!this.profilePicturePreview || !this.userId) {
-        throw new Error('Profile picture upload failed or User ID is null.');
-      }
+  // onSubmit() {
+  //   try {
+  //     if (!this.profilePicturePreview || !this.userId) {
+  //       throw new Error('Profile picture upload failed or User ID is null.');
+  //     }
 
-      // TO DO :: faire bouger cette partie en dessus de la ligne avec const userAlias
-      // Upload profile picture
-      // const uploadResponse = await this.imageService.upload(this.userProfilePicture, `profilePicture-${escapeHtml(this.profileForm.get('alias')?.value)}`).toPromise();
-      // if (!uploadResponse.imageUrl) {
-      //   throw new Error('Failed to upload profile picture.');
-      // }
-      // this.profilPictureUrl = uploadResponse.imageUrl;
-      // console.log('Uploaded profile picture URL:', this.profilPictureUrl);
 
-      // Prepare user profile data
+  //     const formData = new FormData();
+
+  //     // if (this.userProfilePicture) {
+  //     //   this.userProfilePicture.publicId = `profilePicture-${this.profileForm.get('alias')?.value}`
+  //     //   formData.append('file', this.userProfilePicture.file, this.userProfilePicture.publicId);
+  //     // }
+
+  //     this.userProfilePicture.append('publicId', `profilePicture-${this.profileForm.get('alias')?.value}`)
+
+
+
+  //     // Prepare user profile data
+  //     const profileData = {
+  //       id: this.userId,
+  //       alias: escapeHtml(this.profileForm.get('alias')?.value),
+  //       bio: escapeHtml(this.profileForm.get('bio')?.value) || null,
+  //       city: formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value)),
+  //       street: escapeHtml(this.profileForm.get('address')?.get('street')?.value),
+  //       postalCode: escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value),
+  //       bankAccountHolder: escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
+  //       bankAccountNumber: escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
+  //       preferredSchedules: this.preferredSchedules,
+  //       preferredMeetingPlaces: this.preferredMeetingPlaces,
+  //       notifications: this.notifications
+  //     };
+
+  //     formData.append('profileData', JSON.stringify(profileData));
+
+  //     // Save user profile
+  //     const saveResponse = this.registerService.saveProfile(formData).toPromise();
+  //     console.log('Profile saved:', saveResponse);
+  //     localStorage.setItem('userAlias', userAlias);
+  //     localStorage.setItem('userCity', `${city} (${postalCode})`);
+  //     console.error(this.userProfilePicture)
+
+  //     // Display success message and navigate back
+  //     this.goBack();
+  //     setTimeout(() => {
+  //       this.displayManagementService.displayAlert({
+  //         message: AlertMessage.PROFILE_CREATED_SUCCESS,
+  //         type: AlertType.SUCCESS
+  //       });
+  //     }, 100);
+
+  //   } catch (error) {
+  //     console.error('Error submitting profile:', error);
+  //     this.displayManagementService.displayAlert({
+  //       message: AlertMessage.DEFAULT_ERROR,
+  //       type: AlertType.ERROR
+  //     });
+  //   }
+  // }
+
+  onSubmit() {
+    if (this.profilePicturePreview && this.userId) {
       const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
       const city = formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value));
       const postalCode = escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value);
       const userProfile = new UserProfile(
         this.userId,
-        this.userProfilePicture,
+        '', // à remplacer par l'URL de l'image
         userAlias,
         escapeHtml(this.profileForm.get('bio')?.value) || null,
         city,
@@ -141,29 +182,28 @@ export class RegisterComponent implements AfterViewInit {
         this.preferredMeetingPlaces,
         this.notifications
       );
-
-      // Save user profile
-      const saveResponse = await this.registerService.saveProfile(userProfile).toPromise();
-      console.log('Profile saved:', saveResponse);
-      localStorage.setItem('userAlias', userAlias);
-      localStorage.setItem('userCity', `${city} (${postalCode})`);
-
-      // Display success message and navigate back
-      this.goBack();
-      setTimeout(() => {
-        this.displayManagementService.displayAlert({
-          message: AlertMessage.PROFILE_CREATED_SUCCESS,
-          type: AlertType.SUCCESS
-        });
-      }, 100);
-
-    } catch (error) {
-      console.error('Error submitting profile:', error);
-      this.displayManagementService.displayAlert({
-        message: AlertMessage.DEFAULT_ERROR,
-        type: AlertType.ERROR
+      this.registerService.saveProfile(userProfile, this.userProfilePicture!).subscribe({
+        next: () => {
+          localStorage.setItem('userAlias', userAlias);
+          localStorage.setItem('userCity', `${city} (${postalCode})`);
+          this.goBack();
+          setTimeout(() => {
+            this.displayManagementService.displayAlert({
+              message: AlertMessage.PROFILE_CREATED_SUCCESS,
+              type: AlertType.SUCCESS
+            });
+          }, 100);
+        },
+        error: () => {
+          this.displayManagementService.displayAlert({
+            message: AlertMessage.DEFAULT_ERROR,
+            type: AlertType.ERROR
+          });
+        }
       });
+      // }
     }
+    // });
   }
 
   goBack() {

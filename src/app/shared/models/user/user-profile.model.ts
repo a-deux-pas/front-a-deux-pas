@@ -1,3 +1,4 @@
+import { Picture } from "../picture.model";
 import { EventNotification } from "./event-notification.model";
 import { PreferredMeetingPlace } from "./preferred-meeting-place.model";
 import { PreferredSchedule } from "./preferred-schedule.model";
@@ -5,7 +6,7 @@ import { PreferredSchedule } from "./preferred-schedule.model";
 export class UserProfile {
   constructor(
     public id: string,
-    public profilePicture: FormData,
+    public profilePicture: string | null,
     public alias: string,
     public bio: string | null,
     public city: string,

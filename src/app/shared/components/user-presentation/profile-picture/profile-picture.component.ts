@@ -12,11 +12,11 @@ import { ImageService } from '../../../services/image.service';
 export class ProfilePictureComponent implements AfterViewInit {
   profilePictureForm: any;
   hasInteractedWithDropzone: boolean = false;
-  pictureData = new FormData();
+  pictureData!: File;
   isProfilePicturePreview: boolean = false;
   errorMessage: string = '';
-  @Output() thumbnailGenerated: EventEmitter<FormData> = new EventEmitter<FormData>();
-  @Output() fileRemoved: EventEmitter<FormData> = new EventEmitter<FormData>();
+  @Output() thumbnailGenerated: EventEmitter<File> = new EventEmitter<File>();
+  @Output() fileRemoved: EventEmitter<File> = new EventEmitter<File>();
   @ViewChild(DropzoneComponent) dropzoneComponent!: DropzoneComponent;
 
   config: DropzoneConfigInterface = {
@@ -47,22 +47,18 @@ export class ProfilePictureComponent implements AfterViewInit {
 
     dropzone.on('thumbnail', (file: File) => {
       this.isProfilePicturePreview = true;
-      this.pictureData.append('multipartFile', file);
-      this.thumbnailGenerated.emit(this.pictureData);
+      this.thumbnailGenerated.emit(file);
+      console.log('file: ', file)
     });
 
     dropzone.on('removedfile', () => {
-      this.pictureData.delete('multipartFile');
-      console.log(this.pictureData.get('multipartFile'));
       this.isProfilePicturePreview = false;
-      this.fileRemoved.emit(this.pictureData);
+      this.fileRemoved.emit();
     });
 
-    // TO DO : voir si c'est à garder
     dropzone.on('error', (error: any) => {
       console.error('Upload failed:', error);
-      this.errorMessage =
-        "il y a eu une erreur lors du chargement de votre image, veuillez réessayer plus tard"
+      this.errorMessage = "il y a eu une erreur lors du chargement de votre image, veuillez réessayer plus tard";
     });
   }
 

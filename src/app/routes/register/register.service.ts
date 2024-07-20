@@ -13,10 +13,19 @@ export class RegisterService {
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
-  ) {}
+  ) { }
 
-  saveProfile(profile: UserProfile): Observable<any> {
-    return this.http.patch(`${API_URL}account/create`, profile, {
+  saveProfile(profile: UserProfile, profilePicFile: File): Observable<any> {
+    const profileJson = JSON.stringify(profile);
+    const profileBlob = new Blob([profileJson], {
+      type: 'application/json'
+    });
+
+
+    const userProfileData: FormData = new FormData();
+    userProfileData.append('profileInfo', profileBlob);
+    userProfileData.append('profilePicture', profilePicFile);
+    return this.http.patch(`${API_URL}account/create`, userProfileData, {
       responseType: 'text' as 'json'
     }).pipe(
       catchError(this.handleErrorService.handleError)
