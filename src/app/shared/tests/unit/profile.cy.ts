@@ -3,7 +3,7 @@ import { ProfileComponent } from "../../../routes/account/profile/profile.compon
 import { ProfileService } from "../../../routes/account/profile/profile.service";
 import { MeetingPlacesComponent } from "../../../routes/account/profile/components/meeting-places/meeting-places.component";
 import { EditButtonComponent } from "../../../routes/account/profile/components/edit-button/edit-button.component";
-import { API_URL } from "../../utils/constants/utils-constants";
+import { API_URL } from "../../utils/constants/util-constants";
 import { RouterModule } from "@angular/router";
 
 let accountUrl = `${API_URL}account/profile/1/`;

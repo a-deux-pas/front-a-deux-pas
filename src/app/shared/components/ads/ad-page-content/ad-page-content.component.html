@@ -56,7 +56,7 @@
         <section class="general-info mt-3">
             <div class="title-and-price">
                 <p id="ad-title"><b>{{ currentAd?.title }}</b></p>
-                <p id="ad-price"> {{ currentAd?.price }}€</p>
+                <p id="ad-price">{{ currentAd?.price }}€</p>
             </div>
             <div class="other-info flex-column">
                 <p id="ad-creation-date" class="mt-2">Créée le {{ currentAd?.creationDate }}</p>
@@ -70,52 +70,34 @@
             @if (onLoggedInUserAd) {
             <app-cta-my-ad [myAd]="currentAd!"></app-cta-my-ad>
             } @else {
-            <app-cta-seller-ad [myAd]="currentAd"></app-cta-seller-ad>
+            <app-cta-seller-ad [ad]="currentAd"></app-cta-seller-ad>
             }
         </section>
     </div>
 
     <!-- similar ads section -->
     @if (!onLoggedInUserAd && similarAds.length > 0) {
-    <section class="mt-5 mb-5 similar-ads-list-section">
-        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+    <section class="mt-5 mb-5">
+        <h3 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
             Les annonces similaires
         </h3>
-        <div class="similar-ads">
-            @for (similarAd of similarAds; track similarAd) {
-            <app-ad-card [ad]="similarAd"></app-ad-card>
-            }
-        </div>
+        <app-ad-list [displayedAds]="similarAds" [displayedAdsNumber]="displayedAdsCount" [noMoreAds]="noMoreAds"
+            (loadMore)="loadMoreAds()" [showingSimilarAds]="true"></app-ad-list>
     </section>
     }
 
     <!-- user's other ads section -->
-    <section class="mt-5 mb-5 other-ads-list-section">
-        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+    @if (userOtherAds.length > 0) {
+    <section class="mt-5 mb-5">
+        <h3 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
             @if (onLoggedInUserAd) {
             Mes autres annonces
             } @else {
             Les autres annonces de {{ currentAd?.publisherAlias }}
             }
         </h3>
-        <div class="user-other-ads">
-            @for (otherAd of userOtherAds; track otherAd) {
-            <a>
-                <app-ad-card [ad]="otherAd"></app-ad-card>
-            </a>
-            }
-        </div>
+        <app-ad-list [displayedAds]="userOtherAds" [displayedAdsNumber]="displayedAdsCount" [noMoreAds]="noMoreAds"
+            (loadMore)="loadMoreAds()"></app-ad-list>
     </section>
+    }
 </div>
-
-<!-- See more button -->
-@if (!noMoreAds && showSeeMorBtn) {
-<button type="submit" class="btn-info mt-4 mx-auto" (click)="loadMoreAds()">voir plus<img class="arrow-down-icon"
-        src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
-</button>
-}
-@if (noMoreAds) {
-<div class="no-ads-message">
-    <p><i>Fin des résultats</i></p>
-</div>
-}

@@ -31,10 +31,12 @@
 
 .favorites {
     display: flex;
+    justify-content: center;
     gap: 8px;
 }
 
 #favorite-text {
     text-align: left;
     font-size: 12px;
+    margin-top: 3px;
 }

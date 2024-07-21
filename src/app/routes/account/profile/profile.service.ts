@@ -4,7 +4,7 @@ import { Observable, catchError } from 'rxjs';
 import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
 import { UserPresentation } from '../../../shared/models/user/user-presentation.model';
-import { API_URL } from '../../../shared/utils/constants/utils-constants';
+import { API_URL } from '../../../shared/utils/constants/util-constants';
 import { HandleErrorService } from '../../../shared/services/handle-error.service';
 
 @Injectable({

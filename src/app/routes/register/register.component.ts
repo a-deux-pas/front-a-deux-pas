@@ -14,8 +14,7 @@ import { RegisterService } from './register.service';
 import { UserProfile } from '../../shared/models/user/user-profile.model';
 import { DisplayManagementService } from '../../shared/services/display-management.service';
 import { escapeHtml, formatText } from '../../shared/utils/sanitizers/custom-sanitizers';
-import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
-import { AlertType } from '../../shared/models/alert.model';
+import { ALERTS } from '../../shared/utils/constants/alert-constants';
 
 @Component({
   selector: 'app-register',
@@ -101,7 +100,7 @@ export class RegisterComponent implements AfterViewInit {
     if (this.profilePicturePreview && this.userId) {
       // TO DO: Créer un service pour envoyer l'image au back
       // this.uploadPicture(this.userProfilePicture).subscribe({
-      //     next: (response: any) => {
+      //     next: () => {
               // si le backend renvoie l'url de l'image
               // const profilePictureUrl = response.url;
               const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
@@ -122,34 +121,29 @@ export class RegisterComponent implements AfterViewInit {
                 this.notifications
               );
               this.registerService.saveProfile(userProfile).subscribe({
-                next: (response) => {
-                  console.log('Profile saved:', response);
+                next: () => {
                   localStorage.setItem('userAlias', userAlias);
                   localStorage.setItem('userCity', `${city} (${postalCode})`);
                   this.goBack();
                   setTimeout(() => {
-                    this.displayManagementService.displayAlert({
-                      message: AlertMessage.PROFILE_CREATED_SUCCESS,
-                      type: AlertType.SUCCESS
-                    });
+                    this.displayManagementService.displayAlert(
+                      ALERTS.PROFILE_CREATED_SUCCESS,
+                    );
                   }, 100);
                 },
-                error: (error) => {
-                  console.error('Error saving profile:', error);
-                  this.displayManagementService.displayAlert({
-                    message: AlertMessage.DEFAULT_ERROR,
-                    type: AlertType.ERROR
-                  });
+                error: () => {
+                  this.displayManagementService.displayAlert(
+                    ALERTS.DEFAULT_ERROR
+                  );
                 }
               });
           // }
             } else {
               console.error(`Errors: ${!this.profilePicturePreview ?
                 'Profile picture upload failed.' : ''} ${!this.userId ? 'User ID is null.' : ''}`);
-              this.displayManagementService.displayAlert({
-                message: AlertMessage.UPLOAD_PICTURE_ERROR,
-                type: AlertType.ERROR
-              });
+              this.displayManagementService.displayAlert(
+                ALERTS.DEFAULT_ERROR
+              );
             }
       // });
   }

@@ -250,7 +250,7 @@ button.btn {
 
   &:disabled {
     background-color: #6666668f;
-    border:#6666668f;
+    border: #6666668f;
     font-weight: 400;
   }
 }
@@ -349,7 +349,8 @@ button.btn {
   width: 40px;
 }
 
-.add-icon, .remove-icon {
+.add-icon,
+.remove-icon {
   width: 27.25px;
   height: 27.25px;
 }
@@ -389,6 +390,7 @@ a.close {
   .form-check-input[type=checkbox] {
     border-radius: 50%;
     border-color: $secondary;
+
     &:checked {
       background-color: $secondary;
     }
@@ -401,9 +403,9 @@ a.close {
     }
   }
 
-.modal-footer {
-  .btn-success:disabled {
-    background-color: #9d9d9d8f;
+  .modal-footer {
+    .btn-success:disabled {
+      background-color: #9d9d9d8f;
     }
   }
 
@@ -427,8 +429,8 @@ a.close {
     height: 24px;
   }
 
-  .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
-  .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control {
+  .input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+  .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control {
     border-radius: 10px 10px 40px 5px;
   }
 }
@@ -659,12 +661,19 @@ $card-height: 332px;
 $card-spacer-y: 3.1875rem;
 
 // Card container styling
+.card-img-container {
+  position: absolute;
+  border-bottom: 7px solid #ffbf6b;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 0px;
+}
+
 .card {
   width: 253px;
   cursor: pointer;
 
   &:hover {
-    .card-img-top {
+    .card-img-container {
       border-bottom: 7px solid $info;
     }
 
@@ -690,18 +699,42 @@ $card-spacer-y: 3.1875rem;
 }
 
 // Card image styling
+@mixin filter($filters...) {
+  filter: #{$filters};
+  -webkit-filter: #{$filters};
+  -moz-filter: #{$filters};
+}
+
 .card-img-top {
   max-width: 100%;
   max-height: 100%;
-  position: absolute;
+  position: relative;
   z-index: 1;
-  width: 252px;
-  height: 224px;
-  border-bottom: 7px solid $secondary;
+  width: 252px !important;
+  height: 224px !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border-bottom-right-radius: 50px;
+  border-bottom-right-radius: 45px;
   border-bottom-left-radius: 0px;
+
+  &.SOLD {
+    @include filter(grayscale(0.5783132530120482));
+  }
+
+  &.RESERVED {
+    @include filter(sepia(149%) brightness(78%) hue-rotate(360deg) saturate(192%) contrast(140%) invert(13%));
+  }
+}
+
+.statusStamp {
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #FFF;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 // Card border styling
@@ -718,6 +751,7 @@ $card-spacer-y: 3.1875rem;
 
 // Card title styling
 .card-title {
+  margin-top: 3%;
   font-weight: 700;
   font-size: 0.875rem;
 }
@@ -852,7 +886,7 @@ a.dropdown-first-level.dropdown-toggle {
   border-left: none;
 }
 
-.fc-media-screen .fc-timegrid-cols > table {
+.fc-media-screen .fc-timegrid-cols>table {
   width: 302px;
 }
 
@@ -918,8 +952,7 @@ a.dropdown-first-level.dropdown-toggle {
 .dz-details,
 .dz-success-mark,
 .dz-error-mark,
-.dz-error-message
-{
+.dz-error-message {
   display: none !important;
 }
 
@@ -971,31 +1004,31 @@ app-profile-picture {
   }
 
   .dz-remove {
-    display:inline-block !important;
-    width:1.2em;
-    height:1.2em;
+    display: inline-block !important;
+    width: 1.2em;
+    height: 1.2em;
     text-decoration: none;
 
-    position:absolute;
-    top:5px;
-    right:5px;
-    z-index:1000;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 1000;
 
-    font-size:1.2em !important;
-    line-height:1em;
+    font-size: 1.2em !important;
+    line-height: 1em;
 
-    text-align:center;
-    font-weight:bold;
-    border:1px solid gray !important;
-    border-radius:1.2em;
-    color:gray;
-    background-color:white;
-    opacity:.5;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid gray !important;
+    border-radius: 1.2em;
+    color: gray;
+    background-color: white;
+    opacity: .5;
   }
 
   .dz-remove:hover {
-      text-decoration:none !important;
-      opacity:1;
+    text-decoration: none !important;
+    opacity: 1;
   }
 }
 
@@ -1028,11 +1061,11 @@ app-register {
 .meeting-place .number,
 #preferred-meeting-places .number {
   background-color: $info;
-  color:white;
+  color: white;
   border-radius: 38px;
   padding: 4px 8px;
   font-size: 14px;
-  position:relative;
+  position: relative;
 }
 
 .meeting-place .address-name {
