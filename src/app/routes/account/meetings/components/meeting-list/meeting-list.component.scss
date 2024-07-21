@@ -5,6 +5,12 @@
   margin: 10px;
 }
 
+.meeting-item {
+  img {
+    border-radius: 4px 0 0 4px;
+  }
+}
+
 .list-group-item {
   position: relative;
   background-color: $tertiary;
@@ -90,6 +96,10 @@
   .details-ad {
     margin: 0 auto;
     max-width: 400px;
+
+    img {
+      border-radius: 8px;
+    }
   }
 
   .metting-place {

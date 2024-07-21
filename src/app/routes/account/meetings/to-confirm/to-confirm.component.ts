@@ -8,16 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-to-confirm',
   standalone: true,
   imports: [CommonModule, MeetingListComponent],
-  template: `
-        <app-meeting-list 
-            [meetings]="toConfirmMeetings" 
-            (modify)="onModifyMeeting($event)"
-            (cancel)="onCancelMeeting($event)"
-            [selectedMeeting]="selectedMeeting"
-            (select)="onSelectMeeting($event)"
-            [currentUserId]="userId">
-        </app-meeting-list>
-  `
+  templateUrl: './to-confirm.component.html'
 })
 export class ToConfirmComponent implements OnInit {
   toConfirmMeetings: Meeting[] = [];

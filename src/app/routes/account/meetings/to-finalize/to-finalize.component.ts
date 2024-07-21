@@ -8,16 +8,7 @@ import { Meeting } from '../../../../shared/models/meeting/meeting.model';
   selector: 'app-to-finalize',
   standalone: true,
   imports: [CommonModule, MeetingListComponent],
-  template: `
-        <app-meeting-list 
-            [meetings]="toFinalizeMeetings" 
-            (modify)="onModifyMeeting($event)"
-            (cancel)="onCancelMeeting($event)"
-            [selectedMeeting]="selectedMeeting"
-            (select)="onSelectMeeting($event)"
-            [currentUserId]="userId">
-        </app-meeting-list>
-  `
+  templateUrl: './to-finalize.component.html'
 })
 
 export class ToFinalizeComponent implements OnInit {

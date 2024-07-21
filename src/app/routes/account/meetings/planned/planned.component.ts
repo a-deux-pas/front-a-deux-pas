@@ -9,16 +9,7 @@ import { Meeting } from '../../../../shared/models/meeting/meeting.model';
   selector: 'app-planned',
   standalone: true,
   imports: [CommonModule, MeetingListComponent],
-  template: `
-        <app-meeting-list 
-            [meetings]="plannedMeetings" 
-            (modify)="onModifyMeeting($event)"
-            (cancel)="onCancelMeeting($event)"
-            [selectedMeeting]="selectedMeeting"
-            (select)="onSelectMeeting($event)"
-            [currentUserId]="userId">
-        </app-meeting-list>
-  `
+  templateUrl:'./planned.component.html'
 })
 export class PlannedComponent implements OnInit {
   plannedMeetings: Meeting[] = [];

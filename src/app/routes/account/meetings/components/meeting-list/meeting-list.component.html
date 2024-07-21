@@ -6,8 +6,8 @@
           <a (click)="toggleMeetingDetails(meeting)"
              [class.active]="meeting === selectedMeeting"
              class="list-group-item list-group-item-action d-flex align-items-left mb-3">
-            <img [src]="meeting.adPictureUrl" alt="ad" class="img-thumbnail mr-3"
-                 style="width: 100px; height: 100px; object-fit: cover;">
+            <img [src]="meeting.adPictureUrl" alt="ad" class=" mr-3"
+                 style="width: 100px; object-fit: cover;">
             <div class="meeting-info">
               <h5 class="mb-2">{{ meeting.date | date:'EEEE d MMMM à HH\'h\'mm':'':'fr' }}</h5>
               <p class="mb-1">Avec {{ getOtherUserAlias(meeting) }}</p>
@@ -71,8 +71,8 @@
                 }
                 <h5 class="mt-5 mb-3">Récapitulatif de la commande</h5>
                 <div class="details-ad d-flex gap-2 align-items-center">
-                  <img [src]="meeting.adPictureUrl" alt="ad" class="img-thumbnail mr-3"
-                       style="width: 100px; height: 100px; object-fit: cover;">
+                  <img [src]="meeting.adPictureUrl" alt="ad" class=" mr-3"
+                       style="width: 150px; object-fit: cover;">
                   <div>
                     <p>{{ meeting.adTitle }}</p>
                     <p>{{ meeting.adPrice | currency:'EUR' }}</p>

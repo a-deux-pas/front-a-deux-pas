@@ -9,12 +9,11 @@ import { ToFinalizeComponent } from './to-finalize/to-finalize.component';
 const meetingsRoutes: Routes = [
   { path: '', component: MeetingsComponent ,
     children: [
-      { path: '', redirectTo: 'proposed', pathMatch: 'full' },
-      { path: 'proposed', component: ProposedComponent },
-      { path: 'to-confirm', component: ToConfirmComponent },
-      { path: 'planned', component: PlannedComponent },
-      { path: 'to-finalize', component: ToFinalizeComponent },
-      
+      { path: '', redirectTo: 'proposes', pathMatch: 'full' },
+      { path: 'proposes', component: ProposedComponent },
+      { path: 'a-confirmer', component: ToConfirmComponent },
+      { path: 'planifies', component: PlannedComponent },
+      { path: 'a-finaliser', component: ToFinalizeComponent },
     ]
   },
 ];

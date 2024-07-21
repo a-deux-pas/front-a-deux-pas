@@ -1,0 +1,8 @@
+<app-meeting-list 
+    [meetings]="proposedMeetings" 
+    (modify)="onModifyMeeting($event)"
+    (cancel)="onCancelMeeting($event)"
+    [selectedMeeting]="selectedMeeting"
+    (select)="onSelectMeeting($event)"
+    [currentUserId]="userId">
+</app-meeting-list>
