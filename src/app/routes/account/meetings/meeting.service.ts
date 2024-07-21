@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_URL } from '../../../shared/utils/constants/utils-constants';
+import { API_URL } from '../../../shared/utils/constants/util-constants';
 import { Meeting } from '../../../shared/models/meeting/meeting.model';
 
 @Injectable({
