@@ -13,7 +13,7 @@ import { AuthInterceptor } from './app/shared/interceptors/auth-interceptor';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 
-
+// Register French locale data
 registerLocaleData(localeFr);
 
 bootstrapApplication(AppComponent, {
@@ -21,6 +21,7 @@ bootstrapApplication(AppComponent, {
         importProvidersFrom(BrowserModule, NgbModule, NgSelectModule, FormsModule, AppRoutingModule, StyleGuideRoutingModule, AdRoutingModule, AccountRoutingModule),
         provideHttpClient(withInterceptorsFromDi()),
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        // Set the application locale to French
         { provide: LOCALE_ID, useValue: 'fr' }, 
     ]
 })

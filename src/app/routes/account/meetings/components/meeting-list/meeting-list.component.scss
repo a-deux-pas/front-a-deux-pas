@@ -62,9 +62,22 @@
     a {
        padding: 0 5px;
     }
+    
     img {
       width: 30px;
       padding-bottom: 10px;
+    }
+
+    .btn-link {
+      text-decoration: none !important;
+      color: inherit;
+    }
+    
+    .btn-link:hover,
+    .btn-link:active,
+    .btn-link:focus {
+      text-decoration: none !important;
+      color: inherit;
     }
   }
 }

@@ -1,8 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MeetingCommon } from '../../../../../shared/models/meeting/meeting-common.model';
-
-
+import { Meeting } from '../../../../../shared/models/meeting/meeting.model';
 
 @Component({
   selector: 'app-meeting-list',
@@ -11,12 +9,12 @@ import { MeetingCommon } from '../../../../../shared/models/meeting/meeting-comm
   imports: [CommonModule],
   styleUrls: ['./meeting-list.component.scss'],
 })
-export class MeetingListComponent<T extends MeetingCommon> {
-  @Input() meetings: T[] = [];
-  @Input() selectedMeeting?: T;
-  @Output() modify = new EventEmitter<T>();
-  @Output() cancel = new EventEmitter<T>();
-  @Output() select = new EventEmitter<T>();
+export class MeetingListComponent {
+  @Input() meetings: Meeting[] = [];
+  @Input() selectedMeeting?: Meeting;
+  @Output() modify = new EventEmitter<Meeting>();
+  @Output() cancel = new EventEmitter<Meeting>();
+  @Output() select = new EventEmitter<Meeting>();
   @Input() currentUserId: number | undefined;
 
   ngOnInit() {
@@ -25,16 +23,16 @@ export class MeetingListComponent<T extends MeetingCommon> {
     }
   }
 
-  toggleMeetingDetails(meeting: T): void {
+  toggleMeetingDetails(meeting: Meeting): void {
     this.selectedMeeting = this.selectedMeeting === meeting ? undefined : meeting;
     this.select.emit(this.selectedMeeting);
   }
 
-  onModifyMeeting(meeting: T): void {
+  onModifyMeeting(meeting: Meeting): void {
     this.modify.emit(meeting);
   }
 
-  onCancelMeeting(meeting: T): void {
+  onCancelMeeting(meeting: Meeting): void {
     this.cancel.emit(meeting);
   }
 
@@ -50,23 +48,23 @@ export class MeetingListComponent<T extends MeetingCommon> {
     }
   }
 
-  isCurrentUserBuyer(meeting: T) {
+  isCurrentUserBuyer(meeting: Meeting) {
     return meeting.buyerId === this.currentUserId;
   }
 
-  getOtherUserAlias(meeting: T) {
+  getOtherUserAlias(meeting: Meeting) {
     return this.isCurrentUserBuyer(meeting) ? meeting.sellerAlias : meeting.buyerAlias;
   }
 
-  getOtherUserProfilePicture(meeting: T) {
+  getOtherUserProfilePicture(meeting: Meeting) {
     return this.isCurrentUserBuyer(meeting) ? meeting.sellerProfilePictureUrl : meeting.buyerProfilePictureUrl;
   }
 
-  getOtherUserInscriptionDate(meeting: T){
+  getOtherUserInscriptionDate(meeting: Meeting){
     return this.isCurrentUserBuyer(meeting) ? meeting.sellerInscriptionDate : meeting.buyerInscriptionDate;
   }
 
-  getBuyerDistinctiveSign(meeting: T) : any {
+  getBuyerDistinctiveSign(meeting: Meeting) : any {
     if (this.currentUserId === meeting.buyerId) {
       return (meeting.buyerDistinctiveSign);
     } else {
@@ -74,7 +72,7 @@ export class MeetingListComponent<T extends MeetingCommon> {
     }
   }
 
-  getSellerDistinctiveSign(meeting: T) : any {
+  getSellerDistinctiveSign(meeting: Meeting) {
     if (this.currentUserId === meeting.sellerId) {
       return (meeting.sellerDistinctiveSign);
     } else {
@@ -82,7 +80,7 @@ export class MeetingListComponent<T extends MeetingCommon> {
     }
   }
 
-  getBuyerAdditionalInfo(meeting: T) {
+  getBuyerAdditionalInfo(meeting: Meeting) {
     if (this.currentUserId === meeting.buyerId) {
       return (meeting.buyerAdditionalInfo);
     } else {
@@ -90,7 +88,7 @@ export class MeetingListComponent<T extends MeetingCommon> {
     }
   }
 
-  getSellerAdditionalInfo(meeting: T)  {
+  getSellerAdditionalInfo(meeting: Meeting)  {
     if (this.currentUserId === meeting.sellerId) {
       return (meeting.sellerAdditionalInfo);
     } else {

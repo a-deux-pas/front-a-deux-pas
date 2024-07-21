@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MeetingService } from '../meeting.service';
 import { CommonModule } from '@angular/common';
 import { MeetingListComponent } from '../components/meeting-list/meeting-list.component';
-import { MeetingPlanned } from '../../../../shared/models/meeting/meeting-planned.model';
+import { Meeting } from '../../../../shared/models/meeting/meeting.model';
 
 
 @Component({
@@ -21,8 +21,8 @@ import { MeetingPlanned } from '../../../../shared/models/meeting/meeting-planne
   `
 })
 export class PlannedComponent implements OnInit {
-  plannedMeetings: MeetingPlanned[] = [];
-  selectedMeeting?: MeetingPlanned;
+  plannedMeetings: Meeting[] = [];
+  selectedMeeting?: Meeting;
   userId: number;
   
 
@@ -41,23 +41,21 @@ export class PlannedComponent implements OnInit {
         if (meetings.length > 0) {
           this.selectedMeeting = meetings[0];
         }
-        console.log(this.selectedMeeting?.status)
-        console.log(this.selectedMeeting)
       }
     );
   }
 
-  onSelectMeeting(meeting: MeetingPlanned) {
+  onSelectMeeting(meeting: Meeting) {
     this.selectedMeeting = meeting;
   }
 
-  onModifyMeeting(meeting: MeetingPlanned) {
-    // Implémentez la logique pour modifier le rendez-vous
+  onModifyMeeting(meeting: Meeting) {
+    // TO DO: Implémentez la logique pour modifier le rendez-vous
     console.log('Modifier le rendez-vous', meeting);
   }
 
-  onCancelMeeting(meeting: MeetingPlanned) {
-    // Implémentez la logique pour annuler le rendez-vous
+  onCancelMeeting(meeting: Meeting) {
+    // TO DO: Implémentez la logique pour annuler le rendez-vous
     console.log('Annuler le rendez-vous', meeting);
   }
 }
