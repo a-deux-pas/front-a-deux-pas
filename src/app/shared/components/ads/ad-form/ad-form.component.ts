@@ -264,6 +264,8 @@ export class AdFormComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.adSubscription.unsubscribe();
+    if (this.adSubscription) {
+      this.adSubscription.unsubscribe();
+    }
   }
 }
