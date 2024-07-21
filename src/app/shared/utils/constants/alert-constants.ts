@@ -6,8 +6,16 @@ export const ALERTS = {
     message: AlertMessage.PROFILE_CREATED_SUCCESS,
     type: AlertType.SUCCESS,
   },
-  AD_CREATED_SUCCES: {
-    message: AlertMessage.AD_CREATED_SUCCES,
+  AD_CREATED_SUCCESS: {
+    message: AlertMessage.AD_CREATED_SUCCESS,
+    type: AlertType.SUCCESS,
+  },
+  AD_UPDATED_SUCCESS: {
+    message: AlertMessage.AD_UPDATED_SUCCESS,
+    type: AlertType.SUCCESS,
+  },
+  AD_DELETED_SUCCESS: {
+    message: AlertMessage.AD_DELETED_SUCCESS,
     type: AlertType.SUCCESS,
   },
   FAVORITES_ADDED_SUCCESS: {

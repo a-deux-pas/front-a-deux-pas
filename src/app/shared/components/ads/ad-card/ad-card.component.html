@@ -1,10 +1,10 @@
 <a (click)="goToAdPage(ad.id!, ad.publisherId!)" class="card mt-4 text-decoration-none">
   <div class="card-img-container">
     @switch (ad.status) {
-      @case('SOLD') {
+      @case(adStatus.SOLD) {
         <p class="statusStamp">Vendu</p>
         }
-      @case('RESERVED') {
+      @case(adStatus.RESERVED) {
         <p class="statusStamp">Réservé</p>
       }
     }
@@ -22,14 +22,16 @@
       <div class="bottom-card-part">
         @switch (type) {
           @case ('loggedInUserAd') {
-            <img class="cta-btn" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+            <a routerLink="['/compte/annonces/mon-annonce', ad.id, 'modification']">
+              <img class="cta-btn card-icon" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+            </a>
           }
           @case ('sellerAd') {
             <button type="button"
             id="btn-add-to-favorites"
             (click)="addToFavorites($event)">
-              <img class="favorite-icon" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris" [hidden]="ad.favorite">
-              <img class="favorite-icon" src="assets/icons/buttons/added-to-favorites-card.webp" alt="icône favoris" [hidden]="!ad.favorite">
+              <img class="card-icon" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris" [hidden]="ad.favorite">
+              <img class="card-icon" src="assets/icons/buttons/added-to-favorites-card.webp" alt="icône favoris" [hidden]="!ad.favorite">
             </button>
           }
         }

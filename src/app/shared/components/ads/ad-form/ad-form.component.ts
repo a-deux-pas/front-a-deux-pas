@@ -1,11 +1,10 @@
-import { Component, Input } from '@angular/core';
-import { Ad } from '../../../models/ad/ad.model';
+import { Component, Input, OnInit } from '@angular/core';
 import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgClass, Location } from '@angular/common'
 import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
@@ -17,45 +16,83 @@ import { FormsModule } from '@angular/forms';
 import { AdFormService } from './ad-form.service';
 import { escapeHtml } from '../../../utils/sanitizers/custom-sanitizers';
 import { ALERTS } from '../../../utils/constants/alert-constants';
+import { AdDetails } from '../../../models/ad/ad-details.model';
+import { AdService } from '../../../services/ad.service';
 
 @Component({
   selector: 'app-ad-form',
   templateUrl: './ad-form.component.html',
   styleUrl: './ad-form.component.scss',
   standalone: true,
-  imports: [FormsModule, NgSelectModule, NgxDropzoneModule, NgClass, NgbCarousel, NgbSlide]
+  imports: [
+    FormsModule,
+    NgSelectModule,
+    NgxDropzoneModule,
+    NgClass,
+    NgbCarousel,
+    NgbSlide
+  ]
 })
-export class AdFormComponent {
+export class AdFormComponent implements OnInit {
   @Input() formTitle!: string;
   @Input() isCreateAdForm!: boolean;
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
-
-  // TO DO: check if I'll have to merge adModel and adDetails model (fix cloudinary branch)
-  ad: Ad = new Ad(
-    1,
-    '',
-    '',
-    '',
-  );
-
+  ad!: AdDetails;
+  adSubscription!: Subscription;
+  userId: number = Number(localStorage.getItem('userId'));
   today: Date = new Date()
   selectedPicNumber: number = 2;
   articlePictures: File[] = [];
   states = Object.values(ArticleState);
   categories = Object.values(Category);
-  disabledFields: boolean = false
+  subcategoryEnum = Subcategory;
+  categoryEnum = Category;
 
   constructor(
     private adformService: AdFormService,
+    private adService: AdService,
     private uploadPictureService: UploadPictureService,
     private router: Router,
+    private route: ActivatedRoute,
     private displayManagementService: DisplayManagementService,
     private location: Location
   ) {
+    this.ad = new AdDetails(
+      0, // id
+      '',  // title
+      '', // category
+      '', // subcategory
+      '',  // articleDescription
+      '',  // articleState
+      0,   // price
+      this.userId  // publisherId
+    );
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
     });
+  }
+
+  ngOnInit(): void {
+    if (!this.isCreateAdForm) {
+      this.adSubscription = this.adService.myAd$.subscribe(
+        currentAd => {
+          if (currentAd) {
+            this.ad = { ...currentAd };
+          } else {
+            // TO DO: user id à supprimer lorsque PR de fix mergé
+            const adId = Number(this.route.snapshot.paramMap.get(('adId')));
+            this.getAd(adId, this.userId);
+          }
+      });
+    }
+  }
+
+  getAd(adId: number, userId: number) {
+    this.adService.getAdById(adId, userId).subscribe((ad: AdDetails) => {
+        this.ad = { ...ad };
+      }
+    );
   }
 
   // article category selection section
@@ -70,8 +107,8 @@ export class AdFormComponent {
   getSubCategoriesGender() {
     const currentCategory = Categories.find((category: { name: Category }) => category.name === this.ad.category);
     if (currentCategory) {
-      const currentSubCategory = currentCategory.subCategories.find((subCat: { name: Subcategory }) => subCat.name === this.ad.subcategory.name);
-      if (currentSubCategory?.gender) {
+      const currentSubCategory = currentCategory.subCategories.find((subCat: { name: Subcategory }) => subCat.name === this.ad.subcategory);
+      if (currentSubCategory) {
         return currentSubCategory.gender;
       }
     }
@@ -79,8 +116,8 @@ export class AdFormComponent {
   }
 
   resetChoices() {
-    this.ad.subcategory = undefined
-    this.ad.articleGender = undefined
+    this.ad.subcategory = undefined;
+    this.ad.articleGender = undefined;
   }
 
   // picture upload
@@ -171,20 +208,26 @@ export class AdFormComponent {
 
   // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
-    this.sanitizeTheInputs()
+    this.sanitizeTheInputs();
+    this.ad.subcategory = this.ad.category == this.categoryEnum.OTHER_CATEGORY ?
+      Subcategory.OTHER_SUBCATEGORY : this.ad.subcategory;
+    if (this.isCreateAdForm) {
+      this.createAd();
+    } else {
+      this.updateAd();
+    }
+  }
+
+  private createAd(): void {
     this.uploadArticlePictures().subscribe({
       next: () => {
         this.ad.creationDate = this.today.toISOString();
-        this.ad.subcategory = this.ad.category == "Autre" ?
-          Subcategory.OTHER_SUBCATEGORY :
-          this.ad.subcategory.name;
-        this.ad.publisherId = Number(localStorage.getItem('userId'));
-        this.adformService.postAd(this.ad).subscribe({
-          next: (ad: Ad) => {
+        this.adformService.createAd(this.ad).subscribe({
+          next: (ad: AdDetails) => {
             this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
             setTimeout(() => {
               this.displayManagementService.displayAlert(
-                ALERTS.AD_CREATED_SUCCES
+                ALERTS.AD_CREATED_SUCCESS
               );
             }, 100);
           },
@@ -196,5 +239,31 @@ export class AdFormComponent {
         });
       }
     });
+  }
+
+  private updateAd(): void {
+    this.uploadArticlePictures().subscribe({
+      next: () => {
+        this.adformService.updateAd(this.ad).subscribe({
+          next: (ad: AdDetails) => {
+            this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
+            setTimeout(() => {
+              this.displayManagementService.displayAlert(
+                ALERTS.AD_UPDATED_SUCCESS
+              );
+            }, 100);
+          },
+          error: () => {
+            this.displayManagementService.displayAlert(
+              ALERTS.DEFAULT_ERROR,
+            );
+          }
+        });
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.adSubscription.unsubscribe();
   }
 }

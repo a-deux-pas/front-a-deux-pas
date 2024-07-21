@@ -3,10 +3,10 @@ import { AdService } from '../../../services/ad.service';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, Input, ViewChild } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
+import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/components/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller-ad/cta-seller-ad.component';
@@ -35,7 +35,6 @@ export class AdPageComponent implements OnInit {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
   onLoggedInUserAd: boolean | undefined;
-  @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
   currentAd!: AdDetails | undefined;
@@ -66,7 +65,7 @@ export class AdPageComponent implements OnInit {
 
     this.pageSize = this.onLoggedInUserAd ? 8 : 4;
     this.displayedAdsCount = this.pageSize;
-    this.adPageContentService.getAdById(adId, this.userId).subscribe({
+    this.adService.getAdById(adId, this.userId).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
         this.articlePictures = [
@@ -82,10 +81,12 @@ export class AdPageComponent implements OnInit {
 
         this.fetchPaginatedAdsList()
         if (!this.onLoggedInUserAd) {
-          this.getSimilarAds()
+          this.getSimilarAds();
           if (!this.userId) {
             this.adService.isOnSellerAdPageUnLogged(true);
           }
+        } else {
+          this.adService.setAd(this.currentAd);
         }
       }
     });

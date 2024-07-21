@@ -81,31 +81,31 @@
     <ng-select [(ngModel)]="ad.category" name="cat" (change)="resetChoices()" class="custom mt-4 mb-4"
       #adCategory="ngModel" required maxlength="100">
       @for (category of categories; track category) {
-      <ng-option [value]="category">
-        {{ category }}
-      </ng-option>
+        <ng-option [value]="category">
+          {{ category }}
+        </ng-option>
       }
     </ng-select>
     @if (adCategory.errors) {
-    <div class="error-container">
-      @if (adCategory.touched && adCategory.errors!['required'] || adForm.submitted == true && adForm.invalid == true &&
-      adCategory.errors!['required']) {
-      <span class="error-msg">Veuillez entrer une
-        catégorie</span>
-      }
-    </div>
+      <div class="error-container">
+        @if (adCategory.touched && adCategory.errors!['required'] || adForm.submitted == true && adForm.invalid == true &&
+        adCategory.errors!['required']) {
+        <span class="error-msg">Veuillez entrer une
+          catégorie</span>
+        }
+      </div>
     }
   </div>
 
   <!-- sub Category choice section -->
-  @if (ad.category && ad.category !== 'Autre') {
+  @if (ad.category && ad.category !== categoryEnum.OTHER_CATEGORY) {
   <div class="mx-auto" style="width: 246px;">
     <label class="mt-4" for="sub-cat">Choisissez une sous-catégorie</label>
     <ng-select [(ngModel)]="ad.subcategory" name="sub-cat" class="custom mt-4 mb-4" #subcategory="ngModel"
-      [required]="ad.category !== 'Autre'" maxlength="100">
-      @for (subCat of getSubCategories(); track subCat) {
-      <ng-option [value]="subCat">
-        {{ subCat.name }}
+      [required]="ad.category !== categoryEnum.OTHER_CATEGORY" maxlength="100">
+      @for (subcategory of getSubCategories(); track subcategory) {
+      <ng-option [value]="subcategory.name">
+        {{ subcategory.name }}
       </ng-option>
       }
     </ng-select>
@@ -122,22 +122,22 @@
   }
 
   <!-- article gender choice section -->
-  @if (ad.subcategory && (ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas')) {
+  @if (ad.subcategory && (ad.subcategory == subcategoryEnum.TOPS || ad.subcategory == subcategoryEnum.BOTTOMS)) {
   <div class="mx-auto mb-2" style="width: 246px;">
     <label class="mt-4" for="sub-cat-gender">Choisissez un genre</label>
     <ng-select [(ngModel)]="ad.articleGender" name="sub-cat-gender" class="custom mt-4" #gender="ngModel" required>
-      @for (subCatGender of getSubCategoriesGender(); track subCatGender) {
-      <ng-option [value]="subCatGender">
-        {{ subCatGender }}
+      @for (subcatGender of getSubCategoriesGender(); track subcatGender) {
+      <ng-option [value]="subcatGender">
+        {{ subcatGender }}
       </ng-option>
       }
     </ng-select>
     @if (gender.errors) {
     <div class="error-container">
-      @if((ad.subcategory.name == 'Hauts' || ad.subcategory.name == 'Bas') && gender.touched &&
+      @if((ad.subcategory == subcategoryEnum.TOPS || ad.subcategory == subcategoryEnum.BOTTOMS) && gender.touched &&
       gender.errors['required']) {
-      <span class="error-msg">Veuillez
-        entrer un genre</span>
+      <span class="error-msg">
+        Veuillez entrer un genre</span>
       }
     </div>
     }

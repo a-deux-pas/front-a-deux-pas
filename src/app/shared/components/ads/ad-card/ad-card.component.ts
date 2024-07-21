@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ElementRef, Renderer2, EventEmitter, Output }
 import { Router } from '@angular/router';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdFavoriteService } from '../../../services/ad-favorite.service';
+import { AdStatus } from '../../../models/enum/ad-status.enum';
 
 @Component({
   selector: 'app-ad-card',
@@ -12,6 +13,7 @@ import { AdFavoriteService } from '../../../services/ad-favorite.service';
 export class AdCardComponent implements OnInit {
   @Input() ad!: AdCard;
   @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
+  adStatus = AdStatus;
   type: 'loggedInUserAd' | 'sellerAd' | 'unLogged' = 'unLogged';
   currentUserId: number = Number(localStorage.getItem('userId')!);
 
