@@ -3,6 +3,7 @@ import { MeetingService } from '../meeting.service';
 import { CommonModule } from '@angular/common';
 import { MeetingListComponent } from '../components/meeting-list/meeting-list.component';
 import { Meeting } from '../../../../shared/models/meeting/meeting.model';
+import { catchError, map, of } from 'rxjs';
 
 
 @Component({
@@ -26,14 +27,16 @@ export class PlannedComponent implements OnInit {
   }
 
   loadPlannedMeetings() {
-    this.meetingService.getPlannedMeetings(this.userId).subscribe(
-      meetings => {
-        this.plannedMeetings = meetings;
-        if (meetings.length > 0) {
-          this.selectedMeeting = meetings[0];
-        }
-      }
-    );
+    this.meetingService.getPlannedMeetings(this.userId).pipe(
+      map(meetings => meetings || []),
+      catchError(error => {
+        console.error('Error loading planned meetings:', error);
+        return of([]);
+      })
+    ).subscribe(meetings => {
+      this.plannedMeetings = meetings;
+      this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
+    });
   }
 
   onSelectMeeting(meeting: Meeting) {

@@ -3,6 +3,7 @@ import { MeetingService } from '../meeting.service';
 import { Meeting } from '../../../../shared/models/meeting/meeting.model';
 import { MeetingListComponent } from '../components/meeting-list/meeting-list.component';
 import { CommonModule } from '@angular/common';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-to-confirm',
@@ -24,14 +25,16 @@ export class ToConfirmComponent implements OnInit {
   }
 
   loadToConfirmMeetings() {
-    this.meetingService.getToBeConfirmedMeetings(this.userId).subscribe(
-      meetings => {
-        this.toConfirmMeetings = meetings;
-        if (meetings.length > 0) {
-          this.selectedMeeting = meetings[0];
-        }
-      }
-    );
+    this.meetingService.getToBeConfirmedMeetings(this.userId).pipe(
+      map(meetings => meetings || []),
+      catchError(error => {
+        console.error('Error loading meetings:', error);
+        return of([]);
+      })
+    ).subscribe(meetings => {
+      this.toConfirmMeetings = meetings;
+      this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
+    });
   }
 
   onSelectMeeting(meeting: Meeting) {

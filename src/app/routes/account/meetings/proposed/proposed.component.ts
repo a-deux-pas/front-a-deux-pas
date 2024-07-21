@@ -3,21 +3,13 @@ import { MeetingService } from '../meeting.service';
 import { Meeting } from '../../../../shared/models/meeting/meeting.model';
 import { MeetingListComponent } from '../components/meeting-list/meeting-list.component';
 import { CommonModule } from '@angular/common';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-proposed',
   standalone: true,
   imports: [CommonModule, MeetingListComponent],
-  template: `
-        <app-meeting-list 
-            [meetings]="proposedMeetings" 
-            (modify)="onModifyMeeting($event)"
-            (cancel)="onCancelMeeting($event)"
-            [selectedMeeting]="selectedMeeting"
-            (select)="onSelectMeeting($event)"
-            [currentUserId]="userId">
-        </app-meeting-list>
-  `
+  templateUrl: './proposed.component.html' 
 })
 export class ProposedComponent implements OnInit {
   proposedMeetings: Meeting[] = [];
@@ -33,14 +25,16 @@ export class ProposedComponent implements OnInit {
   }
 
   loadProposedMeetings() {
-    this.meetingService.getProposedMeetings(this.userId).subscribe(
-      meetings => {
-        this.proposedMeetings = meetings;
-        if (meetings.length > 0) {
-          this.selectedMeeting = meetings[0];
-        }
-      }
-    );
+    this.meetingService.getProposedMeetings(this.userId).pipe(
+      map(meetings => meetings || []),
+      catchError(error => {
+        console.error('Error loading proposed meetings:', error);
+        return of([]);
+      })
+    ).subscribe(meetings => {
+      this.proposedMeetings = meetings;
+      this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
+    });
   }
 
   onSelectMeeting(meeting: Meeting) {

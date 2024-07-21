@@ -3,6 +3,7 @@ import { MeetingService } from '../meeting.service';
 import { MeetingListComponent } from '../components/meeting-list/meeting-list.component';
 import { CommonModule } from '@angular/common';
 import { Meeting } from '../../../../shared/models/meeting/meeting.model';
+import { catchError, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-to-finalize',
@@ -25,14 +26,16 @@ export class ToFinalizeComponent implements OnInit {
   }
 
   loadToFinalizeMeetings() {
-    this.meetingService.getToBeFinishedMeetings(this.userId).subscribe(
-      meetings => {
-        this.toFinalizeMeetings = meetings;
-        if (meetings.length > 0) {
-          this.selectedMeeting = meetings[0];
-        }
-      }
-    );
+    this.meetingService.getToBeFinishedMeetings(this.userId).pipe(
+      map(meetings => meetings || []),
+      catchError(error => {
+        console.error('Error loading meetings to finalize:', error);
+        return of([]);
+      })
+    ).subscribe(meetings => {
+      this.toFinalizeMeetings = meetings;
+      this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
+    });
   }
 
   onSelectMeeting(meeting: Meeting) {

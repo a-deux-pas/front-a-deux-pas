@@ -12,7 +12,7 @@ import { filter } from 'rxjs/operators';
     imports: [TabsAccountComponent, RouterModule,CommonModule]
 })
 export class MeetingsComponent implements OnInit {
-  activeTab: string = 'proposed';
+  activeTab: string = 'proposes';
 
   constructor(private router: Router) {
     this.router.events.pipe(
@@ -25,7 +25,7 @@ export class MeetingsComponent implements OnInit {
 
   ngOnInit() {
     if (this.router.url === '/compte/rdv') {
-      this.router.navigate(['/compte/rdv/proposed']);
+      this.router.navigate(['/compte/rdv/proposes']);
     } else {
       const urlParts = this.router.url.split('/');
       this.activeTab = urlParts[urlParts.length - 1];
