@@ -3,7 +3,6 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { AdService } from "../../services/ad.service";
-import { UploadPictureService } from "../../services/upload-picture.service";
 import { DisplayManagementService } from "../../services/display-management.service";
 import { HttpClientModule } from "@angular/common/http";
 import '@angular/localize/init';
@@ -21,7 +20,7 @@ describe('ad form component test', () => {
   const loadAdFormComponent = (newAdData: NewAdData) => {
     cy.mount(AdFormComponent, {
       imports: [NgxDropzoneModule, NgSelectModule, FormsModule, HttpClientModule],
-      providers: [AdService, UploadPictureService, DisplayManagementService],
+      providers: [AdService, DisplayManagementService],
       componentProperties: {
         formTitle: 'Créer une annonce',
         isCreateAdForm: true,
