@@ -1,0 +1,156 @@
+@import 'color-variables';
+
+.list-group {
+  position: relative;
+  margin: 10px;
+}
+
+.meeting-item {
+  img {
+    border-radius: 4px 0 0 4px;
+  }
+}
+
+.list-group-item {
+  position: relative;
+  background-color: $tertiary;
+  padding: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  border: none;
+  
+  .meeting-info {
+      padding: 10px;
+
+      h5 {
+        font-weight: bold;
+
+        &::first-letter {
+          text-transform: uppercase;
+        }
+      }
+  }
+}
+
+.list-group-item.active {
+  border: 4px solid $primary;
+  color: black;
+
+  &::after {
+      content: '';
+      display: none;
+  }
+
+  @media (min-width: 769px) {
+    &::after {
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: -15px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 15px solid #ff9f1a;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+    }
+  }
+}
+
+.details-container {
+  background-color: $tertiary;
+  padding: 30px;
+  text-align: center;
+  border: 4px solid $primary;
+  border-radius: 8px;
+
+  .details-header {
+    a {
+       padding: 0 5px;
+    }
+    
+    img {
+      width: 30px;
+      padding-bottom: 10px;
+    }
+
+    .btn-link {
+      text-decoration: none !important;
+      color: inherit;
+    }
+    
+    .btn-link:hover,
+    .btn-link:active,
+    .btn-link:focus {
+      text-decoration: none !important;
+      color: inherit;
+    }
+  }
+}
+
+.card-body {
+  h4, h5 {
+    font-weight: bold;
+  }
+
+  .details-ad {
+    margin: 0 auto;
+    max-width: 400px;
+
+    img {
+      border-radius: 8px;
+    }
+  }
+
+  .metting-place {
+    color: $primary;
+    font-weight: bold;
+  }
+}
+
+.chat-container {
+  
+  .buyer-info , .seller-info {
+    padding: 15px;
+    border : 1px solid $primary;
+  }
+
+  .buyer-info {
+    border-radius: 10px 10px 0 10px;
+
+    &.to-confirm  {
+      border-radius: 10px 10px 10px 0;
+    }
+
+  }
+  
+  .seller-info {
+    border-radius: 10px 10px 10px 0;
+  }
+}
+
+
+@media (min-width: 769px) {
+  
+  .list-group  {
+    padding-bottom: 1200px;
+  }
+
+  .meeting-details-container {
+    position: absolute;
+    right: -20px;
+    top: 0;
+  }
+
+  .details-container {
+    details-header {
+      a {
+         padding: 0 15px;
+      }
+    }
+  }
+
+  .chat-container { 
+    padding: 0 50px;
+  }
+}

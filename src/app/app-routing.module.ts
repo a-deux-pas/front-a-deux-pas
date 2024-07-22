@@ -30,7 +30,7 @@ const routes: Routes = [
         (mod) => mod.RegisterComponent
       ),
     canActivate: [AuthGuard],
-  }
+  },
 ];
 
 @NgModule({
