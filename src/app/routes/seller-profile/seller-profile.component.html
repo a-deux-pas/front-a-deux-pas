@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-center">
     <app-user-presentation [user]="seller"></app-user-presentation>
   </div>
-  <h2 class="text-left fw-bold m-5">Les annonces de {{ this.sellerAlias }}</h2>
+  <h2 class="text-left fw-bold m-5">Les annonces de {{ seller.alias }}</h2>
   @if (this.sellerAds.length > 0) {
     <app-ad-list
       [displayedAds]="sellerAds"
@@ -12,7 +12,7 @@
     </app-ad-list>
   } @else {
     <p class="d-flex justify-content-center">
-      <i>{{ this.sellerAlias }} ne possède actuellement aucune annonce en vente</i>
+      <i>{{ seller.alias }} ne possède actuellement aucune annonce en vente</i>
     </p>
   }
 </section>

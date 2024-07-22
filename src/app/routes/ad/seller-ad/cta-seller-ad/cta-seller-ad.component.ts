@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AdFavoriteService } from '../../../../shared/services/ad-favorite.service';
 
 @Component({
@@ -67,14 +67,9 @@ export class CtaSellerAdComponent implements OnInit {
     }
   }
 
-  goToSellerProfile(sellerAlias: string | undefined, sellerId: number |undefined) {
-    if (this.isUserLoggedIn) {
-      if (sellerAlias && sellerId) {
-        let seller : NavigationExtras = { queryParams: { sellerId } };
-        this.router.navigate(['/profil', sellerAlias], {
-          state : { seller }
-        });
-      }
+  goToSellerProfile(sellerAlias: string | undefined) {
+    if (sellerAlias) {
+      this.router.navigate(['/profil', sellerAlias]);
     } else {
       this.openModal()
     }
