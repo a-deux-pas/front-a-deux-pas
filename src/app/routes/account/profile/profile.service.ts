@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
-import { UserPresentation } from '../../../shared/models/user/user-presentation.model';
-import { API_URL } from '../../../shared/utils/constants/utils-constants';
+import { API_URL } from '../../../shared/utils/constants/util-constants';
 import { HandleErrorService } from '../../../shared/services/handle-error.service';
 
 @Injectable({
@@ -17,14 +16,6 @@ export class ProfileService {
     private http: HttpClient,
     private handleErrorService: HandleErrorService
   ) {}
-
-  // Fetch user's information from the API
-  getUserPresentation(userId: number): Observable<UserPresentation> {
-    return this.http.get<UserPresentation>(this.accountUrl + `/${userId}/presentation`)
-    .pipe(
-      catchError(this.handleErrorService.handleError)
-    );
-  }
 
   // Fetch user's preferred schedules from the API
   getUserPreferredSchedules(userId: number): Observable<PreferredSchedule[]> {

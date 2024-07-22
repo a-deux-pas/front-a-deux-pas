@@ -16,7 +16,7 @@
     <div class="favorites mt-2">
         @if (myAd?.status == 'AVAILABLE') {
         @if(favCount === 0) {
-        <img id="favorite-icon" class="btn-cta" src="assets/icons/navbar/favorites.webp" alt="icône favoris vide">
+        <img id="favorite-icon" class="btn-cta" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris vide">
         <p id="favorite-text">n’a pas encore tapé dans l’oeil d’un membre</p>
         } @else {
         <img id="favorite-icon" class="btn-cta" src="assets/icons/buttons/added-to-favorites-card.webp"
@@ -27,13 +27,13 @@
     </div>
     <div class="cta-btn-section mt-4 mb-1">
         <div class="flex-column">
-            <img class="cta-btn btn-cta" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+            <img class="edit-cta-btn btn-cta" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
             <p class="cta-btn-text">modifier</p>
         </div>
         <div class="flex-column">
-            <img class="cta-btn btn-cta" src="assets/icons/buttons/trash.webp" alt="bouton-supprimer-annonce">
+            <img class="trash-cta-btn btn-cta" src="assets/icons/buttons/trash.webp" alt="bouton-supprimer-annonce">
             <p class="cta-btn-text">supprimer</p>
         </div>
     </div>
 </section>
-<!-- TO DO :: rebosser display du cta quand se fera le processus de checkout en fonction des differents ad.status -->
+<!-- TO DO : rebosser display du cta quand se fera le processus de checkout en fonction des differents ad.status -->

@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
+import { Router } from '@angular/router';
+import { AdFavoriteService } from '../../../../shared/services/ad-favorite.service';
 
 @Component({
   selector: 'app-cta-seller-ad',
@@ -17,19 +19,26 @@ export class CtaSellerAdComponent implements OnInit {
   @Input() ad!: AdDetails | undefined;
   @Input() isBigScreen!: boolean;
   @Input() onSellerAdPageUnlogged: boolean = false;
+  isUserLoggedIn!: boolean;
+  currentUserId: number = Number(localStorage.getItem('userId'));
   isLoggedIn!: boolean;
-  authSubscription!: Subscription;
+  logginSubscription!: Subscription;
 
-  constructor(public modalService: NgbModal, private authService: AuthService) { }
+  constructor(
+    public modalService: NgbModal,
+    private authService: AuthService,
+    private router: Router,
+    private adFavoriteService: AdFavoriteService
+  ) {}
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.isLoggedIn().subscribe(status => {
-      this.isLoggedIn = status;
+    this.logginSubscription = this.authService.isLoggedIn().subscribe(status => {
+      this.isUserLoggedIn = status;
     });
   }
 
   startCheckout() {
-    if (this.isLoggedIn) {
+    if (this.isUserLoggedIn) {
       // To be implemented by Mircea ;)
     } else {
       this.openModal()
@@ -37,34 +46,48 @@ export class CtaSellerAdComponent implements OnInit {
   }
 
   makeAnOffer() {
-    if (!this.isLoggedIn) { this.openModal() } else {
-      // TO DO :: redirection vers le checkout mircea
+    if (!this.isUserLoggedIn) { this.openModal() } else {
+      // TO DO : redirection vers le checkout mircea
     }
   }
 
   addToFavorites() {
-    if (this.isLoggedIn) {
-      // To be implemented ..
+    if (this.isUserLoggedIn) {
+      if (this.ad) {
+        this.ad.favorite = !this.ad.favorite;
+        this.adFavoriteService.updateAdFavoriteStatus(
+          this.ad.id,
+          this.currentUserId,
+          this.ad.favorite,
+          this.ad
+        );
+      }
     } else {
       this.openModal()
     }
   }
 
-  goToSellerProfile() {
-    if (this.isLoggedIn) {
-      // To be implemented
+  goToSellerProfile(sellerAlias: string | undefined) {
+    if (sellerAlias) {
+      this.router.navigate(['/profil', sellerAlias]);
     } else {
       this.openModal()
     }
   }
 
-  contactTheSeller() {
-    if (!this.isLoggedIn) { this.openModal() } else {
-      // TO DO :: redirection vers le seller Profile
+  contactTheSeller(adPublisherEmail: string | undefined,) {
+    if (this.isUserLoggedIn) {
+      window.location.href = `mailto:${adPublisherEmail}`;
+    } else {
+      this.openModal()
     }
   }
 
   openModal() {
     this.modalService.open(ConnectionModalComponent);
+  }
+
+  ngOnDestroy(): void {
+    this.logginSubscription.unsubscribe();
   }
 }

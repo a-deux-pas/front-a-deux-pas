@@ -14,8 +14,7 @@ import { RegisterService } from './register.service';
 import { UserProfile } from '../../shared/models/user/user-profile.model';
 import { DisplayManagementService } from '../../shared/services/display-management.service';
 import { escapeHtml, formatText } from '../../shared/utils/sanitizers/custom-sanitizers';
-import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
-import { AlertType } from '../../shared/models/alert.model';
+import { ALERTS } from '../../shared/utils/constants/alert-constants';
 
 @Component({
   selector: 'app-register',
@@ -121,19 +120,23 @@ export class RegisterComponent implements AfterViewInit {
           localStorage.setItem('userCity', `${city} (${postalCode})`);
           this.goBack();
           setTimeout(() => {
-            this.displayManagementService.displayAlert({
-              message: AlertMessage.PROFILE_CREATED_SUCCESS,
-              type: AlertType.SUCCESS
-            });
+            this.displayManagementService.displayAlert(
+              ALERTS.PROFILE_CREATED_SUCCESS,
+            );
           }, 100);
         },
         error: () => {
-          this.displayManagementService.displayAlert({
-            message: AlertMessage.DEFAULT_ERROR,
-            type: AlertType.ERROR
-          });
+          this.displayManagementService.displayAlert(
+            ALERTS.DEFAULT_ERROR
+          );
         }
       });
+    } else {
+      console.error(`Errors: ${!this.profilePicturePreview ?
+        'Profile picture upload failed.' : ''} ${!this.userId ? 'User ID is null.' : ''}`);
+      this.displayManagementService.displayAlert(
+        ALERTS.DEFAULT_ERROR
+      );
     }
   }
 

@@ -12,7 +12,7 @@ export const adRoutes: Routes = [
                 canActivate: [AuthGuard],
             },
             {
-                path: ':sellerId/:adId',
+                path: ':sellerAlias/:adId',
                 loadComponent: () => import('./seller-ad/seller-ad.component').then(mod => mod.SellerAdComponent),
             }
         ]

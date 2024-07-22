@@ -1,6 +1,6 @@
 export class UserPresentation {
   constructor(
-    public id: number | string,
+    public id: number,
     public alias: string,
     public city: string,
     public postalCode?: string,

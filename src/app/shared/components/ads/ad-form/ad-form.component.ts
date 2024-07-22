@@ -12,12 +12,11 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { AdFormService } from './ad-form.service';
-import { AlertMessage } from '../../../models/enum/alert-message.enum';
-import { AlertType } from '../../../models/alert.model';
 import { escapeHtml } from '../../../utils/sanitizers/custom-sanitizers';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigService } from '../../../services/dropzone-config.service';
+import { ALERTS } from '../../../utils/constants/alert-constants';
 
 @Component({
   selector: 'app-ad-form',
@@ -32,7 +31,7 @@ export class AdFormComponent implements AfterViewChecked {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
   ad = new AdDetails(
-    1, "", 2, "", "", "", ""
+    false, 1, "", 2, "", "", "", ""
   );
   selectedPicNumber: number = 2;
   states = Object.values(ArticleState);
@@ -204,18 +203,20 @@ export class AdFormComponent implements AfterViewChecked {
       next: (ad: AdDetails) => {
         this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
         setTimeout(() => {
-          this.displayManagementService.displayAlert({
-            message: AlertMessage.AD_CREATED_SUCCES,
-            type: AlertType.SUCCESS
-          });
+          this.displayManagementService.displayAlert(
+            ALERTS.AD_CREATED_SUCCES
+          );
         }, 100);
       },
-      error: (error: any) => {
-        this.displayManagementService.displayAlert({
-          message: AlertMessage.DEFAULT_ERROR,
-          type: AlertType.ERROR
-        });
+      error: () => {
+        this.displayManagementService.displayAlert(
+          ALERTS.DEFAULT_ERROR,
+        );
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.windowSizeSubscription.unsubscribe();
   }
 }

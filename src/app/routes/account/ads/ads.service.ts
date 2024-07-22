@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { API_URL } from '../../../shared/utils/constants/utils-constants';
+import { API_URL } from '../../../shared/utils/constants/util-constants';
 import { HttpClient } from '@angular/common/http';
 import { HandleErrorService } from '../../../shared/services/handle-error.service';
 import { catchError, Observable } from 'rxjs';
 import { AdCard } from '../../../shared/models/ad/ad-card.model';
+
 
 @Injectable({
   providedIn: 'root'

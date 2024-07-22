@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HandleErrorService } from '../../../services/handle-error.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
-import { API_URL } from '../../../utils/constants/utils-constants';
+import { API_URL } from '../../../utils/constants/util-constants';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 
 @Injectable({

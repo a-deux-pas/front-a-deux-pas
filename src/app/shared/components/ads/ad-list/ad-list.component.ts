@@ -15,13 +15,8 @@ export class AdListComponent {
   @Input() noMoreAds: boolean = false;
   @Input() showingSimilarAds: boolean = false;
   @Output() loadMore: EventEmitter<void> = new EventEmitter<void>();
-  @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
-  
+
   loadMoreAds() {
     this.loadMore.emit();
-  }
-
-  UpdateAdsFavoritesList(ad: AdCard) {
-    this.updateAdsFavoritesList.emit(ad);
   }
 }

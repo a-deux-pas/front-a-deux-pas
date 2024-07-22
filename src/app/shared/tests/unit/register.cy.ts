@@ -2,7 +2,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { PreferredMeetingPlace } from "../../models/user/preferred-meeting-place.model";
 import { RegisterComponent } from "../../../routes/register/register.component";
 import { AsyncValidatorService } from "../../services/async-validator.service";
-import { API_URL } from "../../utils/constants/utils-constants";
+import { API_URL } from "../../utils/constants/util-constants";
 
 context('create account testing', () => {
   beforeEach(function() {
@@ -20,7 +20,7 @@ context('create account testing', () => {
     }).as('checkAlias');
 
     // TO DO: ajouter un intercept une fois cloudinary ajouté côté back
-    
+
     cy.mount(RegisterComponent, {
       imports: [HttpClientModule],
       providers: [AsyncValidatorService],
