@@ -1,16 +1,11 @@
 @if (displayedAds && displayedAds.length > 0) {
 <div class="ad-list-container">
   @for (ad of displayedAds; track ad) {
-  <app-ad-card
-    class="item"
-    [ad]="ad"
-    (updateAdsFavoritesList)="UpdateAdsFavoritesList($event)"
-  >
-  </app-ad-card>
+  <app-ad-card class="item" [ad]="ad"></app-ad-card>
   }
 </div>
-} @if (displayedAds && displayedAds.length >= this.displayedAdsNumber &&
-!noMoreAds) {
+} @if (showingSimilarAds == false) { @if (displayedAds && displayedAds.length >=
+displayedAdsNumber && !noMoreAds) {
 <div class="single-button-container">
   <button type="submit" class="btn-info mt-4" (click)="loadMoreAds()">
     voir plus
@@ -30,8 +25,8 @@
   />
   <h2>Désolé, aucun résultat ne correspond à votre recherche</h2>
 </div>
-} @else if (noMoreAds){
+} @else if (noMoreAds) {
 <div class="no-ads-message">
   <p><i>Fin des résultats</i></p>
 </div>
-}
+} }

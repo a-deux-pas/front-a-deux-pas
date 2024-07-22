@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { Component, Input, OnInit, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 import { AdCard } from '../../../models/ad/ad-card.model';
-import { AdCardService } from './ad-card.service';
+import { AdFavoriteService } from '../../../services/ad-favorite.service';
 
 @Component({
   selector: 'app-ad-card',
@@ -14,10 +12,13 @@ export class AdCardComponent implements OnInit {
   @Input() ad!: AdCard;
   @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
   type: 'loggedInUserAd' | 'sellerAd' | 'unLogged' = 'unLogged';
-  currentUserId: number = parseInt(localStorage.getItem('userId')!);
+  currentUserId: number = Number(localStorage.getItem('userId')!);
 
   constructor(
-    private router: Router, private location: Location, private adCardService: AdCardService) {}
+    private renderer: Renderer2,
+    private el: ElementRef,
+    private adFavoriteService: AdFavoriteService
+  ) {}
 
   ngOnInit() {
     if (this.ad.title.length > 23) {
@@ -28,31 +29,38 @@ export class AdCardComponent implements OnInit {
     } else {
       this.type = 'unLogged';
     }
+    if (this.ad.status) {
+      this.addStatusClass(this.ad.status);
+    }
   }
 
-  goToAdPage(adId: number, adPublisherId: number) {
-    const path = this.type === 'loggedInUserAd' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherId, adId];
-    this.router.navigate(path).then(() => {
-      window.location.reload();
-    });
+  addStatusClass(newStatus: string) {
+    const imgElement = this.el.nativeElement.querySelector('.card-img-top');
+    if (imgElement) {
+      this.renderer.addClass(imgElement, newStatus);
+    }
+  }
+
+  goToAdPage(adId: number, adPublisherAlias: string, adPublisherId: number) {
+    if (this.type === 'loggedInUserAd') {
+      window.location.href = `/compte/annonces/mon-annonce/${adId}`;
+    } else {
+      if (!this.currentUserId) {
+        // Store adPublisherId in sessionStorage
+        sessionStorage.setItem('adPublisherId', adPublisherId.toString());
+      }
+      window.location.href = `/annonce/${adPublisherAlias}/${adId}`;
+    }
   }
 
   addToFavorites(event: Event) {
     event.stopPropagation();
     this.ad.favorite = !this.ad.favorite;
-    this.updateAdFavoriteStatus(this.ad.id, this.currentUserId, this.ad.favorite)
-  }
-
-  // TODO: ajouter alert Success et Error
-  updateAdFavoriteStatus(adId: number, userId: number, isfavorite: boolean) {
-    this.adCardService.updateAdFavoriteStatus(adId, userId, isfavorite).subscribe({
-      next: (response) => {
-          console.log(response);
-          this.updateAdsFavoritesList.emit(this.ad)
-      },
-      error: (error) => {
-        console.error('Error:', error);
-      }
-    });
+    this.adFavoriteService.updateAdFavoriteStatus(
+      this.ad.id,
+      this.currentUserId,
+      this.ad.favorite,
+      this.ad
+    );
   }
 }

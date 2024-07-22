@@ -9,10 +9,9 @@ import { AdCard } from '../../shared/models/ad/ad-card.model';
 import { AdService } from '../../shared/services/ad.service';
 import { UserPresentation } from '../../shared/models/user/user-presentation.model';
 import { SellersComponent } from './components/sellers/sellers.component';
-import { HomeService } from './home.service';
-import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
-import { AlertType } from '../../shared/models/alert.model';
-import { DisplayManagementService } from '../../shared/services/display-management.service';
+import { UserService } from '../../shared/services/user.service';
+import { AdFavoriteService } from '../../shared/services/ad-favorite.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -43,6 +42,8 @@ export class HomeComponent implements OnInit {
   favoritesAds: AdCard[] = [];
   noMoreFilteredAds: boolean = false;
   noMorefavoriteAds: boolean = false;
+  favoritesSubscription!: Subscription;
+  logginSubscription!: Subscription;
   // filters
   selectedPriceRanges: string[] = [];
   selectedCities: string[] = [];
@@ -51,14 +52,15 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private homeService: HomeService,
+    private userService: UserService,
     private adService: AdService,
-    private displayManagementService: DisplayManagementService
+    private adFavoriteService: AdFavoriteService
   ) {}
 
   ngOnInit() {
     this.subscribeToLoginStatus();
     this.initializePageSize();
+    this.updateAdsFavoritesList();
     if (this.isLoggedIn) {
       this.fetchAdsByUserLocation();
       this.fetchUserFavoritesAds();
@@ -69,7 +71,7 @@ export class HomeComponent implements OnInit {
 
   private subscribeToLoginStatus() {
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
-    this.authService.isLoggedIn().subscribe((status: boolean) => {
+    this.logginSubscription = this.authService.isLoggedIn().subscribe((status: boolean) => {
       this.isLoggedIn = status;
     });
   }
@@ -79,18 +81,20 @@ export class HomeComponent implements OnInit {
   }
 
   private fetchAdsByUserLocation() {
-    if (!this.userAlias && !this.loggedInUserCity) {
+    if (!this.userAlias || !this.loggedInUserCity) {
       this.getUserAliasAndLocation(this.userId);
     } else {
-      this.selectedCities.push(this.loggedInUserCity!);
+      this.selectedCities.push(this.loggedInUserCity);
       this.fetchPaginatedAdsList(true);
     }
   }
 
   private getUserAliasAndLocation(userId: number): void  {
-    this.homeService.getUserAliasAndLocation(userId).subscribe((data: UserPresentation) => {
+    this.userService.getUserAliasAndLocation(userId).subscribe((data: UserPresentation) => {
       this.userAlias = data.alias;
       this.loggedInUserCity = `${data.city} (${data.postalCode})`;
+      localStorage.setItem('userAlias', this.userAlias);
+      localStorage.setItem('userCity', this.loggedInUserCity);
       this.selectedCities.push(this.loggedInUserCity);
       this.fetchPaginatedAdsList(true);
     })
@@ -132,7 +136,7 @@ export class HomeComponent implements OnInit {
   }
 
   private fetchUserFavoritesAds(): void {
-    this.adService.getUserFavoritesAd(this.userId, this.pageNumber, this.pageSize).subscribe({
+    this.adFavoriteService.getUserFavoritesAd(this.userId, this.pageNumber, this.pageSize).subscribe({
       next: (favoritesAds: AdCard[]) => {
         // Filter the new favorite ads to include only those that are not already in the existing favorites list
         const newFavoritesAds = favoritesAds.filter(newFavoriteAd =>
@@ -148,32 +152,33 @@ export class HomeComponent implements OnInit {
     this.fetchUserFavoritesAds();
   }
 
-  updateAdsFavoritesList(ad: AdCard) {
-    const favoriteAd = this.favoritesAds.find(favoriteAd => favoriteAd.id === ad.id);
-    const filteredAd = this.filteredAds.find(favoriteAd => favoriteAd.id === ad.id);
+  updateAdsFavoritesList() {
+    this.favoritesSubscription = this.adFavoriteService.updateAdsFavoritesList.subscribe(ad => {
+      // Mettre à jour la liste des annonces favorites ici
+      const favoriteAd = this.favoritesAds.find(favoriteAd => favoriteAd.id === ad.id);
+      const filteredAd = this.filteredAds.find(favoriteAd => favoriteAd.id === ad.id);
 
-    if (favoriteAd) {
-      // Remove the ad from the favoritesAds list
-      this.favoritesAds = this.favoritesAds.filter(favoriteAd => favoriteAd.id != ad.id);
-      // Fetch the updated list of user's favorite ads
-      this.fetchUserFavoritesAds();
-      this.displayManagementService.displayAlert({
-        message: AlertMessage.FAVORITES_REMOVED_SUCCESS,
-        type: AlertType.SUCCESS,
-      });
-    }
-
-    if(filteredAd) {
-      if (ad.favorite) {
-        // If the ad is marked as favorite, add it to the beginning of the favoritesAds list
-        this.favoritesAds.unshift(ad);
-        this.displayManagementService.displayAlert({
-          message: AlertMessage.FAVORITES_ADDED_SUCCESS,
-          type: AlertType.SUCCESS,
-        });
-        this.noMorefavoriteAds = this.favoritesAds.length <= 0;
+      if (favoriteAd) {
+        // Remove the ad from the favoritesAds list
+        this.favoritesAds = this.favoritesAds.filter(favoriteAd => favoriteAd.id != ad.id);
+        // Fetch the updated list of user's favorite ads
+        this.fetchUserFavoritesAds();
       }
-      filteredAd.favorite = ad.favorite;
-    }
+
+      if(filteredAd) {
+        if (ad.favorite) {
+          // If the ad is marked as favorite, add it to the beginning of the favoritesAds list
+          this.favoritesAds.unshift(ad);
+          this.noMorefavoriteAds = this.favoritesAds.length <= 0;
+        }
+        filteredAd.favorite = ad.favorite;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Clean subscription to prevent memory leaks
+    this.favoritesSubscription.unsubscribe();
+    this.logginSubscription.unsubscribe();
   }
 }

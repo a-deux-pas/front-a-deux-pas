@@ -23,4 +23,4 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip'
   ],
   exports: [ButtonsModule, SortableModule, TooltipModule],
 })
-export class UiModule { }
+export class AngularSplitModuledule { }

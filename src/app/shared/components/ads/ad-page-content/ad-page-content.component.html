@@ -1,121 +1,111 @@
 <div class="custom-container">
-    <div class="main-sections">
-
+  @if (isLoading) {
+    <div class="text-center">
+      <div class="spinner-border text-primary" output="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  } @else {
+      <div class="main-sections">
         <!-- image view on desktop device -->
         <section class="article-picture-image-section">
-            <div class="split-article-pictures-section">
-                <as-split direction="horizontal">
-                    <as-split-area [size]="areaSizeA" #splitAreaA>
-                        <as-split direction="vertical">
-                            <as-split-area>
-                                <img src="{{articlePictures[1]}}" alt="{{ currentAd?.title }} 2" />
-                            </as-split-area>
-                            @if (articlePictures[2]) {
-                            <as-split-area>
-                                <img src="{{articlePictures[2]}}" alt="{{ currentAd?.title }} 3" />
-                            </as-split-area>
-                            }
-                        </as-split>
+          <div class="split-article-pictures-section">
+            <as-split direction="horizontal">
+              <as-split-area [size]="areaSizeA" #splitAreaA>
+                <as-split direction="vertical">
+                  <as-split-area>
+                    <img src="{{articlePictures[1]}}" alt="{{ currentAd?.title }} 2" loading="lazy"/>
+                  </as-split-area>
+                  @if (articlePictures[2]) {
+                    <as-split-area>
+                      <img src="{{articlePictures[2]}}" alt="{{ currentAd?.title }} 3" loading="lazy"/>
                     </as-split-area>
-                    <as-split-area [size]="areaSizeB" #splitAreaB>
-                        <as-split direction="horizontal">
-                            <as-split-area>
-                                <img src="{{articlePictures[0]}}" alt="{{ currentAd?.title }} 1" />
-                            </as-split-area>
-                            @if (articlePictures[3]) {
-                            <as-split-area>
-                                <img src="{{articlePictures[3]}}" alt="{{ currentAd?.title }} 4" />
-                            </as-split-area>
-                            }
-                            @if (articlePictures[4]) {
-                            <as-split-area>
-                                <img src="{{articlePictures[4]}}" alt="{{ currentAd?.title }} 5" />
-                            </as-split-area>
-                            }
-                        </as-split>
-                    </as-split-area>
+                  }
                 </as-split>
-            </div>
+              </as-split-area>
+              <as-split-area [size]="areaSizeB" #splitAreaB>
+                <as-split direction="horizontal">
+                  <as-split-area>
+                    <img src="{{articlePictures[0]}}" alt="{{ currentAd?.title }} 1" loading="lazy"/>
+                  </as-split-area>
+                  @if (articlePictures[3]) {
+                  <as-split-area>
+                    <img src="{{articlePictures[3]}}" alt="{{ currentAd?.title }} 4" loading="lazy"/>
+                  </as-split-area>
+                  }
+                  @if (articlePictures[4]) {
+                  <as-split-area>
+                    <img src="{{articlePictures[4]}}" alt="{{ currentAd?.title }} 5" loading="lazy"/>
+                  </as-split-area>
+                  }
+                </as-split>
+              </as-split-area>
+            </as-split>
+          </div>
         </section>
 
         <!-- image view on mobile device -->
         <section class="article-picture-image-section-mobile mx-auto">
-            <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true"
-                (slide)="onSlide($event)" class="mx-auto">
-                @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
-                <ng-template ngbSlide>
-                    <div>
-                        <img class="img-wrapper" src="{{articlePicture}}" alt="" />
-                    </div>
-                </ng-template>
-                }
-            </ngb-carousel>
+          <ngb-carousel #carousel [interval]="5000" [pauseOnHover]="true" [pauseOnFocus]="true"
+            (slide)="onSlide($event)" class="mx-auto">
+            @for (articlePicture of articlePictures; track articlePicture; let i = $index) {
+              <ng-template ngbSlide>
+                <div>
+                  <img class="img-wrapper" src="{{articlePicture}}" alt="" />
+                </div>
+              </ng-template>
+            }
+          </ngb-carousel>
         </section>
 
         <!-- ad's general information section -->
         <section class="general-info mt-3">
-            <div class="title-and-price">
-                <p id="ad-title"><b>{{ currentAd?.title }}</b></p>
-                <p id="ad-price"> {{ currentAd?.price }}€</p>
-            </div>
-            <div class="other-info flex-column">
-                <p id="ad-creation-date" class="mt-2">Créée le {{ currentAd?.creationDate }}</p>
-                <p id="ad-state" class="mt-2"><b>État {{ currentAd?.articleState }}</b></p>
-                <p id="ad-description" class="mt-2">{{ currentAd?.articleDescription }}</p><br>
-            </div>
+          <div class="title-and-price">
+            <p id="ad-title"><b>{{ currentAd?.title }}</b></p>
+            <p id="ad-price">{{ currentAd?.price }}€</p>
+          </div>
+          <div class="other-info flex-column">
+            <p id="ad-creation-date" class="mt-2">Créée le {{ currentAd?.creationDate }}</p>
+            <p id="ad-state" class="mt-2"><b> {{ this.articleStateDisplay() }}</b></p>
+            <p id="ad-description" class="mt-2">{{ currentAd?.articleDescription }}</p><br>
+          </div>
         </section>
 
         <!-- CTA encart -->
         <section class="cta-encart">
-            @if (onLoggedInUserAd) {
+          @if (onLoggedInUserAd) {
             <app-cta-my-ad [myAd]="currentAd!"></app-cta-my-ad>
-            } @else {
-            <app-cta-seller-ad [myAd]="currentAd"></app-cta-seller-ad>
-            }
+          } @else {
+            <app-cta-seller-ad [ad]="currentAd"></app-cta-seller-ad>
+          }
         </section>
-    </div>
+      </div>
+
 
     <!-- similar ads section -->
     @if (!onLoggedInUserAd && similarAds.length > 0) {
-    <section class="mt-5 mb-5 similar-ads-list-section">
-        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
-            Les annonces similaires
-        </h3>
-        <div class="similar-ads">
-            @for (similarAd of similarAds; track similarAd) {
-            <app-ad-card [ad]="similarAd"></app-ad-card>
-            }
-        </div>
-    </section>
+      <section class="mt-5 mb-5">
+        <h2 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+          Les annonces similaires
+        </h2>
+        <app-ad-list [displayedAds]="similarAds" [displayedAdsNumber]="displayedAdsCount" [noMoreAds]="noMoreAds"
+          (loadMore)="loadMoreAds()" [showingSimilarAds]="true"></app-ad-list>
+      </section>
     }
 
     <!-- user's other ads section -->
-    <section class="mt-5 mb-5 other-ads-list-section">
-        <h3 id="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
-            @if (onLoggedInUserAd) {
+    @if (userOtherAds.length > 0) {
+      <section class="mt-5 mb-5">
+        <h2 class="other-ad-section-title" [ngClass]="{'text-center': isBigScreen == false, '': isBigScreen == true}">
+          @if (onLoggedInUserAd) {
             Mes autres annonces
-            } @else {
+          } @else {
             Les autres annonces de {{ currentAd?.publisherAlias }}
-            }
-        </h3>
-        <div class="user-other-ads">
-            @for (otherAd of userOtherAds; track otherAd) {
-            <a>
-                <app-ad-card [ad]="otherAd"></app-ad-card>
-            </a>
-            }
-        </div>
-    </section>
+          }
+        </h2>
+        <app-ad-list [displayedAds]="userOtherAds" [displayedAdsNumber]="displayedAdsCount" [noMoreAds]="noMoreAds"
+          (loadMore)="loadMoreAds()"></app-ad-list>
+      </section>
+    }
+  }
 </div>
-
-<!-- See more button -->
-@if (!noMoreAds && showSeeMorBtn) {
-<button type="submit" class="btn-info mt-4 mx-auto" (click)="loadMoreAds()">voir plus<img class="arrow-down-icon"
-        src="/assets/icons/buttons/arrow-down.webp" alt="icône de flèche vers le bas">
-</button>
-}
-@if (noMoreAds) {
-<div class="no-ads-message">
-    <p><i>Fin des résultats</i></p>
-</div>
-}

@@ -89,6 +89,23 @@ body {
 
 .main-container {
   margin: 11vh 2vh 0;
+  min-height: 100vh;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Animation
+.fade-in {
+  animation: fadeIn 0.9s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /*-----------------------------------------------------------------------*/
@@ -363,6 +380,18 @@ button.btn {
 
 /*-----------------------------------------------------------------------*/
 
+// Spinner
+$spinner-width: 4rem;
+$spinner-height: 4rem;
+$spinner-border-width: 0.5em;
+
+.spinner-border {
+  position: absolute;
+  top: 54%;
+}
+
+/*-----------------------------------------------------------------------*/
+
 // Connection modal
 $btn-close-color: $primary;
 $modal-content-border-color: none;
@@ -392,6 +421,7 @@ a.close {
   .form-check-input[type="checkbox"] {
     border-radius: 50%;
     border-color: $secondary;
+
     &:checked {
       background-color: $secondary;
     }
@@ -683,12 +713,19 @@ $card-height: 332px;
 $card-spacer-y: 3.1875rem;
 
 // Card container styling
+.card-img-container {
+  position: absolute;
+  border-bottom: 7px solid #ffbf6b;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 0px;
+}
+
 .card {
   width: 253px;
   cursor: pointer;
 
   &:hover {
-    .card-img-top {
+    .card-img-container {
       border-bottom: 7px solid $info;
     }
 
@@ -713,18 +750,44 @@ $card-spacer-y: 3.1875rem;
 }
 
 // Card image styling
+@mixin filter($filters...) {
+  filter: #{$filters};
+  -webkit-filter: #{$filters};
+  -moz-filter: #{$filters};
+}
+
 .card-img-top {
-  max-width: 100%;
-  max-height: 100%;
-  position: absolute;
+  object-fit: cover;
+  position: relative;
   z-index: 1;
-  width: 252px;
-  height: 224px;
-  border-bottom: 7px solid $secondary;
+  width: 252px !important;
+  height: 224px !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border-bottom-right-radius: 50px;
+  border-bottom-right-radius: 45px;
   border-bottom-left-radius: 0px;
+
+  &.SOLD {
+    @include filter(grayscale(0.5783132530120482));
+  }
+
+  &.RESERVED {
+    @include filter(
+      sepia(149%) brightness(78%) hue-rotate(360deg) saturate(192%)
+        contrast(140%) invert(13%)
+    );
+  }
+}
+
+.statusStamp {
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 // Card border styling
@@ -741,6 +804,7 @@ $card-spacer-y: 3.1875rem;
 
 // Card title styling
 .card-title {
+  margin-top: 3%;
   font-weight: 700;
   font-size: 0.875rem;
 }

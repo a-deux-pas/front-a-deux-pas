@@ -3,7 +3,6 @@
 // profile picture style
 #user-presentation .profile-picture {
   width: 208px;
-  border-radius: 50%;
   padding: 0;
 }
 
@@ -20,6 +19,11 @@
 
 // tablet and desktop version
 @media (min-width: 768px) {
+
+  #bio {
+    min-width: 700px;
+    max-width: 753px;
+  }
 
   // user information display
   #user-info {

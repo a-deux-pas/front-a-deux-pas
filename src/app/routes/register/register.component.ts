@@ -27,8 +27,7 @@ import {
   escapeHtml,
   formatText,
 } from '../../shared/utils/sanitizers/custom-sanitizers';
-import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
-import { AlertType } from '../../shared/models/alert.model';
+import { ALERTS } from '../../shared/utils/constants/alert-constants';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 
 @Component({
@@ -188,18 +187,14 @@ export class RegisterComponent implements AfterViewInit {
           localStorage.setItem('userCity', `${city} (${postalCode})`);
           this.goBack();
           setTimeout(() => {
-            this.displayManagementService.displayAlert({
-              message: AlertMessage.PROFILE_CREATED_SUCCESS,
-              type: AlertType.SUCCESS,
-            });
+            this.displayManagementService.displayAlert(
+              ALERTS.PROFILE_CREATED_SUCCESS
+            );
           }, 100);
         },
         error: (error) => {
           console.error('Error saving profile:', error);
-          this.displayManagementService.displayAlert({
-            message: AlertMessage.DEFAULT_ERROR,
-            type: AlertType.ERROR,
-          });
+          this.displayManagementService.displayAlert(ALERTS.DEFAULT_ERROR);
         },
       });
       // }
@@ -209,10 +204,7 @@ export class RegisterComponent implements AfterViewInit {
           !this.profilePicturePreview ? 'Profile picture upload failed.' : ''
         } ${!this.userId ? 'User ID is null.' : ''}`
       );
-      this.displayManagementService.displayAlert({
-        message: AlertMessage.UPLOAD_PICTURE_ERROR,
-        type: AlertType.ERROR,
-      });
+      this.displayManagementService.displayAlert(ALERTS.DEFAULT_ERROR);
     }
     // });
   }
