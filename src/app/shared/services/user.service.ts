@@ -2,13 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HandleErrorService } from '../../shared/services/handle-error.service';
 import { API_URL } from '../../shared/utils/constants/util-constants';
-import { Observable, catchError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError } from 'rxjs';
 import { UserPresentation } from '../../shared/models/user/user-presentation.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HomeService {
+export class UserService {
+  private sellerSubject = new BehaviorSubject<UserPresentation | null>(null);
+  seller$ = this.sellerSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -20,5 +22,9 @@ export class HomeService {
     return this.http.get<UserPresentation>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
+  }
+
+  setSeller(seller: UserPresentation) {
+    this.sellerSubject.next(seller);
   }
 }

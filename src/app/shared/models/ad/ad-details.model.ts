@@ -9,6 +9,7 @@ export class AdDetails {
         public price: number,
         public publisherId: number,
         public publisherAlias: string,
+        public publisherEmail: string,
         public publisherInscriptionDate: string,
         public publisherCity: string,
         public publisherPostalCode: string,

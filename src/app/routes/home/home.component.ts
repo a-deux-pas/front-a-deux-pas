@@ -9,7 +9,7 @@ import { AdCard } from '../../shared/models/ad/ad-card.model';
 import { AdService } from '../../shared/services/ad.service';
 import { UserPresentation } from '../../shared/models/user/user-presentation.model';
 import { SellersComponent } from './components/sellers/sellers.component';
-import { HomeService } from './home.service';
+import { UserService } from '../../shared/services/user.service';
 import { AdFavoriteService } from '../../shared/services/ad-favorite.service';
 import { Subscription } from 'rxjs';
 
@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
   noMoreFilteredAds: boolean = false;
   noMorefavoriteAds: boolean = false;
   favoritesSubscription!: Subscription;
+  logginSubscription!: Subscription;
   // filters
   selectedPriceRanges: string[] = [];
   selectedCities: string[] = [];
@@ -51,7 +52,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private homeService: HomeService,
+    private userService: UserService,
     private adService: AdService,
     private adFavoriteService: AdFavoriteService
   ) {}
@@ -70,7 +71,7 @@ export class HomeComponent implements OnInit {
 
   private subscribeToLoginStatus() {
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
-    this.authService.isLoggedIn().subscribe((status: boolean) => {
+    this.logginSubscription = this.authService.isLoggedIn().subscribe((status: boolean) => {
       this.isLoggedIn = status;
     });
   }
@@ -80,18 +81,20 @@ export class HomeComponent implements OnInit {
   }
 
   private fetchAdsByUserLocation() {
-    if (!this.userAlias && !this.loggedInUserCity) {
+    if (!this.userAlias || !this.loggedInUserCity) {
       this.getUserAliasAndLocation(this.userId);
     } else {
-      this.selectedCities.push(this.loggedInUserCity!);
+      this.selectedCities.push(this.loggedInUserCity);
       this.fetchPaginatedAdsList(true);
     }
   }
 
   private getUserAliasAndLocation(userId: number): void  {
-    this.homeService.getUserAliasAndLocation(userId).subscribe((data: UserPresentation) => {
+    this.userService.getUserAliasAndLocation(userId).subscribe((data: UserPresentation) => {
       this.userAlias = data.alias;
       this.loggedInUserCity = `${data.city} (${data.postalCode})`;
+      localStorage.setItem('userAlias', this.userAlias);
+      localStorage.setItem('userCity', this.loggedInUserCity);
       this.selectedCities.push(this.loggedInUserCity);
       this.fetchPaginatedAdsList(true);
     })
@@ -175,8 +178,7 @@ export class HomeComponent implements OnInit {
 
   ngOnDestroy(): void {
     // Clean subscription to prevent memory leaks
-    if (this.favoritesSubscription) {
-      this.favoritesSubscription.unsubscribe();
-    }
+    this.favoritesSubscription.unsubscribe();
+    this.logginSubscription.unsubscribe();
   }
 }

@@ -19,23 +19,15 @@ export class AdPageContentService {
 
   // Find a specific ad
   getAdById(adId: number, userId: number): Observable<AdDetails> {
-    const url = `${this.contextUrl}${adId}/${userId}`
+    const url = `${this.contextUrl}${adId}/${userId}`;
     return this.http.get<AdDetails>(url).pipe(
-      catchError(this.handleErrorService.handleError)
-    );
-  }
-
-  // Fetch a list of ads published by a specific user
-  fetchUserAds(publisherId: number, pageNumber: number, pageSize: number, loggedInUserId: number, adId: number): Observable<AdCard[]> {
-    const url = `${this.contextUrl}adPageContentList/${publisherId}/${loggedInUserId}/${adId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-    return this.http.get<AdCard[]>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
 
   // Find ads with a specific category
   getSimilarAds(category: string, publisherId: number, userId?: number): Observable<AdCard[]> {
-    const url = `${this.contextUrl}similarAdsList/${category}/${publisherId}/${userId}`
+    const url = `${this.contextUrl}similarAdsList/${category}/${publisherId}/${userId}`;
     return this.http.get<AdCard[]>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );

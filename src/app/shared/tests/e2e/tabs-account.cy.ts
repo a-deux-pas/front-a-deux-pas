@@ -1,14 +1,24 @@
 import { API_URL } from "../../utils/constants/util-constants";
 
-let apiUrl = `${API_URL}account/profile`;
+let accountUrl = `${API_URL}account/profile`;
+let adUrl = `${API_URL}ads`;
+let userUrl = `${API_URL}users`;
 
 context('account tabs testing', () => {
   beforeEach(() => {
     cy.setLoggedIn();
 
-    cy.intercept(`${apiUrl}/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
-    cy.intercept(`${apiUrl}/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
-    cy.intercept(`${apiUrl}/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
+    cy.window().then((win) => {
+      win.localStorage.setItem('userId', '1');
+      win.localStorage.setItem('userAlias', 'supercalifragilisticexpialidocious');
+    });
+
+    cy.intercept(`${userUrl}/supercalifragilisticexpialidocious/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
+    cy.intercept(`${userUrl}/1/alias-and-location*`, { fixture: 'user-profile' }).as('getUserPreferredSchedules');
+    cy.intercept(`${accountUrl}/1/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+    cy.intercept(`${accountUrl}/1/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
+    cy.intercept(`${adUrl}/adTablist/1*`, { fixture: 'user-profile' }).as('getAdsList');
+    cy.intercept(`${adUrl}/favorites/1*`, { fixture: 'user-profile' }).as('getFavoritesAdsList');
     // TODO add interceptor for each route one created
 
     cy.visit('http://localhost:4200/compte/profil');

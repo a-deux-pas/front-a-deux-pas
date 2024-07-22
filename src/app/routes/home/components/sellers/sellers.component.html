@@ -1,8 +1,7 @@
 @if (sellers.length < 4) {
   <div class="row mx-3">
     @for (seller of sellers; track seller) {
-    <!-- TODO: ajouter le lien vers le profil du vendeur -->
-      <a class="col-6 col-sm-6 col-md-4 mt-4" href="">
+      <a class="col-6 col-sm-6 col-md-4 mt-4" (click)="goToSellerProfile(seller.alias, seller)">
         <p id="seller-alias">{{ seller.alias }}</p>
         <p class="fw-bold">{{ seller.city }}</p>
         <p>{{ seller.salesNumber }} ventes </p>
@@ -12,8 +11,7 @@
 } @else {
   <div class="row mx-3" id="sellers">
     @for (seller of sellers; track seller) {
-      <!-- TODO: ajouter le lien vers le profil du vendeur -->
-      <a class="col-6 col-sm-4 col-md-2 mt-4" href="">
+      <a class="col-6 col-sm-4 col-md-2 mt-4" (click)="goToSellerProfile(seller.alias, seller)">
         <p id="seller-alias">{{ seller.alias }}</p>
         <p class="fw-bold">{{ seller.city }}</p>
         <p>{{ seller.salesNumber }} ventes </p>

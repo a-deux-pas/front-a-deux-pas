@@ -18,17 +18,17 @@
   border-radius: 8px;
   box-sizing: border-box;
   border: none;
-  
+
   .meeting-info {
-      padding: 10px;
+    padding: 10px;
 
-      h5 {
-        font-weight: bold;
+    h5 {
+      font-weight: bold;
 
-        &::first-letter {
-          text-transform: uppercase;
-        }
+      &::first-letter {
+        text-transform: uppercase;
       }
+    }
   }
 }
 
@@ -37,8 +37,8 @@
   color: black;
 
   &::after {
-      content: '';
-      display: none;
+    content: '';
+    display: none;
   }
 
   @media (min-width: 769px) {
@@ -66,9 +66,9 @@
 
   .details-header {
     a {
-       padding: 0 5px;
+      padding: 0 5px;
     }
-    
+
     img {
       width: 30px;
       padding-bottom: 10px;
@@ -78,7 +78,7 @@
       text-decoration: none !important;
       color: inherit;
     }
-    
+
     .btn-link:hover,
     .btn-link:active,
     .btn-link:focus {
@@ -109,7 +109,6 @@
 }
 
 .chat-container {
-  
   .buyer-info , .seller-info {
     padding: 15px;
     border : 1px solid $primary;
@@ -121,9 +120,8 @@
     &.to-confirm  {
       border-radius: 10px 10px 10px 0;
     }
-
   }
-  
+
   .seller-info {
     border-radius: 10px 10px 10px 0;
   }
@@ -131,7 +129,6 @@
 
 
 @media (min-width: 769px) {
-  
   .list-group  {
     padding-bottom: 1200px;
   }
@@ -145,12 +142,12 @@
   .details-container {
     details-header {
       a {
-         padding: 0 15px;
+        padding: 0 15px;
       }
     }
   }
 
-  .chat-container { 
+  .chat-container {
     padding: 0 50px;
   }
 }

@@ -14,6 +14,7 @@ import { NavbarComponent } from '../../navbar/navbar.component';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdPageContentService } from './ad-page-content.service';
 import { AdListComponent } from '../ad-list/ad-list.component';
+import { ArticleState } from '../../../models/enum/article-state.enum';
 
 @Component({
   selector: 'app-ad-page-content',
@@ -35,6 +36,7 @@ export class AdPageComponent implements OnInit {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
   onLoggedInUserAd: boolean | undefined;
+  onSellerAd!: boolean;
   @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
@@ -49,63 +51,57 @@ export class AdPageComponent implements OnInit {
   noMoreAds: boolean = false;
   userOtherAds: AdCard[] = [];
   similarAds: AdCard[] = [];
-  userId!: number;
-  displayedAdsCount!: number
+  loggedInUserId!: number;
+  adPublisherId!: number;
+  displayedAdsCount!: number;
+  isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private adService: AdService,
     private adPageContentService: AdPageContentService,
     private displayManagementService: DisplayManagementService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
-    this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerId');
-    this.userId = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')!) : 0;
-
-    this.pageSize = this.onLoggedInUserAd ? 8 : 4;
-    this.displayedAdsCount = this.pageSize;
-    this.adPageContentService.getAdById(adId, this.userId).subscribe({
+    this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
+    this.loggedInUserId = Number(localStorage.getItem('userId'));
+    sessionStorage.removeItem('adPublisherId');
+    this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
+    this.onSellerAd = !this.onLoggedInUserAd;
+    // change navbar if no user logged in
+    if (!this.loggedInUserId) {
+      this.adService.isOnSellerAdPageUnLogged(true);
+    }
+    // fetch the ad
+    this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
         this.articlePictures = [
-          // TO DO :: to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
+          // TO DO : to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
           this.currentAd.firstArticlePictureUrl,
           this.currentAd.secondArticlePictureUrl,
           this.currentAd.thirdArticlePictureUrl,
           this.currentAd.fourthArticlePictureUrl,
           this.currentAd.fifthArticlePictureUrl
         ].filter(url => !!url);
-        this.selectedPicNumber = this.articlePictures.length;
-        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length);
+        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length)
+        // fetch the ads list
+        this.pageSize = this.onLoggedInUserAd ? 8 : 4;
+        this.displayedAdsCount = this.pageSize;
+        this.fetchPaginatedAdsList();
 
-        this.fetchPaginatedAdsList()
-        if (!this.onLoggedInUserAd) {
-          this.getSimilarAds()
-          if (!this.userId) {
-            this.adService.isOnSellerAdPageUnLogged(true);
-          }
+        if (this.onSellerAd) {
+          // fetch ads list with the same category
+          this.getSimilarAds();
         }
+        // Waits pictures loading
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 600);
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.adService.isOnSellerAdPageUnLogged(false);
-  }
-
-  getSimilarAds(): void {
-    this.adPageContentService.getSimilarAds(
-      this.currentAd?.category!,
-      this.currentAd?.publisherId!,
-      this.userId
-    ).subscribe({
-      next: (similarAds: AdCard[]) => {
-        this.similarAds = similarAds;
-        return similarAds;
-      }
-    })
   }
 
   setSplitAreasSizes(nPictures: number) {
@@ -129,23 +125,47 @@ export class AdPageComponent implements OnInit {
     this.displayManagementService.onSlide(slideEvent)
   }
 
-  loadMoreAds() {
-    this.pageNumber++;
-    this.fetchPaginatedAdsList();
+  articleStateDisplay(): string {
+    return this.currentAd?.articleState === ArticleState.MINT_CONDITION
+    || this.currentAd?.articleState === ArticleState.GOOD_CONDITION ?
+      `${this.currentAd?.articleState} état`:
+      `État ${this.currentAd?.articleState.toLowerCase()}`;
+  }
+
+  getSimilarAds(): void {
+    this.adPageContentService.getSimilarAds(
+      this.currentAd?.category!,
+      this.currentAd?.publisherId!,
+      this.loggedInUserId
+    ).subscribe({
+      next: (similarAds: AdCard[]) => {
+        this.similarAds = similarAds;
+        return similarAds;
+      }
+    })
   }
 
   fetchPaginatedAdsList() {
-    this.adPageContentService.fetchUserAds(
+    this.adService.fetchUserAds(
       this.currentAd?.publisherId!,
+      this.onSellerAd ? this.adPublisherId : this.loggedInUserId,
+      this.currentAd?.id!,
       this.pageNumber,
-      this.pageSize,
-      this.userId,
-      this.currentAd?.id!
+      this.pageSize
     ).subscribe({
       next: (ads: AdCard[]) => {
         this.userOtherAds = [...this.userOtherAds, ...ads];
         this.noMoreAds = ads.length <= 0;
       }
     });
+  }
+
+  loadMoreAds() {
+    this.pageNumber++;
+    this.fetchPaginatedAdsList();
+  }
+
+  ngOnDestroy() {
+    this.adService.isOnSellerAdPageUnLogged(false)
   }
 }
