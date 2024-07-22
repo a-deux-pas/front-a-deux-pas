@@ -30,7 +30,7 @@ const routes: Routes = [
       import('./routes/register/register.component').then(
         (mod) => mod.RegisterComponent
       ),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
   },
   {
     path: 'profil/:sellerAlias',
@@ -38,7 +38,7 @@ const routes: Routes = [
       import('./routes/seller-profile/seller-profile.component' ).then(
         (mod) => mod.SellerProfileComponent
       ),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
   }
 ];
 
