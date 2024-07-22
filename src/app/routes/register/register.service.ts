@@ -6,20 +6,19 @@ import { Observable, catchError } from 'rxjs';
 import { UserProfile } from '../../shared/models/user/user-profile.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RegisterService {
-
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
   ) {}
 
   saveProfile(profile: UserProfile): Observable<any> {
-    return this.http.patch(`${API_URL}account/create`, profile, {
-      responseType: 'text' as 'json'
-    }).pipe(
-      catchError(this.handleErrorService.handleError)
-    );
+    return this.http
+      .patch(`${API_URL}account/create`, profile, {
+        responseType: 'text' as 'json',
+      })
+      .pipe(catchError(this.handleErrorService.handleError));
   }
 }
