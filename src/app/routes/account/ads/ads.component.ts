@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TabsAccountComponent } from '../../../shared/components/tabs-account/tabs-account.component';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
-import { DisplayManagementService } from '../../../shared/services/display-management.service';
 import { Router } from '@angular/router';
 import { AdCard } from '../../../shared/models/ad/ad-card.model';
 import { AdListComponent } from '../../../shared/components/ads/ad-list/ad-list.component';
