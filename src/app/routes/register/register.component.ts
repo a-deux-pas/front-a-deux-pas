@@ -71,10 +71,8 @@ export class RegisterComponent implements AfterViewInit {
   getUserprofilePicture(eventType: string, userPicture: File): void {
     if (eventType === 'thumbnailGenerated' && userPicture) {
       this.profilePicturePreview = true;
-      // this.userProfilePicture.append('profilePicture', userPicture)
       this.userProfilePicture = userPicture;
     } else if (eventType === 'fileRemoved') {
-      // this.userProfilePicture.delete('profilePicture')
       this.userProfilePicture = null;
       this.profilePicturePreview = false;
     }
@@ -170,7 +168,7 @@ export class RegisterComponent implements AfterViewInit {
       const postalCode = escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value);
       const userProfile = new UserProfile(
         this.userId,
-        '', // à remplacer par l'URL de l'image
+        '',
         userAlias,
         escapeHtml(this.profileForm.get('bio')?.value) || null,
         city,

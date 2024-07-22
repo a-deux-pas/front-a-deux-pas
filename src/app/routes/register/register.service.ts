@@ -21,7 +21,9 @@ export class RegisterService {
       type: 'application/json'
     });
 
-
+    // TO DO :: ajouter mot d'explication sur ce qu'est le blob
+    // JSON.parse will create a javascript object which is not what your backend is expecting. You need to send it as a JSON file.
+    // which is what's created by a blob
     const userProfileData: FormData = new FormData();
     userProfileData.append('profileInfo', profileBlob);
     userProfileData.append('profilePicture', profilePicFile);

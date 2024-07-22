@@ -19,3 +19,4 @@ export class UserProfile {
     public notifications?: EventNotification[],
   ) { }
 }
+// TO DO :: voir si je peux pas virer le nill de profilePicture

@@ -5,6 +5,7 @@ import { Observable, catchError } from 'rxjs';
 import { API_URL } from '../../../utils/constants/utils-constants';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { Ad } from '../../../models/ad/ad.model';
+import { AdDetails } from '../../../models/ad/ad-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,9 @@ export class AdPageContentService {
   constructor(private http: HttpClient, private handleErrorService: HandleErrorService) { }
 
   // Find a specific ad
-  getAdById(adId: number): Observable<Ad> {
+  getAdById(adId: number): Observable<AdDetails> {
     const url = `${this.contextUrl}${adId}`
-    return this.http.get<Ad>(url).pipe(
+    return this.http.get<AdDetails>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }

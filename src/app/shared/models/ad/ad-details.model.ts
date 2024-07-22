@@ -2,7 +2,7 @@ export class AdDetails {
     constructor(
         public id?: number,
         public title?: string,
-        public articlePictures?: string[],
+        public articlePictures?: string[] | null,
         public price?: number,
         public publisherId?: number,
         public publisherAlias?: string,
@@ -18,3 +18,4 @@ export class AdDetails {
         public articleGender?: string,
     ) { }
 }
+// TO DO :: voir ce qui doit rester optionnel (tous sauf title, price, publisherId, articleState, articleDescription, category, subcategory)

@@ -1,5 +1,4 @@
 import { Component, Input, ElementRef, Renderer2, OnInit, AfterViewInit, AfterViewChecked, ViewChild, QueryList, ViewChildren } from '@angular/core';
-import { UploadPictureService } from '../../../services/upload-picture.service';
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, forkJoin, map, of, tap } from 'rxjs';
@@ -37,16 +36,16 @@ export class AdFormComponent implements AfterViewChecked {
   // TO DO: check if I'll have to merge adModel and adDetails model (fix cloudinary branch)
   // TODO :: checker si toutes les propriétés sont utiles 
   ad: AdDetails = new AdDetails();
+  //TODO:: a virer
   today: Date = new Date()
   selectedPicNumber: number = 2;
-  articlePictures: FormData[] = [];
   states = Object.values(ArticleState);
   categories = Object.values(Category);
   disabledFields: boolean = false;
   hasInteractedWithDropzone: boolean = false;
   @ViewChildren(DropzoneComponent) dropzoneComponents!: QueryList<DropzoneComponent>;
   @ViewChild('dropzoneContainer') dropzoneContainer!: ElementRef;
-  filesArrays: FormData[] = [];
+  articlePictures: File[] = [];
 
   // TO DO : mutualiser ca qqpart pour eviter la repetition entre adForm et profilePic componenet
   // TODO :: variabiliser thumbnailWidth et thumbnailHeight ?
@@ -74,7 +73,6 @@ export class AdFormComponent implements AfterViewChecked {
 
   constructor(
     private adformService: AdFormService,
-    private uploadPictureService: UploadPictureService,
     private imageService: ImageService,
     private router: Router,
     private displayManagementService: DisplayManagementService,
@@ -123,24 +121,19 @@ export class AdFormComponent implements AfterViewChecked {
         const dropzone = dropzoneComp.directiveRef?.dropzone();
         if (dropzone) {
           dropzone.on('thumbnail', (addedFile: File) => {
-            const fileExistsInArray = this.filesArrays.some(formData => formData.get('multipartFile') === addedFile);
+            const fileExistsInArray = this.articlePictures.some(file => file === addedFile);
             if (!fileExistsInArray) {
-              const formData = new FormData();
-              formData.append('multipartFile', addedFile);
-              if (index = 0) {
-                this.filesArrays.unshift(formData);
+              if (index === 0) {
+                this.articlePictures.unshift(addedFile);
               } else {
-                this.filesArrays.push(formData);
+                this.articlePictures.push(addedFile);
               }
             }
           });
           dropzone.on('removedfile', (removedfile: File) => {
-            const formDataToRemove = this.filesArrays.find(formData => formData.get('multipartFile') === removedfile);
-            if (formDataToRemove) {
-              const indexToRemove = this.filesArrays.indexOf(formDataToRemove);
-              if (indexToRemove !== -1) {
-                this.filesArrays.splice(indexToRemove, 1);
-              }
+            const indexToRemove = this.articlePictures.findIndex(file => file === removedfile);
+            if (indexToRemove !== -1) {
+              this.articlePictures.splice(indexToRemove, 1);
             }
           });
         }
@@ -194,43 +187,6 @@ export class AdFormComponent implements AfterViewChecked {
     this.hasInteractedWithDropzone = true;
   }
 
-  uploadArticlePictures(): Observable<any> {
-    this.ad.articlePictures = [];
-
-    let uploadObservables: Observable<any>[] = [];
-
-    let trimmedAdTitle = escapeHtml(this.ad.title!).trim();
-
-    for (let i = 0; i < this.filesArrays.length; i++) {
-      let publicId = `articlePicture-${trimmedAdTitle}-${i + 1}`;
-      uploadObservables.push(
-        this.imageService.upload(this.filesArrays[i], publicId).pipe(
-          map(response => ({
-            imageUrl: response.imageUrl
-
-          })),
-          catchError((error: any) => {
-            console.error('Error occurred during image upload:', error);
-            // Handle the error as needed, e.g., return a fallback value
-            return of({ secure_url: null });
-          })
-        )
-      );
-    }
-    return forkJoin(uploadObservables).pipe(
-      tap((responses: any[]) => {
-        this.ad.articlePictures = responses
-          .filter(response => response.imageUrl)
-          .map(response => response.imageUrl);
-        console.log('articlePictures after upload:', this.ad.articlePictures);
-      }),
-      catchError((error: any) => {
-        console.error('Error occurred during image upload:', error);
-        throw error;
-      })
-    );
-  }
-
   // image selection carrousel for mobile device
   togglePaused() {
     this.displayManagementService.togglePaused()
@@ -251,36 +207,33 @@ export class AdFormComponent implements AfterViewChecked {
 
   // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
-    this.sanitizeTheInputs()
-    this.uploadArticlePictures().subscribe({
-      next: () => {
-        this.ad.creationDate = this.today.toISOString();
-        this.ad.subcategory = this.ad.category == "Autre" ?
-          Subcategory.OTHER_SUBCATEGORY :
-          this.ad.subcategory.name;
-        this.ad.publisherId = Number(localStorage.getItem('userId')!);
-        this.adformService.postAd(this.ad).subscribe({
-          next: (ad: AdDetails) => {
-            this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
-            setTimeout(() => {
-              this.displayManagementService.displayAlert({
-                message: AlertMessage.AD_CREATED_SUCCES,
-                type: AlertType.SUCCESS
-              });
-            }, 100);
-          },
-          error: (error: any) => {
-            this.displayManagementService.displayAlert({
-              message: AlertMessage.DEFAULT_ERROR,
-              type: AlertType.ERROR
-            });
-          }
-        });
+    this.sanitizeTheInputs();
+    // this.ad.creationDate = this.today;
+    this.ad.subcategory = this.ad.category == "Autre" ?
+      Subcategory.OTHER_SUBCATEGORY :
+      this.ad.subcategory.name;
+    this.ad.publisherId = Number(localStorage.getItem('userId')!);
+    console.table(this.articlePictures)
+    console.table(this.ad)
+    console.log('thisAdType:: ', typeof this.ad);
+    this.adformService.postAd(this.ad, this.articlePictures).subscribe({
+      next: (ad: AdDetails) => {
+        console.log('Réponse complète du backend:', JSON.stringify(ad));
+        console.log('Type de ad:', typeof ad);
+        console.log('ad est-il null ou undefined?', ad == null);
+        console.log('Propriétés de ad:', Object.keys(ad));
+        console.log('Valeur de ad.id:', ad.id);
+        this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
+        setTimeout(() => {
+          this.displayManagementService.displayAlert({
+            message: AlertMessage.AD_CREATED_SUCCES,
+            type: AlertType.SUCCESS
+          });
+        }, 100);
       },
       error: (error: any) => {
-        console.error('Error occurred during image upload:', error);
         this.displayManagementService.displayAlert({
-          message: AlertMessage.UPLOAD_PICTURE_ERROR,
+          message: AlertMessage.DEFAULT_ERROR,
           type: AlertType.ERROR
         });
       }

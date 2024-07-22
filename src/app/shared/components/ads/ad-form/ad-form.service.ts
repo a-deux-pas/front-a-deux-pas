@@ -3,7 +3,6 @@ import { HandleErrorService } from '../../../services/handle-error.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { API_URL } from '../../../utils/constants/utils-constants';
-import { Ad } from '../../../models/ad/ad.model';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 
 @Injectable({
@@ -16,10 +15,19 @@ export class AdFormService {
     private handleErrorService: HandleErrorService
   ) { }
 
-  postAd(ad: AdDetails): Observable<any> {
+  postAd(ad: AdDetails, adPicFile: File[]): Observable<AdDetails> {
     const url = `${API_URL}ads/create`
-    return this.http.post(url, ad).pipe(
+    const adJson = JSON.stringify(ad)
+    const adBlob = new Blob([adJson], {
+      type: 'application/json'
+    })
+    const adData: FormData = new FormData();
+    adData.append('adInfo', adBlob);
+    adPicFile.forEach((file, index) => {
+      adData.append(`adPicture-${index + 1}`, file);
+    });
+    return this.http.post(url, adData).pipe(
       catchError(this.handleErrorService.handleError)
     );
-  }
+  };
 }
