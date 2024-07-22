@@ -26,7 +26,7 @@ export class AdFormService {
     adPicFile.forEach((file, index) => {
       adData.append(`adPicture-${index + 1}`, file);
     });
-    return this.http.post(url, adData).pipe(
+    return this.http.post<AdDetails>(url, adData).pipe(
       catchError(this.handleErrorService.handleError)
     );
   };

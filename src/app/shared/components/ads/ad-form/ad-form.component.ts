@@ -1,5 +1,6 @@
 import { Component, Input, ElementRef, Renderer2, OnInit, AfterViewInit, AfterViewChecked, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { DisplayManagementService } from '../../../services/display-management.service';
+// TO DO :: virer articlePcture model
 import { ArticlePicture } from '../../../models/ad/article-picture.model';
 import { Observable, Subscription, catchError, forkJoin, map, of, tap } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
@@ -19,6 +20,7 @@ import { escapeHtml } from '../../../utils/sanitizers/custom-sanitizers';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { ImageService } from '../../../services/image.service';
 import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
+import { DropzoneConfigService } from '../../../services/dropzone-config.service';
 import { any } from 'cypress/types/bluebird';
 
 @Component({
@@ -33,43 +35,26 @@ export class AdFormComponent implements AfterViewChecked {
   @Input() isCreateAdForm!: boolean;
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
-  // TO DO: check if I'll have to merge adModel and adDetails model (fix cloudinary branch)
-  // TODO :: checker si toutes les propriétés sont utiles 
-  ad: AdDetails = new AdDetails();
-  //TODO:: a virer
-  today: Date = new Date()
+  ad = new AdDetails(
+    1, "", 2, "", "", "", ""
+  );
   selectedPicNumber: number = 2;
   states = Object.values(ArticleState);
   categories = Object.values(Category);
   disabledFields: boolean = false;
+  // TODO :: checker à quoi ca sert
   hasInteractedWithDropzone: boolean = false;
   @ViewChildren(DropzoneComponent) dropzoneComponents!: QueryList<DropzoneComponent>;
   @ViewChild('dropzoneContainer') dropzoneContainer!: ElementRef;
   articlePictures: File[] = [];
-
-  // TO DO : mutualiser ca qqpart pour eviter la repetition entre adForm et profilePic componenet
   // TODO :: variabiliser thumbnailWidth et thumbnailHeight ?
-  config: DropzoneConfigInterface = {
-    url: '/',
-    acceptedFiles: 'image/*',
-    uploadMultiple: false,
-    createImageThumbnails: true,
-    resizeMethod: "contain",
-    thumbnailWidth: 230,
-    thumbnailHeight: 230,
-    addRemoveLinks: true,
-    dictRemoveFile: "×",
-    clickable: true,
-    maxFiles: 1,
-  };
-
+  config: DropzoneConfigInterface;
   customMessage: string = `
     <div class="dropzone-add">
       <img src="assets/icons/buttons/add-orange.webp" alt="Icône d'ajout de photo" class="dropzone-icon" />
       <span>ajouter une photo</span>
     </div>
   `;
-
 
   constructor(
     private adformService: AdFormService,
@@ -78,14 +63,18 @@ export class AdFormComponent implements AfterViewChecked {
     private displayManagementService: DisplayManagementService,
     private location: Location,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private dropzoneConfigService: DropzoneConfigService,
   ) {
+    this.config = this.dropzoneConfigService.getConfig();
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
     });
   }
 
   ngAfterViewChecked(): void {
+    this.dropzoneConfigService.setThumbnailDimensions(400, 400);
+    this.config = this.dropzoneConfigService.getConfig();
     this.updateDropzoneDimension(this.selectedPicNumber);
     this.updateArticlePicture()
   }
@@ -201,28 +190,19 @@ export class AdFormComponent implements AfterViewChecked {
   }
 
   sanitizeTheInputs() {
-    escapeHtml(this.ad.title!)
-    escapeHtml(this.ad.articleDescription!)
+    escapeHtml(this.ad!.title!)
+    escapeHtml(this.ad!.articleDescription!)
   }
 
   // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
     this.sanitizeTheInputs();
-    // this.ad.creationDate = this.today;
-    this.ad.subcategory = this.ad.category == "Autre" ?
+    this.ad!.subcategory = this.ad!.category == "Autre" ?
       Subcategory.OTHER_SUBCATEGORY :
-      this.ad.subcategory.name;
+      this.ad!.subcategory.name;
     this.ad.publisherId = Number(localStorage.getItem('userId')!);
-    console.table(this.articlePictures)
-    console.table(this.ad)
-    console.log('thisAdType:: ', typeof this.ad);
-    this.adformService.postAd(this.ad, this.articlePictures).subscribe({
+    this.adformService.postAd(this.ad!, this.articlePictures).subscribe({
       next: (ad: AdDetails) => {
-        console.log('Réponse complète du backend:', JSON.stringify(ad));
-        console.log('Type de ad:', typeof ad);
-        console.log('ad est-il null ou undefined?', ad == null);
-        console.log('Propriétés de ad:', Object.keys(ad));
-        console.log('Valeur de ad.id:', ad.id);
         this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
         setTimeout(() => {
           this.displayManagementService.displayAlert({
