@@ -4,7 +4,6 @@ import { HandleErrorService } from '../../../services/handle-error.service';
 import { Observable, catchError } from 'rxjs';
 import { API_URL } from '../../../utils/constants/utils-constants';
 import { AdCard } from '../../../models/ad/ad-card.model';
-import { Ad } from '../../../models/ad/ad.model';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 
 @Injectable({

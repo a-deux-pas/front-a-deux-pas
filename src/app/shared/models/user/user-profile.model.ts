@@ -1,4 +1,3 @@
-import { Picture } from "../picture.model";
 import { EventNotification } from "./event-notification.model";
 import { PreferredMeetingPlace } from "./preferred-meeting-place.model";
 import { PreferredSchedule } from "./preferred-schedule.model";
@@ -19,4 +18,3 @@ export class UserProfile {
     public notifications?: EventNotification[],
   ) { }
 }
-// TO DO :: voir si je peux pas virer le nill de profilePicture

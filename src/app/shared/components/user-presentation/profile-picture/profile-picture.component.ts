@@ -2,7 +2,6 @@ import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angu
 import { FormGroupDirective } from '@angular/forms';
 import { DropzoneConfigService } from '../../../services/dropzone-config.service';
 import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
-import { ImageService } from '../../../services/image.service';
 
 @Component({
   selector: 'app-profile-picture',
@@ -28,7 +27,8 @@ export class ProfilePictureComponent implements AfterViewInit {
     </div>
   `;
 
-  constructor(public parentForm: FormGroupDirective, private imageService: ImageService, private dropzoneConfigService: DropzoneConfigService) {
+  constructor(public parentForm: FormGroupDirective,
+    private dropzoneConfigService: DropzoneConfigService) {
     this.config = this.dropzoneConfigService.getConfig();
   }
 

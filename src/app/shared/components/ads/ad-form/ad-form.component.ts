@@ -1,8 +1,6 @@
-import { Component, Input, ElementRef, Renderer2, OnInit, AfterViewInit, AfterViewChecked, ViewChild, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input, ElementRef, Renderer2, AfterViewChecked, ViewChild, QueryList, ViewChildren } from '@angular/core';
 import { DisplayManagementService } from '../../../services/display-management.service';
-// TO DO :: virer articlePcture model
-import { ArticlePicture } from '../../../models/ad/article-picture.model';
-import { Observable, Subscription, catchError, forkJoin, map, of, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { NgClass, Location } from '@angular/common'
@@ -18,10 +16,8 @@ import { AlertMessage } from '../../../models/enum/alert-message.enum';
 import { AlertType } from '../../../models/alert.model';
 import { escapeHtml } from '../../../utils/sanitizers/custom-sanitizers';
 import { AdDetails } from '../../../models/ad/ad-details.model';
-import { ImageService } from '../../../services/image.service';
 import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigService } from '../../../services/dropzone-config.service';
-import { any } from 'cypress/types/bluebird';
 
 @Component({
   selector: 'app-ad-form',
@@ -49,6 +45,7 @@ export class AdFormComponent implements AfterViewChecked {
   articlePictures: File[] = [];
   // TODO :: variabiliser thumbnailWidth et thumbnailHeight ?
   config: DropzoneConfigInterface;
+  configMobile: DropzoneConfigInterface;
   customMessage: string = `
     <div class="dropzone-add">
       <img src="assets/icons/buttons/add-orange.webp" alt="Icône d'ajout de photo" class="dropzone-icon" />
@@ -58,7 +55,6 @@ export class AdFormComponent implements AfterViewChecked {
 
   constructor(
     private adformService: AdFormService,
-    private imageService: ImageService,
     private router: Router,
     private displayManagementService: DisplayManagementService,
     private location: Location,
@@ -66,16 +62,20 @@ export class AdFormComponent implements AfterViewChecked {
     private renderer: Renderer2,
     private dropzoneConfigService: DropzoneConfigService,
   ) {
-    this.config = this.dropzoneConfigService.getConfig();
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
     });
+    this.config = this.dropzoneConfigService.getConfig();
+    this.configMobile = this.dropzoneConfigService.getConfigMobile();
+
   }
 
   ngAfterViewChecked(): void {
     this.dropzoneConfigService.setThumbnailDimensions(400, 400);
     this.config = this.dropzoneConfigService.getConfig();
-    this.updateDropzoneDimension(this.selectedPicNumber);
+    if (this.isBigScreen) {
+      this.updateDropzoneDimension(this.selectedPicNumber);
+    }
     this.updateArticlePicture()
   }
 
@@ -194,7 +194,6 @@ export class AdFormComponent implements AfterViewChecked {
     escapeHtml(this.ad!.articleDescription!)
   }
 
-  // TO DO :: a revoir (fix Cloudinary branch)
   onSubmit() {
     this.sanitizeTheInputs();
     this.ad!.subcategory = this.ad!.category == "Autre" ?

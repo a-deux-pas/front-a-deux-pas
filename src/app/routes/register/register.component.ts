@@ -16,8 +16,6 @@ import { DisplayManagementService } from '../../shared/services/display-manageme
 import { escapeHtml, formatText } from '../../shared/utils/sanitizers/custom-sanitizers';
 import { AlertMessage } from '../../shared/models/enum/alert-message.enum';
 import { AlertType } from '../../shared/models/alert.model';
-import { ImageService } from '../../shared/services/image.service';
-import { Picture } from '../../shared/models/picture.model';
 
 @Component({
   selector: 'app-register',
@@ -44,9 +42,7 @@ export class RegisterComponent implements AfterViewInit {
     private displayManagementService: DisplayManagementService,
     private registerService: RegisterService,
     private location: Location,
-    private cd: ChangeDetectorRef,
-    // TO DO :: une fois que ca fonctionne à remplacer par image upload service
-    private imageService: ImageService
+    private cd: ChangeDetectorRef
   ) {
     this.profileForm = this.formBuilder.group({
       alias: ['', {
@@ -100,67 +96,6 @@ export class RegisterComponent implements AfterViewInit {
     );
   }
 
-
-  // onSubmit() {
-  //   try {
-  //     if (!this.profilePicturePreview || !this.userId) {
-  //       throw new Error('Profile picture upload failed or User ID is null.');
-  //     }
-
-
-  //     const formData = new FormData();
-
-  //     // if (this.userProfilePicture) {
-  //     //   this.userProfilePicture.publicId = `profilePicture-${this.profileForm.get('alias')?.value}`
-  //     //   formData.append('file', this.userProfilePicture.file, this.userProfilePicture.publicId);
-  //     // }
-
-  //     this.userProfilePicture.append('publicId', `profilePicture-${this.profileForm.get('alias')?.value}`)
-
-
-
-  //     // Prepare user profile data
-  //     const profileData = {
-  //       id: this.userId,
-  //       alias: escapeHtml(this.profileForm.get('alias')?.value),
-  //       bio: escapeHtml(this.profileForm.get('bio')?.value) || null,
-  //       city: formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value)),
-  //       street: escapeHtml(this.profileForm.get('address')?.get('street')?.value),
-  //       postalCode: escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value),
-  //       bankAccountHolder: escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
-  //       bankAccountNumber: escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
-  //       preferredSchedules: this.preferredSchedules,
-  //       preferredMeetingPlaces: this.preferredMeetingPlaces,
-  //       notifications: this.notifications
-  //     };
-
-  //     formData.append('profileData', JSON.stringify(profileData));
-
-  //     // Save user profile
-  //     const saveResponse = this.registerService.saveProfile(formData).toPromise();
-  //     console.log('Profile saved:', saveResponse);
-  //     localStorage.setItem('userAlias', userAlias);
-  //     localStorage.setItem('userCity', `${city} (${postalCode})`);
-  //     console.error(this.userProfilePicture)
-
-  //     // Display success message and navigate back
-  //     this.goBack();
-  //     setTimeout(() => {
-  //       this.displayManagementService.displayAlert({
-  //         message: AlertMessage.PROFILE_CREATED_SUCCESS,
-  //         type: AlertType.SUCCESS
-  //       });
-  //     }, 100);
-
-  //   } catch (error) {
-  //     console.error('Error submitting profile:', error);
-  //     this.displayManagementService.displayAlert({
-  //       message: AlertMessage.DEFAULT_ERROR,
-  //       type: AlertType.ERROR
-  //     });
-  //   }
-  // }
-
   onSubmit() {
     if (this.profilePicturePreview && this.userId) {
       const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
@@ -199,9 +134,7 @@ export class RegisterComponent implements AfterViewInit {
           });
         }
       });
-      // }
     }
-    // });
   }
 
   goBack() {
