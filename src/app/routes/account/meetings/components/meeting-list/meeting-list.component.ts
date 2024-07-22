@@ -68,7 +68,7 @@ export class MeetingListComponent {
     if (this.currentUserId === meeting.buyerId) {
       return (meeting.buyerDistinctiveSign);
     } else {
-      return meeting.buyerDistinctiveSign
+      return meeting.buyerDistinctiveSign;
     }
   }
 
@@ -76,7 +76,7 @@ export class MeetingListComponent {
     if (this.currentUserId === meeting.sellerId) {
       return (meeting.sellerDistinctiveSign);
     } else {
-      return meeting.sellerDistinctiveSign
+      return meeting.sellerDistinctiveSign;
     }
   }
 
@@ -84,7 +84,7 @@ export class MeetingListComponent {
     if (this.currentUserId === meeting.buyerId) {
       return (meeting.buyerAdditionalInfo);
     } else {
-      return meeting.buyerAdditionalInfo
+      return meeting.buyerAdditionalInfo;
     }
   }
 
@@ -92,8 +92,7 @@ export class MeetingListComponent {
     if (this.currentUserId === meeting.sellerId) {
       return (meeting.sellerAdditionalInfo);
     } else {
-      return meeting.sellerAdditionalInfo
+      return meeting.sellerAdditionalInfo;
     }
   }
-  
 }

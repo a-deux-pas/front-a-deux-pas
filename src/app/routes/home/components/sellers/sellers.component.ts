@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SellersService } from './sellers.service';
 import { UserPresentation } from '../../../../shared/models/user/user-presentation.model';
-import { NavigationExtras, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { UserService } from '../../../../shared/services/user.service';
 
 @Component({
   selector: 'app-sellers',
@@ -14,7 +15,10 @@ export class SellersComponent implements OnInit {
   userId: number = Number(localStorage.getItem('userId'));
   sellers: UserPresentation[] = [];
 
-  constructor(private sellerService: SellersService, private router: Router) {}
+  constructor(
+    private sellerService: SellersService,
+    private userService: UserService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.fetchSellersNearby(this.userId);
@@ -31,9 +35,7 @@ export class SellersComponent implements OnInit {
   }
 
   goToSellerProfile(alias: string, seller: UserPresentation): void {
-    let sellerObject: NavigationExtras = { queryParams: { seller } };
-    this.router.navigate(['/profil', alias],
-      { state: { seller : sellerObject } },
-    );
+    this.router.navigate(['/profil', alias]);
+    this.userService.setSeller(seller);
   }
 }

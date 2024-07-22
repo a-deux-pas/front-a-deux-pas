@@ -67,14 +67,9 @@ export class CtaSellerAdComponent implements OnInit {
     }
   }
 
-  goToSellerProfile(sellerAlias: string | undefined, sellerId: number |undefined) {
-    if (this.isUserLoggedIn) {
-      if (sellerAlias && sellerId) {
-        let seller : NavigationExtras = { queryParams: { sellerId } };
-        this.router.navigate(['/profil', sellerAlias], {
-          state : { seller }
-        });
-      }
+  goToSellerProfile(sellerAlias: string | undefined) {
+    if (sellerAlias) {
+      this.router.navigate(['/profil', sellerAlias]);
     } else {
       this.openModal()
     }

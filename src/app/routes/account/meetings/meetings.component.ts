@@ -9,7 +9,7 @@ import { filter } from 'rxjs/operators';
     templateUrl: './meetings.component.html',
     styleUrl: './meetings.component.scss',
     standalone: true,
-    imports: [TabsAccountComponent, RouterModule,CommonModule]
+    imports: [TabsAccountComponent, RouterModule, CommonModule]
 })
 export class MeetingsComponent implements OnInit {
   activeTab: string = 'proposes';
