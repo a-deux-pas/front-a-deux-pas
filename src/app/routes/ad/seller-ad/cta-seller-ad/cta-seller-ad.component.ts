@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AdFavoriteService } from '../../../../shared/services/ad-favorite.service';
 
 @Component({
