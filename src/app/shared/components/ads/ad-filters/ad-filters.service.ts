@@ -3,7 +3,7 @@ import { Observable, catchError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../../../utils/constants/util-constants';
 import { HandleErrorService } from '../../../services/handle-error.service';
-import { UserAliasAndLocation } from '../../../models/user/user-alias-and-location.interface';
+import { UserAliasAndLocation } from '../../../models/user/user-alias-and-location.model';
 
 @Injectable({
   providedIn: 'root',

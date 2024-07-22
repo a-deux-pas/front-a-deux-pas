@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SellersService } from './sellers.service';
-import { UserPresentation } from '../../../../shared/models/user/user-presentation.interface';
+import { UserPresentation } from '../../../../shared/models/user/user-presentation.model';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../../shared/services/user.service';
 

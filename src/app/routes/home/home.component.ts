@@ -11,7 +11,7 @@ import { SellersComponent } from './components/sellers/sellers.component';
 import { UserService } from '../../shared/services/user.service';
 import { AdFavoriteService } from '../../shared/services/ad-favorite.service';
 import { Subscription } from 'rxjs';
-import { UserAliasAndLocation } from '../../shared/models/user/user-alias-and-location.interface';
+import { UserAliasAndLocation } from '../../shared/models/user/user-alias-and-location.model';
 
 @Component({
   selector: 'app-home',

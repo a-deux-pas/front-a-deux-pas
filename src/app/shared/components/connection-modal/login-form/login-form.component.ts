@@ -32,9 +32,9 @@ export class LoginFormComponent {
   ) {
     this.loginForm = this.fb.group({
       email: ['',  {
-        validators: [Validators.required, Validators.email],
-        asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(false),
-        updateOn: 'blur'
+          validators: [Validators.required, Validators.email],
+          asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(false),
+          updateOn: 'blur'
         }
       ],
       password: ['', {
@@ -55,6 +55,11 @@ export class LoginFormComponent {
         }
       });
     }
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.loginForm.get(fieldName)!;
+    return field.invalid && (field.dirty || field.touched);
   }
 
   togglePasswordVisibility() {

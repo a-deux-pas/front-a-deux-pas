@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { HandleErrorService } from '../../shared/services/handle-error.service';
 import { API_URL } from '../../shared/utils/constants/util-constants';
 import { BehaviorSubject, Observable, catchError } from 'rxjs';
-import { UserAliasAndLocation } from '../models/user/user-alias-and-location.interface';
-import { UserPresentation } from '../models/user/user-presentation.interface';
+import { UserAliasAndLocation } from '../models/user/user-alias-and-location.model';
+import { UserPresentation } from '../models/user/user-presentation.model';
 
 @Injectable({
   providedIn: 'root'

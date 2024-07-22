@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserPresentation } from '../../../shared/models/user/user-presentation.interface';
+import { UserPresentation } from '../../../shared/models/user/user-presentation.model';
 import { ProfileService } from './profile.service';
 import { PreferredSchedule } from '../../../shared/models/user/preferred-schedule.model';
 import { PreferredMeetingPlace } from '../../../shared/models/user/preferred-meeting-place.model';
@@ -11,7 +11,7 @@ import { TabsAccountComponent } from '../../../shared/components/tabs-account/ta
 import { CommonModule } from '@angular/common';
 import { UserPresentationService } from '../../../shared/components/user-presentation/user-presentation.service';
 import { UserService } from '../../../shared/services/user.service';
-import { UserAliasAndLocation } from '../../../shared/models/user/user-alias-and-location.interface';
+import { UserAliasAndLocation } from '../../../shared/models/user/user-alias-and-location.model';
 
 @Component({
   selector: 'app-profile',

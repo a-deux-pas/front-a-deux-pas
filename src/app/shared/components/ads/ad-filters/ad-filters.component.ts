@@ -11,7 +11,7 @@ import { PriceRange } from '../../../models/enum/price-range.enum';
 import { AdFiltersService } from './ad-filters.service';
 import { Categories } from '../../../utils/constants/categories-arrangement';
 import { CommonModule } from '@angular/common';
-import { UserAliasAndLocation } from '../../../models/user/user-alias-and-location.interface';
+import { UserAliasAndLocation } from '../../../models/user/user-alias-and-location.model';
 
 @Component({
   selector: 'app-ad-filters',

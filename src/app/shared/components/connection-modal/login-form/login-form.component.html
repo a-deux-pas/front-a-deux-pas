@@ -10,20 +10,17 @@
       required
     />
   </div>
-  @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty
-  || loginForm.get('email')?.touched)) {
-  <div class="error-msg mt-2">
-    @if (loginForm.get('email')?.errors?.['required']) {
-    <div>L'adresse email est requise</div>
-    }
-    @if (loginForm.get('email')?.errors?.['email']) {
-    <div>L'adresse email n'est pas valide</div>
-    }
-    @if (loginForm.get('email')?.errors?.['emailAddressNotFound']) {
-      <div>Aucun utilisateur n'est enregitré avec cette adresse email</div>
+  @if (isFieldInvalid('email')) {
+    <div class="error-msg mt-2">
+      @if (loginForm.get('email')?.errors?.['required']) {
+        <div>L'adresse email est requise</div>
       }
-  </div>
+      @if (loginForm.get('email')?.errors?.['email']) {
+        <div>L'adresse email n'est pas valide</div>
+      }
+    </div>
   }
+
   <label for="password" class="mt-4">Mot de passe</label>
   <div class="input-group mt-2" id="password-input-wrapper">
     <input
@@ -35,7 +32,7 @@
       required
     />
     <button type="button"
-      id="btn-password-visibility"
+      class="btn-password-visibility"
       (click)="togglePasswordVisibility()">
       <img
         src="assets/icons/buttons/visible.webp"
@@ -48,18 +45,19 @@
         [hidden]="showPassword">
     </button>
   </div>
-  @if (loginForm.get('password')?.invalid &&
-  (loginForm.get('password')?.dirty ||
-  loginForm.get('password')?.touched)) {
-  <div class="error-msg mt-2">
+  @if (isFieldInvalid('password')) {
     @if (loginForm.get('password')?.errors?.['required']) {
-    <div>Le mot de passe est requis</div>
+      <div class="error-msg mt-2">Le mot de passe est requis</div>
     }
-    @if (loginForm.get('password')?.errors?.['incorrectPassword']) {
-      <div>Le mot de passe que vous avez saisi est incorrect. Veuillez réessayer</div>
-    }
-  </div>
   }
+
+  @if (isFieldInvalid('email') || isFieldInvalid('password') ) {
+    @if (loginForm.get('email')?.errors?.['emailAddressNotFound']
+    || loginForm.get('password')?.errors?.['incorrectPassword']) {
+      <div class="error-msg mt-2"> L'email et/ou le mot de passe renseigné est incorrect. Veuillez réessayer</div>
+    }
+  }
+
   <div class="form-check mt-4">
     <input
       class="form-check-input"
@@ -72,6 +70,7 @@
       Rester connecté
     </label>
   </div>
+
   <div class="modal-footer justify-content-center mt-4">
     <button type="submit" class="btn-success" [disabled]="loginForm.invalid">
       C'est parti !

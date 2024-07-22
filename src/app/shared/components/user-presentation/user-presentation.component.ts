@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UserPresentation } from '../../models/user/user-presentation.interface';
+import { UserPresentation } from '../../models/user/user-presentation.model';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
