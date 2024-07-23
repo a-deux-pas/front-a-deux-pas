@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { HandleErrorService } from '../../shared/services/handle-error.service';
 import { API_URL } from '../../shared/utils/constants/util-constants';
 import { BehaviorSubject, Observable, catchError } from 'rxjs';
-import { UserPresentation } from '../../shared/models/user/user-presentation.model';
+import { UserAliasAndLocation } from '../models/user/user-alias-and-location.model';
+import { UserPresentation } from '../models/user/user-presentation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,9 @@ export class UserService {
     private handleErrorService: HandleErrorService
   ) {}
 
-  getUserAliasAndLocation(userId: number): Observable<UserPresentation> {
+  getUserAliasAndLocation(userId: number): Observable<UserAliasAndLocation> {
     const url = `${API_URL}users/${userId}/alias-and-location`;
-    return this.http.get<UserPresentation>(url).pipe(
+    return this.http.get<UserAliasAndLocation>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }

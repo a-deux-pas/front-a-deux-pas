@@ -11,7 +11,7 @@ import { PriceRange } from '../../../models/enum/price-range.enum';
 import { AdFiltersService } from './ad-filters.service';
 import { Categories } from '../../../utils/constants/categories-arrangement';
 import { CommonModule } from '@angular/common';
-import { CityAndPostalCodeResponse } from '../../../models/user/city-and-postal-code-response.model';
+import { UserAliasAndLocation } from '../../../models/user/user-alias-and-location.model';
 
 @Component({
   selector: 'app-ad-filters',
@@ -225,13 +225,14 @@ export class AdFiltersComponent {
   }
 
   private formatCitiesAndPostalCodesForDisplay(
-    citiesAndPostalCodes: CityAndPostalCodeResponse[]
+    citiesAndPostalCodes: UserAliasAndLocation[]
   ) {
-    citiesAndPostalCodes.forEach((cityAndPostalCode) =>
-      this.uniqueCitiesAndPostalCodes.push(
-        // formatting the string used in the 'City' filter template to display : 'City (postal code)'
-        `${cityAndPostalCode.city} (${cityAndPostalCode.postalCode})`
-      )
+    citiesAndPostalCodes.forEach((cityAndPostalCode) => {
+        this.uniqueCitiesAndPostalCodes.push(
+          // formatting the string used in the 'City' filter template to display : 'City (postal code)'
+          `${cityAndPostalCode.city} (${cityAndPostalCode.postalCode})`
+        );
+      }
     );
     // Sort the uniqueCitiesAndPostalCodes array using localeCompare for reliable alphabetical sorting
     this.uniqueCitiesAndPostalCodes.sort((a, b) => a.localeCompare(b));
