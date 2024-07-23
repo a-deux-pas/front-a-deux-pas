@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { API_URL } from '../../../../../shared/utils/constants/util-constants';
+import { AD_BASE_URL } from '../../../../../shared/utils/constants/util-constants';
 import { HttpClient } from '@angular/common/http';
 import { HandleErrorService } from '../../../../../shared/services/handle-error.service';
 import { catchError, Observable } from 'rxjs';
@@ -15,7 +15,7 @@ export class CtaMyAdService {
   ) {}
 
     getFavoriteCount(adId: number): Observable<number> {
-      const url = `${API_URL}ads/favoriteCount/${adId}`;
+      const url = `${AD_BASE_URL}/favoriteCount/${adId}`;
       return this.http.get<number>(url).pipe(
         catchError(this.handleErrorService.handleError)
       )

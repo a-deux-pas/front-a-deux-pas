@@ -3,10 +3,8 @@ import { ProfileComponent } from "../../../routes/account/profile/profile.compon
 import { ProfileService } from "../../../routes/account/profile/profile.service";
 import { MeetingPlacesComponent } from "../../../routes/account/profile/components/meeting-places/meeting-places.component";
 import { EditButtonComponent } from "../../../routes/account/profile/components/edit-button/edit-button.component";
-import { API_URL } from "../../utils/constants/util-constants";
+import { ACCOUNT_BASE_URL, USER_BASE_URL } from "../../utils/constants/util-constants";
 import { RouterModule } from "@angular/router";
-
-let accountUrl = `${API_URL}`;
 
 describe('Profile component', () => {
   beforeEach(() => {
@@ -15,10 +13,10 @@ describe('Profile component', () => {
       win.localStorage.setItem('userAlias', 'supercalifragilisticexpialidocious');
     });
 
-    cy.intercept(`${accountUrl}users/supercalifragilisticexpialidocious/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
-    cy.intercept(`${accountUrl}users/1/alias-and-location*`, { fixture: 'user-profile' }).as('getUserPreferredSchedules');
-    cy.intercept(`${accountUrl}account/profile/1/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
-    cy.intercept(`${accountUrl}account/profile/1/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
+    cy.intercept(`${USER_BASE_URL}/supercalifragilisticexpialidocious/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
+    cy.intercept(`${USER_BASE_URL}/1/alias-and-location*`, { fixture: 'user-profile' }).as('getUserPreferredSchedules');
+    cy.intercept(`${ACCOUNT_BASE_URL}/1/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+    cy.intercept(`${ACCOUNT_BASE_URL}/1/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
 
     cy.mount(ProfileComponent, {
       imports: [MeetingPlacesComponent, EditButtonComponent, HttpClientModule, RouterModule.forRoot([])],

@@ -1,30 +1,45 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { API_URL } from '../../../shared/utils/constants/util-constants';
+import { catchError, Observable } from 'rxjs';
+import { MEETING_BASE_URL } from '../../../shared/utils/constants/util-constants';
 import { Meeting } from '../../../shared/models/meeting/meeting.model';
+import { HandleErrorService } from '../../../shared/services/handle-error.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MeetingService {
-  private apiUrl = `${API_URL}meetings`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private handleErrorService: HandleErrorService
+  ) {}
 
   getProposedMeetings(userId: number): Observable<Meeting[]> {
-    return this.http.get<Meeting[]>(`${this.apiUrl}/proposed/${userId}`);
+    return this.http.get<Meeting[]>(`${MEETING_BASE_URL}/proposed/${userId}`
+    ).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
   }
 
   getToBeConfirmedMeetings(userId: number): Observable<Meeting[]> {
-    return this.http.get<Meeting[]>(`${this.apiUrl}/toBeConfirmed/${userId}`);
+    return this.http.get<Meeting[]>(`${MEETING_BASE_URL}/toBeConfirmed/${userId}`
+    ).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
   }
 
   getPlannedMeetings(userId: number): Observable<Meeting[]> {
-    return this.http.get<Meeting[]>(`${this.apiUrl}/planned/${userId}`);
+    return this.http.get<Meeting[]>(`${MEETING_BASE_URL}/planned/${userId}`
+    ).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
   }
 
   getToBeFinishedMeetings(userId: number): Observable<Meeting[]> {
-    return this.http.get<Meeting[]>(`${this.apiUrl}/toBeFinalized/${userId}`);
+    return this.http.get<Meeting[]>(`${MEETING_BASE_URL}/toBeFinalized/${userId}`
+    ).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
   }
 }
