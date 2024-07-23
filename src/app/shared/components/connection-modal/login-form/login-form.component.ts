@@ -42,7 +42,7 @@ export class LoginFormComponent {
         updateOn: 'blur'
         }
       ],
-      stayLoggedIn: [true],
+      rememberMe: [true],
     });
 
     const emailControl = this.loginForm.get('email');
@@ -66,7 +66,7 @@ export class LoginFormComponent {
     const credentials = new Credentials (
       this.loginForm.get('email')?.value,
       this.loginForm.get('password')?.value,
-      this.loginForm.get('stayLoggedIn')?.value
+      this.loginForm.get('rememberMe')?.value
     )
 
     if (this.loginForm.valid) {

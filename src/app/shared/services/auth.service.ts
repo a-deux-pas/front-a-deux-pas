@@ -19,14 +19,7 @@ export class AuthService {
     public http: HttpClient,
     private router: Router,
     private handleErrorService: HandleErrorService
-  ) {
-    window.addEventListener('beforeunload', () => {
-      const stayLoggedIn = localStorage.getItem('stayLoggedIn');
-      if (stayLoggedIn === 'false') {
-        this.logout();
-      }
-    });
-  }
+  ) {}
 
   isEmailAddressAlreadyExist(email: string): Observable<boolean> {
     return this.http.post<boolean>(`${API_URL}check-email`,
@@ -65,7 +58,7 @@ export class AuthService {
     return this.http
       .post<any>(
         `${API_URL}${endpoint}`,
-        { email: credentials.email, password: credentials.password },
+        credentials,
         { responseType: 'text' as 'json' } // Response type expected
       )
       .pipe(
@@ -76,7 +69,6 @@ export class AuthService {
             localStorage.setItem('token', token);
             const userId = this.extractIdFromToken(token);
             localStorage.setItem('userId', userId);
-            localStorage.setItem('stayLoggedIn', credentials.stayLoggedIn.toString());
             this.loggedIn.next(true);
           } else {
             // Throw error if no token received
