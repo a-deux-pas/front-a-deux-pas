@@ -89,40 +89,6 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-// drag and drop
-// TODO :: à virer?
-// ngx-dropzone,
-// .dropzone {
-//   width: 350px;
-//   height: 349px;
-//   margin: auto auto;
-// }
-
-// TODO :: à virer
-ngx-dropzone-image-preview {
-  align-items: center !important;
-  display: flex !important;
-  justify-content: center !important;
-  max-width: 70% !important;
-  min-height: 70% !important;
-  min-width: 180px !important;
-  position: relative !important;
-  margin-left: 16% !important;
-}
-
-.add-picture-icon {
-  width: 27.25px;
-  height: 27.25px;
-}
-
-.add-picture-btn {
-  margin-top: 40%;
-}
-
-.add-picture-btn-text {
-  color: $primary;
-}
-
 @media screen and (min-width: 1200px) {
   .input-group-addon {
     margin-left: -4.5%;
@@ -144,12 +110,6 @@ ngx-dropzone-image-preview {
     margin-left: auto;
     margin-right: 46%;
   }
-
-  // Dropzone
-
-  // .add-picture-btn {
-  //   margin-top: 0;
-  // }
 
   .dropzone-field {
     grid-gap: 21px !important;

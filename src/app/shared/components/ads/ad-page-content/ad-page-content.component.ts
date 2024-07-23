@@ -42,7 +42,7 @@ export class AdPageComponent implements OnInit {
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
   currentAd!: AdDetails | undefined;
   selectedPicNumber: number = 2;
-  articlePictures: (string)[] = [];
+  articlePictures: string[] = [];
   areaSizeA!: number
   areaSizeB!: number
   showSeeMorBtn!: boolean;
@@ -78,6 +78,7 @@ export class AdPageComponent implements OnInit {
     this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
+        this.articlePictures = ad.articlePictures || [];
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length)
         // fetch the ads list
         this.pageSize = this.onLoggedInUserAd ? 8 : 4;

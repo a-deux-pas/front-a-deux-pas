@@ -4,7 +4,6 @@ import { AccountRoutingModule } from './app/routes/account/account-routing.modul
 import { AdRoutingModule } from './app/routes/ad/ad-routing.module';
 import { StyleGuideRoutingModule } from './style/style-guide/style-guide-routing.module';
 import { AppRoutingModule } from './app/app-routing.module';
-import { AdsRoutingModule } from './app/routes/account/ads/ads-routing.module';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -23,7 +22,7 @@ bootstrapApplication(AppComponent, {
         provideHttpClient(withInterceptorsFromDi()),
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         // Set the application locale to French
-        { provide: LOCALE_ID, useValue: 'fr' }, 
+        { provide: LOCALE_ID, useValue: 'fr' },
     ]
 })
     .catch(err => console.error(err));

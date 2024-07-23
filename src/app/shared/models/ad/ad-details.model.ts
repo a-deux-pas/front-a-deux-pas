@@ -9,7 +9,7 @@ export class AdDetails {
                 public category: string,
                 public subcategory: any,
                 public publisherEmail?: string,
-                public articlePictures?: string[] | null,
+                public articlePictures?: string[],
                 public price?: number,
                 public publisherAlias?: string,
                 public publisherInscriptionDate?: string,

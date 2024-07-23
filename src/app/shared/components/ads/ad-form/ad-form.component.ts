@@ -17,6 +17,7 @@ import { AdDetails } from '../../../models/ad/ad-details.model';
 import { DropzoneComponent, DropzoneConfigInterface, DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigService } from '../../../services/dropzone-config.service';
 import { ALERTS } from '../../../utils/constants/alert-constants';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-ad-form',
@@ -42,9 +43,7 @@ export class AdFormComponent implements AfterViewChecked {
   @ViewChildren(DropzoneComponent) dropzoneComponents!: QueryList<DropzoneComponent>;
   @ViewChild('dropzoneContainer') dropzoneContainer!: ElementRef;
   articlePictures: File[] = [];
-  // TODO :: variabiliser thumbnailWidth et thumbnailHeight ?
   config: DropzoneConfigInterface;
-  configMobile: DropzoneConfigInterface;
   customMessage: string = `
     <div class="dropzone-add">
       <img src="assets/icons/buttons/add-orange.webp" alt="Icône d'ajout de photo" class="dropzone-icon" />
@@ -65,15 +64,16 @@ export class AdFormComponent implements AfterViewChecked {
       this.isBigScreen = isBigScreen;
     });
     this.config = this.dropzoneConfigService.getConfig();
-    this.configMobile = this.dropzoneConfigService.getConfigMobile();
-
   }
 
   ngAfterViewChecked(): void {
-    this.dropzoneConfigService.setThumbnailDimensions(400, 400);
     this.config = this.dropzoneConfigService.getConfig();
     if (this.isBigScreen) {
-      this.updateDropzoneDimension(this.selectedPicNumber);
+      this.updateDropzoneDimension(this.selectedPicNumber, true);
+      this.dropzoneConfigService.setThumbnailDimensions(400, 400);
+    } else {
+      this.updateDropzoneDimension(this.selectedPicNumber, false);
+      this.dropzoneConfigService.setThumbnailDimensions(349, 300);
     }
     this.updateArticlePicture()
   }
@@ -133,7 +133,7 @@ export class AdFormComponent implements AfterViewChecked {
     return Array.from({ length }, (_, index) => index);
   }
 
-  updateDropzoneDimension(dropzoneCount: number) {
+  updateDropzoneDimension(dropzoneCount: number, isBigScreen: boolean) {
     let dropzoneClass: string = '';
     const dropzones = this.el.nativeElement.querySelectorAll('.articlePicDropzones');
     dropzones.forEach((dropzone: any) => {
@@ -141,34 +141,45 @@ export class AdFormComponent implements AfterViewChecked {
       this.renderer.removeClass(dropzone, 'three-dropzones');
       this.renderer.removeClass(dropzone, 'four-dropzones');
       this.renderer.removeClass(dropzone, 'five-dropzones');
+      this.renderer.removeClass(dropzone, 'mobile-dropzones');
     });
     if (dropzones.length > 0) {
-      switch (dropzoneCount) {
-        case 2:
-          dropzoneClass = 'two';
-          break;
-        case 3:
-          dropzoneClass = 'three';
-          break;
-        case 4:
-          dropzoneClass = 'four';
-          break;
-        case 5:
-          dropzoneClass = 'five';
-          break;
-        default:
-          dropzoneClass = 'two';
+      if (isBigScreen) {
+        switch (dropzoneCount) {
+          case 2:
+            dropzoneClass = 'two';
+            break;
+          case 3:
+            dropzoneClass = 'three';
+            break;
+          case 4:
+            dropzoneClass = 'four';
+            break;
+          case 5:
+            dropzoneClass = 'five';
+            break;
+          default:
+            dropzoneClass = 'two';
+        }
+      } else {
+        dropzoneClass = 'mobile';
+        let carousselContainer = this.el.nativeElement.querySelector('.carousel-inner');
+        this.renderer.setStyle(carousselContainer, 'overflow', 'visible');
+        let carouselElement = document.querySelector('ngb-carousel');
+        this.renderer.setStyle(carouselElement, 'width', '350px');
+        this.renderer.setStyle(carouselElement, 'margin', '0 auto');
       }
-      let newClass: string = `${dropzoneClass}-dropzones`;
-      dropzones.forEach((dropzone: any) => {
-        this.renderer.addClass(dropzone, `${newClass}`);
-      });
-      const dzWrapper = this.el.nativeElement.querySelectorAll('.dz-wrapper');
-      dzWrapper.forEach((wrapper: any) => {
-        this.renderer.setStyle(wrapper, 'overflow', 'visible');
-      });
     }
+    let newClass: string = `${dropzoneClass}-dropzones`;
+    dropzones.forEach((dropzone: any) => {
+      this.renderer.addClass(dropzone, `${newClass}`);
+    });
+    const dzWrapper = this.el.nativeElement.querySelectorAll('.dz-wrapper');
+    dzWrapper.forEach((wrapper: any) => {
+      this.renderer.setStyle(wrapper, 'overflow', 'visible');
+    });
   }
+
 
   // TODO  :: à virer ?
   onDropzoneInteraction(): void {
@@ -189,17 +200,17 @@ export class AdFormComponent implements AfterViewChecked {
   }
 
   sanitizeTheInputs() {
-    escapeHtml(this.ad!.title!)
-    escapeHtml(this.ad!.articleDescription!)
+    escapeHtml(this.ad.title)
+    escapeHtml(this.ad.articleDescription)
   }
 
   onSubmit() {
     this.sanitizeTheInputs();
-    this.ad!.subcategory = this.ad!.category == "Autre" ?
+    this.ad.subcategory = this.ad.category == "Autre" ?
       Subcategory.OTHER_SUBCATEGORY :
-      this.ad!.subcategory.name;
+      this.ad.subcategory.name;
     this.ad.publisherId = Number(localStorage.getItem('userId')!);
-    this.adformService.postAd(this.ad!, this.articlePictures).subscribe({
+    this.adformService.postAd(this.ad, this.articlePictures).subscribe({
       next: (ad: AdDetails) => {
         this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
         setTimeout(() => {
@@ -208,10 +219,16 @@ export class AdFormComponent implements AfterViewChecked {
           );
         }, 100);
       },
-      error: () => {
-        this.displayManagementService.displayAlert(
-          ALERTS.DEFAULT_ERROR,
-        );
+      error: (error: HttpErrorResponse) => {
+        if (error.status == 413) {
+          this.displayManagementService.displayAlert(
+            ALERTS.UPLOAD_PICTURE_ERROR
+          );
+        } else {
+          this.displayManagementService.displayAlert(
+            ALERTS.DEFAULT_ERROR,
+          );
+        }
       }
     });
   }
