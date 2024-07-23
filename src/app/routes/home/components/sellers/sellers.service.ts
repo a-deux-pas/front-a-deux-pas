@@ -5,7 +5,6 @@ import { API_URL } from '../../../../shared/utils/constants/util-constants';
 import { Observable, catchError } from 'rxjs';
 import { UserPresentation } from '../../../../shared/models/user/user-presentation.model';
 
-
 @Injectable({
   providedIn: 'root'
 })

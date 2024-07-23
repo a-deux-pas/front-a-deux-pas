@@ -228,13 +228,12 @@ export class AdFiltersComponent {
     citiesAndPostalCodes: UserAliasAndLocation[]
   ) {
     citiesAndPostalCodes.forEach((cityAndPostalCode) => {
-      if (cityAndPostalCode?.city && cityAndPostalCode?.postalCode) {
         this.uniqueCitiesAndPostalCodes.push(
           // formatting the string used in the 'City' filter template to display : 'City (postal code)'
           `${cityAndPostalCode.city} (${cityAndPostalCode.postalCode})`
         );
       }
-    });
+    );
     // Sort the uniqueCitiesAndPostalCodes array using localeCompare for reliable alphabetical sorting
     this.uniqueCitiesAndPostalCodes.sort((a, b) => a.localeCompare(b));
   }

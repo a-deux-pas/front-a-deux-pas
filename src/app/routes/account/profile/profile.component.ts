@@ -46,7 +46,7 @@ export class ProfileComponent {
 
   ngOnInit(): void {
     if (!this.userAlias && this.userId) {
-      this.getUserAlias(this.userId)
+      this.getUserAlias(this.userId);
     }
     if (this.userAlias) {
       this.fetchUserPresentation(this.userAlias);
