@@ -10,29 +10,23 @@ export class AsyncValidatorService {
 
   constructor(private authService: AuthService) {}
 
-  // Validator to check if an email address already exists
-  uniqueEmailAddressValidator(isSignup: boolean): AsyncValidatorFn {
+  // Validator to check if credentials are correct
+  credentialsValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.authService.isEmailAddressAlreadyExist(control.value).pipe(
-        map(exist => {
-          if (!isSignup && !exist) {
-            return { emailAddressNotFound: true };
-          } else if (isSignup && exist) {
-            return { emailAddressExists: true };
-          } else {
-            return null;
-          }
-        }),
-        catchError(() => of(null))
+      const email = control.get('email')?.value;
+      const password = control.get('password')?.value;
+      return this.authService.validateCredentials(email, password).pipe(
+        map(isValid => isValid ? null : { invalidCredentials: true }),
+        catchError(() => of({ invalidCredentials: true }))
       );
     };
   }
 
-  // Validator to check if password match with user email
-  passwordMatchesEmailValidator(email: AbstractControl): AsyncValidatorFn {
+  // Validator to check if an email address already exists
+  uniqueEmailAddressValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return this.authService.isPasswordMatchesEmail(email.value, control.value).pipe(
-        map(correct => (!correct ? { incorrectPassword : true } : null)),
+      return this.authService.isEmailAddressAlreadyExist(control.value).pipe(
+        map(exist => !exist ? null : { emailAddressExists: true }),
         catchError(() => of(null))
       );
     };

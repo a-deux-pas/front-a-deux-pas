@@ -31,35 +31,13 @@ export class LoginFormComponent {
     private asyncValidatorService: AsyncValidatorService,
   ) {
     this.loginForm = this.fb.group({
-      email: ['',  {
-          validators: [Validators.required, Validators.email],
-          asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(false),
-          updateOn: 'blur'
-        }
-      ],
-      password: ['', {
-        validators: [Validators.required],
-        updateOn: 'blur'
-        }
-      ],
+      email: ['',  { validators: [Validators.required, Validators.email] }],
+      password: ['', { validators: [Validators.required] }],
       stayLoggedIn: [true],
+    }, {
+      asyncValidators: this.asyncValidatorService.credentialsValidator(),
+      updateOn: 'blur'
     });
-
-    const emailControl = this.loginForm.get('email');
-    if (emailControl) {
-      this.loginForm.get('email')?.valueChanges.subscribe(email => {
-        if (email) {
-          this.loginForm.get('password')?.setAsyncValidators(
-            this.asyncValidatorService.passwordMatchesEmailValidator(emailControl)
-          );
-        }
-      });
-    }
-  }
-
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.loginForm.get(fieldName)!;
-    return field.invalid && (field.dirty || field.touched);
   }
 
   togglePasswordVisibility() {
