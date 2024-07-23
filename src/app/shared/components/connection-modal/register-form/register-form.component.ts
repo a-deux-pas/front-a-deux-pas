@@ -4,7 +4,6 @@ import { AsyncValidatorService } from '../../../services/async-validator.service
 import { CommonModule } from '@angular/common';
 import { checkEqualityValidator, passwordValidator } from '../../../utils/validators/custom-validators';
 import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
 import { Credentials } from '../../../models/user/credentials.model';
 
 @Component({
@@ -26,12 +25,11 @@ export class RegisterFormComponent {
     private fb: FormBuilder,
     private asyncValidatorService: AsyncValidatorService,
     private authService: AuthService,
-    private router: Router,
   ) {
     this.registerForm = this.fb.group({
       email: ['', {
           validators: [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
-          asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(true),
+          asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(),
           updateOn: 'blur'
         }
       ],
@@ -63,7 +61,6 @@ export class RegisterFormComponent {
       this.authService.auth(credentials,'signup').subscribe({
         next: (data: any) => {
           if (data) {
-          this.router.navigate(['/inscription']);
           this.isFormSubmitted = true;
           this.formSubmitted.emit(this.isFormSubmitted);
           }

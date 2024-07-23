@@ -70,7 +70,7 @@ export class RegisterComponent implements AfterViewInit {
     private displayManagementService: DisplayManagementService,
     private registerService: RegisterService,
     private location: Location,
-    private cd: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef
   ) {
     this.profileForm = this.formBuilder.group({
       alias: [
@@ -115,7 +115,7 @@ export class RegisterComponent implements AfterViewInit {
       this.userProfilePicture = userPicture;
       this.profilePicturePreview = false;
     }
-    this.cd.detectChanges();
+    this.changeDetector.detectChanges();
   }
 
   getUserPreferredMeetingPlaces(

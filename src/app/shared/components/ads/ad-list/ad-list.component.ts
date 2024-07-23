@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdCardComponent } from '../ad-card/ad-card.component';
 
@@ -9,12 +9,19 @@ import { AdCardComponent } from '../ad-card/ad-card.component';
   standalone: true,
   imports: [AdCardComponent],
 })
-export class AdListComponent {
+export class AdListComponent implements OnInit {
   @Input() displayedAds: AdCard[] = [];
   @Input() displayedAdsNumber!: number;
   @Input() noMoreAds: boolean = false;
   @Input() showingSimilarAds: boolean = false;
   @Output() loadMore: EventEmitter<void> = new EventEmitter<void>();
+  adsListLoading: boolean = true;
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.adsListLoading = false;
+    });
+  }
 
   loadMoreAds() {
     this.loadMore.emit();

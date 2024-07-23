@@ -3,6 +3,7 @@ import { API_URL } from "../../utils/constants/util-constants";
 let accountUrl = `${API_URL}account/profile`;
 let adUrl = `${API_URL}ads`;
 let userUrl = `${API_URL}users`;
+let meetingUrl = `${API_URL}meetings`;
 
 context('account tabs testing', () => {
   beforeEach(() => {
@@ -19,7 +20,7 @@ context('account tabs testing', () => {
     cy.intercept(`${accountUrl}/1/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
     cy.intercept(`${adUrl}/adTablist/1*`, { fixture: 'user-profile' }).as('getAdsList');
     cy.intercept(`${adUrl}/favorites/1*`, { fixture: 'user-profile' }).as('getFavoritesAdsList');
-    // TODO add interceptor for each route one created
+    cy.intercept(`${meetingUrl}/proposed/1*`, { fixture: 'user-profile' }).as('getMeetingsList');
 
     cy.visit('http://localhost:4200/compte/profil');
     cy.url().should('include', '/compte/profil');
