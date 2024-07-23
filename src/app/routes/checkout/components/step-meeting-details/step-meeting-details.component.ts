@@ -105,17 +105,23 @@ export class StepMeetingDetailsComponent implements OnInit {
     const localStorageId = localStorage.getItem('userId');
     const buyerId = localStorageId ? +localStorageId : -1;
     const proposedMeetingPlaceId = this.form.get('meetingPlace')?.value.id;
-    const proposedDateAndTime = this.form.get('selectedDate')?.value;
+    const selectedDate = this.form.get('selectedDate')?.value;
+    const proposedDate: Date = new Date();
+    proposedDate.setFullYear(
+      selectedDate.year,
+      selectedDate.month - 1,
+      selectedDate.day
+    );
     const buyerAdditionalInfo = this.form.get('info')?.value;
     const buyerDistinctiveSign = this.form.get('sign')?.value;
-    this.addHoursAndMinutes(proposedDateAndTime);
+    this.addHoursAndMinutes(proposedDate);
 
     this.proposedMeeting = new BuyerProposedMeetingRequest(
       buyerId,
       this.seller.id,
       this.ad.id,
       proposedMeetingPlaceId,
-      proposedDateAndTime,
+      proposedDate.toISOString(),
       buyerAdditionalInfo,
       buyerDistinctiveSign
     );
@@ -123,12 +129,12 @@ export class StepMeetingDetailsComponent implements OnInit {
     this.checkoutService.setProposedMeeting(this.proposedMeeting);
   }
 
-  private addHoursAndMinutes(proposedDateAndTime: any) {
+  private addHoursAndMinutes(proposedDate: Date) {
     const [hours, minutes] = this.form
       .get('selectedTime')
       ?.value.split(' : ')
       .map(Number);
-    proposedDateAndTime.hours = hours;
-    proposedDateAndTime.minutes = minutes;
+    proposedDate.setHours(hours);
+    proposedDate.setMinutes(minutes);
   }
 }

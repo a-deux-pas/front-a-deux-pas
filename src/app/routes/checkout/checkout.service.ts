@@ -9,7 +9,7 @@ import { API_URL } from '../../shared/utils/constants/util-constants';
   providedIn: 'root',
 })
 export class CheckoutService {
-  private contextUrl = `${API_URL}meetings/`;
+  private contextUrl = `${API_URL}meetings`;
   private stepSource = new BehaviorSubject<number>(1);
   currentStep = this.stepSource.asObservable();
 
@@ -63,7 +63,7 @@ export class CheckoutService {
     console.log('here');
     return this.http
       .post<BuyerProposedMeetingRequest>(
-        `${this.contextUrl}proposed`,
+        `${this.contextUrl}/initialize`,
         proposedMeeting
       )
       .pipe(catchError(this.handleErrorService.handleError));

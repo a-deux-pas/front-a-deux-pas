@@ -55,9 +55,7 @@ export class CtaSellerAdComponent implements OnInit {
     if (!this.isUserLoggedIn) {
       this.openModal();
     } else {
-      // TO DO : redirection vers le checkout mircea
-      this.checkoutService.setCheckoutAd(this.ad);
-      this.router.navigate(['/checkout']);
+      // TO DO : à implémenter la messagerie
     }
   }
 
