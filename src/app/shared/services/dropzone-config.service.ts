@@ -16,7 +16,7 @@ export class DropzoneConfigService {
         addRemoveLinks: true,
         dictRemoveFile: '×',
         clickable: true,
-        maxFiles: 1,
+        maxFiles: 1
     };
 
     getConfig(): DropzoneConfigInterface {

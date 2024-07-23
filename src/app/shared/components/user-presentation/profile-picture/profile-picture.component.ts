@@ -45,12 +45,6 @@ export class ProfilePictureComponent implements AfterViewInit {
       this.isProfilePicturePreview = false;
       this.fileRemoved.emit();
     });
-
-    // TO DO :: checker si je garde ce message
-    dropzone.on('error', (error: any) => {
-      console.error('Upload failed:', error);
-      this.errorMessage = "il y a eu une erreur lors du chargement de votre image, veuillez réessayer plus tard";
-    });
   }
 
   onDropzoneInteraction(): void {

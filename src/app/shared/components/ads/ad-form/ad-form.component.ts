@@ -38,7 +38,6 @@ export class AdFormComponent implements AfterViewChecked {
   states = Object.values(ArticleState);
   categories = Object.values(Category);
   disabledFields: boolean = false;
-  // TODO :: checker à quoi ca sert
   hasInteractedWithDropzone: boolean = false;
   @ViewChildren(DropzoneComponent) dropzoneComponents!: QueryList<DropzoneComponent>;
   @ViewChild('dropzoneContainer') dropzoneContainer!: ElementRef;
@@ -73,7 +72,7 @@ export class AdFormComponent implements AfterViewChecked {
       this.dropzoneConfigService.setThumbnailDimensions(400, 400);
     } else {
       this.updateDropzoneDimension(this.selectedPicNumber, false);
-      this.dropzoneConfigService.setThumbnailDimensions(349, 300);
+      this.dropzoneConfigService.setThumbnailDimensions(649, 600);
     }
     this.updateArticlePicture()
   }
@@ -163,8 +162,8 @@ export class AdFormComponent implements AfterViewChecked {
         }
       } else {
         dropzoneClass = 'mobile';
-        let carousselContainer = this.el.nativeElement.querySelector('.carousel-inner');
-        this.renderer.setStyle(carousselContainer, 'overflow', 'visible');
+        let carousselInner = this.el.nativeElement.querySelector('.carousel-inner');
+        this.renderer.setStyle(carousselInner, 'overflow', 'visible');
         let carouselElement = document.querySelector('ngb-carousel');
         this.renderer.setStyle(carouselElement, 'width', '350px');
         this.renderer.setStyle(carouselElement, 'margin', '0 auto');
@@ -180,8 +179,6 @@ export class AdFormComponent implements AfterViewChecked {
     });
   }
 
-
-  // TODO  :: à virer ?
   onDropzoneInteraction(): void {
     this.hasInteractedWithDropzone = true;
   }

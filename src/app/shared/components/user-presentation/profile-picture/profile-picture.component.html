@@ -1,5 +1,5 @@
-<div id="profile-picture">
-  <dropzone id="dropzone" [config]="config" [message]="customMessage" (mouseleave)="onDropzoneInteraction()">
+<div (mouseleave)="onDropzoneInteraction()" id="profile-picture">
+  <dropzone id="dropzone" [config]="config" [message]="customMessage">
   </dropzone>
   @if (!isProfilePicturePreview && hasInteractedWithDropzone) {
   <div class="error-msg mt-5">

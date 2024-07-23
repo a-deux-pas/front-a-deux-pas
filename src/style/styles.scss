@@ -1032,29 +1032,6 @@ app-profile-picture {
     height: auto !important;
   }
 
-  .dz-remove {
-    display: inline-block !important;
-    width: 1.2em;
-    height: 1.2em;
-    text-decoration: none;
-
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    z-index: 1000;
-
-    font-size: 1.2em !important;
-    line-height: 1em;
-
-    text-align: center;
-    font-weight: bold;
-    border: 1px solid gray !important;
-    border-radius: 1.2em;
-    color: gray;
-    background-color: white;
-    opacity: .5;
-  }
-
   .dz-remove:hover {
     text-decoration: none !important;
     opacity: 1;
@@ -1066,7 +1043,7 @@ app-ad-form {
   .mobile-dropzones,
   .mobile-dropzones .dz-message {
     width: 349px !important;
-    height: 300px !important;
+    height: 315px !important;
   }
 
   .two-dropzones,
@@ -1143,6 +1120,29 @@ app-ad-form {
     width: 256.67px !important;
     height: 232px !important;
   }
+}
+
+.dz-remove {
+  display: inline-block !important;
+  width: 1.2em;
+  height: 1.2em;
+  text-decoration: none;
+
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1000;
+
+  font-size: 1.2em !important;
+  line-height: 1em;
+
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid gray !important;
+  border-radius: 1.2em;
+  color: gray;
+  background-color: white;
+  opacity: .5;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -1294,6 +1294,14 @@ app-register {
 
 [data-bs-target] {
   background-color: $primary !important;
+}
+
+.carousel-indicators {
+  z-index: 10;
+}
+
+.dz-image img {
+  z-index: 1;
 }
 
 ngb-carousel,
