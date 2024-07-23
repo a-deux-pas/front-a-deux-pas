@@ -2,14 +2,14 @@
   <app-tabs-account></app-tabs-account>
   <h2 id="favorites-title" class="text-center fw-bold">Mes favoris</h2>
   <div class="mt-5">
-    @if (this.favoritesAds.length > 0) {
+    @if (favoritesAds.length > 0) {
     <app-ad-list
       [displayedAds]="favoritesAds"
       [displayedAdsNumber]="displayedAdsNumber"
       [noMoreAds]="noMorefavoriteAds"
       (loadMore)="loadMoreFavoritesAds()">
     </app-ad-list>
-    } @else {
+    } @else if (favoritesAds.length === 0  && !favoritesLoading) {
       <p class="d-flex justify-content-center">
         <i>
           Aucune annonce ne vous a encore tapée dans l'œil

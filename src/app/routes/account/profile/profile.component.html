@@ -1,41 +1,43 @@
 <div class="custom-container" id="profil-page">
   <app-tabs-account></app-tabs-account>
-  <h2 class="mt-5 mb-4 fw-bold">Ma présentation</h2>
-  <div id="presentation" class="row flex-row-reverse">
-    <div id="edit-button" class="col-12 col-md-2 pe-0">
-      <div id="edit-button-container">
-    <app-edit-button (editModeChange)="onEditModeChange($event, 'presentation')"></app-edit-button>
+  @if (!profileLoading) {
+    <h2 class="mt-5 mb-4 fw-bold">Ma présentation</h2>
+    <div id="presentation" class="row flex-row-reverse">
+      <div id="edit-button" class="col-12 col-md-2 pe-0 fade-in">
+        <div id="edit-button-container">
+          <app-edit-button (editModeChange)="onEditModeChange($event, 'presentation')"></app-edit-button>
+        </div>
+      </div>
+      <div class="col-12 col-md-10">
+        <app-user-presentation [user]="user"></app-user-presentation>
       </div>
     </div>
-    <div class="col-12 col-md-10">
-      <app-user-presentation [user]="user"></app-user-presentation>
-    </div>
-  </div>
 
-  <h2 class="mt-4 mb-4 fw-bold">Mes disponibilités</h2>
-  <div id="schedule" class="row flex-row-reverse">
-    <div id="edit-button" class="col-12 col-md-2 pe-0">
-      <div id="edit-button-container">
-    <app-edit-button (editModeChange)="onEditModeChange($event, 'schedule')"></app-edit-button>
+    <h2 class="mt-4 mb-4 fw-bold">Mes disponibilités</h2>
+    <div id="schedule" class="row flex-row-reverse">
+      <div id="edit-button" class="col-12 col-md-2 pe-0 d-flex-justify-content-end fade-in">
+        <div id="edit-button-container">
+          <app-edit-button (editModeChange)="onEditModeChange($event, 'schedule')"></app-edit-button>
+        </div>
+      </div>
+      <div class="col-12 col-md-10 fade-in">
+        <app-schedule
+        [editMode]="scheduleEditMode"
+        [preferredSchedules]="preferredSchedules">
+        </app-schedule>
       </div>
     </div>
-    <div class="col-12 col-md-10">
-      <app-schedule
-      [editMode]="scheduleEditMode"
-      [preferredSchedules]="preferredSchedules">
-      </app-schedule>
-    </div>
-  </div>
 
-  <h2 class="mt-5 mb-4 fw-bold">Mes lieux de RDV préférés</h2>
-  <div id="meeting-places" class="row flex-row-reverse">
-    <div id="edit-button" class="col-12 col-md-2 pe-0">
-      <div id="edit-button-container">
-    <app-edit-button (editModeChange)="onEditModeChange($event, 'meeting-places')"></app-edit-button>
+    <h2 class="mt-5 mb-4 fw-bold">Mes lieux de RDV préférés</h2>
+    <div id="meeting-places" class="row flex-row-reverse">
+      <div id="edit-button" class="col-12 col-md-2 pe-0">
+        <div id="edit-button-container">
+          <app-edit-button (editModeChange)="onEditModeChange($event, 'meeting-places')"></app-edit-button>
+        </div>
+      </div>
+      <div class="col-12 col-md-10">
+        <app-meeting-places [preferredMeetingPlaces]="preferredMeetingPlaces" ></app-meeting-places>
       </div>
     </div>
-    <div class="col-12 col-md-10">
-      <app-meeting-places [preferredMeetingPlaces]="preferredMeetingPlaces" ></app-meeting-places>
-    </div>
-  </div>
+  }
 </div>

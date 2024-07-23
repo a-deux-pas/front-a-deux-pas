@@ -15,9 +15,11 @@ export const AuthGuard: CanActivateFn = ():
   | UrlTree => {
   const authService = inject(AuthService); // Inject the AuthenticationService
   const router = inject(Router); // Inject the Router
+  // Authorize non logged in user to access registration form only if they are registering
+  const isRegistering = router.getCurrentNavigation()?.extras.queryParams?.['suite'];
 
   // Checking the user's login status
   return authService.isLoggedIn().pipe(
-    map(isLoggedIn => isLoggedIn ? true : router.createUrlTree(['/']))
+    map(isLoggedIn => isLoggedIn || isRegistering ? true : router.createUrlTree(['/']))
   );
 };

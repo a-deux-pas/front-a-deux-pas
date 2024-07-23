@@ -16,7 +16,7 @@ export class PlannedComponent implements OnInit {
   plannedMeetings: Meeting[] = [];
   selectedMeeting?: Meeting;
   userId: number;
-  
+
 
   constructor(private meetingService: MeetingService) {
     this.userId = Number(localStorage.getItem('userId'));

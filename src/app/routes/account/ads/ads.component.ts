@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TabsAccountComponent } from '../../../shared/components/tabs-account/tabs-account.component';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
-import { DisplayManagementService } from '../../../shared/services/display-management.service';
 import { Router } from '@angular/router';
 import { AdCard } from '../../../shared/models/ad/ad-card.model';
 import { AdListComponent } from '../../../shared/components/ads/ad-list/ad-list.component';
@@ -17,7 +15,6 @@ import { AdsService } from './ads.service';
 })
 export class AdsComponent implements OnInit {
   isBigScreen: boolean | undefined;
-  windowSizeSubscription: Subscription;
   articlePictures: (string | undefined)[] = [];
   loggedInUserAds: AdCard[] = [];
   currentUserId = Number(localStorage.getItem('userId')!)
@@ -25,19 +22,18 @@ export class AdsComponent implements OnInit {
   noMoreAds: boolean = false;
   pageNumber: number = 0;
   pageSize: number = 12;
+  adsLoading: boolean = true;
 
   constructor(
     private adsService: AdsService,
-    private displayManagementService: DisplayManagementService,
     private router: Router
-  ) {
-    this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
-      this.isBigScreen = isBigScreen;
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.fetchPaginatedAdsList();
+    setTimeout(() => {
+      this.adsLoading = false;
+    });
   }
 
   loadMoreAds() {
