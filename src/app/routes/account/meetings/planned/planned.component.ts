@@ -52,4 +52,5 @@ export class PlannedComponent implements OnInit {
     // TO DO: Implémentez la logique pour annuler le rendez-vous
     console.log('Annuler le rendez-vous', meeting);
   }
+  
 }

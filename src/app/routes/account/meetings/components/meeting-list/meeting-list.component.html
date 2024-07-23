@@ -18,14 +18,14 @@
           <div class="col-sm-12 col-md-8 meeting-details-container mb-5">
             <div class="details-container col-md-12">
               <div class="details-header d-flex justify-content-center gap-3 mb-5">
-                @if (meeting.status === "FINALIZED") {
+                @if (meeting.status === "FINALIZED" || meeting.status === 'PLANNED') {
                   <button type="button" class="btn btn-link text-center" (click)="cancelMeeting()">
                     <img src="assets/icons/meetings/done.webp" alt="Icône annuler">
                     <span class="d-block mt-1">Le RDV a eu lieu</span>
                   </button>
                 }
                 @if (meeting.status === 'INITIALIZED' && currentUserId !== meeting.buyerId) {
-                  <button type="button" class="btn btn-link text-center" (click)="modifyMeeting()">
+                  <button type="button" class="btn btn-link text-center" (click)="onAcceptMeeting(meeting)">
                     <img src="assets/icons/meetings/confirm.webp" alt="Icône accepter">
                     <span class="d-block mt-1">Accepter le RDV</span>
                   </button>

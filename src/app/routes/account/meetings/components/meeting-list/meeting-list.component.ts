@@ -12,10 +12,12 @@ import { Meeting } from '../../../../../shared/models/meeting/meeting.model';
 export class MeetingListComponent {
   @Input() meetings: Meeting[] = [];
   @Input() selectedMeeting?: Meeting;
+  @Input() currentUserId: number | undefined;
   @Output() modify = new EventEmitter<Meeting>();
   @Output() cancel = new EventEmitter<Meeting>();
   @Output() select = new EventEmitter<Meeting>();
-  @Input() currentUserId: number | undefined;
+  @Output() accept = new EventEmitter<Meeting>();
+
 
   ngOnInit() {
     if (this.meetings.length > 0 && !this.selectedMeeting) {
@@ -26,6 +28,10 @@ export class MeetingListComponent {
   toggleMeetingDetails(meeting: Meeting): void {
     this.selectedMeeting = this.selectedMeeting === meeting ? undefined : meeting;
     this.select.emit(this.selectedMeeting);
+  }
+
+  onAcceptMeeting(meeting: Meeting): void {
+    this.accept.emit(meeting);
   }
 
   onModifyMeeting(meeting: Meeting): void {
@@ -46,7 +52,7 @@ export class MeetingListComponent {
     if (this.selectedMeeting) {
       this.cancel.emit(this.selectedMeeting);
     }
-  }
+  } 
 
   isCurrentUserBuyer(meeting: Meeting) {
     return meeting.buyerId === this.currentUserId;
