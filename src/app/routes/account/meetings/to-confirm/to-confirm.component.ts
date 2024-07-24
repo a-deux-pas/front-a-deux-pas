@@ -3,8 +3,8 @@ import { MeetingService } from '../meeting.service';
 import { Meeting } from '../../../../shared/models/meeting/meeting.model';
 import { MeetingListComponent } from '../components/meeting-list/meeting-list.component';
 import { CommonModule } from '@angular/common';
-import { catchError, map, of } from 'rxjs';
-
+import { catchError, finalize, map, of, tap } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-to-confirm',
   standalone: true,
@@ -16,7 +16,7 @@ export class ToConfirmComponent implements OnInit {
   selectedMeeting?: Meeting;
   userId: number;
 
-  constructor(private meetingService: MeetingService) {
+  constructor(private meetingService: MeetingService, private router: Router) {
     this.userId = Number(localStorage.getItem('userId'));
   }
 
@@ -41,13 +41,29 @@ export class ToConfirmComponent implements OnInit {
     this.selectedMeeting = meeting;
   }
 
+  onAcceptMeeting(meeting: Meeting) {
+    this.meetingService.acceptMeeting(meeting.idMeeting).pipe(
+      tap((updatedMeeting) => {
+        if (updatedMeeting) {
+          // Remove the accepted meeting from the list
+          this.toConfirmMeetings = this.toConfirmMeetings.filter(m => m.idMeeting !== updatedMeeting.idMeeting);
+        }
+      }),
+      catchError((error) => {
+        console.error('Error while accepting the appointment', error);
+        return of(null);
+      }),
+      finalize(() => {
+        this.router.navigate(['/compte/rdv/planifies']);
+      })
+    ).subscribe();
+  }
+
   onModifyMeeting(meeting: Meeting) {
     // TO DO: Implémentez la logique pour modifier le rendez-vous
-    console.log('Modifier le rendez-vous', meeting);
   }
 
   onCancelMeeting(meeting: Meeting) {
      // TO DO: Implémentez la logique pour annuler le rendez-vous
-    console.log('Annuler le rendez-vous', meeting);
   }
 }
