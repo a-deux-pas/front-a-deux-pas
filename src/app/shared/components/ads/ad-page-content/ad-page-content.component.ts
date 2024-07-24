@@ -60,7 +60,7 @@ export class AdPageComponent implements OnInit {
     private route: ActivatedRoute,
     private adService: AdService,
     private adPageContentService: AdPageContentService,
-    private displayManagementService: DisplayManagementService,
+    private displayManagementService: DisplayManagementService
   ) { }
 
   ngOnInit(): void {
