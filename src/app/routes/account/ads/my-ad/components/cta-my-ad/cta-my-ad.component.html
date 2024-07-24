@@ -20,7 +20,7 @@
   <div class="favorites mt-2">
     @if(favCount === 0) {
       @if (myAd?.status === adStatus.AVAILABLE) {
-        <img id="favorite-icon" class="btn-cta" src="assets/icons/navbar/favorites.webp" alt="icône favoris vide">
+        <img id="favorite-icon" class="btn-cta" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris vide">
         <p id="favorite-text">n’a pas encore tapé dans l’oeil d’un membre</p>
       }
     } @else {
@@ -39,7 +39,7 @@
       @if (myAd?.status === adStatus.AVAILABLE) {
         <div class="flex-column">
           <a (click)="goToUpdateAdForm()">
-            <img class="cta-btn btn-cta" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+            <img class="edit-cta-btn btn-cta" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
             <p class="cta-btn-text">modifier</p>
           </a>
         </div>
@@ -47,7 +47,7 @@
       @if (myAd?.status === adStatus.AVAILABLE || myAd?.status === adStatus.SOLD) {
         <div class="flex-column">
           <a (click)="deleteAd()">
-            <img class="cta-btn btn-cta" src="assets/icons/buttons/trash.webp" alt="bouton-supprimer-annonce">
+            <img class="trash-cta-btn btn-cta" src="assets/icons/buttons/trash.webp" alt="bouton-supprimer-annonce">
             <p class="cta-btn-text">supprimer</p>
           </a>
         </div>

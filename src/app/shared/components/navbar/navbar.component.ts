@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConnectionModalComponent } from '../connection-modal/connection-modal.component';
 import { AdService } from '../../services/ad.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -20,20 +21,25 @@ export class NavbarComponent implements OnInit {
     new EventEmitter<boolean>();
   @Input() isAccountMenuOpen: boolean = false;
   accountRoutes = accountRoutes;
-  @Input() isLoggedIn!: boolean
+  @Input() isUserLoggedIn!: boolean
   onSellerAdPageUnlogged: boolean = false;
   isRegistrationPage: boolean = false;
+  onSellerAdPageUnloggedSubscription!: Subscription;
 
-  constructor(private authService: AuthService, private router: Router, public modalService: NgbModal, private adService: AdService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    public modalService: NgbModal,
+    private adService: AdService) {
     this.router.events.subscribe(event => {
       this.isRegistrationPage = this.router.url.includes('/inscription');
     });
   }
 
   ngOnInit(): void {
-      this.adService.sellerAdPageLoaded$.subscribe((boolean) => {
-        this.onSellerAdPageUnlogged = boolean;
-      })
+    this.onSellerAdPageUnloggedSubscription = this.adService.sellerAdPageLoaded$.subscribe((boolean) => {
+      this.onSellerAdPageUnlogged = boolean;
+    })
   }
 
   toggleAccountMenuState() {
@@ -49,7 +55,11 @@ export class NavbarComponent implements OnInit {
     this.modalService.open(ConnectionModalComponent);
   }
 
-  openModalOrSell(){
-    this.isLoggedIn ? this.router.navigate(['annonce/creation']) : this.openModal();
+  openModalOrSell() {
+    this.isUserLoggedIn ? this.router.navigate(['annonce/creation']) : this.openModal();
+  }
+
+  ngOnDestroy() {
+    this.onSellerAdPageUnloggedSubscription.unsubscribe();
   }
 }

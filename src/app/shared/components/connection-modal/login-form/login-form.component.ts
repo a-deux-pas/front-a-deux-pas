@@ -31,30 +31,13 @@ export class LoginFormComponent {
     private asyncValidatorService: AsyncValidatorService,
   ) {
     this.loginForm = this.fb.group({
-      email: ['',  {
-        validators: [Validators.required, Validators.email],
-        asyncValidators: this.asyncValidatorService.uniqueEmailAddressValidator(false),
-        updateOn: 'blur'
-        }
-      ],
-      password: ['', {
-        validators: [Validators.required],
-        updateOn: 'blur'
-        }
-      ],
-      rememberMe: [true],
+      email: ['',  { validators: [Validators.required, Validators.email] }],
+      password: ['', { validators: [Validators.required] }],
+      stayLoggedIn: [true],
+    }, {
+      asyncValidators: this.asyncValidatorService.credentialsValidator(),
+      updateOn: 'blur'
     });
-
-    const emailControl = this.loginForm.get('email');
-    if (emailControl) {
-      this.loginForm.get('email')?.valueChanges.subscribe(email => {
-        if (email) {
-          this.loginForm.get('password')?.setAsyncValidators(
-            this.asyncValidatorService.passwordMatchesEmailValidator(emailControl)
-          );
-        }
-      });
-    }
   }
 
   togglePasswordVisibility() {
@@ -75,7 +58,7 @@ export class LoginFormComponent {
           if (data) {
             this.isFormSubmitted = true;
             this.formSubmitted.emit(this.isFormSubmitted);
-            window.location.reload()
+            window.location.reload();
           }
         },
         error: (error: any) => {

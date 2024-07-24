@@ -3,7 +3,7 @@ import { Observable, catchError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../../../utils/constants/util-constants';
 import { HandleErrorService } from '../../../services/handle-error.service';
-import { CityAndPostalCodeResponse } from '../../../models/user/city-and-postal-code-response.model';
+import { UserAliasAndLocation } from '../../../models/user/user-alias-and-location.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +17,9 @@ export class AdFiltersService {
   ) {}
 
   // fetch all the unique cities and postal codes for display in the 'Ville' filter at component load
-  fetchCitiesAndPostalCodes(): Observable<CityAndPostalCodeResponse[]> {
+  fetchCitiesAndPostalCodes(): Observable<UserAliasAndLocation[]> {
     return this.http
-      .get<CityAndPostalCodeResponse[]>(this.citiesAndPostalCodesUrl)
+      .get<UserAliasAndLocation[]>(this.citiesAndPostalCodesUrl)
       .pipe(
         catchError(this.handleErrorService.handleError)
       );

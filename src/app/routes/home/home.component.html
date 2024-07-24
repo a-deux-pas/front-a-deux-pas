@@ -1,7 +1,17 @@
-@if (isLoggedIn) {
+@if (isUserLoggedIn) {
   <section>
-    <h1 id="hello" class="text-center">Bonjour {{ this.userAlias }} !</h1>
-    <h2 class="text-left fw-bold m-5">Les annonces à deux pas</h2>
+    <h1 id="hello" class="text-center fade-in">Bonjour {{ userAlias }} !</h1>
+    <h2 class="text-left fade-in fw-bold m-5">
+      {{ loggedInUserCity || isUserCityExistsWithAds === 'true' ? 'Les annonces à deux pas' : 'Les dernières annonces' }}
+    </h2>
+    @if (!loggedInUserCity && userAlias) {
+      <p>
+        <i>
+          Aucune annonce n'est encore disponible dans ta ville.<br>
+          En attendant, n'hésite pas à parcourir les autres annonces à proximité ✌
+        </i>
+      </p>
+    }
     <app-ad-filters
       [(pageNumber)]="pageNumber"
       (filtersUpdated)="receiveUpdatedFilters($event)"
@@ -14,17 +24,21 @@
       [noMoreAds]="noMoreFilteredAds"
       (loadMore)="loadMoreFilteredAds()">
     </app-ad-list>
-    @if (this.favoritesAds.length > 0) {
-      <h2 class="text-left fw-bold m-5">Mes favoris</h2>
+    @if (favoritesAds.length > 0) {
+      <h2 class="text-left fw-bold fade-in m-5">Mes favoris</h2>
       <app-ad-list
         [displayedAds]="favoritesAds"
         [displayedAdsNumber]="displayedAdsNumberLoggedIn"
         [noMoreAds]="noMorefavoriteAds"
         (loadMore)="loadMoreFavoritesAds()">
       </app-ad-list>
-      }
-    <h2 class="text-left fw-bold m-5 pt-4">Les vendeurs prêts de chez moi</h2>
-    <app-sellers></app-sellers>
+    }
+    @if (loggedInUserCity || isUserCityExistsWithAds === 'true') {
+      <div class="fade-in">
+        <h2 class="text-left fw-bold m-5 pt-4">Les vendeurs prêts de chez moi</h2>
+        <app-sellers></app-sellers>
+      </div>
+    }
   </section>
 } @else {
   <app-header></app-header>

@@ -1,4 +1,4 @@
-<a (click)="goToAdPage(ad.id!, ad.publisherId!)" class="card mt-4 text-decoration-none">
+<a (click)="goToAdPage(ad.id!, ad.publisherAlias!, ad.publisherId!)" class="card mt-4 text-decoration-none">
   <div class="card-img-container">
     @switch (ad.status) {
       @case(adStatus.SOLD) {

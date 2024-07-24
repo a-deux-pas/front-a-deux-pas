@@ -206,7 +206,7 @@ export class AdFormComponent implements OnInit {
     escapeHtml(this.ad.articleDescription)
   }
 
-  // TO DO :: a revoir (fix Cloudinary branch)
+  // TO DO : a revoir (fix Cloudinary branch)
   onSubmit() {
     this.sanitizeTheInputs();
     this.ad.subcategory = this.ad.category == this.categoryEnum.OTHER_CATEGORY ?
@@ -264,6 +264,7 @@ export class AdFormComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.windowSizeSubscription.unsubscribe();
     if (this.adSubscription) {
       this.adSubscription.unsubscribe();
     }

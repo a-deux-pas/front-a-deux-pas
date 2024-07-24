@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdFavoriteService } from '../../../services/ad-favorite.service';
 import { AdStatus } from '../../../models/enum/ad-status.enum';
@@ -18,7 +17,6 @@ export class AdCardComponent implements OnInit {
   currentUserId: number = Number(localStorage.getItem('userId')!);
 
   constructor(
-    private router: Router,
     private renderer: Renderer2,
     private el: ElementRef,
     private adFavoriteService: AdFavoriteService
@@ -45,11 +43,16 @@ export class AdCardComponent implements OnInit {
     }
   }
 
-  goToAdPage(adId: number, adPublisherId: number) {
-    const path = this.type === 'loggedInUserAd' ? ['/compte/annonces/mon-annonce', adId] : ['/annonce', adPublisherId, adId];
-    this.router.navigate(path).then(() => {
-      window.location.reload();
-    });
+  goToAdPage(adId: number, adPublisherAlias: string, adPublisherId: number) {
+    if (this.type === 'loggedInUserAd') {
+      window.location.href = `/compte/annonces/mon-annonce/${adId}`;
+    } else {
+      if (!this.currentUserId) {
+        // Store adPublisherId in sessionStorage
+        sessionStorage.setItem('adPublisherId', adPublisherId.toString());
+      }
+      window.location.href = `/annonce/${adPublisherAlias}/${adId}`;
+    }
   }
 
   addToFavorites(event: Event) {

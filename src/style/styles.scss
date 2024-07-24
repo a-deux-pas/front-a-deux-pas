@@ -87,6 +87,23 @@ body {
 
 .main-container {
   margin: 11vh 2vh 0;
+  min-height: 100vh;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Animation
+.fade-in {
+  animation: fadeIn 0.9s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
 }
 
 /*-----------------------------------------------------------------------*/
@@ -361,6 +378,18 @@ button.btn {
 
 /*-----------------------------------------------------------------------*/
 
+// Spinner
+$spinner-width: 4rem;
+$spinner-height: 4rem;
+$spinner-border-width: 0.5em;
+
+.spinner-border {
+  position: absolute;
+  top: 54%;
+}
+
+/*-----------------------------------------------------------------------*/
+
 // Connection modal
 $btn-close-color: $primary;
 $modal-content-border-color: none;
@@ -409,7 +438,7 @@ a.close {
     }
   }
 
-  #btn-password-visibility {
+  .btn-password-visibility {
     position: absolute;
     height: 24px;
     width: 24px;
@@ -706,8 +735,7 @@ $card-spacer-y: 3.1875rem;
 }
 
 .card-img-top {
-  max-width: 100%;
-  max-height: 100%;
+  object-fit: cover;
   position: relative;
   z-index: 1;
   width: 252px !important;

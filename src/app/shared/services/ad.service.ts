@@ -21,6 +21,18 @@ export class AdService {
     private handleErrorService: HandleErrorService
   ) {}
 
+  setAd(myAd: AdDetails) {
+    this.adSubject.next(myAd);
+  }
+
+  // Find a specific ad
+  getAdById(adId: number, userId: number): Observable<AdDetails> {
+    const url = `${this.contextUrl}${adId}/${userId}`
+    return this.http.get<AdDetails>(url).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+
   // Fetch the ads that match the filtering criteria passed as query params
   fetchFilteredAds(
     selectedPriceRanges: string[],
@@ -48,16 +60,18 @@ export class AdService {
       );
   }
 
-  // Find a specific ad
-  getAdById(adId: number, userId: number): Observable<AdDetails> {
-    const url = `${this.contextUrl}${adId}/${userId}`
-    return this.http.get<AdDetails>(url).pipe(
+  // Fetch a list of ads published by a specific user
+  fetchUserAds(
+    publisherId: number,
+    loggedInUserId: number,
+    adId: number | string,
+    pageNumber: number,
+    pageSize: number
+  ): Observable<AdCard[]> {
+    const url = `${this.contextUrl}adPageContentList/${publisherId}/${loggedInUserId}/${adId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return this.http.get<AdCard[]>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
-  }
-
-  setAd(myAd: AdDetails) {
-    this.adSubject.next(myAd);
   }
 
   isOnSellerAdPageUnLogged(boolean: boolean) {
