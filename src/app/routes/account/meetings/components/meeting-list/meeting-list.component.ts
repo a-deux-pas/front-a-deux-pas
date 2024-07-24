@@ -16,11 +16,15 @@ export class MeetingListComponent {
   @Output() cancel = new EventEmitter<Meeting>();
   @Output() select = new EventEmitter<Meeting>();
   @Input() currentUserId: number | undefined;
+  meetingsLoading: boolean = true;
 
   ngOnInit() {
     if (this.meetings.length > 0 && !this.selectedMeeting) {
       this.selectedMeeting = this.meetings[0];
     }
+    setTimeout(() => {
+    this.meetingsLoading = false;
+    }, 50);
   }
 
   toggleMeetingDetails(meeting: Meeting): void {

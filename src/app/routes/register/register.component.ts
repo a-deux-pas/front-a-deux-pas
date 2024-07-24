@@ -41,7 +41,7 @@ export class RegisterComponent implements AfterViewInit {
     private displayManagementService: DisplayManagementService,
     private registerService: RegisterService,
     private location: Location,
-    private cd: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef
   ) {
     this.profileForm = this.formBuilder.group({
       alias: ['', {
@@ -71,7 +71,7 @@ export class RegisterComponent implements AfterViewInit {
       this.userProfilePicture = null;
       this.profilePicturePreview = false;
     }
-    this.cd.detectChanges();
+    this.changeDetector.detectChanges();
   }
 
   getUserPreferredMeetingPlaces(newPreferredMeetingPlaces: PreferredMeetingPlace[]) {
@@ -98,16 +98,14 @@ export class RegisterComponent implements AfterViewInit {
   onSubmit() {
     if (this.profilePicturePreview && this.userId) {
       const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
-      const city = formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value));
-      const postalCode = escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value);
       const userProfile = new UserProfile(
         this.userId,
         '',
         userAlias,
         escapeHtml(this.profileForm.get('bio')?.value) || null,
-        city,
+        formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value)),
         escapeHtml(this.profileForm.get('address')?.get('street')?.value),
-        postalCode,
+        escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value),
         escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
         escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
         this.preferredSchedules,
@@ -117,7 +115,6 @@ export class RegisterComponent implements AfterViewInit {
       this.registerService.saveProfile(userProfile, this.userProfilePicture!).subscribe({
         next: () => {
           localStorage.setItem('userAlias', userAlias);
-          localStorage.setItem('userCity', `${city} (${postalCode})`);
           this.goBack();
           setTimeout(() => {
             this.displayManagementService.displayAlert(
