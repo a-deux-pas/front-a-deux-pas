@@ -32,10 +32,11 @@ describe('ad form component test', () => {
   };
 
   const enterAdData = (newAdData: NewAdData) => {
+    uploadPictures();
     selectCategory(newAdData.category);
     selectSubCategory(newAdData.subcategory);
     fillForm(newAdData);
-    uploadPictures();
+
   };
 
   const selectCategory = (category: string) => {
@@ -58,17 +59,12 @@ describe('ad form component test', () => {
   };
 
   const uploadPictures = () => {
-    cy.get('ng-select[name=selectedPicNumber]').click();
-    cy.get('div.ng-option').should('be.visible');
-    cy.get('ngb-carousel').should('be.visible');
-    cy.get('ngb-carousel p.add-picture-btn-text-0').click().selectFile('cypress/fixtures/images/pic-test-1-min.webp', { action: 'drag-drop' });
-    cy.get('span.carousel-control-next-icon').click();
-    cy.wait(2000);
-    cy.get('ngb-carousel img.add-picture-icon#ad-picture-1').click().selectFile('cypress/fixtures/images/pic-test-2-min.webp', { action: 'drag-drop' });
+    cy.get('dropzone').should('be.visible');
+    cy.get('[data-cy=dropzone]').first().click().selectFile('cypress/fixtures/images/pic-test-1-min.webp', { action: 'drag-drop' });
+    cy.get('[data-cy=dropzone]').last().click().selectFile('cypress/fixtures/images/pic-test-2-min.webp', { action: 'drag-drop' });
   };
 
   it('should enter new ad data in the form', () => {
-    cy.viewport(550, 750);
     cy.fixture('new-ad').then((newAdData: NewAdData) => {
       loadAdFormComponent(newAdData);
     });
