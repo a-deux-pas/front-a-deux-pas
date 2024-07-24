@@ -17,7 +17,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      APP_NAME: ${{ vars.APP_NAME }}
+      APP_NAME: ${{ vars.APP_NAME || 'front-a-deux-pas' }}
+
 
     # export APP_VERSION to other jobs
     outputs:
