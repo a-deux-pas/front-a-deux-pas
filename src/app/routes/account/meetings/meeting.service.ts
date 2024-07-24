@@ -9,7 +9,7 @@ import { Meeting } from '../../../shared/models/meeting/meeting.model';
 })
 export class MeetingService {
   private apiUrl = `${API_URL}meetings`;
-
+  
   constructor(private http: HttpClient) {}
 
   getProposedMeetings(userId: number): Observable<Meeting[]> {
@@ -26,5 +26,9 @@ export class MeetingService {
 
   getToBeFinishedMeetings(userId: number): Observable<Meeting[]> {
     return this.http.get<Meeting[]>(`${this.apiUrl}/toBeFinalized/${userId}`);
+  }
+
+  acceptMeeting(meetingId: number): Observable<Meeting> {
+    return this.http.put<Meeting>(`${this.apiUrl}/${meetingId}/accept`, {});
   }
 }
