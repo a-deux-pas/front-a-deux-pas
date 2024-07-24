@@ -20,6 +20,7 @@ export class AdDetails {
     public status?: string,
     public creationDate?: string,
     public publisherAlias?: string,
+    public publisherEmail?: string,
     public publisherInscriptionDate?: string,
     public publisherCity?: string,
     public publisherPostalCode?: string,

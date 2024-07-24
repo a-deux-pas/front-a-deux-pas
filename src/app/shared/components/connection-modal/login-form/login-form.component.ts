@@ -33,7 +33,7 @@ export class LoginFormComponent {
     this.loginForm = this.fb.group({
       email: ['',  { validators: [Validators.required, Validators.email] }],
       password: ['', { validators: [Validators.required] }],
-      stayLoggedIn: [true],
+      rememberMe: [true],
     }, {
       asyncValidators: this.asyncValidatorService.credentialsValidator(),
       updateOn: 'blur'

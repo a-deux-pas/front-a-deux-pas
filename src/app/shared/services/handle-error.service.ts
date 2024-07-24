@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +13,8 @@ export class HandleErrorService {
     if (error.status === 0) {
       console.error('A client-side or network error occurred');
     }
-    return throwError(() => error.error);
+    const errorMessage = error.error;
+    console.error('Error details:', errorMessage);
+    return throwError(() => errorMessage);
   }
 }

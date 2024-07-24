@@ -69,7 +69,6 @@ export class AuthService {
             localStorage.setItem('token', token);
             const userId = this.extractIdFromToken(token);
             localStorage.setItem('userId', userId);
-            this.loggedIn.next(true);
           } else {
             // Throw error if no token received
             throw new Error('No token received');
