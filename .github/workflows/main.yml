@@ -6,6 +6,7 @@ on:
     branches:
       - "dev"
       - "main"
+      - "test-release"
   pull_request:
     branches:
       - "**"
@@ -21,6 +22,7 @@ jobs:
     # export APP_VERSION to other jobs
     outputs:
       APP_VERSION: ${{ steps.set_app_version.outputs.APP_VERSION }}
+      ARTIFACT_VERSION: ${{ steps.set_artifact_version.outputs.ARTIFACT_VERSION }}
     strategy:
       matrix:
         node-version: [20.x]
@@ -61,20 +63,32 @@ jobs:
       - name: Retrieve Application Version
         id: set_app_version
         run: |
-          echo APP_VERSION=$(node -p "require('./package.json').version") | tee -a $GITHUB_OUTPUT >> $GITHUB_ENV
+          APP_VERSION=$(node -p "require('./package.json').version")
+          echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_OUTPUT
+          echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
 
       - name: Print Package.json project version
         run: echo "application version = ${{ env.APP_VERSION }}"
 
-      # Upload artifact to repository
+      - name: Set Artifact Version
+        id: set_artifact_version
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == "refs/heads/test-release" ]]; then
+            ARTIFACT_VERSION="${APP_VERSION}"
+          else
+            BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | sed 's/[^a-zA-Z0-9]/-/g')
+            ARTIFACT_VERSION="${APP_VERSION}-${BRANCH_NAME}"
+          fi
+          echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" >> $GITHUB_OUTPUT
+          echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" >> $GITHUB_ENV
+
       - name: Upload Application Package
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}
-          path: |
-            ${{ github.workspace }}
-            !.git/
+          name: ${{ env.APP_NAME }}-${{ env.ARTIFACT_VERSION }}
+          path: dist
           overwrite: true
+          
   docker:
     needs: build
     runs-on: ubuntu-latest
@@ -109,3 +123,64 @@ jobs:
           build-args: |
             APP_NAME=${{ env.APP_NAME }}
             APP_VERSION=${{ env.APP_VERSION }}
+
+  release:
+    needs: [build, docker]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/test-release'
+    runs-on: ubuntu-latest
+    env:
+      APP_NAME: ${{ vars.APP_NAME }}
+      APP_VERSION: ${{ needs.build.outputs.APP_VERSION }}
+      ARTIFACT_VERSION: ${{ needs.build.outputs.ARTIFACT_VERSION }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Configure Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.ARTIFACT_VERSION }}
+          path: ./artifact
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DOCKER_IMAGE_URL="docker.io/douniabed/${{ env.APP_NAME }}:${{ env.ARTIFACT_VERSION }}"
+          RELEASE_NOTES="Release of version ${{ env.APP_VERSION }}
+
+          Docker image: \`${DOCKER_IMAGE_URL}\`"
+          
+          gh release create v${{ env.APP_VERSION }} ./artifact/* \
+            --title "Release ${{ env.APP_VERSION }}" \
+            --notes "${RELEASE_NOTES}" \
+            --target ${{ github.ref_name }}
+
+      - name: Increment version and create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          git checkout -b bump-version-${{ env.APP_VERSION }}
+          npm version patch
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          git commit -am "Bump version to ${NEW_VERSION} [skip ci]"
+          git push origin bump-version-${{ env.APP_VERSION }}
+          
+          gh pr create --base develop --head bump-version-${{ env.APP_VERSION }} \
+            --title "Bump version to ${NEW_VERSION}" \
+            --body "Automated version bump after release ${{ env.APP_VERSION }}"
+
+          # Optionally, auto-merge the PR if your branch protection rules allow it
+          gh pr merge bump-version-${{ env.APP_VERSION }} --auto --merge
