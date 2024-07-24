@@ -25,7 +25,7 @@ export class MeetingListComponent {
     }
     setTimeout(() => {
     this.meetingsLoading = false;
-    }, 50);
+    }, 1000);
   }
 
   toggleMeetingDetails(meeting: Meeting): void {
