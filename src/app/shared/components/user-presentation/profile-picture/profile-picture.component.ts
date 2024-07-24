@@ -38,7 +38,6 @@ export class ProfilePictureComponent implements AfterViewInit {
     dropzone.on('thumbnail', (file: File) => {
       this.isProfilePicturePreview = true;
       this.thumbnailGenerated.emit(file);
-      console.log('file: ', file)
     });
 
     dropzone.on('removedfile', () => {
