@@ -64,7 +64,8 @@ jobs:
         id: set_app_version
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == "refs/heads/test-release" ]]; then
-            APP_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")
+            COMMIT_SHA=$(git rev-parse --short HEAD)
+            APP_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")-${COMMIT_SHA}
           else
             APP_VERSION=$(node -p "require('./package.json').version")
           fi
@@ -161,9 +162,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Obtenir le court commit SHA
+          # Obtenir le commit id
           COMMIT_SHA=$(git rev-parse --short HEAD)
-          RELEASE_VERSION="${{ env.APP_VERSION }}-${COMMIT_SHA}"
+          RELEASE_VERSION="${{ env.APP_VERSION }}
           DOCKER_IMAGE_URL="docker.io/douniabed/${{ env.APP_NAME }}:${{ env.ARTIFACT_VERSION }}"
           RELEASE_NOTES="front-a-deux-pas release v${RELEASE_VERSION}
       
