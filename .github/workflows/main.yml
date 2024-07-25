@@ -170,7 +170,7 @@ jobs:
           Docker image: \`${DOCKER_IMAGE_URL}\`"
           
           gh release create v${{ env.APP_VERSION }} front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip \
-            --title "Release ${{ env.APP_VERSION }}" \
+            --title "${{ env.APP_NAME }} Release ${{ env.APP_VERSION }}" \
             --notes "${RELEASE_NOTES}" \
             --target ${{ github.ref_name }}
 
@@ -179,14 +179,26 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
           git checkout -b bump-version-${{ env.APP_VERSION }}
-          npm version patch
+          
+          # Retirer le suffixe -SNAPSHOT et incrémenter la version
+          CURRENT_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")
+          npm --no-git-tag-version version $CURRENT_VERSION
+          npm --no-git-tag-version version patch
           NEW_VERSION=$(node -p "require('./package.json').version")
-          git commit -am "Bump version to ${NEW_VERSION} [skip ci]"
+          
+          # Ajouter le suffixe -SNAPSHOT à la nouvelle version
+          sed -i 's/"version": "'"$NEW_VERSION"'"/"version": "'"$NEW_VERSION-SNAPSHOT"'"/' package.json
+          NEW_VERSION="${NEW_VERSION}-SNAPSHOT"
+          
+          # Commit les changements
+          git add package.json
+          git commit -m "Increment version to ${NEW_VERSION} [skip ci]"
           git push origin bump-version-${{ env.APP_VERSION }}
           
-          gh pr create --base develop --head bump-version-${{ env.APP_VERSION }} \
-            --title "Bump version to ${NEW_VERSION}" \
-            --body "Automated version bump after release ${{ env.APP_VERSION }}"
-
+          # Créer la PR
+          gh pr create --base dev --head bump-version-${{ env.APP_VERSION }} \
+            --title "Increment version to ${NEW_VERSION}" \
+            --body "Automated version increment to ${NEW_VERSION} after release of ${{ env.APP_VERSION }}"
+      
           # auto-merge the PR
           gh pr merge bump-version-${{ env.APP_VERSION }} --auto --merge
