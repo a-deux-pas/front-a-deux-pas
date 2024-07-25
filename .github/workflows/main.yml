@@ -164,16 +164,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Obtenir le court commit SHA
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          RELEASE_VERSION="${{ env.APP_VERSION }}-${COMMIT_SHA}"
           DOCKER_IMAGE_URL="docker.io/douniabed/${{ env.APP_NAME }}:${{ env.ARTIFACT_VERSION }}"
-          RELEASE_NOTES="Release of version ${{ env.APP_VERSION }}
+          RELEASE_NOTES="Release of version $RELEASE_VERSION
       
-          Docker image: \`${DOCKER_IMAGE_URL}\`"
+          Docker image: \`${DOCKER_IMAGE_URL}\`
+          Commit: ${COMMIT_SHA}"
           
-          gh release create v${{ env.APP_VERSION }} front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip \
-            --title "${{ env.APP_NAME }} Release ${{ env.APP_VERSION }}" \
+          gh release create v${RELEASE_VERSION} front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip \
+            --title "front-a-deux-pas Release ${RELEASE_VERSION}" \
             --notes "${RELEASE_NOTES}" \
             --target ${{ github.ref_name }}
-
+            
       - name: Increment version and create PR
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
@@ -202,3 +206,4 @@ jobs:
       
           # auto-merge the PR
           gh pr merge bump-version-${{ env.APP_VERSION }} --auto --merge
+          
