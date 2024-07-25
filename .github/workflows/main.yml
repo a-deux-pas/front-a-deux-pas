@@ -182,7 +182,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
-          git checkout -b bump-version-${{ env.APP_VERSION }}
+          # Générer un nom de branche unique
+          BRANCH_NAME="bump-version-$(date +%Y%m%d%H%M%S)"
+          git checkout -b $BRANCH_NAME
           
           # Retirer le suffixe -SNAPSHOT et incrémenter la version
           CURRENT_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")
@@ -197,11 +199,11 @@ jobs:
           # Commit les changements
           git add package.json
           git commit -m "Increment version to ${NEW_VERSION} [skip ci]"
-          git push origin bump-version-${{ env.APP_VERSION }}
+          git push origin $BRANCH_NAME
           
-          gh pr create --base develop --head bump-version-${{ env.APP_VERSION }} \
-          --title "Bump version to ${NEW_VERSION}" \
-          --body "Automated version bump after release ${{ env.APP_VERSION }}"
+          gh pr create --base develop --head $BRANCH_NAME \
+            --title "Bump version to ${NEW_VERSION}" \
+            --body "Automated version bump after release ${{ env.APP_VERSION }}"
 
           echo "Pull request created successfully. Please review and merge manually."
           
