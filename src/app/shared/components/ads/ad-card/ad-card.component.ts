@@ -42,7 +42,6 @@ export class AdCardComponent implements OnInit {
   }
 
   goToAdPage(adId: number, adPublisherAlias: string, adPublisherId: number) {
-     // TO DO : fixer le problème de redirection depuis l'onglet mon annonce
     if (this.type === 'loggedInUserAd') {
       window.location.href = `/compte/annonces/mon-annonce/${adId}`;
     } else {
@@ -50,9 +49,7 @@ export class AdCardComponent implements OnInit {
         // If no user is logged in and visits a seller's ad page
         // Store adPublisherId in sessionStorage
         sessionStorage.setItem('adPublisherId', adPublisherId.toString());
-        window.location.href = `/annonce/${adPublisherAlias}/${adId}`;
       }
-      sessionStorage.setItem('adPublisherId', adPublisherId.toString());
       window.location.href = `/annonce/${adPublisherAlias}/${adId}`;
     }
   }

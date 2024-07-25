@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdService } from '../../../services/ad.service';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,7 @@ import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdPageContentService } from './ad-page-content.service';
 import { AdListComponent } from '../ad-list/ad-list.component';
 import { ArticleState } from '../../../models/enum/article-state.enum';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-ad-page-content',
@@ -35,29 +36,31 @@ import { ArticleState } from '../../../models/enum/article-state.enum';
 export class AdPageComponent implements OnInit {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
-  onLoggedInUserAd: boolean | undefined;
-  onSellerAd!: boolean;
-  @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
+  areaSizeA!: number
+  areaSizeB!: number
   currentAd!: AdDetails | undefined;
   selectedPicNumber: number = 2;
   articlePictures: string[] = [];
-  areaSizeA!: number
-  areaSizeB!: number
   showSeeMorBtn!: boolean;
   pageNumber: number = 0;
   pageSize!: number;
+  displayedAdsCount!: number;
   noMoreAds: boolean = false;
   userOtherAds: AdCard[] = [];
   similarAds: AdCard[] = [];
+  logginSubscription!: Subscription;
   loggedInUserId!: number;
   adPublisherId!: number;
-  displayedAdsCount!: number;
+  onLoggedInUserAd: boolean | undefined;
+  onSellerAd!: boolean;
   isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
     private adService: AdService,
     private adPageContentService: AdPageContentService,
     private displayManagementService: DisplayManagementService
@@ -67,34 +70,40 @@ export class AdPageComponent implements OnInit {
     const adId: number | null = Number(this.route.snapshot.paramMap.get('adId'));
     this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
     this.loggedInUserId = Number(localStorage.getItem('userId'));
-    // change navbar
-    if (!this.loggedInUserId) {
-      this.adService.isOnSellerAdPageUnLogged(true);
-    }
-    // fetch the ad
+    this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
+    this.onSellerAd = !this.onLoggedInUserAd;
+    // Check loggin status
+    this.logginCheck(adId) ;
+    // Fetch the ad
     this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
       next: (ad: AdDetails) => {
-        if (this.loggedInUserId) {
-          this.onLoggedInUserAd = this.adPublisherId == this.loggedInUserId;
-          console.error(this.adPublisherId, ' - ', this.loggedInUserId)
-          this.onSellerAd = !this.onLoggedInUserAd;
-        }
         this.currentAd = ad;
         this.articlePictures = ad.articlePictures || [];
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length)
-        // fetch the ads list
+        // Fetch the ads list
         this.pageSize = this.onLoggedInUserAd ? 8 : 4;
         this.displayedAdsCount = this.pageSize;
         this.fetchPaginatedAdsList();
 
         if (this.onSellerAd) {
-          // fetch ads list with the same category
+          // Fetch ads list with the same category
           this.getSimilarAds();
         }
         // Waits pictures loading
         setTimeout(() => {
           this.isLoading = false;
         }, 600);
+      }
+    });
+  }
+
+  logginCheck(adId: number) {
+    this.logginSubscription = this.authService.isLoggedIn().subscribe((isLoggedIn: boolean) => {
+      if (!isLoggedIn) {
+        this.adService.isOnSellerAdPageUnLogged(true);
+      }
+      if (isLoggedIn && this.adPublisherId == this.loggedInUserId) {
+        this.router.navigate(['compte/annonces/mon-annonce/', adId]);
       }
     });
   }
@@ -161,7 +170,8 @@ export class AdPageComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.adService.isOnSellerAdPageUnLogged(false)
+    this.adService.isOnSellerAdPageUnLogged(false);
+    this.logginSubscription.unsubscribe();
     sessionStorage.removeItem('adPublisherId');
   }
 }
