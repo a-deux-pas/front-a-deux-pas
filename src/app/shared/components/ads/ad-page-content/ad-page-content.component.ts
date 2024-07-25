@@ -3,7 +3,7 @@ import { AdService } from '../../../services/ad.service';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
@@ -67,16 +67,18 @@ export class AdPageComponent implements OnInit {
     const adId: number | null = Number(this.route.snapshot.paramMap.get('adId'));
     this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
     this.loggedInUserId = Number(localStorage.getItem('userId'));
-    sessionStorage.removeItem('adPublisherId');
-    this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
-    this.onSellerAd = !this.onLoggedInUserAd;
-    // change navbar if no user logged in
+    // change navbar 
     if (!this.loggedInUserId) {
       this.adService.isOnSellerAdPageUnLogged(true);
     }
     // fetch the ad
     this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
       next: (ad: AdDetails) => {
+        if (this.loggedInUserId) {
+          this.onLoggedInUserAd = this.adPublisherId == this.loggedInUserId;
+          console.error(this.adPublisherId, ' - ', this.loggedInUserId)
+          this.onSellerAd = !this.onLoggedInUserAd;
+        }
         this.currentAd = ad;
         this.articlePictures = ad.articlePictures || [];
         [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length)
@@ -160,5 +162,6 @@ export class AdPageComponent implements OnInit {
 
   ngOnDestroy() {
     this.adService.isOnSellerAdPageUnLogged(false)
+    sessionStorage.removeItem('adPublisherId');
   }
 }
