@@ -201,7 +201,7 @@ jobs:
           git commit -m "Increment version to ${NEW_VERSION} [skip ci]"
           git push origin $BRANCH_NAME
           
-          gh pr create --base develop --head $BRANCH_NAME \
+          gh pr create --base dev --head $BRANCH_NAME \
             --title "Bump version to ${NEW_VERSION}" \
             --body "Automated version bump after release ${{ env.APP_VERSION }}"
 
