@@ -3,7 +3,7 @@ import { AdService } from '../../../services/ad.service';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, Input, ViewChild } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
@@ -73,7 +73,7 @@ export class AdPageComponent implements OnInit {
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
     this.onSellerAd = !this.onLoggedInUserAd;
     // Check loggin status
-    this.logginCheck(adId) ;
+    this.loggedInCheck(adId) ;
     // Fetch the ad
     this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
       next: (ad: AdDetails) => {
@@ -97,7 +97,7 @@ export class AdPageComponent implements OnInit {
     });
   }
 
-  logginCheck(adId: number) {
+  loggedInCheck(adId: number) {
     this.logginSubscription = this.authService.isLoggedIn().subscribe((isLoggedIn: boolean) => {
       if (!isLoggedIn) {
         this.adService.isOnSellerAdPageUnLogged(true);
