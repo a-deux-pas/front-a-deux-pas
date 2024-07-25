@@ -22,7 +22,7 @@ jobs:
     # export APP_VERSION to other jobs
     outputs:
       APP_VERSION: ${{ steps.set_app_version.outputs.APP_VERSION }}
-      ARTIFACT_VERSION: ${{ steps.set_artifact_version.outputs.ARTIFACT_VERSION }}
+      ARTIFACT_VERSION: ${{ steps.set_app_version.outputs.ARTIFACT_VERSION }}
     strategy:
       matrix:
         node-version: [20.x]
