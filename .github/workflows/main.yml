@@ -60,27 +60,24 @@ jobs:
           component: true
 
       # Get application version from pom.xml to variable
-      - name: Retrieve Application Version
+      - name: Retrieve Application Version and set Artifact Version
         id: set_app_version
         run: |
-          APP_VERSION=$(node -p "require('./package.json').version")
+          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == "refs/heads/test-release" ]]; then
+            APP_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")
+          else
+            APP_VERSION=$(node -p "require('./package.json').version")
+          fi
+
           echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_OUTPUT
           echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
 
-      - name: Print Package.json project version
-        run: echo "application version = ${{ env.APP_VERSION }}"
-
-      - name: Set Artifact Version
-        id: set_artifact_version
-        run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == "refs/heads/test-release" ]]; then
-            ARTIFACT_VERSION="${APP_VERSION}"
-          else
-            BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | sed 's/[^a-zA-Z0-9]/-/g')
-            ARTIFACT_VERSION="${APP_VERSION}-${BRANCH_NAME}"
-          fi
+          ARTIFACT_VERSION="${APP_VERSION}"
           echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" >> $GITHUB_OUTPUT
           echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" >> $GITHUB_ENV
+
+      - name: Print Package.json project version
+        run: echo "application version = ${{ env.APP_VERSION }}"
 
       - name: Upload Application Package
         uses: actions/upload-artifact@v3
