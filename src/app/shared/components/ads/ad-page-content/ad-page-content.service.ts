@@ -15,7 +15,7 @@ export class AdPageContentService {
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
-  ) {}
+  ) { }
 
   // Find a specific ad
   getAdById(adId: number, userId: number): Observable<AdDetails> {

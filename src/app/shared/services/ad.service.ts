@@ -16,7 +16,7 @@ export class AdService {
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
-  ) {}
+  ) { }
 
   // Fetch the ads that match the filtering criteria passed as query params
   fetchFilteredAds(

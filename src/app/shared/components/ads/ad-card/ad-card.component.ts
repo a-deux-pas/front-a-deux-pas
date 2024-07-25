@@ -18,7 +18,7 @@ export class AdCardComponent implements OnInit {
     private renderer: Renderer2,
     private el: ElementRef,
     private adFavoriteService: AdFavoriteService
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.ad.title.length > 23) {
@@ -46,6 +46,7 @@ export class AdCardComponent implements OnInit {
       window.location.href = `/compte/annonces/mon-annonce/${adId}`;
     } else {
       if (!this.currentUserId) {
+        // If no user is logged in and visits a seller's ad page
         // Store adPublisherId in sessionStorage
         sessionStorage.setItem('adPublisherId', adPublisherId.toString());
       }
