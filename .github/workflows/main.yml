@@ -168,13 +168,13 @@ jobs:
           COMMIT_SHA=$(git rev-parse --short HEAD)
           RELEASE_VERSION="${{ env.APP_VERSION }}-${COMMIT_SHA}"
           DOCKER_IMAGE_URL="docker.io/douniabed/${{ env.APP_NAME }}:${{ env.ARTIFACT_VERSION }}"
-          RELEASE_NOTES="Release of version $RELEASE_VERSION
+          RELEASE_NOTES="front-a-deux-pas release v${RELEASE_VERSION}
       
           Docker image: \`${DOCKER_IMAGE_URL}\`
           Commit: ${COMMIT_SHA}"
           
           gh release create v${RELEASE_VERSION} front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip \
-            --title "front-a-deux-pas Release ${RELEASE_VERSION}" \
+            --title "v${RELEASE_VERSION}" \
             --notes "${RELEASE_NOTES}" \
             --target ${{ github.ref_name }}
             
@@ -201,7 +201,7 @@ jobs:
           git commit -m "Increment version to ${NEW_VERSION} [skip ci]"
           git push origin $BRANCH_NAME
           
-          gh pr create --base develop --head $BRANCH_NAME \
+          gh pr create --base dev --head $BRANCH_NAME \
             --title "Bump version to ${NEW_VERSION}" \
             --body "Automated version bump after release ${{ env.APP_VERSION }}"
 
