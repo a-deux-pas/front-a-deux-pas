@@ -15,17 +15,9 @@ export class AdFormService {
     private handleErrorService: HandleErrorService
   ) { }
 
-  postAd(ad: AdDetails, adPicFile: File[]): Observable<AdDetails> {
+  postAd(adData: FormData): Observable<AdDetails> {
     const url = `${API_URL}ads/create`
-    const adJson = JSON.stringify(ad)
-    const adBlob = new Blob([adJson], {
-      type: 'application/json'
-    })
-    const adData: FormData = new FormData();
-    adData.append('adInfo', adBlob);
-    adPicFile.forEach((file, index) => {
-      adData.append(`adPicture-${index + 1}`, file);
-    });
+    
     return this.http.post<AdDetails>(url, adData).pipe(
       catchError(this.handleErrorService.handleError)
     );

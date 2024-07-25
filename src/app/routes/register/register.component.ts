@@ -15,6 +15,7 @@ import { UserProfile } from '../../shared/models/user/user-profile.model';
 import { DisplayManagementService } from '../../shared/services/display-management.service';
 import { escapeHtml, formatText } from '../../shared/utils/sanitizers/custom-sanitizers';
 import { ALERTS } from '../../shared/utils/constants/alert-constants';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -100,7 +101,6 @@ export class RegisterComponent implements AfterViewInit {
       const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
       const userProfile = new UserProfile(
         this.userId,
-        '',
         userAlias,
         escapeHtml(this.profileForm.get('bio')?.value) || null,
         formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value)),
@@ -112,7 +112,17 @@ export class RegisterComponent implements AfterViewInit {
         this.preferredMeetingPlaces,
         this.notifications
       );
-      this.registerService.saveProfile(userProfile, this.userProfilePicture!).subscribe({
+      const profileJson = JSON.stringify(userProfile);
+      const profileBlob = new Blob([profileJson], {
+        type: 'application/json'
+      });
+      // JSON.parse will create a javascript object which is not what the backend is expecting. 
+      // it needs to be sent as a JSON file.
+      // which is what's created by a blob
+      const userProfileData: FormData = new FormData();
+      userProfileData.append('profileInfo', profileBlob);
+      userProfileData.append('profilePicture', this.userProfilePicture!);
+      this.registerService.saveProfile(userProfileData).subscribe({
         next: () => {
           localStorage.setItem('userAlias', userAlias);
           this.goBack();
@@ -122,10 +132,16 @@ export class RegisterComponent implements AfterViewInit {
             );
           }, 100);
         },
-        error: () => {
-          this.displayManagementService.displayAlert(
-            ALERTS.DEFAULT_ERROR
-          );
+        error: (error: HttpErrorResponse) => {
+          if (error.status == 413) {
+            this.displayManagementService.displayAlert(
+              ALERTS.UPLOAD_PICTURE_ERROR
+            );
+          } else {
+            this.displayManagementService.displayAlert(
+              ALERTS.DEFAULT_ERROR,
+            );
+          }
         }
       });
     } else {

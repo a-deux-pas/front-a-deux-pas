@@ -8,7 +8,6 @@ import { ArticleState } from '../../../models/enum/article-state.enum';
 import { Category } from '../../../models/enum/category.enum';
 import { Categories } from '../../../utils/constants/categories-arrangement';
 import { Subcategory } from '../../../models/enum/subcategory.enum';
-import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { AdFormService } from './ad-form.service';
@@ -24,7 +23,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './ad-form.component.html',
   styleUrl: './ad-form.component.scss',
   standalone: true,
-  imports: [FormsModule, NgSelectModule, NgxDropzoneModule, NgClass, NgbCarousel, NgbSlide, DropzoneModule]
+  imports: [FormsModule, NgSelectModule, NgClass, NgbCarousel, NgbSlide, DropzoneModule]
 })
 export class AdFormComponent implements AfterViewChecked {
   @Input() formTitle!: string;
@@ -207,7 +206,16 @@ export class AdFormComponent implements AfterViewChecked {
       Subcategory.OTHER_SUBCATEGORY :
       this.ad.subcategory.name;
     this.ad.publisherId = Number(localStorage.getItem('userId')!);
-    this.adformService.postAd(this.ad, this.articlePictures).subscribe({
+    const adJson = JSON.stringify(this.ad)
+    const adBlob = new Blob([adJson], {
+      type: 'application/json'
+    })
+    const adData: FormData = new FormData();
+    adData.append('adInfo', adBlob);
+    this.articlePictures.forEach((file, index) => {
+      adData.append(`adPicture-${index + 1}`, file);
+    });
+    this.adformService.postAd(adData).subscribe({
       next: (ad: AdDetails) => {
         this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
         setTimeout(() => {

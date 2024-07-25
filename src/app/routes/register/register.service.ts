@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { HandleErrorService } from '../../shared/services/handle-error.service';
 import { API_URL } from '../../shared/utils/constants/util-constants';
 import { Observable, catchError } from 'rxjs';
-import { UserProfile } from '../../shared/models/user/user-profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +14,7 @@ export class RegisterService {
     private handleErrorService: HandleErrorService
   ) { }
 
-  saveProfile(profile: UserProfile, profilePicFile: File): Observable<any> {
-    const profileJson = JSON.stringify(profile);
-    const profileBlob = new Blob([profileJson], {
-      type: 'application/json'
-    });
-
-    // JSON.parse will create a javascript object which is not what the backend is expecting. 
-    // it needs to be sent as a JSON file.
-    // which is what's created by a blob
-    const userProfileData: FormData = new FormData();
-    userProfileData.append('profileInfo', profileBlob);
-    userProfileData.append('profilePicture', profilePicFile);
+  saveProfile(userProfileData: FormData): Observable<any> {
     return this.http.patch(`${API_URL}account/create`, userProfileData, {
       responseType: 'text' as 'json'
     }).pipe(
