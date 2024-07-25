@@ -41,3 +41,13 @@ testem.log
 .DS_Store
 Thumbs.db
 /src/environments/environment.local.ts
+
+# Build artifacts
+/artifact
+*.zip
+
+# Release files
+*.tgz
+
+# Environment files
+.env
