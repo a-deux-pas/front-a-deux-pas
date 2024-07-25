@@ -42,24 +42,21 @@ export class AdCardComponent implements OnInit {
   }
 
   goToAdPage(adId: number, adPublisherAlias: string, adPublisherId: number) {
-
+     // TO DO : fixer le problème de redirection depuis l'onglet mon annonce
     if (this.type === 'loggedInUserAd') {
-      // window.location.href = `/compte/annonces/mon-annonce/${adId}`;
-      console.log('adId111 ;', adId, 'adPublisherAlias:  ', adPublisherAlias, 'adPublisherId:  ', adPublisherId)
+      window.location.href = `/compte/annonces/mon-annonce/${adId}`;
     } else {
       if (!this.currentUserId) {
         // If no user is logged in and visits a seller's ad page
         // Store adPublisherId in sessionStorage
         sessionStorage.setItem('adPublisherId', adPublisherId.toString());
         window.location.href = `/annonce/${adPublisherAlias}/${adId}`;
-        console.log('adId222 ;', adId, 'adPublisherAlias:  ', adPublisherAlias, 'adPublisherId:  ', adPublisherId)
       }
       sessionStorage.setItem('adPublisherId', adPublisherId.toString());
       window.location.href = `/annonce/${adPublisherAlias}/${adId}`;
-      console.log('adId ;', adId, 'adPublisherAlias:  ', adPublisherAlias, 'adPublisherId:  ', adPublisherId)
     }
   }
-  // TO DO : GERER LA REDIRECTION depuis onglet mon annonce
+
   addToFavorites(event: Event) {
     event.stopPropagation();
     this.ad.favorite = !this.ad.favorite;
