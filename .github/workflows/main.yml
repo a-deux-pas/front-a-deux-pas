@@ -154,16 +154,22 @@ jobs:
           name: ${{ env.APP_NAME }}-${{ env.ARTIFACT_VERSION }}
           path: ./artifact
 
+      - name: Create archive of artifact
+        run: |
+          cd ./artifact
+          zip -r ../front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip .
+          cd ..
+      
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           DOCKER_IMAGE_URL="docker.io/douniabed/${{ env.APP_NAME }}:${{ env.ARTIFACT_VERSION }}"
           RELEASE_NOTES="Release of version ${{ env.APP_VERSION }}
-
+      
           Docker image: \`${DOCKER_IMAGE_URL}\`"
           
-          gh release create v${{ env.APP_VERSION }} ./artifact/* \
+          gh release create v${{ env.APP_VERSION }} front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip \
             --title "Release ${{ env.APP_VERSION }}" \
             --notes "${RELEASE_NOTES}" \
             --target ${{ github.ref_name }}
@@ -182,5 +188,5 @@ jobs:
             --title "Bump version to ${NEW_VERSION}" \
             --body "Automated version bump after release ${{ env.APP_VERSION }}"
 
-          # Optionally, auto-merge the PR if your branch protection rules allow it
+          # auto-merge the PR
           gh pr merge bump-version-${{ env.APP_VERSION }} --auto --merge
