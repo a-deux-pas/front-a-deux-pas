@@ -164,7 +164,7 @@ jobs:
         run: |
           # Obtenir le commit id
           COMMIT_SHA=$(git rev-parse --short HEAD)
-          RELEASE_VERSION="${{ env.APP_VERSION }}
+          RELEASE_VERSION="${{ env.APP_VERSION }}"
           DOCKER_IMAGE_URL="docker.io/douniabed/${{ env.APP_NAME }}:${{ env.ARTIFACT_VERSION }}"
           RELEASE_NOTES="front-a-deux-pas release v${RELEASE_VERSION}
       
