@@ -8,6 +8,6 @@ export enum AlertMessage {
   FAVORITES_REMOVED_SUCCESS = 'L\'annonce a été supprimée de vos favoris',
 
   // Error messages
-  UPLOAD_PICTURE_ERROR = 'Une erreur s\'est produite lors de l\'upload de l\'image, veuillez réessayer plus tard',
+  UPLOAD_PICTURE_ERROR = 'Vos images dépassent la taille autorisée',
   DEFAULT_ERROR = 'Une erreur s\'est produite, veuillez réessayer plus tard',
 }

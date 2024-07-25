@@ -8,16 +8,16 @@
         <p class="statusStamp">Réservé</p>
       }
     }
-  <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
-</div>
+    <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
+  </div>
   <div class="card-colored-border">
     <div class="card-body">
       <h5 class="card-title pb-2">{{ ad.title }}</h5>
       @if (type !== 'loggedInUserAd') {
-        <p class="card-text">{{ ad.publisherAlias }}</p>
+      <p class="card-text">{{ ad.publisherAlias }}</p>
       }
       @else {
-        <p class="white-space">''</p>
+      <p class="white-space">''</p>
       }
       <div class="bottom-card-part">
         @switch (type) {

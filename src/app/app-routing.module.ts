@@ -35,7 +35,7 @@ const routes: Routes = [
   {
     path: 'profil/:sellerAlias',
     loadComponent: () =>
-      import('./routes/seller-profile/seller-profile.component' ).then(
+      import('./routes/seller-profile/seller-profile.component').then(
         (mod) => mod.SellerProfileComponent
       ),
     canActivate: [AuthGuard]
@@ -51,4 +51,4 @@ const routerOptions: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

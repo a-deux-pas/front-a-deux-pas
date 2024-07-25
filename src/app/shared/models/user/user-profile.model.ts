@@ -5,7 +5,6 @@ import { PreferredSchedule } from "./preferred-schedule.model";
 export class UserProfile {
   constructor(
     public id: string,
-    public profilePicture: string | null, // TO DO: retirer null une fois cloudinary mis en place côté back
     public alias: string,
     public bio: string | null,
     public city: string,
@@ -16,5 +15,5 @@ export class UserProfile {
     public preferredSchedules: PreferredSchedule[],
     public preferredMeetingPlaces: PreferredMeetingPlace[],
     public notifications?: EventNotification[],
-  ) {}
+  ) { }
 }

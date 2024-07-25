@@ -42,7 +42,7 @@ export class ProfileComponent {
     private profileService: ProfileService,
     private userService: UserService,
     private userPresentationService: UserPresentationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!this.userAlias && this.userId) {
@@ -60,9 +60,10 @@ export class ProfileComponent {
     }, 50);
   }
 
-  private getUserAlias(userId: number): void  {
+  private getUserAlias(userId: number): void {
     this.userService.getUserAliasAndLocation(userId).subscribe((data: UserAliasAndLocation) => {
       this.userAlias = data.alias;
+      this.fetchUserPresentation(this.userAlias);
     })
   }
 

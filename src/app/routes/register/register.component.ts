@@ -15,6 +15,7 @@ import { UserProfile } from '../../shared/models/user/user-profile.model';
 import { DisplayManagementService } from '../../shared/services/display-management.service';
 import { escapeHtml, formatText } from '../../shared/utils/sanitizers/custom-sanitizers';
 import { ALERTS } from '../../shared/utils/constants/alert-constants';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -24,8 +25,9 @@ import { ALERTS } from '../../shared/utils/constants/alert-constants';
   templateUrl: './register.component.html'
 })
 export class RegisterComponent implements AfterViewInit {
+  profilPictureUrl!: string;
   profileForm: FormGroup;
-  userProfilePicture!: FormData;
+  userProfilePicture!: File | null;
   profilePicturePreview: boolean = false;
   preferredMeetingPlaces: PreferredMeetingPlace[] = [];
   scheduleEditMode: boolean = true;
@@ -44,10 +46,10 @@ export class RegisterComponent implements AfterViewInit {
   ) {
     this.profileForm = this.formBuilder.group({
       alias: ['', {
-        validators:[Validators.required, Validators.minLength(3), Validators.maxLength(30)],
-          asyncValidators: this.asyncValidatorService.uniqueAliasValidator(),
-          updateOn: 'blur'
-        }
+        validators: [Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+        asyncValidators: this.asyncValidatorService.uniqueAliasValidator(),
+        updateOn: 'blur'
+      }
       ],
       bio: ['', [Validators.minLength(10), Validators.maxLength(600)]],
       address: this.formBuilder.group({
@@ -62,14 +64,12 @@ export class RegisterComponent implements AfterViewInit {
     this.displayManagementService.configureAddressAutofill();
   }
 
-  getUserprofilePicture(eventType: string, userPicture: FormData): void {
+  getUserprofilePicture(eventType: string, userPicture: File): void {
     if (eventType === 'thumbnailGenerated' && userPicture) {
-      console.log('thumbnail generated');
       this.profilePicturePreview = true;
       this.userProfilePicture = userPicture;
     } else if (eventType === 'fileRemoved') {
-      console.log('thumbnail removed');
-      this.userProfilePicture = userPicture;
+      this.userProfilePicture = null;
       this.profilePicturePreview = false;
     }
     this.changeDetector.detectChanges();
@@ -98,51 +98,59 @@ export class RegisterComponent implements AfterViewInit {
 
   onSubmit() {
     if (this.profilePicturePreview && this.userId) {
-      // TO DO: Créer un service pour envoyer l'image au back
-      // this.uploadPicture(this.userProfilePicture).subscribe({
-      //     next: () => {
-              // si le backend renvoie l'url de l'image
-              // const profilePictureUrl = response.url;
-              const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
-              const userProfile = new UserProfile(
-                this.userId,
-                '', // à remplacer par l'URL de l'image
-                userAlias,
-                escapeHtml(this.profileForm.get('bio')?.value) || null,
-                formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value)),
-                escapeHtml(this.profileForm.get('address')?.get('street')?.value),
-                escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value),
-                escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
-                escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
-                this.preferredSchedules,
-                this.preferredMeetingPlaces,
-                this.notifications
-              );
-              this.registerService.saveProfile(userProfile).subscribe({
-                next: () => {
-                  localStorage.setItem('userAlias', userAlias);
-                  this.goBack();
-                  setTimeout(() => {
-                    this.displayManagementService.displayAlert(
-                      ALERTS.PROFILE_CREATED_SUCCESS,
-                    );
-                  }, 100);
-                },
-                error: () => {
-                  this.displayManagementService.displayAlert(
-                    ALERTS.DEFAULT_ERROR
-                  );
-                }
-              });
-          // }
-            } else {
-              console.error(`Errors: ${!this.profilePicturePreview ?
-                'Profile picture upload failed.' : ''} ${!this.userId ? 'User ID is null.' : ''}`);
-              this.displayManagementService.displayAlert(
-                ALERTS.DEFAULT_ERROR
-              );
-            }
-      // });
+      const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
+      const userProfile = new UserProfile(
+        this.userId,
+        userAlias,
+        escapeHtml(this.profileForm.get('bio')?.value) || null,
+        formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value)),
+        escapeHtml(this.profileForm.get('address')?.get('street')?.value),
+        escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value),
+        escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
+        escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
+        this.preferredSchedules,
+        this.preferredMeetingPlaces,
+        this.notifications
+      );
+      const profileJson = JSON.stringify(userProfile);
+      const profileBlob = new Blob([profileJson], {
+        type: 'application/json'
+      });
+      // JSON.parse will create a javascript object which is not what the backend is expecting. 
+      // it needs to be sent as a JSON file.
+      // which is what's created by a blob
+      const userProfileData: FormData = new FormData();
+      userProfileData.append('profileInfo', profileBlob);
+      userProfileData.append('profilePicture', this.userProfilePicture!);
+      this.registerService.saveProfile(userProfileData).subscribe({
+        next: () => {
+          localStorage.setItem('userAlias', userAlias);
+          this.goBack();
+          setTimeout(() => {
+            this.displayManagementService.displayAlert(
+              ALERTS.PROFILE_CREATED_SUCCESS,
+            );
+          }, 100);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status == 413) {
+            this.displayManagementService.displayAlert(
+              ALERTS.UPLOAD_PICTURE_ERROR
+            );
+          } else {
+            this.displayManagementService.displayAlert(
+              ALERTS.DEFAULT_ERROR,
+            );
+          }
+        }
+      });
+    } else {
+      console.error(`Errors: ${!this.profilePicturePreview ?
+        'Profile picture upload failed.' : ''} ${!this.userId ? 'User ID is null.' : ''}`);
+      this.displayManagementService.displayAlert(
+        ALERTS.DEFAULT_ERROR
+      );
+    }
   }
 
   goBack() {

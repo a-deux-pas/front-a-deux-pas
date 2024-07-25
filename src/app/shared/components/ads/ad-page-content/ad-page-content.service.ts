@@ -14,7 +14,7 @@ export class AdPageContentService {
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
-  ) {}
+  ) { }
 
   // Find ads with a specific category
   getSimilarAds(category: string, publisherId: number, userId?: number): Observable<AdCard[]> {

@@ -1,5 +1,3 @@
-import { ArticlePicture } from "./article-picture.model";
-
 export class AdDetails {
   constructor(
     public id: number,
@@ -10,12 +8,7 @@ export class AdDetails {
     public articleState: string,
     public price: number,
     public publisherId: number,
-    public articlePictures?: ArticlePicture[],
-    public firstArticlePictureUrl?: string,
-    public secondArticlePictureUrl?: string,
-    public thirdArticlePictureUrl?: string,
-    public fourthArticlePictureUrl?: string,
-    public fifthArticlePictureUrl?: string,
+    public articlePictures?: string[],
     public articleGender?: string,
     public status?: string,
     public creationDate?: string,

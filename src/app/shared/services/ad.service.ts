@@ -19,7 +19,7 @@ export class AdService {
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
-  ) {}
+  ) { }
 
   setAd(myAd: AdDetails) {
     this.adSubject.next(myAd);
