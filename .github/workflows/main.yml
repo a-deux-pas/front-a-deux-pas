@@ -199,11 +199,9 @@ jobs:
           git commit -m "Increment version to ${NEW_VERSION} [skip ci]"
           git push origin bump-version-${{ env.APP_VERSION }}
           
-          # Créer la PR
-          gh pr create --base dev --head bump-version-${{ env.APP_VERSION }} \
-            --title "Increment version to ${NEW_VERSION}" \
-            --body "Automated version increment to ${NEW_VERSION} after release of ${{ env.APP_VERSION }}"
-      
-          # auto-merge the PR
-          gh pr merge bump-version-${{ env.APP_VERSION }} --auto --merge
+          gh pr create --base develop --head bump-version-${{ env.APP_VERSION }} \
+          --title "Bump version to ${NEW_VERSION}" \
+          --body "Automated version bump after release ${{ env.APP_VERSION }}"
+
+          echo "Pull request created successfully. Please review and merge manually."
           
