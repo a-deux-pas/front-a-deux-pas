@@ -28,6 +28,10 @@ export class MeetingService {
     return this.http.get<Meeting[]>(`${this.apiUrl}/toBeFinalized/${userId}`);
   }
 
+  acceptMeeting(meetingId: number): Observable<Meeting> {
+    return this.http.put<Meeting>(`${this.apiUrl}/${meetingId}/accept`, {});
+  }
+
   // To be uncommented for testing the Stripe API's payment capture mechanism (demonstration purporses only)
   /*finalizeMeeting(meetingId: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/finalize/${meetingId}`);

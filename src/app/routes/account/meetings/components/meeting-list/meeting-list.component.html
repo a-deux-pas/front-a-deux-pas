@@ -23,10 +23,10 @@
       </a>
     </div>
     @if (selectedMeeting === meeting) {
-    <div class="col-sm-12 col-md-8 meeting-details-container fade-in mb-5">
+    <div class="col-sm-12 col-md-8 meeting-details-container mb-5">
       <div class="details-container col-md-12">
         <div class="details-header d-flex justify-content-center gap-3 mb-5">
-          @if (meeting.status === "FINALIZED") {
+          @if (meeting.status === "TOBEFINALIZED") {
           <button
             type="button"
             class="btn btn-link text-center"
@@ -40,7 +40,7 @@
           <button
             type="button"
             class="btn btn-link text-center"
-            (click)="modifyMeeting()"
+            (click)="onAcceptMeeting(meeting)"
           >
             <img
               src="assets/icons/meetings/confirm.webp"

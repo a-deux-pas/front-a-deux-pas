@@ -103,6 +103,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -380,15 +381,10 @@ button.btn {
 
 /*-----------------------------------------------------------------------*/
 
-// Spinner
+//Spinner
 $spinner-width: 4rem;
 $spinner-height: 4rem;
 $spinner-border-width: 0.5em;
-
-.spinner-border {
-  position: absolute;
-  top: 54%;
-}
 
 /*-----------------------------------------------------------------------*/
 
@@ -746,7 +742,7 @@ $card-spacer-y: 3.1875rem;
 
 #article-price {
   position: relative;
-  bottom: 9.8px;
+  bottom: 13.8px;
 }
 
 // Card image styling
@@ -1018,6 +1014,11 @@ a.dropdown-first-level.dropdown-toggle {
   filter: none !important;
 }
 
+.dropzone .dz-preview .dz-image,
+.dropzone .dz-preview:hover {
+  z-index: 2 !important;
+}
+
 .dropzone-add {
   display: flex;
   flex-direction: column;
@@ -1056,33 +1057,116 @@ app-profile-picture {
     height: auto !important;
   }
 
-  .dz-remove {
-    display: inline-block !important;
-    width: 1.2em;
-    height: 1.2em;
-    text-decoration: none;
-
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    z-index: 1000;
-
-    font-size: 1.2em !important;
-    line-height: 1em;
-
-    text-align: center;
-    font-weight: bold;
-    border: 1px solid gray !important;
-    border-radius: 1.2em;
-    color: gray;
-    background-color: white;
-    opacity: 0.5;
-  }
-
   .dz-remove:hover {
     text-decoration: none !important;
     opacity: 1;
   }
+}
+
+app-ad-form {
+  .mobile-dropzones,
+  .mobile-dropzones .dz-message {
+    width: 349px !important;
+    height: 315px !important;
+  }
+
+  .two-dropzones,
+  .two-dropzones .dz-message {
+    width: 423px !important;
+    height: 479px !important;
+  }
+
+  .three-dropzones,
+  .three-dropzones .dz-message {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+  }
+
+  .three-dropzones:first-child,
+  .three-dropzones:first-child .dz-message {
+    width: 523px !important;
+    height: 479px !important;
+    grid-area: 1 / 1 / 3 / 3 !important;
+  }
+
+  .three-dropzones:not(:first-child),
+  .three-dropzones:not(:first-child) .dz-message {
+    width: 316px !important;
+    height: 232px !important;
+  }
+
+  .three-dropzones:nth-child(2),
+  .three-dropzones:nth-child(2) .dz-message {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+
+  .three-dropzones:nth-child(3),
+  .three-dropzones:nth-child(3) .dz-message {
+    grid-area: 2 / 3 / 3 / 4;
+  }
+
+  .four-dropzones:first-child,
+  .four-dropzones:first-child .dz-message,
+  .four-dropzones:nth-child(4),
+  .four-dropzones:nth-child(4) .dz-message {
+    width: 308px !important;
+    height: 479px !important;
+  }
+
+  .four-dropzones:first-child,
+  .four-dropzones:first-child .dz-message {
+    grid-area: 1 / 1 / 3 / 2;
+  }
+
+  .four-dropzones:nth-child(4),
+  .four-dropzones:nth-child(4) .dz-message {
+    grid-area: 1 / 3 / 3 / 4;
+  }
+
+  .four-dropzones:nth-child(2),
+  .four-dropzones:nth-child(3),
+  .four-dropzones:nth-child(2) .dz-message,
+  .four-dropzones:nth-child(3) .dz-message {
+    width: 215px !important;
+    height: 232px !important;
+  }
+
+  .five-dropzones:first-child,
+  .five-dropzones:first-child .dz-message {
+    width: 308px !important;
+    height: 479px !important;
+    grid-area: 1 / 1 / 3 / 2 !important;
+  }
+
+  .five-dropzones:not(:first-child),
+  .five-dropzones:not(:first-child) .dz-message {
+    width: 256.67px !important;
+    height: 232px !important;
+  }
+}
+
+.dz-remove {
+  display: inline-block !important;
+  width: 1.2em;
+  height: 1.2em;
+  text-decoration: none;
+
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1000;
+
+  font-size: 1.2em !important;
+  line-height: 1em;
+
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid gray !important;
+  border-radius: 1.2em;
+  color: gray;
+  background-color: white;
+  opacity: 0.5;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -1197,6 +1281,14 @@ app-register {
   display: flex;
 }
 
+.carousel-control-prev {
+  margin-left: -13%;
+}
+
+.carousel-control-next {
+  margin-right: -13%;
+}
+
 .carousel-control-prev,
 .carousel-control-next {
   color: $primary !important;
@@ -1225,6 +1317,14 @@ app-register {
 
 [data-bs-target] {
   background-color: $primary !important;
+}
+
+.carousel-indicators {
+  z-index: 10;
+}
+
+.dz-image img {
+  z-index: 1;
 }
 
 ngb-carousel,

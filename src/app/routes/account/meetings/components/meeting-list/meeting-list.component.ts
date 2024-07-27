@@ -13,10 +13,11 @@ import { MeetingService } from '../../meeting.service';
 export class MeetingListComponent {
   @Input() meetings: Meeting[] = [];
   @Input() selectedMeeting?: Meeting;
+  @Input() currentUserId: number | undefined;
   @Output() modify = new EventEmitter<Meeting>();
   @Output() cancel = new EventEmitter<Meeting>();
   @Output() select = new EventEmitter<Meeting>();
-  @Input() currentUserId: number | undefined;
+  @Output() accept = new EventEmitter<Meeting>();
   meetingsLoading: boolean = true;
 
   constructor(private meetingService: MeetingService) {}
@@ -27,13 +28,17 @@ export class MeetingListComponent {
     }
     setTimeout(() => {
       this.meetingsLoading = false;
-    }, 50);
+    }, 1000);
   }
 
   toggleMeetingDetails(meeting: Meeting): void {
     this.selectedMeeting =
       this.selectedMeeting === meeting ? undefined : meeting;
     this.select.emit(this.selectedMeeting);
+  }
+
+  onAcceptMeeting(meeting: Meeting): void {
+    this.accept.emit(meeting);
   }
 
   onModifyMeeting(meeting: Meeting): void {

@@ -65,6 +65,7 @@ export class ProfileComponent {
       .getUserAliasAndLocation(userId)
       .subscribe((data: UserAliasAndLocation) => {
         this.userAlias = data.alias;
+        this.fetchUserPresentation(this.userAlias);
       });
   }
 
