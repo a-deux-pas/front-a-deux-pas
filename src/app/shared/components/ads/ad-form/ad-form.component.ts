@@ -148,7 +148,7 @@ export class AdFormComponent implements AfterViewChecked {
   private initializeDropzones(): void {
     setTimeout(() => {
       const dropzones = this.isBigScreen ? this.desktopDropzones : this.mobileDropzones;
-      dropzones.forEach((dropzoneComp, index) => {
+      dropzones?.forEach((dropzoneComp, index) => {
         const dropzone = dropzoneComp.directiveRef?.dropzone();
         if (dropzone) {
           dropzone.removeAllFiles(true);
