@@ -58,7 +58,7 @@ export class AdCardComponent implements OnInit {
     }
   }
 
-  goToAdUpdateForm(event: Event,adId: number) {
+  goToAdUpdateForm(event: Event, adId: number) {
     event.stopPropagation();
     this.router.navigate(['/compte/annonces/mon-annonce', adId, 'modification']);
   }

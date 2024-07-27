@@ -44,7 +44,6 @@ export class AdFormComponent implements AfterViewChecked {
 
   @ViewChildren('desktopDropzone') desktopDropzones!: QueryList<DropzoneComponent>;
   @ViewChildren('mobileDropzone') mobileDropzones!: QueryList<DropzoneComponent>;
-
   @ViewChild('dropzoneContainer') dropzoneContainer!: ElementRef;
   articlePictures: File[] = [];
   config: DropzoneConfigInterface;
