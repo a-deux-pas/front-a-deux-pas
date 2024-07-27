@@ -39,8 +39,8 @@ export class AdFormComponent implements AfterViewChecked {
   categories = Object.values(Category);
   subcategoryEnum = Subcategory;
   categoryEnum = Category;
-  disabledFields: boolean = false;
   hasInteractedWithDropzone: boolean = false;
+  isSubmitting: boolean = false;
 
   @ViewChildren('desktopDropzone') desktopDropzones!: QueryList<DropzoneComponent>;
   @ViewChildren('mobileDropzone') mobileDropzones!: QueryList<DropzoneComponent>;
@@ -285,6 +285,8 @@ export class AdFormComponent implements AfterViewChecked {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return; // Avoids multiple submissions
+    this.isSubmitting = true;
     this.sanitizeTheInputs();
     this.ad.subcategory = this.ad.category == this.categoryEnum.OTHER_CATEGORY ?
       Subcategory.OTHER_SUBCATEGORY : this.ad.subcategory;
@@ -305,32 +307,35 @@ export class AdFormComponent implements AfterViewChecked {
   }
 
   private createAd(adData: FormData): void {
-        this.adformService.createAd(adData).subscribe({
-          next: (ad: AdDetails) => {
-            this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
-            setTimeout(() => {
-              this.displayManagementService.displayAlert(
-                ALERTS.AD_CREATED_SUCCESS
-              );
-            }, 100);
-          },
-          error: (error: HttpErrorResponse) => {
-            if (error.status == 413) {
-              this.displayManagementService.displayAlert(
-                ALERTS.UPLOAD_PICTURE_ERROR
-              );
-            } else {
-              this.displayManagementService.displayAlert(
-                ALERTS.DEFAULT_ERROR,
-              );
-            }
-          }
-      });
-    }
+    this.adformService.createAd(adData).subscribe({
+      next: (ad: AdDetails) => {
+        this.isSubmitting = false;
+        this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
+        setTimeout(() => {
+          this.displayManagementService.displayAlert(
+            ALERTS.AD_CREATED_SUCCESS
+          );
+        }, 100);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isSubmitting = false;
+        if (error.status == 413) {
+          this.displayManagementService.displayAlert(
+            ALERTS.UPLOAD_PICTURE_ERROR
+          );
+        } else {
+          this.displayManagementService.displayAlert(
+            ALERTS.DEFAULT_ERROR,
+          );
+        }
+      }
+    });
+  }
 
     private updateAd(adData: FormData): void {
       this.adformService.updateAd(adData).subscribe({
         next: (ad: AdDetails) => {
+          this.isSubmitting = false;
           this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
           setTimeout(() => {
             this.displayManagementService.displayAlert(
@@ -339,6 +344,7 @@ export class AdFormComponent implements AfterViewChecked {
           }, 100);
         },
         error: (error: HttpErrorResponse) => {
+          this.isSubmitting = false;
           if (error.status == 413) {
             this.displayManagementService.displayAlert(
               ALERTS.UPLOAD_PICTURE_ERROR

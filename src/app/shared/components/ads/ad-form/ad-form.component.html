@@ -222,7 +222,14 @@
 
   <div class="bottom-btns mb-5 mt-5">
     <button type="button" class="btn-secondary mt-4" (click)="goBack()">annuler</button>
-    <button type="submit" class="btn-primary mt-4"
+    @if (isSubmitting) {
+      <button class="btn btn-primary mt-4" id="btn-spinner" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <output>&nbsp;en cours</output>
+      </button>
+    } @else {
+      <button type="submit" class="btn-primary mt-4"
       [disabled]="adForm.invalid || articlePictures.length < 2">publier</button>
+    }
   </div>
 </form>
