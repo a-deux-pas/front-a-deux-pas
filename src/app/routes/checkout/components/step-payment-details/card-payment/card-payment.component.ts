@@ -1,88 +1,167 @@
-import { Component } from '@angular/core';
-import { BillingSummaryCardComponent } from '../billing-summary-card/billing-summary-card.component';
-import {
-  loadStripe,
-  Stripe,
-  StripeCardElement,
-  StripeElements,
-} from '@stripe/stripe-js';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { loadStripe, Stripe, StripeElements } from '@stripe/stripe-js';
+import { environment } from '../../../../../../environments/environment.local';
+import { CheckoutService } from '../../../checkout.service';
+import { Router } from '@angular/router';
+import { BillingSummaryCardComponent } from '../billing-summary-card/billing-summary-card.component';
 
 @Component({
   selector: 'app-card-payment',
   standalone: true,
-  imports: [BillingSummaryCardComponent, ReactiveFormsModule],
+  imports: [BillingSummaryCardComponent, ReactiveFormsModule, FormsModule],
   templateUrl: './card-payment.component.html',
-  styleUrl: './card-payment.component.scss',
+  styleUrls: ['./card-payment.component.scss'],
 })
-export class CardPaymentComponent {
-  form: FormGroup;
+export class CardPaymentComponent implements OnInit {
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
-  card: StripeCardElement | null = null;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
-    this.form = this.fb.group({
+  cardNumber: any;
+  cardExpiry: any;
+  cardCvc: any;
+
+  style = {
+    base: {
+      color: '#32325d',
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#cff1ef', // our $tertiary
+      },
+    },
+    invalid: {
+      color: '#ff9f1a', // our $primary
+    },
+  };
+
+  paymentForm: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private checkoutService: CheckoutService,
+    private router: Router
+  ) {
+    this.paymentForm = this.fb.group({
       name: ['', Validators.required],
-      confirm: [false, Validators.requiredTrue],
+      cardNumber: ['', Validators.required],
+      cardExpiry: ['', Validators.required],
+      cardCvc: ['', Validators.required],
+      conditions: [false, Validators.requiredTrue],
     });
   }
 
-  async ngOnInit() {
-    this.stripe = await loadStripe(
-      'pk_test_51PehXqRqo0EYMuWs8RGL5PO2Rg5A6tIa1qPWgbDJsQtSvVDwXWEd7zRnrlcbKWs3RHdgDnkUYYxiAnk9GQosL17u006yqaLH8s'
-    );
+  ngOnInit() {
+    this.initializeStripe();
+  }
 
+  async initializeStripe() {
+    this.stripe = await loadStripe(environment.stripeToken);
     if (this.stripe) {
       this.elements = this.stripe.elements();
-      this.card = this.elements.create('card');
-      this.card.mount('#card-element');
+
+      this.cardNumber = this.elements.create('cardNumber', {
+        style: this.style,
+      });
+      this.cardExpiry = this.elements.create('cardExpiry', {
+        style: this.style,
+      });
+      this.cardCvc = this.elements.create('cardCvc', { style: this.style });
+
+      this.cardNumber.mount('#card-number-element');
+      this.cardExpiry.mount('#card-expiry-element');
+      this.cardCvc.mount('#card-cvc-element');
+
+      this.addEventListeners();
     }
   }
 
-  async pay() {
-    if (this.form.valid && this.stripe && this.card) {
-      const { paymentMethod, error } = await this.stripe.createPaymentMethod({
-        type: 'card',
-        card: this.card,
-        billing_details: {
-          name: this.form.get('name')?.value,
-        },
-      });
-
-      if (error) {
-        console.error(error);
+  addEventListeners() {
+    this.cardNumber.on('change', (event: any) => {
+      if (event.error) {
+        this.paymentForm
+          .get('cardNumber')
+          ?.setErrors({ stripe: event.error.message });
       } else {
-        this.http
-          .post<{ clientSecret: string }>(
-            'http://localhost:8080/api/payment/create-payment-intent',
-            {
-              paymentMethod: paymentMethod.id,
-            }
-          )
-          .subscribe(async (data) => {
-            const result = await this.stripe?.confirmCardPayment(
-              data.clientSecret,
-              {
-                payment_method: paymentMethod.id,
-              }
-            );
+        this.paymentForm.get('cardNumber')?.setErrors(null);
+      }
+    });
 
-            if (result?.error) {
-              console.error(result.error.message);
-            } else if (result?.paymentIntent.status === 'succeeded') {
-              console.log('Payment successful');
+    this.cardExpiry.on('change', (event: any) => {
+      if (event.error) {
+        this.paymentForm
+          .get('cardExpiry')
+          ?.setErrors({ stripe: event.error.message });
+      } else {
+        this.paymentForm.get('cardExpiry')?.setErrors(null);
+      }
+    });
+
+    this.cardCvc.on('change', (event: any) => {
+      if (event.error) {
+        this.paymentForm
+          .get('cardCvc')
+          ?.setErrors({ stripe: event.error.message });
+      } else {
+        this.paymentForm.get('cardCvc')?.setErrors(null);
+      }
+    });
+  }
+
+  async proposeMeeting() {
+    if (this.paymentForm.invalid) {
+      return;
+    }
+
+    this.checkoutService
+      .proposeMeeting(this.checkoutService.getProposedMeeting())
+      .subscribe((response: any) => {
+        this.createPaymentIntent(response);
+        this.router.navigate(['/compte/rdv']);
+      });
+  }
+
+  async createPaymentIntent(response: any) {
+    if (!this.stripe || !this.cardNumber || !this.cardExpiry || !this.cardCvc) {
+      return;
+    }
+
+    const { token, error } = await this.stripe.createToken(this.cardNumber, {
+      name: this.paymentForm.value.name,
+    });
+
+    if (error) {
+      console.error('Error creating token:', error);
+      return;
+    }
+
+    this.checkoutService
+      .createPaymentIntent(token, response.meetingId)
+      .subscribe((response) => {
+        console.log('Payment intent created:', response);
+        // confirm the created payment intent, using the Stripe client secret sent by our back end
+        this.stripe
+          ?.confirmCardPayment(response.clientSecret)
+          .then((result) => {
+            if (result.error) {
+              console.error(
+                'Error confirming card payment intent:',
+                result.error
+              );
+            } else {
+              console.log(
+                'Card payment intent confirmed:',
+                result.paymentIntent
+              );
             }
           });
-      }
-    } else console.error('nope : ');
-
-    console.log(this.form.valid, this.stripe, this.card);
+      });
   }
 }

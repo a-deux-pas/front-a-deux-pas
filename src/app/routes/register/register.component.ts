@@ -29,6 +29,7 @@ import {
 } from '../../shared/utils/sanitizers/custom-sanitizers';
 import { ALERTS } from '../../shared/utils/constants/alert-constants';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { environment } from '../../../environments/environment.local';
 
 @Component({
   selector: 'app-register',
@@ -59,9 +60,7 @@ export class RegisterComponent implements AfterViewInit {
   stripe: Stripe | null = null;
 
   async ngOnInit() {
-    this.stripe = await loadStripe(
-      'pk_test_51PehXqRqo0EYMuWs8RGL5PO2Rg5A6tIa1qPWgbDJsQtSvVDwXWEd7zRnrlcbKWs3RHdgDnkUYYxiAnk9GQosL17u006yqaLH8s'
-    );
+    this.stripe = await loadStripe(environment.stripeToken);
   }
 
   constructor(
@@ -149,8 +148,12 @@ export class RegisterComponent implements AfterViewInit {
       // si le backend renvoie l'url de l'image
       // const profilePictureUrl = response.url;
       const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
+      const bio = escapeHtml(this.profileForm.get('bio')?.value) || null;
       const city = formatText(
         escapeHtml(this.profileForm.get('address')?.get('city')?.value)
+      );
+      const street = escapeHtml(
+        this.profileForm.get('address')?.get('street')?.value
       );
       const postalCode = escapeHtml(
         this.profileForm.get('address')?.get('postalCode')?.value
@@ -171,9 +174,9 @@ export class RegisterComponent implements AfterViewInit {
         this.userId,
         '', // à remplacer par l'URL de l'image
         userAlias,
-        escapeHtml(this.profileForm.get('bio')?.value) || null,
+        bio,
         city,
-        escapeHtml(this.profileForm.get('address')?.get('street')?.value),
+        street,
         postalCode,
         bankAccountTokenId,
         this.preferredSchedules,

@@ -41,28 +41,8 @@ export class TimeIntervalPickerComponent
   selectedTime: string | null = null;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['sellerPreferredSchedules']) {
-      console.log(
-        'Seller preferred schedules updated:',
-        this.sellerPreferredSchedules
-      );
-      console.log(this.sellerPreferredSchedules);
-      console.log(
-        'currentDayPreferredSchedules: ',
-        this.currentDayPreferredSchedules
-      );
-      console.log('this selected day: ', this.selectedDate?.day);
-      if (this.currentDayPreferredSchedules)
-        console.log(
-          'day of week of pref schedule: ',
-          this.currentDayPreferredSchedules[0].daysOfWeek[0]
-        );
-    }
-
     if (changes['selectedDate']) {
-      console.log('Selected Date updated to: ', this.selectedDate);
       this.extractCurrentDayPreferredSchedules();
-      console.log('current day schedules: ', this.currentDayPreferredSchedules);
       this.generateHalfHourIntervalsForDisplay();
       this.selectedTime = null;
     }
@@ -78,10 +58,6 @@ export class TimeIntervalPickerComponent
 
   private generateHalfHourIntervalsForDisplay() {
     this.formatIntervals();
-    this.sortIntervals();
-  }
-
-  private sortIntervals() {
     this.halfHourIntervals.sort();
   }
 
@@ -100,11 +76,6 @@ export class TimeIntervalPickerComponent
   private extractCurrentDayPreferredSchedules() {
     this.currentDayPreferredSchedules = this.sellerPreferredSchedules?.filter(
       (schedule) => {
-        console.log('schedule weekday: ', schedule.daysOfWeek[0]);
-        console.log(
-          'selected weekday: ',
-          this.getWeekDayIndexFromDate(this.selectedDate)
-        );
         return (
           schedule.daysOfWeek[0] ===
           this.getWeekDayIndexFromDate(this.selectedDate)
@@ -124,7 +95,6 @@ export class TimeIntervalPickerComponent
   onTimeSelect(selectedMeetingTime: string) {
     this.selectedTime = selectedMeetingTime;
     this.timeSelected.emit(this.selectedTime);
-    console.log('selected time interval : ', this.selectedTime);
   }
 
   // ControlValueAccessor methods
@@ -142,6 +112,4 @@ export class TimeIntervalPickerComponent
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-
-  setDisabledState?(isDisabled: boolean): void {}
 }

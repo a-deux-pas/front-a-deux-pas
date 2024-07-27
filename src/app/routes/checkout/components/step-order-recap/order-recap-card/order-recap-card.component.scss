@@ -52,7 +52,7 @@ img {
 .text-container {
   max-width: 300px;
   max-height: 50px;
-  //text-overflow: ellipsis !important; // uncomment this for single line display before truncating
+  text-overflow: ellipsis !important;
   overflow: hidden !important;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -79,7 +79,7 @@ img {
   background: #555;
 }
 
-@media (max-width: 440px) {
+@media (max-width: 550px) {
   img {
     width: 100px;
     height: 80px;
@@ -89,10 +89,15 @@ img {
   .name-and-description {
     font-size: small;
   }
+
+  .text-container {
+    -webkit-line-clamp: 1; // number of lines to show before truncating
+    line-clamp: 1;
+  }
 }
 
 // Desktop
-@media (min-width: 730px) {
+@media (min-width: 900px) {
   .order-recap-card {
     margin-left: 25%;
     margin-right: 25%;

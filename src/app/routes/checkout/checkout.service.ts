@@ -57,15 +57,26 @@ export class CheckoutService {
     return this.proposedMeeting;
   }
 
-  postProposedMeeting(
+  proposeMeeting(
     proposedMeeting: BuyerProposedMeetingRequest | null
   ): Observable<BuyerProposedMeetingRequest> {
-    console.log('here');
     return this.http
       .post<BuyerProposedMeetingRequest>(
         `${this.contextUrl}/initialize`,
         proposedMeeting
       )
+      .pipe(catchError(this.handleErrorService.handleError));
+  }
+
+  createPaymentIntent(token: any, meetingId: any): Observable<any> {
+    return this.http
+      .post<any>(`${API_URL}payment/create-payment-intent`, {
+        amount: this.getCheckoutAd().price * 100, // initial amount is in cents
+        currency: 'eur',
+        type: 'card',
+        token: token.id,
+        meetingId: meetingId,
+      })
       .pipe(catchError(this.handleErrorService.handleError));
   }
 }

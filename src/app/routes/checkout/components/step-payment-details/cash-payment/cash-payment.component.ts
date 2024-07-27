@@ -25,7 +25,7 @@ export class CashPaymentComponent {
   onSubmit(form: NgForm) {
     console.log(form);
     this.checkoutService
-      .postProposedMeeting(this.checkoutService.getProposedMeeting())
+      .proposeMeeting(this.checkoutService.getProposedMeeting())
       .subscribe((response: any) => {
         console.log('response : ', response);
         this.router.navigate(['/compte/rdv']);

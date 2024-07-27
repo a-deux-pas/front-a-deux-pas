@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  mapboxToken: '${{ secrets.MAPBOX_ACCESS_TOKEN }}'
-}
+  mapboxToken: '${{ secrets.MAPBOX_ACCESS_TOKEN }}',
+};

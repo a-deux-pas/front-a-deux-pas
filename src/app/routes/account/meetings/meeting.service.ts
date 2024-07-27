@@ -5,7 +5,7 @@ import { API_URL } from '../../../shared/utils/constants/util-constants';
 import { Meeting } from '../../../shared/models/meeting/meeting.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MeetingService {
   private apiUrl = `${API_URL}meetings`;
@@ -27,4 +27,9 @@ export class MeetingService {
   getToBeFinishedMeetings(userId: number): Observable<Meeting[]> {
     return this.http.get<Meeting[]>(`${this.apiUrl}/toBeFinalized/${userId}`);
   }
+
+  // To be uncommented for testing the Stripe API's payment capture mechanism (demonstration purporses only)
+  /*finalizeMeeting(meetingId: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/finalize/${meetingId}`);
+  }*/
 }

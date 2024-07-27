@@ -1,3 +1,5 @@
+@import "color-variables";
+
 .meeting-details-container {
   margin-left: 10%;
   margin-right: 10%;
@@ -93,4 +95,9 @@ p {
 .error-msg {
   text-align: center;
   margin-top: 10px;
+}
+
+.form-check-input[type="checkbox"] {
+  border-radius: 50%;
+  border-color: $secondary;
 }

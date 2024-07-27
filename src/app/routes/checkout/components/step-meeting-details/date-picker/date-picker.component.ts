@@ -49,7 +49,6 @@ export class DatePickerComponent implements ControlValueAccessor {
   }
 
   ngOnInit() {
-    console.log(this.sellerPreferredSchedules);
     this.extractSellerPreferredDayIndexes();
     this.extractCurrentMonthDays();
     this.selectedDate = this.daysOfCurrentMonth.find((day) =>
@@ -57,7 +56,6 @@ export class DatePickerComponent implements ControlValueAccessor {
     );
     this.dateSelected.emit(this.selectedDate);
     this.model = this.selectedDate;
-    console.log('selected day in datepicker: ', this.selectedDate);
   }
 
   private getTomorrowDate(): NgbDateStruct {
@@ -80,7 +78,6 @@ export class DatePickerComponent implements ControlValueAccessor {
         day: i,
       });
     }
-    console.log('curent month days : ', this.daysOfCurrentMonth);
   }
 
   private getLastDayOfCurrentMonth(): NgbDateStruct {
@@ -125,7 +122,6 @@ export class DatePickerComponent implements ControlValueAccessor {
       this.selectedDate = date;
       this.model = date;
       this.dateSelected.emit(this.selectedDate);
-      console.log(this.selectedDate);
     }
   }
 
@@ -134,11 +130,10 @@ export class DatePickerComponent implements ControlValueAccessor {
     this.sellerPreferredSchedules?.forEach((schedule) => {
       this.dayIndexesArr.push(schedule.daysOfWeek[0]);
     });
-    console.log('dayIndexesArr: ', this.dayIndexesArr);
   }
 
   // ControlValueAccessor interface method implementations
-  // Interface needed for custom components used in Angular Forms
+  // Needed for custom components used in Angular Forms
   onChange: any = () => {};
   onTouched: any = () => {};
 
@@ -153,6 +148,4 @@ export class DatePickerComponent implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-
-  setDisabledState?(isDisabled: boolean): void {}
 }
