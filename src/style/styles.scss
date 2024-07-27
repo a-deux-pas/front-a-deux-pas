@@ -994,6 +994,10 @@ a.dropdown-first-level.dropdown-toggle {
   filter: none !important;
 }
 
+.dropzone .dz-preview .dz-image, .dropzone .dz-preview:hover {
+  z-index: 2 !important;
+}
+
 .dropzone-add {
   display: flex;
   flex-direction: column;

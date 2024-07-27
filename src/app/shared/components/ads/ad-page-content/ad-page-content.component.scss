@@ -85,6 +85,7 @@ ngb-carousel {
 .img-wrapper {
   width: 335px;
   height: 333px;
+  object-fit: cover;
 }
 
 @media (min-width: 1350px) {
