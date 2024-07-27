@@ -68,7 +68,7 @@ export class AdFormComponent implements AfterViewChecked {
     this.config = this.dropzoneConfigService.getConfig();
     if (this.isBigScreen) {
       this.updateDropzoneDimension(this.selectedPicNumber, true);
-      this.dropzoneConfigService.setThumbnailDimensions(400, 400);
+      // this.dropzoneConfigService.setThumbnailDimensions(400, 400);
     } else {
       this.updateDropzoneDimension(this.selectedPicNumber, false);
       this.dropzoneConfigService.setThumbnailDimensions(649, 600);
@@ -106,7 +106,9 @@ export class AdFormComponent implements AfterViewChecked {
       this.dropzoneComponents.forEach((dropzoneComp: DropzoneComponent, index: number) => {
         const dropzone = dropzoneComp.directiveRef?.dropzone();
         if (dropzone) {
+
           dropzone.on('thumbnail', (addedFile: File) => {
+            dropzone.createThumbnailFromUrl(addedFile);
             const fileExistsInArray = this.articlePictures.some(file => file === addedFile);
             if (!fileExistsInArray) {
               if (index === 0) {
@@ -171,6 +173,14 @@ export class AdFormComponent implements AfterViewChecked {
     let newClass: string = `${dropzoneClass}-dropzones`;
     dropzones.forEach((dropzone: any) => {
       this.renderer.addClass(dropzone, `${newClass}`);
+      const dropzoneWidth = dropzone.clientWidth;
+      const dropzoneHeight = dropzone.clientHeight;
+      console.error('dropzonewidth:: ', dropzoneWidth);
+      console.error('dropzoneheight:: ', dropzoneHeight);
+      if (dropzoneWidth !== 0 && dropzoneHeight !== 0) {
+        this.config = this.dropzoneConfigService.getConfig(dropzoneWidth, dropzoneHeight);
+        console.error(this.config);
+      }
     });
     const dzWrapper = this.el.nativeElement.querySelectorAll('.dz-wrapper');
     dzWrapper.forEach((wrapper: any) => {

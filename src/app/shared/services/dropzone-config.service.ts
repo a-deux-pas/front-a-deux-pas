@@ -16,11 +16,21 @@ export class DropzoneConfigService {
         addRemoveLinks: true,
         dictRemoveFile: '×',
         clickable: true,
-        maxFiles: 1
+        maxFiles: 1,
+        resizeWidth: 230,
+        resizeHeight: 230
     };
 
-    getConfig(): DropzoneConfigInterface {
-        return this.config;
+    getConfig(width?: number, height?: number): DropzoneConfigInterface {
+        return {
+            ...this.config,
+            thumbnailWidth: width || this.config.thumbnailWidth,
+            thumbnailHeight: height || this.config.thumbnailHeight,
+            resizeWidth: width,
+            resizeHeight: height
+
+
+        }
     }
 
     setThumbnailDimensions(width: number, height: number): void {

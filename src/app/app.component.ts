@@ -33,22 +33,22 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // Subscribe to the isLoggedIn observable to keep track of the user's login status
-      this.logginSubscription = this.authService.isLoggedIn().subscribe((status: boolean) => {
-        this.isUserLoggedIn = status;
-        console.log('is user logged in?', this.isUserLoggedIn);
-      });
+    this.logginSubscription = this.authService.isLoggedIn().subscribe((status: boolean) => {
+      this.isUserLoggedIn = status;
+      console.log('is user logged in?', this.isUserLoggedIn);
+    });
 
-      this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
-        this.isBigScreen = isBigScreen;
-      });
-    }
+    this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
+      this.isBigScreen = isBigScreen;
+    });
+  }
 
   ngAfterViewInit(): void {
     if (!this.isUserLoggedIn) {
       this.onSellerAdPageUnloggedSubscription = this.adService.sellerAdPageLoaded$
-      .subscribe(hasAdAndSellerId => {
-        this.onSellerAdPageUnlogged = hasAdAndSellerId;
-      });
+        .subscribe(hasAdAndSellerId => {
+          this.onSellerAdPageUnlogged = hasAdAndSellerId;
+        });
     }
   }
 
@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {
-      if (this.isBigScreen) {
+    if (this.isBigScreen) {
       const targetElement = event.target as HTMLElement;
       const clickedInsideMenu = targetElement.closest('#account-menu');
       const clickedDesktopIcon = targetElement.closest('#desktop-account-icon');

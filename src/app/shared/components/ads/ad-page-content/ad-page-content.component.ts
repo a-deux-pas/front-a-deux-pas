@@ -67,34 +67,37 @@ export class AdPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const adId: number | null = Number(this.route.snapshot.paramMap.get('adId'));
-    this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
-    this.loggedInUserId = Number(localStorage.getItem('userId'));
-    this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
-    this.onSellerAd = !this.onLoggedInUserAd;
-    // Check loggin status
-    this.loggedInCheck(adId) ;
-    // Fetch the ad
-    this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
-      next: (ad: AdDetails) => {
-        this.currentAd = ad;
-        this.articlePictures = ad.articlePictures || [];
-        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length)
-        // Fetch the ads list
-        this.pageSize = this.onLoggedInUserAd ? 8 : 4;
-        this.displayedAdsCount = this.pageSize;
-        this.fetchPaginatedAdsList();
+    setTimeout(() => {
+      const adId: number | null = Number(this.route.snapshot.paramMap.get('adId'));
+      this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
+      this.loggedInUserId = Number(localStorage.getItem('userId'));
+      this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
+      this.onSellerAd = !this.onLoggedInUserAd;
+      // Check loggin status
+      this.loggedInCheck(adId);
+      // Fetch the ad
+      this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
+        next: (ad: AdDetails) => {
+          this.currentAd = ad;
+          this.articlePictures = ad.articlePictures || [];
+          [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length)
+          // Fetch the ads list
+          this.pageSize = this.onLoggedInUserAd ? 8 : 4;
+          this.displayedAdsCount = this.pageSize;
+          this.fetchPaginatedAdsList();
 
-        if (this.onSellerAd) {
-          // Fetch ads list with the same category
-          this.getSimilarAds();
+          if (this.onSellerAd) {
+            // Fetch ads list with the same category
+            this.getSimilarAds();
+          }
+          // Waits pictures loading
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 600);
         }
-        // Waits pictures loading
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 600);
-      }
-    });
+      });
+    }, 300)
+
   }
 
   loggedInCheck(adId: number) {
