@@ -91,6 +91,7 @@ export class AdFormComponent implements AfterViewChecked {
       this.updateDropzoneDimension(this.selectedPicNumber, false);
       this.dropzoneConfigService.setThumbnailDimensions(649, 600);
     }
+    this.updateArticlePicture();
   }
 
   ngOnInit(): void {
@@ -155,7 +156,6 @@ export class AdFormComponent implements AfterViewChecked {
           if (this.articlePictures[index]) {
             dropzone.addFile(this.articlePictures[index]);
           }
-          this.updateArticlePicture();
         }
       });
     });
@@ -171,10 +171,8 @@ export class AdFormComponent implements AfterViewChecked {
           if (!fileExistsInArray) {
             if (index === 0) {
               this.articlePictures.unshift(addedFile);
-              console.table(this.articlePictures);
             } else {
               this.articlePictures.push(addedFile);
-              console.table(this.articlePictures);
             }
           }
         });
