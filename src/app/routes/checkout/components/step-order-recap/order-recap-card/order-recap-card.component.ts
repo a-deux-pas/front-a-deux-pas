@@ -9,8 +9,9 @@ import { Component, Input } from '@angular/core';
 })
 export class OrderRecapCardComponent {
   @Input() ad: any;
+  displayedArticlePictureUrl: string | null = null;
 
   ngOnInit() {
-    console.log(this.ad);
+    this.displayedArticlePictureUrl = this.ad.articlePictures[0];
   }
 }
