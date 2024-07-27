@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AdDetails } from '../../../../../../shared/models/ad/ad-details.model';
-import { CommonModule, formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { CtaMyAdService } from './cta-my-ad.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DisplayManagementService } from '../../../../../../shared/services/display-management.service';
@@ -22,7 +22,8 @@ export class CtaMyAdComponent implements OnInit {
   favCount!: number;
   adId!: number;
   adStatus = AdStatus;
-  saleDate: Date = new Date();
+  buyerAlias!: string;
+  saleDate!: Date;
 
   constructor(
     private ctaMyAdService: CtaMyAdService,
@@ -40,13 +41,20 @@ export class CtaMyAdComponent implements OnInit {
       this.favCount = favCount)
 
     if (this.myAd?.status === 'RESERVED') {
-      // TO DO: ajouter une méthode pour récupérer les infos du Buyer via observable (cf adSeller)
-      // une fois la table transaction implementée
+      this.ctaMyAdService.getBuyerAlias(this.myAd.id).subscribe(buyerAlias =>
+        this.buyerAlias = buyerAlias);
     }
 
     if (this.myAd?.status === 'SOLD') {
-      // TO DO: ajouter une méthode pour récupérer la date de la vente
-      // une fois la table meeting implementée
+      this.ctaMyAdService.getSaleDate(this.myAd.id).subscribe({
+        next: (saleDate) => {
+          this.saleDate = saleDate;
+          console.log(this.saleDate);
+        },
+        error: () => {
+          this.saleDate = new Date();
+        }
+      });
     }
   }
 
@@ -57,7 +65,7 @@ export class CtaMyAdComponent implements OnInit {
   }
 
   goToSellerProfile(): void {
-    // TO DO: ajouter le lien vers le seller profil
+    this.router.navigate(['profil', this.buyerAlias]);
   }
 
   deleteAd(): void {

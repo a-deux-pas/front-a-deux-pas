@@ -5,12 +5,10 @@
     }
     @case(adStatus.RESERVED) {
       <b>Reservé</b><br>
-      <!-- TO DO: à remplacer par la variable seller.alias -->
-      <a class="btn" (click)="goToSellerProfile()">par Eri</a>
+      <a class="btn" (click)="goToSellerProfile()">{{ buyerAlias }}</a>
     }
     @case(adStatus.SOLD) {
       <b>Vendu</b>
-        <!-- TO DO: à remplacer par la variable date de la vente -->
       <p class="mt-4">{{ saleDate | date:'dd/MM/yyyy'}}</p>
     }
     @case(adStatus.SUSPENDED) {

@@ -21,18 +21,16 @@ export class CtaMyAdService {
     )
   }
 
-  // TO DO: ajouter méthode Back une fois la table transaction implementée
-  getBuyerAlias(adId: number): Observable<number> {
-    const url = `${API_URL}ads/buyer/${adId}`;
-    return this.http.get<number>(url).pipe(
+  getBuyerAlias(adId: number): Observable<string> {
+    const url = `${API_URL}meetings/${adId}/buyer`;
+    return this.http.get(url, { responseType: 'text' }).pipe(
       catchError(this.handleErrorService.handleError)
     )
   }
 
-   // TO DO: ajouter méthode Back une fois la table meeting est implémenté
-  getSaleDate(adId: number): Observable<number> {
-    const url = `${API_URL}ads/saleDate/${adId}`;
-    return this.http.get<number>(url).pipe(
+  getSaleDate(adId: number): Observable<Date> {
+    const url = `${API_URL}meetings/${adId}/date`;
+    return this.http.get<Date>(url).pipe(
       catchError(this.handleErrorService.handleError)
     )
   }
