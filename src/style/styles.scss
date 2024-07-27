@@ -379,15 +379,10 @@ button.btn {
 
 /*-----------------------------------------------------------------------*/
 
-// Spinner
+//Spinner
 $spinner-width: 4rem;
 $spinner-height: 4rem;
 $spinner-border-width: 0.5em;
-
-.spinner-border {
-  position: absolute;
-  top: 54%;
-}
 
 /*-----------------------------------------------------------------------*/
 
@@ -725,7 +720,7 @@ $card-spacer-y: 3.1875rem;
 
 #article-price {
   position: relative;
-  bottom: 9.8px;
+  bottom: 13.8px;
 }
 
 // Card image styling
@@ -992,6 +987,10 @@ a.dropdown-first-level.dropdown-toggle {
 .dropzone .dz-preview:hover .dz-image img {
   transform: none !important;
   filter: none !important;
+}
+
+.dropzone .dz-preview .dz-image, .dropzone .dz-preview:hover {
+  z-index: 2 !important;
 }
 
 .dropzone-add {

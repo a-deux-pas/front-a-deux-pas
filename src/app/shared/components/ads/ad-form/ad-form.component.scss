@@ -83,6 +83,12 @@ label {
   justify-content: space-evenly;
 }
 
+#btn-spinner {
+  padding: 0.625rem 1.5625rem !important;
+  color: white;
+  background-color: $primary;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

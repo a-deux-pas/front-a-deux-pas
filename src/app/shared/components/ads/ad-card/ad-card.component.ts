@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ElementRef, Renderer2, EventEmitter, Output } from '@angular/core';
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdFavoriteService } from '../../../services/ad-favorite.service';
+import { AdStatus } from '../../../models/enum/ad-status.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ad-card',
@@ -11,13 +13,15 @@ import { AdFavoriteService } from '../../../services/ad-favorite.service';
 export class AdCardComponent implements OnInit {
   @Input() ad!: AdCard;
   @Output() updateAdsFavoritesList: EventEmitter<AdCard> = new EventEmitter<AdCard>();
+  adStatus = AdStatus;
   type: 'loggedInUserAd' | 'sellerAd' | 'unLogged' = 'unLogged';
   currentUserId: number = Number(localStorage.getItem('userId')!);
 
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
-    private adFavoriteService: AdFavoriteService
+    private adFavoriteService: AdFavoriteService,
+    private router : Router
   ) { }
 
   ngOnInit() {
@@ -52,6 +56,11 @@ export class AdCardComponent implements OnInit {
       }
       window.location.href = `/annonce/${adPublisherAlias}/${adId}`;
     }
+  }
+
+  goToAdUpdateForm(event: Event, adId: number) {
+    event.stopPropagation();
+    this.router.navigate(['/compte/annonces/mon-annonce', adId, 'modification']);
   }
 
   addToFavorites(event: Event) {

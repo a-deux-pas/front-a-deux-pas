@@ -6,7 +6,7 @@ import { AdCardComponent } from '../ad-card/ad-card.component';
 import { Component, OnInit, Input, ViewChild } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
+import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/components/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller-ad/cta-seller-ad.component';
@@ -67,37 +67,34 @@ export class AdPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      const adId: number | null = Number(this.route.snapshot.paramMap.get('adId'));
-      this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
-      this.loggedInUserId = Number(localStorage.getItem('userId'));
-      this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
-      this.onSellerAd = !this.onLoggedInUserAd;
-      // Check loggin status
-      this.loggedInCheck(adId);
-      // Fetch the ad
-      this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
-        next: (ad: AdDetails) => {
-          this.currentAd = ad;
-          this.articlePictures = ad.articlePictures || [];
-          [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length)
-          // Fetch the ads list
-          this.pageSize = this.onLoggedInUserAd ? 8 : 4;
-          this.displayedAdsCount = this.pageSize;
-          this.fetchPaginatedAdsList();
-
-          if (this.onSellerAd) {
-            // Fetch ads list with the same category
-            this.getSimilarAds();
-          }
-          // Waits pictures loading
-          setTimeout(() => {
-            this.isLoading = false;
-          }, 600);
+    const adId: number | null = Number(this.route.snapshot.paramMap.get('adId'));
+    this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
+    this.loggedInUserId = Number(localStorage.getItem('userId'));
+    this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
+    this.onSellerAd = !this.onLoggedInUserAd;
+    // Check loggin status
+    this.loggedInCheck(adId);
+    // Fetch the ad
+    this.adService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
+      next: (ad: AdDetails) => {
+        this.currentAd = ad;
+        this.articlePictures = ad.articlePictures || [];
+        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length);
+        // Fetch the ads list
+        this.pageSize = this.onLoggedInUserAd ? 8 : 4;
+        this.displayedAdsCount = this.pageSize;
+        this.fetchPaginatedAdsList();
+        if (this.onSellerAd) {
+          // Fetch ads list with the same category
+          this.getSimilarAds();
+        } else {
+          this.adService.setAd(this.currentAd);
         }
-      });
-    }, 300)
-
+      },
+      error: (error) => {
+        console.error('Error fetching ad:', error);
+      }
+    });
   }
 
   loggedInCheck(adId: number) {

@@ -1,12 +1,12 @@
 <a (click)="goToAdPage(ad.id!, ad.publisherAlias!, ad.publisherId!)" class="card mt-4 text-decoration-none">
   <div class="card-img-container">
     @switch (ad.status) {
-    @case('SOLD') {
-    <p class="statusStamp">Vendu</p>
-    }
-    @case('RESERVED') {
-    <p class="statusStamp">Réservé</p>
-    }
+      @case(adStatus.SOLD) {
+        <p class="statusStamp">Vendu</p>
+        }
+      @case(adStatus.RESERVED) {
+        <p class="statusStamp">Réservé</p>
+      }
     }
     <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
   </div>
@@ -21,17 +21,19 @@
       }
       <div class="bottom-card-part">
         @switch (type) {
-        @case ('loggedInUserAd') {
-        <img class="cta-btn" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
-        }
-        @case ('sellerAd') {
-        <button type="button" id="btn-add-to-favorites" (click)="addToFavorites($event)">
-          <img class="favorite-icon" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris"
-            [hidden]="ad.favorite">
-          <img class="favorite-icon" src="assets/icons/buttons/added-to-favorites-card.webp" alt="icône favoris"
-            [hidden]="!ad.favorite">
-        </button>
-        }
+          @case ('loggedInUserAd') {
+            <a (click)="goToAdUpdateForm($event, ad.id)">
+              <img class="cta-btn card-icon" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+            </a>
+          }
+          @case ('sellerAd') {
+            <button type="button"
+            id="btn-add-to-favorites"
+            (click)="addToFavorites($event)">
+              <img class="card-icon" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris" [hidden]="ad.favorite">
+              <img class="card-icon" src="assets/icons/buttons/added-to-favorites-card.webp" alt="icône favoris" [hidden]="!ad.favorite">
+            </button>
+          }
         }
       </div>
       <div class="d-flex justify-content-end">

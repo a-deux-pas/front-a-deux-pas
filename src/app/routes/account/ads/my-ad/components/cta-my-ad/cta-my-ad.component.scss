@@ -8,6 +8,12 @@
   padding: 35px 32px;
 }
 
+.btn:active {
+  border: none;
+  height: 0px;
+  color: transparent;
+}
+
 .cta-btn-section {
   display: flex;
   justify-content: space-between;
@@ -28,6 +34,7 @@
   font-weight: 400;
   font-size: 15px;
   color: black !important;
+  cursor: pointer;
 }
 
 #favorite-icon {

@@ -1,0 +1,54 @@
+<section class="my-ad-cta-encart flex-row text-center fade-in" [ngClass]="{'mx-auto': !isBigScreen}">
+  @switch (myAd?.status) {
+    @case(adStatus.AVAILABLE) {
+      <b>En vente</b>
+    }
+    @case(adStatus.RESERVED) {
+      <b>Reservé</b><br>
+      <a class="btn" (click)="goToSellerProfile()">{{ buyerAlias }}</a>
+    }
+    @case(adStatus.SOLD) {
+      <b>Vendu</b>
+      <p class="mt-4">{{ saleDate | date:'dd/MM/yyyy'}}</p>
+    }
+    @case(adStatus.SUSPENDED) {
+      <b>Suspendu</b>
+    }
+  }
+  <div class="favorites mt-2">
+    @if(favCount === 0) {
+      @if (myAd?.status === adStatus.AVAILABLE) {
+        <img id="favorite-icon" class="btn-cta" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris vide">
+        <p id="favorite-text">n’a pas encore tapé dans l’oeil d’un membre</p>
+      }
+    } @else {
+      @if (myAd?.status === adStatus.AVAILABLE|| myAd?.status === adStatus.RESERVED) {
+        <img id="favorite-icon" src="assets/icons/buttons/added-to-favorites-card.webp"
+            alt="icône favoris remplie">
+        <p id="favorite-text">par {{ favCount }} {{ favCount === 1 ? 'membre' : 'membres' }}</p>
+      }
+    }
+  </div>
+    <div [ngClass]="{
+      'justify-content-center': myAd?.status === adStatus.SOLD,
+      'justify-content-between': myAd?.status === adStatus.AVAILABLE,
+      'd-flex mt-4 mb-1': true
+    }">
+      @if (myAd?.status === adStatus.AVAILABLE) {
+        <div class="flex-column">
+          <a (click)="goToUpdateAdForm()">
+            <img class="edit-cta-btn btn-cta" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+            <p class="cta-btn-text">modifier</p>
+          </a>
+        </div>
+      }
+      @if (myAd?.status === adStatus.AVAILABLE || myAd?.status === adStatus.SOLD) {
+        <div class="flex-column">
+          <a (click)="deleteAd()">
+            <img class="trash-cta-btn btn-cta" src="assets/icons/buttons/trash.webp" alt="bouton-supprimer-annonce">
+            <p class="cta-btn-text">supprimer</p>
+          </a>
+        </div>
+      }
+    </div>
+</section>
