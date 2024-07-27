@@ -989,8 +989,17 @@ a.dropdown-first-level.dropdown-toggle {
   filter: none !important;
 }
 
-.dropzone .dz-preview .dz-image, .dropzone .dz-preview:hover {
+.dropzone .dz-preview .dz-image,
+.dropzone .dz-preview:hover {
   z-index: 2 !important;
+}
+
+// just added it
+dropzone>.dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+  display: block;
+  width: 104% !important;
+  height: auto;
+  margin: 0;
 }
 
 .dropzone-add {
@@ -1039,6 +1048,10 @@ app-profile-picture {
 
 app-ad-form {
 
+  dropzone>.dropzone.dz-wrapper .dz-message {
+    max-width: 100%;
+  }
+
   .mobile-dropzones,
   .mobile-dropzones .dz-message {
     width: 349px !important;
@@ -1061,14 +1074,12 @@ app-ad-form {
   .three-dropzones:first-child,
   .three-dropzones:first-child .dz-message {
     width: 523px !important;
-    height: 479px !important;
     grid-area: 1 / 1 / 3 / 3 !important;
   }
 
   .three-dropzones:not(:first-child),
   .three-dropzones:not(:first-child) .dz-message {
     width: 316px !important;
-    height: 232px !important;
   }
 
   .three-dropzones:nth-child(2),
@@ -1079,14 +1090,6 @@ app-ad-form {
   .three-dropzones:nth-child(3),
   .three-dropzones:nth-child(3) .dz-message {
     grid-area: 2 / 3 / 3 / 4;
-  }
-
-  .four-dropzones:first-child,
-  .four-dropzones:first-child .dz-message,
-  .four-dropzones:nth-child(4),
-  .four-dropzones:nth-child(4) .dz-message {
-    width: 308px !important;
-    height: 479px !important;
   }
 
   .four-dropzones:first-child,
@@ -1104,19 +1107,46 @@ app-ad-form {
   .four-dropzones:nth-child(2) .dz-message,
   .four-dropzones:nth-child(3) .dz-message {
     width: 215px !important;
-    height: 232px !important;
   }
 
   .five-dropzones:first-child,
   .five-dropzones:first-child .dz-message {
-    width: 308px !important;
-    height: 479px !important;
     grid-area: 1 / 1 / 3 / 2 !important;
   }
 
   .five-dropzones:not(:first-child),
   .five-dropzones:not(:first-child) .dz-message {
     width: 256.67px !important;
+  }
+
+  .five-dropzones:first-child,
+  .five-dropzones:first-child .dz-message,
+  .three-dropzones:first-child,
+  .three-dropzones:first-child .dz-message,
+  .four-dropzones:first-child,
+  .four-dropzones:first-child .dz-message,
+  .four-dropzones:nth-child(4),
+  .four-dropzones:nth-child(4) .dz-message {
+    height: 501px !important;
+  }
+
+  .four-dropzones:first-child,
+  .four-dropzones:first-child .dz-message,
+  .four-dropzones:nth-child(4),
+  .four-dropzones:nth-child(4) .dz-message,
+  .five-dropzones:first-child,
+  .five-dropzones:first-child .dz-message {
+    width: 308px !important;
+  }
+
+  .three-dropzones:not(:first-child),
+  .three-dropzones:not(:first-child) .dz-message,
+  .four-dropzones:nth-child(2),
+  .four-dropzones:nth-child(3),
+  .four-dropzones:nth-child(2) .dz-message,
+  .four-dropzones:nth-child(3) .dz-message,
+  .five-dropzones:not(:first-child),
+  .five-dropzones:not(:first-child) .dz-message {
     height: 232px !important;
   }
 }

@@ -107,7 +107,7 @@ export class AdFormComponent implements AfterViewChecked {
       // this.dropzoneConfigService.setThumbnailDimensions(400, 400);
     } else {
       this.updateDropzoneDimension(this.selectedPicNumber, false);
-      this.dropzoneConfigService.setThumbnailDimensions(649, 600);
+      // this.dropzoneConfigService.setThumbnailDimensions(649, 600);
     }
     this.updateArticlePicture();
   }
@@ -171,8 +171,10 @@ export class AdFormComponent implements AfterViewChecked {
           if (!fileExistsInArray) {
             if (index === 0) {
               this.articlePictures.unshift(addedFile);
+              this.updateDropzoneDimension(this.selectedPicNumber, this.isBigScreen!)
             } else {
               this.articlePictures.push(addedFile);
+              this.updateDropzoneDimension(this.selectedPicNumber, this.isBigScreen!)
             }
           }
         });
@@ -230,9 +232,18 @@ export class AdFormComponent implements AfterViewChecked {
       const dropzoneHeight = dropzone.clientHeight;
       console.error('dropzonewidth:: ', dropzoneWidth);
       console.error('dropzoneheight:: ', dropzoneHeight);
+
       if (dropzoneWidth !== 0 && dropzoneHeight !== 0) {
-        this.config = this.dropzoneConfigService.getConfig(dropzoneWidth, dropzoneHeight);
+        this.config = this.dropzoneConfigService.getConfig(dropzoneWidth + 300, dropzoneHeight + 300);
         console.error(this.config);
+        const imgThumbnail = dropzone.querySelector('[data-dz-thumbnail]');
+        if (imgThumbnail) {
+          // Appliquer les dimensions de la dropzone à l'image
+          this.renderer.setStyle(imgThumbnail, 'width', `${dropzoneWidth}px`);
+          console.error('imgwidth', imgThumbnail.clientWidth)
+          this.renderer.setStyle(imgThumbnail, 'height', `${dropzoneHeight}px`);
+          console.error('imgHeight', imgThumbnail.clientHeight)
+        }
       }
     });
     const dzWrapper = this.el.nativeElement.querySelectorAll('.dz-wrapper');
