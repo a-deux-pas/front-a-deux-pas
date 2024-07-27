@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ElementRef, Renderer2, EventEmitter, Output }
 import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdFavoriteService } from '../../../services/ad-favorite.service';
 import { AdStatus } from '../../../models/enum/ad-status.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ad-card',
@@ -19,7 +20,8 @@ export class AdCardComponent implements OnInit {
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
-    private adFavoriteService: AdFavoriteService
+    private adFavoriteService: AdFavoriteService,
+    private router : Router
   ) { }
 
   ngOnInit() {
@@ -54,6 +56,11 @@ export class AdCardComponent implements OnInit {
       }
       window.location.href = `/annonce/${adPublisherAlias}/${adId}`;
     }
+  }
+
+  goToAdUpdateForm(event: Event,adId: number) {
+    event.stopPropagation();
+    this.router.navigate(['/compte/annonces/mon-annonce', adId, 'modification']);
   }
 
   addToFavorites(event: Event) {

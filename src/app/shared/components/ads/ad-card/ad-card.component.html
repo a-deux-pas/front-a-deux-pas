@@ -22,7 +22,7 @@
       <div class="bottom-card-part">
         @switch (type) {
           @case ('loggedInUserAd') {
-            <a routerLink="['/compte/annonces/mon-annonce', ad.id, 'modification']">
+            <a (click)="goToAdUpdateForm($event, ad.id)">
               <img class="cta-btn card-icon" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
             </a>
           }
