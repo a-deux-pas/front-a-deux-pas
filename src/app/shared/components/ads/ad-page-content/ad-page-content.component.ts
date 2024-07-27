@@ -6,7 +6,7 @@ import { AdCardComponent } from '../ad-card/ad-card.component';
 import { Component, OnInit, Input, ViewChild } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
+import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/components/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller-ad/cta-seller-ad.component';
@@ -75,7 +75,7 @@ export class AdPageComponent implements OnInit {
     // Check loggin status
     this.loggedInCheck(adId) ;
     // Fetch the ad
-    this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
+    this.adService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
         this.articlePictures = ad.articlePictures || [];
@@ -88,6 +88,8 @@ export class AdPageComponent implements OnInit {
         if (this.onSellerAd) {
           // Fetch ads list with the same category
           this.getSimilarAds();
+        }  else {
+          this.adService.setAd(this.currentAd);
         }
         // Waits pictures loading
         setTimeout(() => {

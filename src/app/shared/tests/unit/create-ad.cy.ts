@@ -5,6 +5,7 @@ import { AdService } from "../../services/ad.service";
 import { DisplayManagementService } from "../../services/display-management.service";
 import { HttpClientModule } from "@angular/common/http";
 import '@angular/localize/init';
+import { RouterModule } from "@angular/router";
 
 interface NewAdData {
   category: string;
@@ -18,7 +19,7 @@ interface NewAdData {
 describe('ad form component test', () => {
   const loadAdFormComponent = (newAdData: NewAdData) => {
     cy.mount(AdFormComponent, {
-      imports: [NgSelectModule, FormsModule, HttpClientModule],
+      imports: [NgSelectModule, FormsModule, HttpClientModule, RouterModule.forRoot([])],
       providers: [AdService, DisplayManagementService],
       componentProperties: {
         formTitle: 'Créer une annonce',
