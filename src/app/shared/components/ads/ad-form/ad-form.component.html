@@ -20,7 +20,7 @@
       <div (mouseleave)="onDropzoneInteraction()" class="dropzone-field mx-auto mb-5"
         [ngClass]="{'d-none': isBigScreen == false, 'block': isBigScreen == true}">
         @for (n of getArray(selectedPicNumber); track n; let i = $index) {
-          <dropzone #dropzoneContainer data-cy="dropzone" name="article-picture" [config]="config"
+          <dropzone #desktopDropzone data-cy="dropzone" name="article-picture" [config]="config"
             [message]="customMessage" class="articlePicDropzones" id="dropzone-{{i}}">
           </dropzone>
         }
@@ -39,7 +39,7 @@
         @for (picNumber of getArray(selectedPicNumber); track picNumber; let i = $index) {
           <ng-template ngbSlide>
             <div class="carousel-caption"></div>
-            <dropzone #dropzoneContainer name="article-picture" [config]="config" [message]="customMessage"
+            <dropzone #mobileDropzone name="article-picture" [config]="config" [message]="customMessage"
               class="articlePicDropzones" id="dropzone-{{i}}">
             </dropzone>
           </ng-template>

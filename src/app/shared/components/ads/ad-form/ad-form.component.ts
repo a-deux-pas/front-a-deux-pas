@@ -42,7 +42,9 @@ export class AdFormComponent implements AfterViewChecked {
   disabledFields: boolean = false;
   hasInteractedWithDropzone: boolean = false;
 
-  @ViewChildren(DropzoneComponent) dropzoneComponents!: QueryList<DropzoneComponent>;
+  @ViewChildren('desktopDropzone') desktopDropzones!: QueryList<DropzoneComponent>;
+  @ViewChildren('mobileDropzone') mobileDropzones!: QueryList<DropzoneComponent>;
+
   @ViewChild('dropzoneContainer') dropzoneContainer!: ElementRef;
   articlePictures: File[] = [];
   config: DropzoneConfigInterface;
@@ -72,10 +74,11 @@ export class AdFormComponent implements AfterViewChecked {
       '',  // articleDescription
       '',  // articleState
       0,   // price
-      this.userId  // publisherId
+      this.userId // publisherId
     );
     this.windowSizeSubscription = this.displayManagementService.isBigScreen$.subscribe(isBigScreen => {
       this.isBigScreen = isBigScreen;
+      this.initializeDropzones();
     });
     this.config = this.dropzoneConfigService.getConfig();
   }
@@ -89,7 +92,6 @@ export class AdFormComponent implements AfterViewChecked {
       this.updateDropzoneDimension(this.selectedPicNumber, false);
       this.dropzoneConfigService.setThumbnailDimensions(649, 600);
     }
-    this.updateArticlePicture()
   }
 
   ngOnInit(): void {
@@ -98,75 +100,93 @@ export class AdFormComponent implements AfterViewChecked {
         currentAd => {
           if (currentAd) {
             this.ad = { ...currentAd };
+            this.selectedPicNumber = this.ad.articlePictures?.length ?? 2;
+            if (this.ad.articlePictures && this.ad.articlePictures.length > 0) {
+              this.convertUrlsToFiles(this.ad.articlePictures);
+            }
           } else {
-            // TO DO: user id à supprimer lorsque PR de fix mergé
-            const adId = Number(this.route.snapshot.paramMap.get(('adId')));
-            this.getAd(adId, this.userId);
+            const adId = Number(this.route.snapshot.paramMap.get('adId'));
+            this.getAd(adId);
           }
       });
     }
   }
 
-  getAd(adId: number, userId: number) {
-    this.adService.getAdById(adId, userId).subscribe((ad: AdDetails) => {
+  getAd(adId: number) {
+    this.adService.getAdById(adId, 0).subscribe((ad: AdDetails) => {
         this.ad = { ...ad };
+        this.selectedPicNumber = this.ad.articlePictures?.length ?? 2;
+        if (this.ad.articlePictures && this.ad.articlePictures.length > 0) {
+          this.convertUrlsToFiles(this.ad.articlePictures);
+        }
       }
     );
   }
 
-  // article category selection section
-  getSubCategories() {
-    const currentCategory = Categories.find((category: { name: Category }) => category.name === this.ad.category);
-    if (currentCategory) {
-      return currentCategory.subCategories;
-    }
-    return [];
+  private convertUrlsToFiles(urls: string[]): void {
+    // promise handles urls one by one
+    Promise.all(
+      urls.map(url => fetch(url) // Fetch the content from the URL
+        .then(res => res.blob()) // Convert the response to a Blob
+        .then(blob => {
+          // Extract the file name from the URL or use a default name
+          const fileName = url.split('/').pop() ?? 'image.webp';
+          // Create a File object from the Blob and return it
+          return new File([blob], fileName, { type: blob.type });
+        })
+        .catch(error => {
+          console.error(`Error fetching image from ${url}:`, error);
+          return null;
+        })
+      )
+    ).then(files => {
+        // Filter out any null values and cast the result to File[]
+        this.articlePictures = files.filter(file => file !== null) as File[];
+        this.initializeDropzones();
+    });
   }
 
-  getSubCategoriesGender() {
-    const currentCategory = Categories.find((category: { name: Category }) => category.name === this.ad.category);
-    if (currentCategory) {
-      const currentSubCategory = currentCategory.subCategories.find((subCat: { name: Subcategory }) => subCat.name === this.ad.subcategory);
-      if (currentSubCategory) {
-        return currentSubCategory.gender;
-      }
-    }
-    return [];
-  }
-
-  resetChoices() {
-    this.ad.subcategory = undefined;
-    this.ad.articleGender = undefined;
+  private initializeDropzones(): void {
+    setTimeout(() => {
+      const dropzones = this.isBigScreen ? this.desktopDropzones : this.mobileDropzones;
+      dropzones.forEach((dropzoneComp, index) => {
+        const dropzone = dropzoneComp.directiveRef?.dropzone();
+        if (dropzone) {
+          dropzone.removeAllFiles(true);
+          if (this.articlePictures[index]) {
+            dropzone.addFile(this.articlePictures[index]);
+          }
+          this.updateArticlePicture();
+        }
+      });
+    });
   }
 
   updateArticlePicture(): void {
-    if (this.dropzoneContainer) {
-      this.dropzoneComponents.forEach((dropzoneComp: DropzoneComponent, index: number) => {
-        const dropzone = dropzoneComp.directiveRef?.dropzone();
-        if (dropzone) {
-          dropzone.on('thumbnail', (addedFile: File) => {
-            const fileExistsInArray = this.articlePictures.some(file => file === addedFile);
-            if (!fileExistsInArray) {
-              if (index === 0) {
-                this.articlePictures.unshift(addedFile);
-              } else {
-                this.articlePictures.push(addedFile);
-              }
+    const dropzones = this.isBigScreen ? this.desktopDropzones : this.mobileDropzones;
+    dropzones.forEach((dropzoneComp: DropzoneComponent, index: number) => {
+      const dropzone = dropzoneComp.directiveRef?.dropzone();
+      if (dropzone) {
+        dropzone.on('thumbnail', (addedFile: File) => {
+          const fileExistsInArray = this.articlePictures.some(file => file === addedFile);
+          if (!fileExistsInArray) {
+            if (index === 0) {
+              this.articlePictures.unshift(addedFile);
+              console.table(this.articlePictures);
+            } else {
+              this.articlePictures.push(addedFile);
+              console.table(this.articlePictures);
             }
-          });
-          dropzone.on('removedfile', (removedfile: File) => {
-            const indexToRemove = this.articlePictures.findIndex(file => file === removedfile);
-            if (indexToRemove !== -1) {
-              this.articlePictures.splice(indexToRemove, 1);
-            }
-          });
-        }
-      });
-    }
-  }
-
-  getArray(length: number): any[] {
-    return Array.from({ length }, (_, index) => index);
+          }
+        });
+        dropzone.on('removedfile', (removedfile: File) => {
+          const indexToRemove = this.articlePictures.findIndex(file => file === removedfile);
+          if (indexToRemove !== -1) {
+            this.articlePictures.splice(indexToRemove, 1);
+          }
+        });
+      }
+    });
   }
 
   updateDropzoneDimension(dropzoneCount: number, isBigScreen: boolean) {
@@ -229,6 +249,35 @@ export class AdFormComponent implements AfterViewChecked {
     this.displayManagementService.onSlide(slideEvent)
   }
 
+  // article category selection section
+  getSubCategories() {
+    const currentCategory = Categories.find((category: { name: Category }) => category.name === this.ad.category);
+    if (currentCategory) {
+      return currentCategory.subCategories;
+    }
+    return [];
+  }
+
+  getSubCategoriesGender() {
+    const currentCategory = Categories.find((category: { name: Category }) => category.name === this.ad.category);
+    if (currentCategory) {
+      const currentSubCategory = currentCategory.subCategories.find((subCat: { name: Subcategory }) => subCat.name === this.ad.subcategory);
+      if (currentSubCategory) {
+        return currentSubCategory.gender;
+      }
+    }
+    return [];
+  }
+
+  resetChoices() {
+    this.ad.subcategory = undefined;
+    this.ad.articleGender = undefined;
+  }
+
+  getArray(length: number): any[] {
+    return Array.from({ length }, (_, index) => index);
+  }
+
   goBack() {
     this.location.back();
   }
@@ -242,15 +291,15 @@ export class AdFormComponent implements AfterViewChecked {
     this.sanitizeTheInputs();
     this.ad.subcategory = this.ad.category == this.categoryEnum.OTHER_CATEGORY ?
       Subcategory.OTHER_SUBCATEGORY : this.ad.subcategory;
-      const adJson = JSON.stringify(this.ad)
-      const adBlob = new Blob([adJson], {
-        type: 'application/json'
-      })
-      const adData: FormData = new FormData();
-      adData.append('adInfo', adBlob);
-      this.articlePictures.forEach((file, index) => {
-        adData.append(`adPicture-${index + 1}`, file);
-      });
+    const adJson = JSON.stringify(this.ad)
+    const adBlob = new Blob([adJson], {
+      type: 'application/json'
+    })
+    const adData: FormData = new FormData();
+    adData.append('adInfo', adBlob);
+    this.articlePictures.forEach((file, index) => {
+      adData.append(`adPicture-${index + 1}`, file);
+    });
     if (this.isCreateAdForm) {
       this.createAd(adData);
     } else {
@@ -282,7 +331,6 @@ export class AdFormComponent implements AfterViewChecked {
       });
     }
 
-
     private updateAd(adData: FormData): void {
       this.adformService.updateAd(adData).subscribe({
         next: (ad: AdDetails) => {
@@ -308,7 +356,9 @@ export class AdFormComponent implements AfterViewChecked {
   }
 
   ngOnDestroy() {
-    this.windowSizeSubscription.unsubscribe();
+    if (this.windowSizeSubscription) {
+      this.windowSizeSubscription.unsubscribe();
+    }
     if (this.adSubscription) {
       this.adSubscription.unsubscribe();
     }
