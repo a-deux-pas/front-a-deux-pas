@@ -19,23 +19,23 @@
       @else {
       <p class="white-space">''</p>
       }
-      <div class="bottom-card-part">
         @switch (type) {
           @case ('loggedInUserAd') {
-            <a (click)="goToAdUpdateForm($event, ad.id)">
+            <a class="bottom-card-part" (click)="goToAdUpdateForm($event, ad.id)">
               <img class="cta-btn card-icon" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
             </a>
           }
           @case ('sellerAd') {
-            <button type="button"
-            id="btn-add-to-favorites"
-            (click)="addToFavorites($event)">
-              <img class="card-icon" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris" [hidden]="ad.favorite">
-              <img class="card-icon" src="assets/icons/buttons/added-to-favorites-card.webp" alt="icône favoris" [hidden]="!ad.favorite">
-            </button>
+            <div class="bottom-card-part">
+              <button type="button"
+              id="btn-add-to-favorites"
+              (click)="addToFavorites($event)">
+                <img class="card-icon" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris" [hidden]="ad.favorite">
+                <img class="card-icon" src="assets/icons/buttons/added-to-favorites-card.webp" alt="icône favoris" [hidden]="!ad.favorite">
+              </button>
+            </div>
           }
         }
-      </div>
       <div class="d-flex justify-content-end">
         <p class="card-text" id="article-price">{{ ad.price }} €</p>
       </div>

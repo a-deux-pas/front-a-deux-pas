@@ -1,0 +1,33 @@
+@import "color-variables";
+
+.custom-day {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 0.25rem;
+  gap: 10%;
+}
+
+.custom-day.selected {
+  background-color: $primary !important;
+  color: white;
+  cursor: pointer;
+}
+.custom-day.highlighted:hover {
+  background-color: $secondary !important;
+  color: white;
+  cursor: pointer;
+}
+
+.custom-day.highlighted {
+  background-color: $tertiary !important;
+  color: black;
+}
+
+.custom-day.disabled {
+  background-color: #e6e6e6;
+  color: #ccc;
+  cursor: default;
+}

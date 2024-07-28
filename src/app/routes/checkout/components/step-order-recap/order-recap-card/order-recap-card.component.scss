@@ -1,0 +1,105 @@
+@import "color-variables";
+
+.order-recap-card {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  border: 4px solid $primary;
+  border-radius: 2% 2% 5% 2%;
+  background-color: $tertiary;
+  padding: 4.5%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 5%;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 8%;
+  margin-left: 8%;
+}
+
+.ad-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+
+.horizontal-line {
+  border: 1px solid $primary;
+  margin-top: 10%;
+  margin-bottom: 5%;
+}
+
+h3 {
+  text-align: center;
+}
+
+img {
+  width: 200px;
+  height: 150px;
+  margin-right: 15%;
+}
+
+.name-and-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.text-container {
+  max-width: 300px;
+  max-height: 50px;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; // number of lines to show before truncating
+  line-clamp: 2;
+}
+
+// Scroll bar customization
+.with-custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.with-custom-scrollbar::-webkit-scrollbar-track {
+  background: $secondary;
+  border-radius: 10px;
+}
+
+.with-custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.with-custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@media (max-width: 550px) {
+  img {
+    width: 100px;
+    height: 80px;
+    margin-right: 15%;
+  }
+
+  .name-and-description {
+    font-size: small;
+  }
+
+  .text-container {
+    -webkit-line-clamp: 1; // number of lines to show before truncating
+    line-clamp: 1;
+  }
+}
+
+// Desktop
+@media (min-width: 900px) {
+  .order-recap-card {
+    margin-left: 25%;
+    margin-right: 25%;
+  }
+}

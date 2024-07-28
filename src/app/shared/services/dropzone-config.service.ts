@@ -15,6 +15,7 @@ export class DropzoneConfigService {
         thumbnailHeight: 230, // Default value used in profile picture component, can be changed
         addRemoveLinks: true,
         dictRemoveFile: '×',
+        dictCancelUpload: '',
         clickable: true,
         maxFiles: 1,
         resizeWidth: 230,

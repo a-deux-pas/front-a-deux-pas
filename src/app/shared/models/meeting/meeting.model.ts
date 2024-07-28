@@ -8,6 +8,8 @@ export interface Meeting {
   sellerAlias: string;
   buyerInscriptionDate?: string;
   sellerInscriptionDate?: string;
+  buyerCity?: string;
+  sellerCity?: string;
   buyerAdditionalInfo?: string;
   sellerAdditionalInfo?: string;
   buyerDistinctiveSign?: string;
@@ -18,6 +20,8 @@ export interface Meeting {
   postalCode: string;
   city: string;
   street: string;
+  adId: number;
+  adPublisherAlias: string;
   adTitle: string;
   adPrice: number;
   adPictureUrl: string;

@@ -35,6 +35,7 @@ export class SellerProfileComponent {
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.sellerSubscription = this.userService.seller$.subscribe(
       seller => {
         if (seller) {

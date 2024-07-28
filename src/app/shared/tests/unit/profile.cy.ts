@@ -37,20 +37,17 @@ describe('Profile component', () => {
     cy.get('#presentation #edit-button-container .btn-icon').click();
     cy.get('@onEditModeChange').should('have.been.calledOnceWith', true, 'presentation');
     cy.get('#presentation #edit-button-container .save-icon').click();
-    //TODO : check if data saved
   });
 
   it('should trigger edit mode change event for schedule section', () => {
     cy.get('#schedule #edit-button-container .btn-icon').click();
     cy.get('@onEditModeChange').should('have.been.calledOnceWith', true, 'schedule');
     cy.get('#schedule #edit-button-container .save-icon').click();
-    //TODO : check if data saved
   });
 
   it('should trigger edit mode change event for meeting places section', () => {
     cy.get('#meeting-places #edit-button-container .btn-icon').click();
     cy.get('@onEditModeChange').should('have.been.calledOnceWith', true, 'meeting-places');
     cy.get('#meeting-places #edit-button-container .save-icon').click();
-    //TODO : check if data saved
   });
 });

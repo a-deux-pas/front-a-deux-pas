@@ -67,6 +67,7 @@ export class AdPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     const adId: number | null = Number(this.route.snapshot.paramMap.get('adId'));
     this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
     this.loggedInUserId = Number(localStorage.getItem('userId'));
