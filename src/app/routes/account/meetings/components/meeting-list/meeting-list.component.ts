@@ -83,22 +83,6 @@ export class MeetingListComponent {
       : meeting.buyerInscriptionDate;
   }
 
-  getBuyerDistinctiveSign(meeting: Meeting): any {
-    return meeting.buyerDistinctiveSign;
-  }
-
-  getSellerDistinctiveSign(meeting: Meeting) {
-    return meeting.sellerDistinctiveSign;
-  }
-
-  getBuyerAdditionalInfo(meeting: Meeting) {
-    return meeting.buyerAdditionalInfo;
-  }
-
-  getSellerAdditionalInfo(meeting: Meeting) {
-    return meeting.sellerAdditionalInfo;
-  }
-
   // To be uncommented when testing the Stripe API's payment capture mechanism (demonstration purporses only)
   finalizeMeeting() {
     /*console.log('@@@@@@@ Meeting id : ', this.selectedMeeting?.idMeeting);
