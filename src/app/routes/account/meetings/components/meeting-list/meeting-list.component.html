@@ -26,7 +26,7 @@
     <div class="col-sm-12 col-md-8 meeting-details-container mb-5">
       <div class="details-container col-md-12">
         <div class="details-header d-flex justify-content-center gap-3 mb-5">
-          @if (meeting.status === "TOBEFINALIZED") {
+          @if (meeting.status === meetingStatus.TOBEFINALIZED) {
           <button
             type="button"
             class="btn btn-link text-center"
@@ -35,7 +35,7 @@
             <img src="assets/icons/meetings/done.webp" alt="Icône annuler" />
             <span class="d-block mt-1">Le RDV a eu lieu</span>
           </button>
-          } @if (meeting.status === 'INITIALIZED' && currentUserId !==
+          } @if (meeting.status === meetingStatus.INITIALIZED && currentUserId !==
           meeting.buyerId) {
           <button
             type="button"
@@ -48,8 +48,8 @@
             />
             <span class="d-block mt-1">Accepter le RDV</span>
           </button>
-          } @if (meeting.status === "INITIALIZED" || meeting.status ===
-          "ACCEPTED") {
+          } @if (meeting.status === meetingStatus.INITIALIZED || meeting.status ===
+          meetingStatus.ACCEPTED) {
           <button
             type="button"
             class="btn btn-link text-center"
@@ -74,9 +74,9 @@
 
         <div class="card-body">
           <h4 class="mt-3">À propos de {{ getOtherUserAlias(meeting) }}</h4>
-          <div
+          <a [routerLink]="['/profil', getOtherUserAlias(meeting)]"
             class="card-header d-flex justify-content-center align-items-center mt-4 mb-3 gap-5"
-          >
+            style="text-decoration: none;">
             <img
               [src]="getOtherUserProfilePicture(meeting)"
               class="rounded-circle"
@@ -85,11 +85,11 @@
               alt="Profile"
               style="background-color: beige"
             />
-            <p>
-              Membre depuis le
-              {{ getOtherUserInscriptionDate(meeting) | date : "dd/MM/yyyy" }}
-            </p>
-          </div>
+            <div class="d-flex flex-column align-items-start">
+              <p>Membre depuis le {{ getOtherUserInscriptionDate(meeting) | date:'dd/MM/yyyy' }}</p>
+              <p>{{ getOtherUserCity(meeting) }}</p>
+            </div>
+          </a>
 
           <h5 class="mt-3">Lieu du RDV</h5>
           <p class="metting-place">{{ meeting.meetingPlaceName }}</p>
@@ -133,18 +133,19 @@
           </div>
           }
           <h5 class="mt-5 mb-3">Récapitulatif de la commande</h5>
-          <div class="details-ad d-flex gap-2 align-items-center">
+          <a (click)="goToAdDetailsPage(meeting)" class="details-ad d-flex gap-2 align-items-center"
+          style="cursor: pointer;">
             <img
               [src]="meeting.adPictureUrl"
               alt="ad"
               class="mr-3"
-              style="width: 150px; object-fit: cover"
+              style="width: 150px; height: 150px; object-fit: cover"
             />
-            <div>
+            <div class="d-flex flex-column align-items-start ms-2">
               <p>{{ meeting.adTitle }}</p>
               <p>{{ meeting.adPrice | currency : "EUR" }}</p>
             </div>
-          </div>
+          </a>
 
           <div class="chat-container">
             @if (meeting.buyerAdditionalInfo || meeting.sellerAdditionalInfo) {
@@ -190,8 +191,10 @@
   </div>
   }
 </div>
-} @else { @if (!meetingsLoading) {
-<p class="text-center mt-4">
-  <em>Vous n'avez aucun rendez-vous prévu pour le moment</em>
-</p>
-} }
+} @else {
+  @if (!meetingsLoading) {
+    <p class="text-center mt-4">
+      <em>Vous n'avez aucun rendez-vous prévu pour le moment</em>
+    </p>
+  }
+}

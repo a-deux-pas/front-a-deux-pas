@@ -1,13 +1,15 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Meeting } from '../../../../../shared/models/meeting/meeting.model';
+import { Router, RouterModule } from '@angular/router';
 import { MeetingService } from '../../meeting.service';
+import { MeetingStatus } from '../../../../../shared/models/enum/meeting-status.enum';
 
 @Component({
   selector: 'app-meeting-list',
   templateUrl: './meeting-list.component.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   styleUrls: ['./meeting-list.component.scss'],
 })
 export class MeetingListComponent {
@@ -19,16 +21,17 @@ export class MeetingListComponent {
   @Output() select = new EventEmitter<Meeting>();
   @Output() accept = new EventEmitter<Meeting>();
   meetingsLoading: boolean = true;
+  meetingStatus = MeetingStatus;
 
-  constructor(private meetingService: MeetingService) {}
+  constructor(private meetingService: MeetingService, private router: Router) {}
 
   ngOnInit() {
     if (this.meetings.length > 0 && !this.selectedMeeting) {
       this.selectedMeeting = this.meetings[0];
     }
     setTimeout(() => {
-      this.meetingsLoading = false;
-    }, 1000);
+    this.meetingsLoading = false;
+    }, 300);
   }
 
   toggleMeetingDetails(meeting: Meeting): void {
@@ -79,8 +82,23 @@ export class MeetingListComponent {
 
   getOtherUserInscriptionDate(meeting: Meeting) {
     return this.isCurrentUserBuyer(meeting)
-      ? meeting.sellerInscriptionDate
-      : meeting.buyerInscriptionDate;
+      ? meeting.sellerInscriptionDate :
+      meeting.buyerInscriptionDate;
+  }
+
+  getOtherUserCity(meeting: Meeting) {
+    return this.isCurrentUserBuyer(meeting)
+      ? meeting.sellerCity :
+      meeting.buyerCity;
+  }
+
+  goToAdDetailsPage(meeting: Meeting) {
+    const userAlias = localStorage.getItem('userAlias');
+    if (meeting.adPublisherAlias == userAlias) {
+      this.router.navigate(['/compte/annonces/mon-annonce/', meeting.adId]);
+    } else {
+      this.router.navigate(['/annonce', meeting.adPublisherAlias, meeting.adId]);
+    }
   }
 
   // To be uncommented when testing the Stripe API's payment capture mechanism (demonstration purporses only)

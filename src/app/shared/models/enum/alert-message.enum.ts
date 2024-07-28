@@ -6,6 +6,7 @@ export enum AlertMessage {
   AD_DELETED_SUCCESS =  'Votre annonce a été supprimée avec succès !',
   FAVORITES_ADDED_SUCCESS = 'L\'annonce a été ajoutée à vos favoris',
   FAVORITES_REMOVED_SUCCESS = 'L\'annonce a été supprimée de vos favoris',
+  MEETING_ACCEPTED_SUCCESS = 'Votre RDV est planifié',
 
   // Error messages
   UPLOAD_PICTURE_ERROR = 'Vos images dépassent la taille autorisée',

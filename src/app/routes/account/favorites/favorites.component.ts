@@ -31,7 +31,7 @@ export class FavoritesComponent implements OnInit {
     this.updateAdsFavoritesList();
     setTimeout(() => {
       this.favoritesLoading = false;
-    });
+    }, 300);
   }
 
   private fetchUserFavoritesAds(): void {
