@@ -59,7 +59,7 @@ jobs:
           install: false
           component: true
 
-      # Get application version from pom.xml to variable
+      # Get application version from package.json to variable
       - name: Retrieve Application Version and set Artifact Version
         id: set_app_version
         run: |
@@ -146,16 +146,12 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.APP_NAME }}-${{ env.ARTIFACT_VERSION }}
-          path: front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip
 
-      - name: List workspace/artifact content
+      - name: Build release artifact
         run: |
-          ls -ltr ${{ github.workspace }} || true
-          unzip -l front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip || true
+          ng build --prod
+          zip front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip *
+          ls -ltrh ${{ github.workspace }} || true
       
       - name: Create GitHub Release
         env:
