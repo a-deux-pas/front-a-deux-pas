@@ -1011,6 +1011,11 @@ a.dropdown-first-level.dropdown-toggle {
   font-weight: 700;
 }
 
+.dz-remove:hover {
+  text-decoration: none !important;
+  color: #343a40;
+}
+
 // Dropzone profile picture
 app-profile-picture {
   #dropzone {
@@ -1032,7 +1037,6 @@ app-profile-picture {
   }
 
   .dz-remove:hover {
-    text-decoration: none !important;
     opacity: 1;
   }
 }
@@ -1141,7 +1145,7 @@ app-ad-form {
   border-radius: 1.2em;
   color: gray;
   background-color: white;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 /*-----------------------------------------------------------------------*/
