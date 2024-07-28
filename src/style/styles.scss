@@ -1040,10 +1040,6 @@ app-profile-picture {
 
 app-ad-form {
 
-  dropzone>.dropzone.dz-wrapper .dz-message {
-    max-width: 100%;
-  }
-
   .mobile-dropzones,
   .mobile-dropzones .dz-message {
     width: 349px !important;
@@ -1119,7 +1115,7 @@ app-ad-form {
   .four-dropzones:first-child .dz-message,
   .four-dropzones:nth-child(4),
   .four-dropzones:nth-child(4) .dz-message {
-    height: 501px !important;
+    height: 494px !important;
   }
 
   .four-dropzones:first-child,

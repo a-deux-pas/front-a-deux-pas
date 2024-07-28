@@ -104,10 +104,8 @@ export class AdFormComponent implements AfterViewChecked {
     this.config = this.dropzoneConfigService.getConfig();
     if (this.isBigScreen) {
       this.updateDropzoneDimension(this.selectedPicNumber, true);
-      // this.dropzoneConfigService.setThumbnailDimensions(400, 400);
     } else {
       this.updateDropzoneDimension(this.selectedPicNumber, false);
-      // this.dropzoneConfigService.setThumbnailDimensions(649, 600);
     }
     this.updateArticlePicture();
   }
