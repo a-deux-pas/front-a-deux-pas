@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  HostListener,
-  OnInit,
-  LOCALE_ID,
-} from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
