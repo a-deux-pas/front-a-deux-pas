@@ -7,9 +7,10 @@ import { UserAliasAndLocation } from '../models/user/user-alias-and-location.mod
 import { UserPresentation } from '../models/user/user-presentation.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
+  private contextUrl = `${API_URL}users/`;
   private sellerSubject = new BehaviorSubject<UserPresentation | null>(null);
   seller$ = this.sellerSubject.asObservable();
 
@@ -20,12 +21,19 @@ export class UserService {
 
   getUserAliasAndLocation(userId: number): Observable<UserAliasAndLocation> {
     const url = `${API_URL}users/${userId}/alias-and-location`;
-    return this.http.get<UserAliasAndLocation>(url).pipe(
-      catchError(this.handleErrorService.handleError)
-    );
+    return this.http
+      .get<UserAliasAndLocation>(url)
+      .pipe(catchError(this.handleErrorService.handleError));
   }
 
   setSeller(seller: UserPresentation) {
     this.sellerSubject.next(seller);
+  }
+
+  fetchUserByAlias(alias: string): Observable<any> {
+    const url = `${this.contextUrl}${alias}`;
+    return this.http
+      .get<any>(url)
+      .pipe(catchError(this.handleErrorService.handleError));
   }
 }

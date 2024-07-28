@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Meeting } from '../../../../../shared/models/meeting/meeting.model';
 import { Router, RouterModule } from '@angular/router';
+import { MeetingService } from '../../meeting.service';
+import { MeetingStatus } from '../../../../../shared/models/enum/meeting-status.enum';
 
 @Component({
   selector: 'app-meeting-list',
@@ -19,8 +21,9 @@ export class MeetingListComponent {
   @Output() select = new EventEmitter<Meeting>();
   @Output() accept = new EventEmitter<Meeting>();
   meetingsLoading: boolean = true;
+  meetingStatus = MeetingStatus;
 
-  constructor(private router: Router) {}
+  constructor(private meetingService: MeetingService, private router: Router) {}
 
   ngOnInit() {
     if (this.meetings.length > 0 && !this.selectedMeeting) {
@@ -32,7 +35,8 @@ export class MeetingListComponent {
   }
 
   toggleMeetingDetails(meeting: Meeting): void {
-    this.selectedMeeting = this.selectedMeeting === meeting ? undefined : meeting;
+    this.selectedMeeting =
+      this.selectedMeeting === meeting ? undefined : meeting;
     this.select.emit(this.selectedMeeting);
   }
 
@@ -65,51 +69,37 @@ export class MeetingListComponent {
   }
 
   getOtherUserAlias(meeting: Meeting) {
-    return this.isCurrentUserBuyer(meeting) ? meeting.sellerAlias : meeting.buyerAlias;
+    return this.isCurrentUserBuyer(meeting)
+      ? meeting.sellerAlias
+      : meeting.buyerAlias;
   }
 
   getOtherUserProfilePicture(meeting: Meeting) {
-    return this.isCurrentUserBuyer(meeting) ? meeting.sellerProfilePictureUrl : meeting.buyerProfilePictureUrl;
+    return this.isCurrentUserBuyer(meeting)
+      ? meeting.sellerProfilePictureUrl
+      : meeting.buyerProfilePictureUrl;
   }
 
   getOtherUserInscriptionDate(meeting: Meeting) {
-    return this.isCurrentUserBuyer(meeting) ? meeting.sellerInscriptionDate : meeting.buyerInscriptionDate;
+    return this.isCurrentUserBuyer(meeting)
+      ? meeting.sellerInscriptionDate :
+      meeting.buyerInscriptionDate;
   }
 
   getOtherUserCity(meeting: Meeting) {
-    return this.isCurrentUserBuyer(meeting) ? meeting.sellerCity : meeting.buyerCity;
+    return this.isCurrentUserBuyer(meeting)
+      ? meeting.sellerCity :
+      meeting.buyerCity;
   }
 
-  getBuyerDistinctiveSign(meeting: Meeting) : any {
-    if (this.currentUserId === meeting.buyerId) {
-      return (meeting.buyerDistinctiveSign);
-    } else {
-      return meeting.buyerDistinctiveSign;
-    }
-  }
-
-  getSellerDistinctiveSign(meeting: Meeting) {
-    if (this.currentUserId === meeting.sellerId) {
-      return (meeting.sellerDistinctiveSign);
-    } else {
-      return meeting.sellerDistinctiveSign;
-    }
-  }
-
-  getBuyerAdditionalInfo(meeting: Meeting) {
-    if (this.currentUserId === meeting.buyerId) {
-      return (meeting.buyerAdditionalInfo);
-    } else {
-      return meeting.buyerAdditionalInfo;
-    }
-  }
-
-  getSellerAdditionalInfo(meeting: Meeting)  {
-    if (this.currentUserId === meeting.sellerId) {
-      return (meeting.sellerAdditionalInfo);
-    } else {
-      return meeting.sellerAdditionalInfo;
-    }
+  // To be uncommented when testing the Stripe API's payment capture mechanism (demonstration purporses only)
+  finalizeMeeting() {
+    /*console.log('@@@@@@@ Meeting id : ', this.selectedMeeting?.idMeeting);
+    this.meetingService
+      .finalizeMeeting(this.selectedMeeting?.idMeeting)
+      .subscribe((result) => {
+        console.log('@@@@@@@ Meeting finalized');
+      });*/
   }
 
   goToAdDetailsPage(meeting: Meeting) {
@@ -121,3 +111,4 @@ export class MeetingListComponent {
     }
   }
 }
+

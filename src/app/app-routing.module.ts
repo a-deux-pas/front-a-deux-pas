@@ -6,9 +6,7 @@ const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./routes/home/home.component').then(
-        (mod) => mod.HomeComponent
-      )
+      import('./routes/home/home.component').then((mod) => mod.HomeComponent),
   },
   {
     path: 'annonce',
@@ -22,7 +20,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./routes/account/account-routing.module').then(
         (mod) => mod.AccountRoutingModule
-      )
+      ),
+  },
+  {
+    path: 'commander',
+    loadChildren: () =>
+      import('./routes/checkout/checkout-routing.module').then(
+        (mod) => mod.CheckoutRoutingModule
+      ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'inscription',
@@ -30,7 +36,7 @@ const routes: Routes = [
       import('./routes/register/register.component').then(
         (mod) => mod.RegisterComponent
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'profil/:sellerAlias',
@@ -38,12 +44,12 @@ const routes: Routes = [
       import('./routes/seller-profile/seller-profile.component').then(
         (mod) => mod.SellerProfileComponent
       ),
-    canActivate: [AuthGuard]
-  }
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

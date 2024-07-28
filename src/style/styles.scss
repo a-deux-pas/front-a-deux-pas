@@ -67,8 +67,10 @@ $h3-font-size: 1.125rem;
 /*-----------------------------------------------------------------------*/
 
 // Method to create personalized containers
-@mixin make-container($padding-x: $container-padding-x,
-  $padding-y: $container-padding-y) {
+@mixin make-container(
+  $padding-x: $container-padding-x,
+  $padding-y: $container-padding-y
+) {
   width: 100%;
   margin-top: $padding-y;
   padding-right: $padding-x;
@@ -412,7 +414,7 @@ a.close {
 }
 
 .modal-content {
-  .form-check-input[type=checkbox] {
+  .form-check-input[type="checkbox"] {
     border-radius: 50%;
     border-color: $secondary;
 
@@ -454,8 +456,13 @@ a.close {
     height: 24px;
   }
 
-  .input-group:not(.has-validation)> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
-  .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control {
+  .input-group:not(.has-validation)
+    > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(
+      .form-floating
+    ),
+  .input-group:not(.has-validation)
+    > .form-floating:not(:last-child)
+    > .form-control {
     border-radius: 10px 10px 40px 5px;
   }
 }
@@ -508,12 +515,12 @@ textarea.form-control {
 }
 
 // Opened ng-select container bottom border radius
-.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
+.ng-select.ng-select-opened.ng-select-bottom > .ng-select-container {
   border-bottom-right-radius: 40px;
 }
 
 // Focus effects for ng-select
-.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
   border-color: $secondary;
   box-shadow: none;
 }
@@ -566,12 +573,20 @@ span.ng-value-icon.left {
   }
 }
 
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon.left {
   border-right: 1px solid white;
 }
 
 // Hover effects on selected value in multiselect
-.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon:hover {
   background-color: white;
   color: $primary;
 }
@@ -595,13 +610,17 @@ span.ng-value-icon.left {
 }
 
 // Dropdown panel First child option styling
-.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:first-child {
+.ng-dropdown-panel.ng-select-bottom
+  .ng-dropdown-panel-items
+  .ng-option:first-child {
   border-radius: 10px;
   border-color: $secondary;
 }
 
 // Dropdown panel first child marked option
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked:first-child {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-marked:first-child {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 0;
@@ -623,14 +642,18 @@ span.ng-value-icon.left {
 
 // Selected option styling in dropdown panel
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
 }
 
 // Selected option styling in multiselect
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected,
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected.ng-option-marked {
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-optgroup.ng-option-selected.ng-option-marked {
   color: $primary;
   background-color: white;
   font-weight: 400;
@@ -717,7 +740,6 @@ $card-spacer-y: 3.1875rem;
   height: 17.74px;
 }
 
-
 #article-price {
   position: relative;
   bottom: 13.8px;
@@ -746,7 +768,10 @@ $card-spacer-y: 3.1875rem;
   }
 
   &.RESERVED {
-    @include filter(sepia(149%) brightness(78%) hue-rotate(360deg) saturate(192%) contrast(140%) invert(13%));
+    @include filter(
+      sepia(149%) brightness(78%) hue-rotate(360deg) saturate(192%)
+        contrast(140%) invert(13%)
+    );
   }
 }
 
@@ -756,7 +781,7 @@ $card-spacer-y: 3.1875rem;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #FFF;
+  color: #fff;
   font-size: 20px;
   font-weight: 700;
 }
@@ -822,8 +847,8 @@ button.navbar-toggler {
 }
 
 // Select box styling
-.dropdown:hover>.dropdown-menu,
-.dropend:hover>.dropdown-menu {
+.dropdown:hover > .dropdown-menu,
+.dropend:hover > .dropdown-menu {
   display: block;
   margin-left: 0.125em;
   border-radius: 10px;
@@ -910,7 +935,7 @@ a.dropdown-first-level.dropdown-toggle {
   border-left: none;
 }
 
-.fc-media-screen .fc-timegrid-cols>table {
+.fc-media-screen .fc-timegrid-cols > table {
   width: 302px;
 }
 
@@ -989,7 +1014,8 @@ a.dropdown-first-level.dropdown-toggle {
   filter: none !important;
 }
 
-.dropzone .dz-preview .dz-image, .dropzone .dz-preview:hover {
+.dropzone .dz-preview .dz-image,
+.dropzone .dz-preview:hover {
   z-index: 2 !important;
 }
 
@@ -1042,7 +1068,6 @@ app-profile-picture {
 }
 
 app-ad-form {
-
   .mobile-dropzones,
   .mobile-dropzones .dz-message {
     width: 349px !important;
@@ -1241,7 +1266,7 @@ app-register {
   /*---------------------------------*/
 
   //Dropdown menu styling for better display of the ad-filters component.
-  .dropend:hover>.dropdown-menu {
+  .dropend:hover > .dropdown-menu {
     position: absolute;
     top: 0;
     left: 100%;
@@ -1315,7 +1340,6 @@ ngb-carousel,
 
 // Desktop version
 @media (min-width: 1200px) {
-
   // margin
   body {
     margin: 0;
@@ -1340,6 +1364,122 @@ ngb-carousel,
   .carousel-indicators {
     display: none;
   }
+}
+
+/*---------------------------------*/
+
+//Calendar Desktop
+
+ngb-datepicker {
+  border-radius: 3% !important;
+}
+
+ngb-datepicker-navigation-select > .form-select {
+  color: $primary;
+  font-size: large !important;
+  font-weight: bold !important;
+  text-align: center;
+}
+
+ngb-datepicker-month {
+  width: 400px;
+  height: 400px;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: #f8f9fa;
+  border-radius: 3% !important;
+}
+
+@media (max-width: 1330px) {
+  ngb-datepicker-month {
+    width: 300px;
+    height: 300px;
+  }
+  ngb-datepicker-navigation-select > .form-select {
+    text-align: justify !important;
+    font-size: 13px !important;
+  }
+}
+
+.ngb-dp-header {
+  padding: 5% !important;
+}
+
+.ngb-dp-week {
+  width: 100% !important;
+  height: 100% !important;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5% !important;
+  padding-right: 5% !important;
+}
+
+.ngb-dp-month .ngb-dp-week:last-child {
+  padding-bottom: 5% !important;
+}
+
+.ngb-dp-day {
+  text-align: center;
+  width: 14.2857% !important;
+  height: 100% !important;
+  align-content: center;
+  padding-bottom: 0.5% !important;
+  padding-right: 0.5% !important;
+  padding-left: 0.5% !important;
+  padding-top: 0.5% !important;
+  cursor: default !important;
+}
+
+.custom-day {
+  height: 100% !important;
+  width: 100% !important;
+  font-size: medium;
+  font-weight: bold;
+  align-content: center;
+  background-color: #f8f9fa !important;
+}
+
+.ngb-dp-weekday {
+  color: #282727 !important;
+  width: 14.2857% !important;
+  height: 100% !important;
+  align-content: center;
+  font-size: medium !important;
+  font-weight: 550;
+  font-style: normal !important;
+}
+
+.ngb-dp-navigation-chevron {
+  color: white;
+}
+
+.ngb-dp-arrow {
+  border-radius: 50%;
+  background-color: $primary;
+  width: 3rem !important;
+  height: 3rem !important;
+  justify-content: center;
+  flex: none !important;
+}
+
+.ngb-dp-arrow-next {
+  justify-content: center !important;
+}
+
+.ngb-dp-weekdays {
+  border-bottom: 0 !important;
+}
+
+.form-select {
+  font-size: larger !important;
+  border-radius: 0 !important;
+  height: 3rem !important;
+}
+
+.ngb-dp-navigation-select {
+  margin-left: 5% !important;
+  margin-right: 5% !important;
 }
 
 /*-----------------------------------------------------------------------*/
