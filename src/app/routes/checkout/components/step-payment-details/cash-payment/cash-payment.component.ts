@@ -21,10 +21,10 @@ export class CashPaymentComponent {
     this.articlePrice = this.checkoutService.getCheckoutAd().price;
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit() {
     this.checkoutService
       .proposeMeeting(this.checkoutService.getProposedMeeting())
-      .subscribe((response: any) => {
+      .subscribe(() => {
         this.router.navigate(['/compte/rdv']);
       });
   }
