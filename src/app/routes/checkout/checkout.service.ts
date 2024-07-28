@@ -3,13 +3,12 @@ import { BehaviorSubject, catchError, Observable } from 'rxjs';
 import { BuyerProposedMeetingRequest } from '../../shared/models/meeting/buyer-proposed-meeting-request.model';
 import { HttpClient } from '@angular/common/http';
 import { HandleErrorService } from '../../shared/services/handle-error.service';
-import { API_URL } from '../../shared/utils/constants/util-constants';
+import { MEETING_BASE_URL } from '../../shared/utils/constants/util-constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutService {
-  private contextUrl = `${API_URL}meetings`;
   private stepSource = new BehaviorSubject<number>(1);
   currentStep = this.stepSource.asObservable();
 
@@ -62,7 +61,7 @@ export class CheckoutService {
   ): Observable<BuyerProposedMeetingRequest> {
     return this.http
       .post<BuyerProposedMeetingRequest>(
-        `${this.contextUrl}/initialize`,
+        `${MEETING_BASE_URL}/initialize`,
         proposedMeeting
       )
       .pipe(catchError(this.handleErrorService.handleError));
@@ -70,7 +69,7 @@ export class CheckoutService {
 
   createPaymentIntent(token: any, meetingId: any): Observable<any> {
     return this.http
-      .post<any>(`${API_URL}payment/create-payment-intent`, {
+      .post<any>(`${MEETING_BASE_URL}/payment/create-payment-intent`, {
         amount: this.getCheckoutAd().price * 100, // initial amount is in cents
         currency: 'eur',
         type: 'card',

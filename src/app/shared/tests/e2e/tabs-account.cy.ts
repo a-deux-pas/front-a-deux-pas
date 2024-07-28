@@ -1,9 +1,4 @@
-import { API_URL } from "../../utils/constants/util-constants";
-
-let accountUrl = `${API_URL}account/profile`;
-let adUrl = `${API_URL}ads`;
-let userUrl = `${API_URL}users`;
-let meetingUrl = `${API_URL}meetings`;
+import { ACCOUNT_BASE_URL, AD_BASE_URL, MEETING_BASE_URL, USER_BASE_URL } from "../../utils/constants/util-constants";
 
 context('account tabs testing', () => {
   beforeEach(() => {
@@ -14,13 +9,13 @@ context('account tabs testing', () => {
       win.localStorage.setItem('userAlias', 'supercalifragilisticexpialidocious');
     });
 
-    cy.intercept(`${userUrl}/supercalifragilisticexpialidocious/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
-    cy.intercept(`${userUrl}/1/alias-and-location*`, { fixture: 'user-profile' }).as('getUserPreferredSchedules');
-    cy.intercept(`${accountUrl}/1/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
-    cy.intercept(`${accountUrl}/1/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
-    cy.intercept(`${adUrl}/adTablist/1*`, { fixture: 'user-profile' }).as('getAdsList');
-    cy.intercept(`${adUrl}/favorites/1*`, { fixture: 'user-profile' }).as('getFavoritesAdsList');
-    cy.intercept(`${meetingUrl}/proposed/1*`, { fixture: 'user-profile' }).as('getMeetingsList');
+    cy.intercept(`${USER_BASE_URL}/supercalifragilisticexpialidocious/presentation*`, { fixture: 'user-profile' }).as('getUserPresentation');
+    cy.intercept(`${USER_BASE_URL}/1/alias-and-location*`, { fixture: 'user-profile' }).as('getUserPreferredSchedules');
+    cy.intercept(`${ACCOUNT_BASE_URL}/1/schedules*`, { fixture: 'user-preferred-schedule' }).as('getUserPreferredSchedules');
+    cy.intercept(`${ACCOUNT_BASE_URL}/1/meeting-places*`, { fixture: 'user-meeting-places' }).as('getPreferredMeetingPlaces');
+    cy.intercept(`${AD_BASE_URL}/adTablist/1*`, { fixture: 'user-profile' }).as('getAdsList');
+    cy.intercept(`${AD_BASE_URL}/favorites/1*`, { fixture: 'user-profile' }).as('getFavoritesAdsList');
+    cy.intercept(`${MEETING_BASE_URL}/proposed/1*`, { fixture: 'user-profile' }).as('getMeetingsList');
 
     cy.visit('http://localhost:4200/compte/profil');
     cy.url().should('include', '/compte/profil');

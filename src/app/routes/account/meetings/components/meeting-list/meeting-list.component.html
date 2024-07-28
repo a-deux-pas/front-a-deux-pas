@@ -98,39 +98,43 @@
           </p>
 
           @if (meeting.buyerDistinctiveSign || meeting.sellerDistinctiveSign) {
-          <div class="chat-container">
-            <h5 class="mt-5 mb-3">Signes distinctifs</h5>
-            <div
-              class="col-md-12 d-flex align-items-end justify-content-center gap-2 mb-4"
-            >
-              <p class="buyer-info col-md-8 mb-0">
-                {{ meeting.buyerDistinctiveSign }}
-              </p>
-              <img
-                [src]="meeting.buyerProfilePictureUrl"
-                class="rounded-circle"
-                width="50"
-                height="50"
-                alt="buyer"
-                style="background-color: beige"
-              />
+            <div class="chat-container">
+              <h5 class="mt-5 mb-3">Signes distinctifs</h5>
+              @if (meeting.buyerDistinctiveSign) {
+                <div
+                class="col-md-12 d-flex align-items-end justify-content-center gap-2 mb-4">
+                  <p class="buyer-info col-md-8 mb-0">
+                    {{ meeting.buyerDistinctiveSign }}
+                  </p>
+                  <img
+                    [src]="meeting.buyerProfilePictureUrl"
+                    class="rounded-circle"
+                    width="50"
+                    height="50"
+                    alt="buyer"
+                    style="background-color: beige"
+                  />
+                </div>
+              }
+
+              @if (meeting.sellerDistinctiveSign) {
+                <div
+                  class="col-md-12 d-flex align-items-end justify-content-start gap-2 mb-3"
+                >
+                  <img
+                    [src]="meeting.sellerProfilePictureUrl"
+                    class="rounded-circle"
+                    width="50"
+                    height="50"
+                    alt="seller"
+                    style="background-color: beige"
+                  />
+                  <p class="seller-info col-md-8 mb-0">
+                    {{ meeting.sellerDistinctiveSign }}
+                  </p>
+                </div>
+              }
             </div>
-            <div
-              class="col-md-12 d-flex align-items-end justify-content-start gap-2 mb-3"
-            >
-              <img
-                [src]="meeting.sellerProfilePictureUrl"
-                class="rounded-circle"
-                width="50"
-                height="50"
-                alt="seller"
-                style="background-color: beige"
-              />
-              <p class="seller-info col-md-8 mb-0">
-                {{ meeting.sellerDistinctiveSign }}
-              </p>
-            </div>
-          </div>
           }
           <h5 class="mt-5 mb-3">Récapitulatif de la commande</h5>
           <a (click)="goToAdDetailsPage(meeting)" class="details-ad d-flex gap-2 align-items-center"

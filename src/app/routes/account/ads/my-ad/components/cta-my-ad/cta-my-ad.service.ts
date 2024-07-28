@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { API_URL } from '../../../../../../shared/utils/constants/util-constants';
+import { AD_BASE_URL, MEETING_BASE_URL } from '../../../../../../shared/utils/constants/util-constants';
 import { HttpClient } from '@angular/common/http';
 import { HandleErrorService } from '../../../../../../shared/services/handle-error.service';
 import { catchError, Observable } from 'rxjs';
@@ -15,28 +15,28 @@ export class CtaMyAdService {
   ) {}
 
   getFavoriteCount(adId: number): Observable<number> {
-    const url = `${API_URL}ads/favoriteCount/${adId}`;
+    const url = `${AD_BASE_URL}/favoriteCount/${adId}`;
     return this.http.get<number>(url).pipe(
       catchError(this.handleErrorService.handleError)
     )
   }
 
   getBuyerAlias(adId: number): Observable<string> {
-    const url = `${API_URL}meetings/${adId}/buyer`;
+    const url = `${MEETING_BASE_URL}/${adId}/buyer`;
     return this.http.get(url, { responseType: 'text' }).pipe(
       catchError(this.handleErrorService.handleError)
     )
   }
 
   getSaleDate(adId: number): Observable<Date> {
-    const url = `${API_URL}meetings/${adId}/date`;
+    const url = `${MEETING_BASE_URL}/${adId}/date`;
     return this.http.get<Date>(url).pipe(
       catchError(this.handleErrorService.handleError)
     )
   }
 
   deleteAd(adId: number): Observable<number> {
-    const url = `${API_URL}ads/${adId}`;
+    const url = `${AD_BASE_URL}/${adId}`;
     return this.http.delete<number>(url, {
       responseType: 'text' as 'json'
     }).pipe(
