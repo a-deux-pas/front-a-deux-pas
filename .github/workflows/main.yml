@@ -84,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.APP_NAME }}-${{ env.ARTIFACT_VERSION }}
-          path: dist/**/*
+          path: dist
           overwrite: true
           
   docker:
