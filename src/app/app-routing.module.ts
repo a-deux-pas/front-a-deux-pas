@@ -23,7 +23,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'checkout',
+    path: 'commander',
     loadChildren: () =>
       import('./routes/checkout/checkout-routing.module').then(
         (mod) => mod.CheckoutRoutingModule
@@ -57,4 +57,4 @@ const routerOptions: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

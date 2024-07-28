@@ -34,6 +34,8 @@ export class MeetingService {
 
   // To be uncommented for testing the Stripe API's payment capture mechanism (demonstration purporses only)
   /*finalizeMeeting(meetingId: any): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/finalize/${meetingId}`);
+    return this.http.get<any>(`${this.apiUrl}/finalize/${meetingId}`, {
+      responseType: 'text' as 'json',
+    });
   }*/
 }

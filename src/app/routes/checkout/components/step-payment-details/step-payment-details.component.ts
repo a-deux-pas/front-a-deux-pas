@@ -23,7 +23,7 @@ export class StepPaymentDetailsComponent {
     window.scrollTo(0, 0);
     this.checkoutService.currentStep.subscribe((currentStep) => {
       if (currentStep !== 3) {
-        this.router.navigate(['/checkout/recapitulatif']);
+        this.router.navigate(['/commander/recapitulatif']);
       }
       this.step = currentStep;
     });

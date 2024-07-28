@@ -19,15 +19,12 @@ export class CashPaymentComponent {
     private router: Router
   ) {
     this.articlePrice = this.checkoutService.getCheckoutAd().price;
-    console.log(this.articlePrice);
   }
 
   onSubmit(form: NgForm) {
-    console.log(form);
     this.checkoutService
       .proposeMeeting(this.checkoutService.getProposedMeeting())
       .subscribe((response: any) => {
-        console.log('response : ', response);
         this.router.navigate(['/compte/rdv']);
       });
   }

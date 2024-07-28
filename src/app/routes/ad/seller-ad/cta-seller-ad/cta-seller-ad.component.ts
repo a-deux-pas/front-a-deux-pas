@@ -45,7 +45,7 @@ export class CtaSellerAdComponent implements OnInit {
     if (this.isUserLoggedIn) {
       // To be implemented by Mircea ;)
       this.checkoutService.setCheckoutAd(this.ad);
-      this.router.navigate(['/checkout']);
+      this.router.navigate(['/commander']);
     } else {
       this.openModal();
     }

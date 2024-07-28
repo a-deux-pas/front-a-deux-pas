@@ -90,12 +90,10 @@ export class StepMeetingDetailsComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      console.log('Form Submitted', this.form);
       this.checkoutService.updateStep(3);
 
       this.saveProposedMeetingToService();
-      console.log(this.checkoutService.getProposedMeeting());
-      this.router.navigate(['/checkout/paiement']);
+      this.router.navigate(['/commander/paiement']);
     } else {
       console.error('Invalid Form');
     }

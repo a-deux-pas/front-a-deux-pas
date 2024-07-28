@@ -30,7 +30,6 @@ registerLocaleData(localeFr);
     AlertComponent,
   ],
   template: '<app-date-picker></app-date-picker>',
-  providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'front';

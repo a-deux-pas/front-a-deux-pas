@@ -42,11 +42,11 @@ export class ProgressBarComponent implements OnInit {
 
   returnToRecapPage() {
     this.checkoutService.updateStep(1);
-    this.router.navigate(['/checkout/recapitulatif']);
+    this.router.navigate(['/commander/recapitulatif']);
   }
 
   returnToRdvPage() {
     this.checkoutService.updateStep(2);
-    this.router.navigate(['/checkout/rdv']);
+    this.router.navigate(['/commander/rdv']);
   }
 }

@@ -57,6 +57,6 @@ export class StepOrderRecapComponent implements OnInit {
   nextStep() {
     this.checkoutService.updateStep(2);
     this.checkoutService.setCheckoutseller(this.seller);
-    this.router.navigate(['/checkout/rdv']);
+    this.router.navigate(['/commander/rdv']);
   }
 }

@@ -123,6 +123,7 @@ export class CardPaymentComponent implements OnInit {
     this.checkoutService
       .proposeMeeting(this.checkoutService.getProposedMeeting())
       .subscribe((response: any) => {
+        // create payment intent immediately after the meeting is created
         this.createPaymentIntent(response);
         this.router.navigate(['/compte/rdv']);
       });
@@ -143,6 +144,7 @@ export class CardPaymentComponent implements OnInit {
     }
 
     this.checkoutService
+      // pass the meetign id received inside the response object, atfter meeting creation
       .createPaymentIntent(token, response.meetingId)
       .subscribe((response) => {
         console.log('Payment intent created:', response);
