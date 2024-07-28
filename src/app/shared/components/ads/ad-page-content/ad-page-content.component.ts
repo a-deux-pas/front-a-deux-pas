@@ -74,7 +74,7 @@ export class AdPageComponent implements OnInit {
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
     this.onSellerAd = !this.onLoggedInUserAd;
     // Check loggin status
-    this.loggedInCheck(adId) ;
+    this.loggedInCheck(adId);
     // Fetch the ad
     this.adService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
       next: (ad: AdDetails) => {
@@ -89,7 +89,7 @@ export class AdPageComponent implements OnInit {
         if (this.onSellerAd) {
           // Fetch ads list with the same category
           this.getSimilarAds();
-        }  else {
+        } else {
           this.adService.setAd(this.currentAd);
         }
         // Waits pictures loading

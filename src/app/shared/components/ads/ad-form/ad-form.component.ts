@@ -82,18 +82,6 @@ export class AdFormComponent implements AfterViewChecked {
     this.config = this.dropzoneConfigService.getConfig();
   }
 
-  ngAfterViewChecked(): void {
-    this.config = this.dropzoneConfigService.getConfig();
-    if (this.isBigScreen) {
-      this.updateDropzoneDimension(this.selectedPicNumber, true);
-      this.dropzoneConfigService.setThumbnailDimensions(400, 400);
-    } else {
-      this.updateDropzoneDimension(this.selectedPicNumber, false);
-      this.dropzoneConfigService.setThumbnailDimensions(649, 600);
-    }
-    this.updateArticlePicture();
-  }
-
   ngOnInit(): void {
     if (!this.isCreateAdForm) {
       this.adSubscription = this.adService.myAd$.subscribe(
@@ -108,18 +96,24 @@ export class AdFormComponent implements AfterViewChecked {
             const adId = Number(this.route.snapshot.paramMap.get('adId'));
             this.getAd(adId);
           }
-      });
+        });
     }
+  }
+
+  ngAfterViewChecked(): void {
+    this.config = this.dropzoneConfigService.getConfig();
+    this.updateDropzoneDimension(this.selectedPicNumber, this.isBigScreen!);
+    this.updateArticlePicture();
   }
 
   getAd(adId: number) {
     this.adService.getAdById(adId, 0).subscribe((ad: AdDetails) => {
-        this.ad = { ...ad };
-        this.selectedPicNumber = this.ad.articlePictures?.length ?? 2;
-        if (this.ad.articlePictures && this.ad.articlePictures.length > 0) {
-          this.convertUrlsToFiles(this.ad.articlePictures);
-        }
+      this.ad = { ...ad };
+      this.selectedPicNumber = this.ad.articlePictures?.length ?? 2;
+      if (this.ad.articlePictures && this.ad.articlePictures.length > 0) {
+        this.convertUrlsToFiles(this.ad.articlePictures);
       }
+    }
     );
   }
 
@@ -140,9 +134,9 @@ export class AdFormComponent implements AfterViewChecked {
         })
       )
     ).then(files => {
-        // Filter out any null values and cast the result to File[]
-        this.articlePictures = files.filter(file => file !== null) as File[];
-        this.initializeDropzones();
+      // Filter out any null values and cast the result to File[]
+      this.articlePictures = files.filter(file => file !== null) as File[];
+      this.initializeDropzones();
     });
   }
 
@@ -174,6 +168,7 @@ export class AdFormComponent implements AfterViewChecked {
             } else {
               this.articlePictures.push(addedFile);
             }
+            this.updateDropzoneDimension(this.selectedPicNumber, this.isBigScreen!)
           }
         });
         dropzone.on('removedfile', (removedfile: File) => {
@@ -226,6 +221,18 @@ export class AdFormComponent implements AfterViewChecked {
     let newClass: string = `${dropzoneClass}-dropzones`;
     dropzones.forEach((dropzone: any) => {
       this.renderer.addClass(dropzone, `${newClass}`);
+      const dropzoneWidth = dropzone.clientWidth;
+      const dropzoneHeight = dropzone.clientHeight;
+
+      if (dropzoneWidth !== 0 && dropzoneHeight !== 0) {
+        this.config = this.dropzoneConfigService.getConfig(dropzoneWidth + 400, dropzoneHeight + 400);
+        const imgThumbnail = dropzone.querySelector('[data-dz-thumbnail]');
+        if (imgThumbnail) {
+          this.renderer.setStyle(imgThumbnail, 'width', `${dropzoneWidth}px`);
+          this.renderer.setStyle(imgThumbnail, 'height', `${dropzoneHeight}px`);
+          this.renderer.setStyle(imgThumbnail, 'object-fit', `cover`);
+        }
+      }
     });
     const dzWrapper = this.el.nativeElement.querySelectorAll('.dz-wrapper');
     dzWrapper.forEach((wrapper: any) => {
@@ -332,29 +339,29 @@ export class AdFormComponent implements AfterViewChecked {
     });
   }
 
-    private updateAd(adData: FormData): void {
-      this.adformService.updateAd(adData).subscribe({
-        next: (ad: AdDetails) => {
-          this.isSubmitting = false;
-          this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
-          setTimeout(() => {
-            this.displayManagementService.displayAlert(
-              ALERTS.AD_UPDATED_SUCCESS
-            );
-          }, 100);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isSubmitting = false;
-          if (error.status == 413) {
-            this.displayManagementService.displayAlert(
-              ALERTS.UPLOAD_PICTURE_ERROR
-            );
-          } else {
-            this.displayManagementService.displayAlert(
-              ALERTS.DEFAULT_ERROR,
-            );
-          }
+  private updateAd(adData: FormData): void {
+    this.adformService.updateAd(adData).subscribe({
+      next: (ad: AdDetails) => {
+        this.isSubmitting = false;
+        this.router.navigate(['compte/annonces/mon-annonce/', ad.id]);
+        setTimeout(() => {
+          this.displayManagementService.displayAlert(
+            ALERTS.AD_UPDATED_SUCCESS
+          );
+        }, 100);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isSubmitting = false;
+        if (error.status == 413) {
+          this.displayManagementService.displayAlert(
+            ALERTS.UPLOAD_PICTURE_ERROR
+          );
+        } else {
+          this.displayManagementService.displayAlert(
+            ALERTS.DEFAULT_ERROR,
+          );
         }
+      }
     });
   }
 
