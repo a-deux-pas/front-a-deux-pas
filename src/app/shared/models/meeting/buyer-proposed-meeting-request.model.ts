@@ -4,7 +4,7 @@ export class BuyerProposedMeetingRequest {
     public sellerId: number,
     public adId: number,
     public proposedMeetingPlaceId: number,
-    public date: String,
+    public date: string,
     public buyerAdditionalInfo: string | null,
     public buyerDistinctiveSign: string | null
   ) {}

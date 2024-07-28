@@ -5,7 +5,6 @@ import { API_URL } from '../../shared/utils/constants/util-constants';
 import { BehaviorSubject, Observable, catchError } from 'rxjs';
 import { UserAliasAndLocation } from '../models/user/user-alias-and-location.model';
 import { UserPresentation } from '../models/user/user-presentation.model';
-import { Seller } from '../models/user/checkout-seller.model';
 
 @Injectable({
   providedIn: 'root',

@@ -84,35 +84,19 @@ export class MeetingListComponent {
   }
 
   getBuyerDistinctiveSign(meeting: Meeting): any {
-    if (this.currentUserId === meeting.buyerId) {
-      return meeting.buyerDistinctiveSign;
-    } else {
-      return meeting.buyerDistinctiveSign;
-    }
+    return meeting.buyerDistinctiveSign;
   }
 
   getSellerDistinctiveSign(meeting: Meeting) {
-    if (this.currentUserId === meeting.sellerId) {
-      return meeting.sellerDistinctiveSign;
-    } else {
-      return meeting.sellerDistinctiveSign;
-    }
+    return meeting.sellerDistinctiveSign;
   }
 
   getBuyerAdditionalInfo(meeting: Meeting) {
-    if (this.currentUserId === meeting.buyerId) {
-      return meeting.buyerAdditionalInfo;
-    } else {
-      return meeting.buyerAdditionalInfo;
-    }
+    return meeting.buyerAdditionalInfo;
   }
 
   getSellerAdditionalInfo(meeting: Meeting) {
-    if (this.currentUserId === meeting.sellerId) {
-      return meeting.sellerAdditionalInfo;
-    } else {
-      return meeting.sellerAdditionalInfo;
-    }
+    return meeting.sellerAdditionalInfo;
   }
 
   // To be uncommented when testing the Stripe API's payment capture mechanism (demonstration purporses only)

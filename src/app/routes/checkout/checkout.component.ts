@@ -7,6 +7,5 @@ import { ProgressBarComponent } from './components/progress-bar/progress-bar.com
   standalone: true,
   imports: [RouterOutlet, ProgressBarComponent],
   templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.scss',
 })
 export class CheckoutComponent {}

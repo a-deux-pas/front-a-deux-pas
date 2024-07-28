@@ -9,7 +9,6 @@ import { CardPaymentComponent } from './card-payment/card-payment.component';
   standalone: true,
   imports: [CashPaymentComponent, CardPaymentComponent],
   templateUrl: './step-payment-details.component.html',
-  styleUrl: './step-payment-details.component.scss',
 })
 export class StepPaymentDetailsComponent {
   paymentMethod!: string;

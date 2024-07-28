@@ -104,7 +104,7 @@
               class="col-md-12 d-flex align-items-end justify-content-center gap-2 mb-4"
             >
               <p class="buyer-info col-md-8 mb-0">
-                {{ getBuyerDistinctiveSign(meeting) }}
+                {{ meeting.buyerDistinctiveSign }}
               </p>
               <img
                 [src]="meeting.buyerProfilePictureUrl"
@@ -127,7 +127,7 @@
                 style="background-color: beige"
               />
               <p class="seller-info col-md-8 mb-0">
-                {{ getSellerDistinctiveSign(meeting) }}
+                {{ meeting.sellerDistinctiveSign }}
               </p>
             </div>
           </div>
@@ -154,7 +154,7 @@
               class="col-md-12 d-flex align-items-end justify-content-end gap-2 mb-4"
             >
               <p class="buyer-info col-md-8 mb-0">
-                {{ getBuyerAdditionalInfo(meeting) }}
+                {{ meeting.buyerAdditionalInfo }}
               </p>
               <img
                 [src]="meeting.buyerProfilePictureUrl"
@@ -178,7 +178,7 @@
                 style="background-color: beige"
               />
               <p class="seller-info col-md-8 mb-0">
-                {{ getSellerAdditionalInfo(meeting) }}
+                {{ meeting.sellerAdditionalInfo }}
               </p>
             </div>
             }

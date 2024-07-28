@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CheckoutService } from '../../checkout.service';
 import { OrderRecapCardComponent } from './order-recap-card/order-recap-card.component';

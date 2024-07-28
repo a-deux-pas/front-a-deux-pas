@@ -33,7 +33,7 @@ export class TimeIntervalPickerComponent
 
   @Output() timeSelected = new EventEmitter<string>();
 
-  selectedDateWeekDayIndex: Number = -1;
+  selectedDateWeekDayIndex: number = -1;
   currentDayPreferredSchedules: PreferredSchedule[] | undefined;
 
   halfHourIntervals: string[] = [];
@@ -58,7 +58,7 @@ export class TimeIntervalPickerComponent
 
   private generateHalfHourIntervalsForDisplay() {
     this.formatIntervals();
-    this.halfHourIntervals.sort();
+    this.halfHourIntervals.sort((a, b) => a.localeCompare(b));
   }
 
   private formatIntervals() {
@@ -84,7 +84,7 @@ export class TimeIntervalPickerComponent
     );
   }
 
-  private getWeekDayIndexFromDate(date: NgbDateStruct | undefined): Number {
+  private getWeekDayIndexFromDate(date: NgbDateStruct | undefined): number {
     if (date) {
       const jsDate = new Date(date.year, date.month - 1, date.day);
       return jsDate.getDay();

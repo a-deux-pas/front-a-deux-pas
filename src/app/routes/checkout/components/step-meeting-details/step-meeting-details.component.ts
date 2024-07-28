@@ -130,11 +130,21 @@ export class StepMeetingDetailsComponent implements OnInit {
   }
 
   private addHoursAndMinutes(proposedDate: Date) {
-    const [hours, minutes] = this.form
-      .get('selectedTime')
-      ?.value.split(' : ')
-      .map(Number);
-    proposedDate.setHours(hours);
-    proposedDate.setMinutes(minutes);
+    const selectedTime = this.form.get('selectedTime')?.value;
+
+    if (selectedTime) {
+      const [hours, minutes] = selectedTime.split(' : ').map(Number);
+      proposedDate.setHours(hours);
+      proposedDate.setMinutes(minutes);
+    } else {
+      console.error('Selected time is undefined');
+    }
+  }
+
+  handleKeyDown(event: KeyboardEvent) {
+    // Agree to terms by pressing Space
+    if (event.key === ' ') {
+      this.agreeToTerms();
+    }
   }
 }
