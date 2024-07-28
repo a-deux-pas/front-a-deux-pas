@@ -1,6 +1,6 @@
 export enum MeetingStatus {
-  INITIALIZED = 'Initialized',
-  ACCEPTED = 'Accepted',
-  FINALIZED = 'Finalized',
-  CANCELLED = 'Cancelled',
+  INITIALIZED = 'INITIALIZED',
+  ACCEPTED = 'ACCEPTED',
+  TOBEFINALIZED = 'TOBEFINALIZED',
+  CANCELLED = 'CANCELLED',
 }

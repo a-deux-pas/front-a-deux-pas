@@ -26,7 +26,7 @@
     <div class="col-sm-12 col-md-8 meeting-details-container mb-5">
       <div class="details-container col-md-12">
         <div class="details-header d-flex justify-content-center gap-3 mb-5">
-          @if (meeting.status === "TOBEFINALIZED") {
+          @if (meeting.status === meetingStatus.TOBEFINALIZED) {
           <button
             type="button"
             class="btn btn-link text-center"
@@ -35,7 +35,7 @@
             <img src="assets/icons/meetings/done.webp" alt="Icône annuler" />
             <span class="d-block mt-1">Le RDV a eu lieu</span>
           </button>
-          } @if (meeting.status === 'INITIALIZED' && currentUserId !==
+          } @if (meeting.status === meetingStatus.INITIALIZED && currentUserId !==
           meeting.buyerId) {
           <button
             type="button"
@@ -48,8 +48,8 @@
             />
             <span class="d-block mt-1">Accepter le RDV</span>
           </button>
-          } @if (meeting.status === "INITIALIZED" || meeting.status ===
-          "ACCEPTED") {
+          } @if (meeting.status === meetingStatus.INITIALIZED || meeting.status ===
+          meetingStatus.ACCEPTED) {
           <button
             type="button"
             class="btn btn-link text-center"
