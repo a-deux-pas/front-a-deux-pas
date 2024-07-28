@@ -225,11 +225,12 @@ export class AdFormComponent implements AfterViewChecked {
       const dropzoneHeight = dropzone.clientHeight;
 
       if (dropzoneWidth !== 0 && dropzoneHeight !== 0) {
-        this.config = this.dropzoneConfigService.getConfig(dropzoneWidth + 300, dropzoneHeight + 300);
+        this.config = this.dropzoneConfigService.getConfig(dropzoneWidth + 400, dropzoneHeight + 400);
         const imgThumbnail = dropzone.querySelector('[data-dz-thumbnail]');
         if (imgThumbnail) {
           this.renderer.setStyle(imgThumbnail, 'width', `${dropzoneWidth}px`);
           this.renderer.setStyle(imgThumbnail, 'height', `${dropzoneHeight}px`);
+          this.renderer.setStyle(imgThumbnail, 'object-fit', `cover`);
         }
       }
     });
