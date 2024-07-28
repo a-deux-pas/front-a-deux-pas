@@ -92,6 +92,15 @@ export class MeetingListComponent {
       meeting.buyerCity;
   }
 
+  goToAdDetailsPage(meeting: Meeting) {
+    const userAlias = localStorage.getItem('userAlias');
+    if (meeting.adPublisherAlias == userAlias) {
+      this.router.navigate(['/compte/annonces/mon-annonce/', meeting.adId]);
+    } else {
+      this.router.navigate(['/annonce', meeting.adPublisherAlias, meeting.adId]);
+    }
+  }
+
   // To be uncommented when testing the Stripe API's payment capture mechanism (demonstration purporses only)
   finalizeMeeting() {
     /*console.log('@@@@@@@ Meeting id : ', this.selectedMeeting?.idMeeting);
@@ -101,14 +110,4 @@ export class MeetingListComponent {
         console.log('@@@@@@@ Meeting finalized');
       });*/
   }
-
-  goToAdDetailsPage(meeting: Meeting) {
-    const userAlias = localStorage.getItem('userAlias');
-    if (meeting.adPublisherAlias == userAlias) {
-      this.router.navigate(['/compte/annonces/mon-annonce/', meeting.adId]);
-    } else {
-      this.router.navigate(['/annonce', meeting.adPublisherAlias, meeting.adId]);
-    }
-  }
 }
-
