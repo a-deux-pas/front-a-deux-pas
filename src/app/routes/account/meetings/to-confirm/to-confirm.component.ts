@@ -5,6 +5,8 @@ import { MeetingListComponent } from '../components/meeting-list/meeting-list.co
 import { CommonModule } from '@angular/common';
 import { catchError, finalize, map, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { ALERTS } from '../../../../shared/utils/constants/alert-constants';
+import { DisplayManagementService } from '../../../../shared/services/display-management.service';
 @Component({
   selector: 'app-to-confirm',
   standalone: true,
@@ -16,7 +18,11 @@ export class ToConfirmComponent implements OnInit {
   selectedMeeting?: Meeting;
   userId: number;
 
-  constructor(private meetingService: MeetingService, private router: Router) {
+  constructor(
+    private meetingService: MeetingService,
+    private router: Router,
+    private displayManagementService: DisplayManagementService
+  ) {
     this.userId = Number(localStorage.getItem('userId'));
   }
 
@@ -51,10 +57,15 @@ export class ToConfirmComponent implements OnInit {
       }),
       catchError((error) => {
         console.error('Error while accepting the appointment', error);
+        this.displayManagementService.displayAlert(
+          ALERTS.DEFAULT_ERROR
+        );
         return of(null);
       }),
       finalize(() => {
-        this.router.navigate(['/compte/rdv/planifies']);
+        this.router.navigate(['/compte/rdv/planifies']).then(() => {
+          this.displayManagementService.displayAlert(ALERTS.MEETING_ACCEPTED_SUCCESS);
+        });
       })
     ).subscribe();
   }

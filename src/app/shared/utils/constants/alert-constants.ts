@@ -26,6 +26,10 @@ export const ALERTS = {
     message: AlertMessage.FAVORITES_REMOVED_SUCCESS,
     type: AlertType.SUCCESS,
   },
+  MEETING_ACCEPTED_SUCCESS: {
+    message: AlertMessage.MEETING_ACCEPTED_SUCCESS,
+    type: AlertType.SUCCESS,
+  },
   UPLOAD_PICTURE_ERROR: {
     message: AlertMessage.UPLOAD_PICTURE_ERROR,
     type: AlertType.ERROR,
