@@ -79,20 +79,22 @@ export class AdPageComponent implements OnInit {
       next: (ad: AdDetails) => {
         this.currentAd = ad;
         this.articlePictures = ad.articlePictures || [];
-        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length);
+        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length)
         // Fetch the ads list
         this.pageSize = this.onLoggedInUserAd ? 8 : 4;
         this.displayedAdsCount = this.pageSize;
         this.fetchPaginatedAdsList();
+
         if (this.onSellerAd) {
           // Fetch ads list with the same category
           this.getSimilarAds();
         } else {
           this.adService.setAd(this.currentAd);
         }
-      },
-      error: (error) => {
-        console.error('Error fetching ad:', error);
+        // Waits pictures loading
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 600);
       }
     });
   }

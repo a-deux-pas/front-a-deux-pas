@@ -994,14 +994,6 @@ a.dropdown-first-level.dropdown-toggle {
   z-index: 2 !important;
 }
 
-// just added it
-dropzone>.dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
-  display: block;
-  width: 104% !important;
-  height: auto;
-  margin: 0;
-}
-
 .dropzone-add {
   display: flex;
   flex-direction: column;

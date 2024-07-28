@@ -230,19 +230,13 @@ export class AdFormComponent implements AfterViewChecked {
       this.renderer.addClass(dropzone, `${newClass}`);
       const dropzoneWidth = dropzone.clientWidth;
       const dropzoneHeight = dropzone.clientHeight;
-      console.error('dropzonewidth:: ', dropzoneWidth);
-      console.error('dropzoneheight:: ', dropzoneHeight);
 
       if (dropzoneWidth !== 0 && dropzoneHeight !== 0) {
         this.config = this.dropzoneConfigService.getConfig(dropzoneWidth + 300, dropzoneHeight + 300);
-        console.error(this.config);
         const imgThumbnail = dropzone.querySelector('[data-dz-thumbnail]');
         if (imgThumbnail) {
-          // Appliquer les dimensions de la dropzone à l'image
           this.renderer.setStyle(imgThumbnail, 'width', `${dropzoneWidth}px`);
-          console.error('imgwidth', imgThumbnail.clientWidth)
           this.renderer.setStyle(imgThumbnail, 'height', `${dropzoneHeight}px`);
-          console.error('imgHeight', imgThumbnail.clientHeight)
         }
       }
     });
