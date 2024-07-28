@@ -20,7 +20,7 @@ export class AdListComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.adsListLoading = false;
-    });
+    }, 300);
   }
 
   loadMoreAds() {
