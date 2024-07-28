@@ -4,7 +4,6 @@ import {
   EventEmitter,
   forwardRef,
   Input,
-  LOCALE_ID,
   Output,
 } from '@angular/core';
 import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -22,7 +21,6 @@ import { PreferredSchedule } from '../../../../../shared/models/user/preferred-s
   templateUrl: './date-picker.component.html',
   styleUrl: './date-picker.component.scss',
   providers: [
-    { provide: LOCALE_ID, useValue: 'fr-FR' },
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DatePickerComponent),

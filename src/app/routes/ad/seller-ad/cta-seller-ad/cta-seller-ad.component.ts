@@ -43,7 +43,6 @@ export class CtaSellerAdComponent implements OnInit {
 
   startCheckout() {
     if (this.isUserLoggedIn) {
-      // To be implemented by Mircea ;)
       this.checkoutService.setCheckoutAd(this.ad);
       this.router.navigate(['/commander']);
     } else {
@@ -55,6 +54,7 @@ export class CtaSellerAdComponent implements OnInit {
     if (!this.isUserLoggedIn) {
       this.openModal();
     } else {
+      this.startCheckout();
       // TO DO : à implémenter la messagerie
     }
   }

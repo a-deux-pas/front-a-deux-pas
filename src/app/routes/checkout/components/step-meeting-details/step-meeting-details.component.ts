@@ -58,7 +58,6 @@ export class StepMeetingDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('selected date in meeting detail', this.selectedDate);
     window.scrollTo(0, 0);
     this.checkoutService.currentStep.subscribe((currentStep) => {
       if (currentStep < 2) {
@@ -82,16 +81,9 @@ export class StepMeetingDetailsComponent implements OnInit {
     this.form.get('selectedTime')?.setValue(timeInterval);
   }
 
-  agreeToTerms() {
-    const currentTermsValue = this.form.get('terms')?.value;
-    this.form.get('terms')?.patchValue(!currentTermsValue);
-    console.log(this.form);
-  }
-
   onSubmit() {
     if (this.form.valid) {
       this.checkoutService.updateStep(3);
-
       this.saveProposedMeetingToService();
       this.router.navigate(['/commander/paiement']);
     } else {
@@ -136,13 +128,6 @@ export class StepMeetingDetailsComponent implements OnInit {
       proposedDate.setMinutes(minutes);
     } else {
       console.error('Selected time is undefined');
-    }
-  }
-
-  handleKeyDown(event: KeyboardEvent) {
-    // Agree to terms by pressing Space
-    if (event.key === ' ') {
-      this.agreeToTerms();
     }
   }
 }

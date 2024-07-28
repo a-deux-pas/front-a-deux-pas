@@ -99,7 +99,8 @@
           type="checkbox"
           formControlName="terms"
           id="terms"
-          (click)="agreeToTerms()"
+          value=""
+          name="terms"
         />
         <label class="form-check-label" for="terms">
           <p>
@@ -108,12 +109,9 @@
           </p>
         </label>
       </div>
-
-      <!-- @if (agreedToTerms ) { -->
       <button type="submit" class="btn-primary mt-4" [disabled]="!form.valid">
         proposer le RDV
       </button>
-      <!--}-->
     </div>
   </section>
 </form>

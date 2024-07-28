@@ -5,12 +5,9 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { Subscription } from 'rxjs';
 import { DisplayManagementService } from './shared/services/display-management.service';
 import { AuthService } from './shared/services/auth.service';
-import { CommonModule, registerLocaleData } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AdService } from './shared/services/ad.service';
 import { AlertComponent } from './shared/components/alert/alert.component';
-import localeFr from '@angular/common/locales/fr'; // Import localeFr
-
-registerLocaleData(localeFr);
 
 @Component({
   selector: 'app-root',
