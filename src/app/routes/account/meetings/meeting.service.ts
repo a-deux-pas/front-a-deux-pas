@@ -44,7 +44,10 @@ export class MeetingService {
   }
 
   acceptMeeting(meetingId: number): Observable<Meeting> {
-    return this.http.put<Meeting>(`${MEETING_BASE_URL}/${meetingId}/accept`, {});
+    return this.http.put<Meeting>(`${MEETING_BASE_URL}/${meetingId}/accept`, {}
+    ).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
   }
 
   // To be uncommented for testing the Stripe API's payment capture mechanism (demonstration purporses only)
