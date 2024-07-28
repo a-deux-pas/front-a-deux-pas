@@ -19,8 +19,6 @@ context('create account testing', () => {
       body: null,
     }).as('checkAlias');
 
-    // TO DO: ajouter un intercept une fois cloudinary ajouté côté back
-
     cy.mount(RegisterComponent, {
       imports: [HttpClientModule],
       providers: [AsyncValidatorService],

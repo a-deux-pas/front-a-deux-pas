@@ -6,7 +6,7 @@ import { Meeting } from '../../../shared/models/meeting/meeting.model';
 import { HandleErrorService } from '../../../shared/services/handle-error.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MeetingService {
 
@@ -42,4 +42,15 @@ export class MeetingService {
       catchError(this.handleErrorService.handleError)
     );
   }
+
+  acceptMeeting(meetingId: number): Observable<Meeting> {
+    return this.http.put<Meeting>(`${MEETING_BASE_URL}/${meetingId}/accept`, {});
+  }
+
+  // To be uncommented for testing the Stripe API's payment capture mechanism (demonstration purporses only)
+  /*finalizeMeeting(meetingId: any): Observable<any> {
+    return this.http.get<any>(`${MEETING_BASE_URL}/finalize/${meetingId}`, {
+      responseType: 'text' as 'json',
+    });
+  }*/
 }

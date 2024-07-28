@@ -62,6 +62,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.logginSubscription = this.logginSubscription = this.authService.isLoggedIn()
     .subscribe((isLoggedIn: boolean) => {
+      window.scrollTo(0, 0);
       this.isUserLoggedIn = isLoggedIn
       this.initializePageSize();
       this.updateAdsFavoritesList();

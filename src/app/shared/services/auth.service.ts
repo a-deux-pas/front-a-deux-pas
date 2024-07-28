@@ -19,14 +19,7 @@ export class AuthService {
     public http: HttpClient,
     private router: Router,
     private handleErrorService: HandleErrorService
-  ) {
-    window.addEventListener('beforeunload', () => {
-      const stayLoggedIn = localStorage.getItem('stayLoggedIn');
-      if (stayLoggedIn === 'false') {
-        this.logout();
-      }
-    });
-  }
+  ) {}
 
   validateCredentials(email: string, password: string): Observable<boolean> {
     return this.http.post<boolean>(`${AUTH_BASE_URL}/check-credentials`,
@@ -65,7 +58,7 @@ export class AuthService {
     return this.http
       .post<any>(
         `${AUTH_BASE_URL}/${endpoint}`,
-        { email: credentials.email, password: credentials.password },
+        credentials,
         { responseType: 'text' as 'json' } // Response type expected
       )
       .pipe(
@@ -76,7 +69,6 @@ export class AuthService {
             localStorage.setItem('token', token);
             const userId = this.extractIdFromToken(token);
             localStorage.setItem('userId', userId);
-            localStorage.setItem('stayLoggedIn', credentials.stayLoggedIn.toString());
           } else {
             // Throw error if no token received
             throw new Error('No token received');

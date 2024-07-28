@@ -5,15 +5,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { ConnectionModalComponent } from '../../../../shared/components/connection-modal/connection-modal.component';
-import { Router } from '@angular/router';
 import { AdFavoriteService } from '../../../../shared/services/ad-favorite.service';
+import { Router } from '@angular/router';
+import { CheckoutService } from '../../../checkout/checkout.service';
 
 @Component({
   selector: 'app-cta-seller-ad',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './cta-seller-ad.component.html',
-  styleUrl: './cta-seller-ad.component.scss'
+  styleUrl: './cta-seller-ad.component.scss',
 })
 export class CtaSellerAdComponent implements OnInit {
   @Input() ad!: AdDetails | undefined;
@@ -28,26 +29,33 @@ export class CtaSellerAdComponent implements OnInit {
     public modalService: NgbModal,
     private authService: AuthService,
     private router: Router,
-    private adFavoriteService: AdFavoriteService
+    private adFavoriteService: AdFavoriteService,
+    private checkoutService: CheckoutService
   ) {}
 
   ngOnInit(): void {
-    this.logginSubscription = this.authService.isLoggedIn().subscribe(status => {
-      this.isUserLoggedIn = status;
-    });
+    this.logginSubscription = this.authService
+      .isLoggedIn()
+      .subscribe((status) => {
+        this.isUserLoggedIn = status;
+      });
   }
 
   startCheckout() {
     if (this.isUserLoggedIn) {
-      // To be implemented by Mircea ;)
+      this.checkoutService.setCheckoutAd(this.ad);
+      this.router.navigate(['/commander']);
     } else {
-      this.openModal()
+      this.openModal();
     }
   }
 
   makeAnOffer() {
-    if (!this.isUserLoggedIn) { this.openModal() } else {
-      // TO DO : redirection vers le checkout mircea
+    if (!this.isUserLoggedIn) {
+      this.openModal();
+    } else {
+      this.startCheckout();
+      // TO DO : à implémenter la messagerie
     }
   }
 
@@ -63,7 +71,7 @@ export class CtaSellerAdComponent implements OnInit {
         );
       }
     } else {
-      this.openModal()
+      this.openModal();
     }
   }
 
@@ -71,15 +79,15 @@ export class CtaSellerAdComponent implements OnInit {
     if (sellerAlias) {
       this.router.navigate(['/profil', sellerAlias]);
     } else {
-      this.openModal()
+      this.openModal();
     }
   }
 
-  contactTheSeller(adPublisherEmail: string | undefined,) {
+  contactTheSeller(adPublisherEmail: string | undefined) {
     if (this.isUserLoggedIn) {
       window.location.href = `mailto:${adPublisherEmail}`;
     } else {
-      this.openModal()
+      this.openModal();
     }
   }
 

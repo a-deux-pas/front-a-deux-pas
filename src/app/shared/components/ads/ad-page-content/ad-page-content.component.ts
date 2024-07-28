@@ -1,12 +1,12 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdService } from '../../../services/ad.service';
 import { AdDetails } from '../../../models/ad/ad-details.model';
 import { CommonModule } from '@angular/common';
 import { AdCardComponent } from '../ad-card/ad-card.component';
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, Input, ViewChild } from '@angular/core'
 import { SplitComponent, AngularSplitModule } from 'angular-split'
 import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/cta-my-ad/cta-my-ad.component';
+import { CtaMyAdComponent } from '../../../../routes/account/ads/my-ad/components/cta-my-ad/cta-my-ad.component';
 import { Subscription } from 'rxjs'
 import { DisplayManagementService } from '../../../services/display-management.service';
 import { CtaSellerAdComponent } from '../../../../routes/ad/seller-ad/cta-seller-ad/cta-seller-ad.component';
@@ -15,6 +15,7 @@ import { AdCard } from '../../../models/ad/ad-card.model';
 import { AdPageContentService } from './ad-page-content.service';
 import { AdListComponent } from '../ad-list/ad-list.component';
 import { ArticleState } from '../../../models/enum/article-state.enum';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-ad-page-content',
@@ -35,71 +36,77 @@ import { ArticleState } from '../../../models/enum/article-state.enum';
 export class AdPageComponent implements OnInit {
   @Input() isBigScreen: boolean | undefined;
   @Input() windowSizeSubscription!: Subscription;
-  onLoggedInUserAd: boolean | undefined;
-  onSellerAd!: boolean;
-  @Output() sellerAdPageLoaded = new EventEmitter<boolean>();
   @ViewChild('splitAreaA') splitAreaA!: SplitComponent
   @ViewChild('splitAreaB') splitAreaB!: SplitComponent
-  currentAd!: AdDetails | undefined;
-  selectedPicNumber: number = 2;
-  articlePictures: (string | undefined)[] = [];
   areaSizeA!: number
   areaSizeB!: number
+  currentAd!: AdDetails | undefined;
+  selectedPicNumber: number = 2;
+  articlePictures: string[] = [];
   showSeeMorBtn!: boolean;
   pageNumber: number = 0;
   pageSize!: number;
+  displayedAdsCount!: number;
   noMoreAds: boolean = false;
   userOtherAds: AdCard[] = [];
   similarAds: AdCard[] = [];
+  logginSubscription!: Subscription;
   loggedInUserId!: number;
   adPublisherId!: number;
-  displayedAdsCount!: number;
+  onLoggedInUserAd: boolean | undefined;
+  onSellerAd!: boolean;
   isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
     private adService: AdService,
     private adPageContentService: AdPageContentService,
-    private displayManagementService: DisplayManagementService,
-  ) {}
+    private displayManagementService: DisplayManagementService
+  ) { }
 
   ngOnInit(): void {
-    const adId: number | null = Number(this.route.snapshot.paramMap.get(('adId')));
+    window.scrollTo(0, 0);
+    const adId: number | null = Number(this.route.snapshot.paramMap.get('adId'));
     this.adPublisherId = Number(sessionStorage.getItem('adPublisherId'));
     this.loggedInUserId = Number(localStorage.getItem('userId'));
-    sessionStorage.removeItem('adPublisherId');
     this.onLoggedInUserAd = !this.route.snapshot.paramMap.has('sellerAlias');
     this.onSellerAd = !this.onLoggedInUserAd;
-    // change navbar if no user logged in
-    if (!this.loggedInUserId) {
-      this.adService.isOnSellerAdPageUnLogged(true);
-    }
-    // fetch the ad
-    this.adPageContentService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
+    // Check loggin status
+    this.loggedInCheck(adId) ;
+    // Fetch the ad
+    this.adService.getAdById(adId, this.onSellerAd ? this.loggedInUserId : 0).subscribe({
       next: (ad: AdDetails) => {
         this.currentAd = ad;
-        this.articlePictures = [
-          // TO DO : to check if it's possible to map the article picture on the back -end (fix Cloudinary branch)
-          this.currentAd.firstArticlePictureUrl,
-          this.currentAd.secondArticlePictureUrl,
-          this.currentAd.thirdArticlePictureUrl,
-          this.currentAd.fourthArticlePictureUrl,
-          this.currentAd.fifthArticlePictureUrl
-        ].filter(url => !!url);
-        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.articlePictures.length)
-        // fetch the ads list
+        this.articlePictures = ad.articlePictures || [];
+        [this.areaSizeA, this.areaSizeB] = this.setSplitAreasSizes(this.currentAd.articlePictures!.length)
+        // Fetch the ads list
         this.pageSize = this.onLoggedInUserAd ? 8 : 4;
         this.displayedAdsCount = this.pageSize;
         this.fetchPaginatedAdsList();
 
         if (this.onSellerAd) {
-          // fetch ads list with the same category
+          // Fetch ads list with the same category
           this.getSimilarAds();
+        }  else {
+          this.adService.setAd(this.currentAd);
         }
         // Waits pictures loading
         setTimeout(() => {
           this.isLoading = false;
         }, 600);
+      }
+    });
+  }
+
+  loggedInCheck(adId: number) {
+    this.logginSubscription = this.authService.isLoggedIn().subscribe((isLoggedIn: boolean) => {
+      if (!isLoggedIn) {
+        this.adService.isOnSellerAdPageUnLogged(true);
+      }
+      if (isLoggedIn && this.adPublisherId == this.loggedInUserId) {
+        this.router.navigate(['compte/annonces/mon-annonce/', adId]);
       }
     });
   }
@@ -127,8 +134,8 @@ export class AdPageComponent implements OnInit {
 
   articleStateDisplay(): string {
     return this.currentAd?.articleState === ArticleState.MINT_CONDITION
-    || this.currentAd?.articleState === ArticleState.GOOD_CONDITION ?
-      `${this.currentAd?.articleState} état`:
+      || this.currentAd?.articleState === ArticleState.GOOD_CONDITION ?
+      `${this.currentAd?.articleState} état` :
       `État ${this.currentAd?.articleState.toLowerCase()}`;
   }
 
@@ -166,6 +173,8 @@ export class AdPageComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.adService.isOnSellerAdPageUnLogged(false)
+    this.adService.isOnSellerAdPageUnLogged(false);
+    this.logginSubscription.unsubscribe();
+    sessionStorage.removeItem('adPublisherId');
   }
 }

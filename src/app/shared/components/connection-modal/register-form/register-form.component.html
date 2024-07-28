@@ -21,7 +21,7 @@
     <label for="password" class="mt-4">Mot de passe</label>
     <div class="input-group mt-2">
       <input id="password"  type="{{ showPassword ? 'text' : 'password' }}" name="password"
-      formControlName="password" class="form-control" placeholder="8 caractères minimum" required/>
+      formControlName="password" class="form-control" placeholder="8 caractères minimum" autocomplete required/>
       <button type="button" class="btn-password-visibility" (click)="togglePasswordVisibility()">
         <img src="assets/icons/buttons/visible.webp" class="eye-icon" alt="icône oeil" [hidden]="!showPassword">
         <img src="assets/icons/buttons/no-visible.webp" class="eye-icon" alt="icône oeil barrée" [hidden]="showPassword">
@@ -41,7 +41,7 @@
     <div class="input-group mt-2">
       <input id="confirm-password" type="{{ showConfirmPassword ? 'text' : 'password' }}"
       formControlName="confirmPassword" name="confirm-password" class="form-control"
-      placeholder="répéter le mot de passe" required/>
+      placeholder="répéter le mot de passe"  autocomplete required/>
       <button type="button" class="btn-password-visibility" (click)="toggleConfirmPasswordVisibility()">
         <img src="assets/icons/buttons/visible.webp" class="eye-icon" alt="icône oeil"
           [hidden]="!showConfirmPassword"

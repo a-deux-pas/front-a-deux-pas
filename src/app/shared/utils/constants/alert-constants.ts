@@ -6,8 +6,16 @@ export const ALERTS = {
     message: AlertMessage.PROFILE_CREATED_SUCCESS,
     type: AlertType.SUCCESS,
   },
-  AD_CREATED_SUCCES: {
-    message: AlertMessage.AD_CREATED_SUCCES,
+  AD_CREATED_SUCCESS: {
+    message: AlertMessage.AD_CREATED_SUCCESS,
+    type: AlertType.SUCCESS,
+  },
+  AD_UPDATED_SUCCESS: {
+    message: AlertMessage.AD_UPDATED_SUCCESS,
+    type: AlertType.SUCCESS,
+  },
+  AD_DELETED_SUCCESS: {
+    message: AlertMessage.AD_DELETED_SUCCESS,
     type: AlertType.SUCCESS,
   },
   FAVORITES_ADDED_SUCCESS: {
@@ -16,6 +24,10 @@ export const ALERTS = {
   },
   FAVORITES_REMOVED_SUCCESS: {
     message: AlertMessage.FAVORITES_REMOVED_SUCCESS,
+    type: AlertType.SUCCESS,
+  },
+  MEETING_ACCEPTED_SUCCESS: {
+    message: AlertMessage.MEETING_ACCEPTED_SUCCESS,
     type: AlertType.SUCCESS,
   },
   UPLOAD_PICTURE_ERROR: {

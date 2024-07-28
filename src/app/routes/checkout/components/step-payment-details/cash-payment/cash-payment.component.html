@@ -1,0 +1,51 @@
+<app-billing-summary-card></app-billing-summary-card>
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+  <div class="select-input-container">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        name="check-a"
+        id="check-a"
+        ngModel
+        required
+      />
+      <label class="form-check-label" for="check-a">
+        Je m'engage à payer le montant comptant de {{ articlePrice }} € lors du
+        RDV où nous procéderons à l'échange.
+      </label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        name="check-b"
+        id="check-b"
+        ngModel
+        required
+      />
+      <label class="form-check-label" for="check-b">
+        Je m'engage à ne pas demander au vendeur de me faire crédit, ni à
+        négocier le prix de ma commande.
+      </label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        name="check-c"
+        id="check-c"
+        ngModel
+        required
+      />
+      <label class="form-check-label" for="check-c">
+        J'accepte les termes de bonne conduite du site.
+      </label>
+    </div>
+  </div>
+  <section class="button-container">
+    <button type="submit" class="btn-primary mt-4" [disabled]="!form.valid">
+      réserver
+    </button>
+  </section>
+</form>

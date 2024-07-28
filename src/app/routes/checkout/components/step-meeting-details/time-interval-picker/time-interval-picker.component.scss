@@ -1,0 +1,48 @@
+@import "color-variables";
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  align-content: center;
+  padding-bottom: 5%;
+  padding-top: 25%;
+}
+
+@media (min-width: 901px) {
+  .grid-container {
+    grid-template-columns: repeat(4, 1fr);
+    align-content: center;
+  }
+
+  .start-time {
+    font-size: medium !important;
+  }
+  .grid-element {
+    width: 100px !important;
+  }
+}
+
+.grid-element {
+  background-color: $tertiary;
+  padding: 5%;
+  border-radius: 10px;
+  text-align: center;
+  width: 80px !important;
+  cursor: pointer;
+}
+
+.grid-element.selected {
+  background-color: $primary;
+  color: white;
+}
+
+.grid-element:hover:not(.selected) {
+  background-color: $primary;
+  color: white;
+  cursor: pointer;
+}
+
+.start-time {
+  font-size: large;
+}

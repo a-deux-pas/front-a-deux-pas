@@ -24,8 +24,8 @@ import { UserAliasAndLocation } from '../../../shared/models/user/user-alias-and
     UserPresentationComponent,
     ScheduleComponent,
     MeetingPlacesComponent,
-    CommonModule
-  ]
+    CommonModule,
+  ],
 })
 export class ProfileComponent {
   user!: UserPresentation;
@@ -60,29 +60,34 @@ export class ProfileComponent {
     }, 50);
   }
 
-  private getUserAlias(userId: number): void  {
-    this.userService.getUserAliasAndLocation(userId).subscribe((data: UserAliasAndLocation) => {
-      this.userAlias = data.alias;
-    })
+  private getUserAlias(userId: number): void {
+    this.userService
+      .getUserAliasAndLocation(userId)
+      .subscribe((data: UserAliasAndLocation) => {
+        this.userAlias = data.alias;
+        this.fetchUserPresentation(this.userAlias);
+      });
   }
 
   // Fetch user's information from the service
   private fetchUserPresentation(userAlias: string): void {
-    this.userPresentationService.getUserPresentation(userAlias).subscribe((data) => {
-      this.user = data;
-    });
+    this.userPresentationService
+      .getUserPresentation(userAlias)
+      .subscribe((data) => {
+        this.user = data;
+      });
   }
 
   // Fetch user's preferred schedules from the service
   private fetchUserPreferredSchedules(userId: number): void {
     this.profileService.getUserPreferredSchedules(userId).subscribe((data) => {
       // Map fetched data to events array
-      this.preferredSchedules = data.map(preferredSchedule => ({
+      this.preferredSchedules = data.map((preferredSchedule) => ({
         id: preferredSchedule.id,
         startTime: preferredSchedule.startTime,
         endTime: preferredSchedule.endTime,
         daysOfWeek: preferredSchedule.daysOfWeek,
-        userId: preferredSchedule.userId
+        userId: preferredSchedule.userId,
       }));
     });
   }

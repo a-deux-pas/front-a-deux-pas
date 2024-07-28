@@ -1,0 +1,19 @@
+<section class="order-recap-card">
+  <h3><b>Votre commande</b></h3>
+  <div class="ad-details">
+    <img src="{{ displayedArticlePictureUrl }}" alt="ask Sonar what this is" />
+    <div class="name-and-description">
+      <div class="with-custom-scrollbar text-container">
+        <u>{{ ad.title }}</u>
+      </div>
+      <div class="with-custom-scrollbar text-container">
+        {{ ad.articleDescription }}
+      </div>
+    </div>
+  </div>
+  <div class="horizontal-line"></div>
+  <div class="total">
+    <p>Total</p>
+    <p class="with-custom-scrollbar">{{ ad.price }} €</p>
+  </div>
+</section>

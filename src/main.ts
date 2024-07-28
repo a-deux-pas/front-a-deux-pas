@@ -22,7 +22,7 @@ bootstrapApplication(AppComponent, {
         provideHttpClient(withInterceptorsFromDi()),
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         // Set the application locale to French
-        { provide: LOCALE_ID, useValue: 'fr' }, 
+        { provide: LOCALE_ID, useValue: 'fr' },
     ]
 })
-  .catch(err => console.error(err));
+    .catch(err => console.error(err));
