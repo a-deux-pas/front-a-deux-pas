@@ -102,11 +102,7 @@ export class AdFormComponent implements AfterViewChecked {
 
   ngAfterViewChecked(): void {
     this.config = this.dropzoneConfigService.getConfig();
-    if (this.isBigScreen) {
-      this.updateDropzoneDimension(this.selectedPicNumber, true);
-    } else {
-      this.updateDropzoneDimension(this.selectedPicNumber, false);
-    }
+    this.updateDropzoneDimension(this.selectedPicNumber, this.isBigScreen!);
     this.updateArticlePicture();
   }
 
@@ -169,11 +165,10 @@ export class AdFormComponent implements AfterViewChecked {
           if (!fileExistsInArray) {
             if (index === 0) {
               this.articlePictures.unshift(addedFile);
-              this.updateDropzoneDimension(this.selectedPicNumber, this.isBigScreen!)
             } else {
               this.articlePictures.push(addedFile);
-              this.updateDropzoneDimension(this.selectedPicNumber, this.isBigScreen!)
             }
+            this.updateDropzoneDimension(this.selectedPicNumber, this.isBigScreen!)
           }
         });
         dropzone.on('removedfile', (removedfile: File) => {
