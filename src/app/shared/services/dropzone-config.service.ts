@@ -25,8 +25,8 @@ export class DropzoneConfigService {
     getConfig(width?: number, height?: number): DropzoneConfigInterface {
         return {
             ...this.config,
-            thumbnailWidth: width || this.config.thumbnailWidth,
-            thumbnailHeight: height || this.config.thumbnailHeight,
+            thumbnailWidth: width ?? this.config.thumbnailWidth,
+            thumbnailHeight: height ?? this.config.thumbnailHeight,
             resizeWidth: width,
             resizeHeight: height
 
