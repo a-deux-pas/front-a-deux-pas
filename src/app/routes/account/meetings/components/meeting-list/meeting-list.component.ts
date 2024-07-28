@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Meeting } from '../../../../../shared/models/meeting/meeting.model';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-meeting-list',
   templateUrl: './meeting-list.component.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   styleUrls: ['./meeting-list.component.scss'],
 })
 export class MeetingListComponent {
@@ -19,13 +20,15 @@ export class MeetingListComponent {
   @Output() accept = new EventEmitter<Meeting>();
   meetingsLoading: boolean = true;
 
+  constructor(private router: Router) {}
+
   ngOnInit() {
     if (this.meetings.length > 0 && !this.selectedMeeting) {
       this.selectedMeeting = this.meetings[0];
     }
     setTimeout(() => {
     this.meetingsLoading = false;
-    }, 1000);
+    }, 300);
   }
 
   toggleMeetingDetails(meeting: Meeting): void {
@@ -55,7 +58,7 @@ export class MeetingListComponent {
     if (this.selectedMeeting) {
       this.cancel.emit(this.selectedMeeting);
     }
-  } 
+  }
 
   isCurrentUserBuyer(meeting: Meeting) {
     return meeting.buyerId === this.currentUserId;
@@ -69,8 +72,12 @@ export class MeetingListComponent {
     return this.isCurrentUserBuyer(meeting) ? meeting.sellerProfilePictureUrl : meeting.buyerProfilePictureUrl;
   }
 
-  getOtherUserInscriptionDate(meeting: Meeting){
+  getOtherUserInscriptionDate(meeting: Meeting) {
     return this.isCurrentUserBuyer(meeting) ? meeting.sellerInscriptionDate : meeting.buyerInscriptionDate;
+  }
+
+  getOtherUserCity(meeting: Meeting) {
+    return this.isCurrentUserBuyer(meeting) ? meeting.sellerCity : meeting.buyerCity;
   }
 
   getBuyerDistinctiveSign(meeting: Meeting) : any {
@@ -102,6 +109,15 @@ export class MeetingListComponent {
       return (meeting.sellerAdditionalInfo);
     } else {
       return meeting.sellerAdditionalInfo;
+    }
+  }
+
+  goToAdDetailsPage(meeting: Meeting) {
+    const userAlias = localStorage.getItem('userAlias');
+    if (meeting.adPublisherAlias == userAlias) {
+      this.router.navigate(['/compte/annonces/mon-annonce/', meeting.adId]);
+    } else {
+      this.router.navigate(['/annonce', meeting.adPublisherAlias, meeting.adId]);
     }
   }
 }
