@@ -29,8 +29,6 @@ export class DropzoneConfigService {
             thumbnailHeight: height ?? this.config.thumbnailHeight,
             resizeWidth: width,
             resizeHeight: height
-
-
         }
     }
 
