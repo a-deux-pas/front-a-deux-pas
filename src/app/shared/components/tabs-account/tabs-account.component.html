@@ -1,0 +1,9 @@
+<div class="text-center">
+  <ul ngbNav class="nav-tabs" id="account-tabs">
+    @for (route of accountRoutes[0].children; track $index) {
+      <li [ngbNavItem]="route.path">
+        <a ngbNavLink [routerLink]="['/compte', route.path]" [class.custom-active-tab]="active === route.path">{{ route.title }}</a>
+      </li>
+      }
+  </ul>
+</div>

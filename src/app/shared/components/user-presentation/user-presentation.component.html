@@ -1,0 +1,20 @@
+@if (user) {
+  <div id="user-presentation">
+    <div class="row">
+      <div class="col-md-5 col-lg-4 col-xl-5 col-xxl-4 text-center">
+          <img class="profile-picture fade-in" [src]="user.profilePicture" alt="profil de {{ user.alias }}" />
+      </div>
+      <div class="col-md-7 col-lg-8 col-xl-7 col-xxl-8" id="user-info">
+          <p>{{ user.alias }}</p>
+          <p>{{ user.city }}</p>
+          <p>Membre depuis le {{ user.inscriptionDate }}</p>
+      </div>
+    </div>
+    @if (user.bio) {
+      <div [ngClass]="{'bio fade-in': !isOnUserProfilepage, 'mt-3': true}">
+        <strong>À propos</strong>
+        <p class="mt-3">{{ user.bio }}</p>
+      </div>
+    }
+  </div>
+}

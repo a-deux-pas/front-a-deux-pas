@@ -1,0 +1,84 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="form-group mt-3">
+    <label for="email-address">Adresse email</label>
+    <div class="input-group mt-2">
+      <input id="email-address" name="email-address" formControlName="email" type="email"
+      class="form-control" placeholder="nom@example.com" required/>
+    </div>
+    @if (registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty
+    || registerForm.get('email')?.touched)) {
+      <div class="error-msg mt-2">
+        <div [hidden]="!registerForm.get('email')?.errors?.['required']">
+          L'adresse email est requise
+        </div>
+        @if (registerForm.get('email')?.errors?.['pattern']
+        || registerForm.get('email')?.errors?.['emailAddressExists']) {
+          L'adresse email n'est pas valide et/ou est peut-être déjà utilisée.
+          Veuillez vérifier le format ou essayer une autre adresse
+        }
+      </div>
+    }
+    <label for="password" class="mt-4">Mot de passe</label>
+    <div class="input-group mt-2">
+      <input id="password"  type="{{ showPassword ? 'text' : 'password' }}" name="password"
+      formControlName="password" class="form-control" placeholder="8 caractères minimum" autocomplete required/>
+      <button type="button" class="btn-password-visibility" (click)="togglePasswordVisibility()">
+        <img src="assets/icons/buttons/visible.webp" class="eye-icon" alt="icône oeil" [hidden]="!showPassword">
+        <img src="assets/icons/buttons/no-visible.webp" class="eye-icon" alt="icône oeil barrée" [hidden]="showPassword">
+      </button>
+    </div>
+    @if (registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty
+    || registerForm.get('password')?.touched)) {
+      <div class="error-msg mt-2">
+        @for (error of registerForm.get('password')?.errors | keyvalue; track error) {
+          {{ error.value.rules}}
+        }
+      </div>
+    }
+    <label for="confirm-password" class="mt-4">
+      Confirmer mon mot de passe
+    </label>
+    <div class="input-group mt-2">
+      <input id="confirm-password" type="{{ showConfirmPassword ? 'text' : 'password' }}"
+      formControlName="confirmPassword" name="confirm-password" class="form-control"
+      placeholder="répéter le mot de passe"  autocomplete required/>
+      <button type="button" class="btn-password-visibility" (click)="toggleConfirmPasswordVisibility()">
+        <img src="assets/icons/buttons/visible.webp" class="eye-icon" alt="icône oeil"
+          [hidden]="!showConfirmPassword"
+        >
+        <img src="assets/icons/buttons/no-visible.webp" class="eye-icon" alt="icône oeil barrée"
+          [hidden]="showConfirmPassword"
+        >
+      </button>
+    </div>
+    @if (registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty
+    || registerForm.get('confirmPassword')?.touched)) {
+      <div class="error-msg mt-2">
+        {{ registerForm.errors?.['mismatch'].rules }}
+      </div>
+    }
+    <div class="form-check mt-4">
+      <input class="form-check-input" name="rgpd-consent" formControlName="rgpdConsent" type="checkbox"
+      value="" id="rgpd-consent" required/>
+      <label class="form-check-label" for="rgpd-consent">
+        J'accepte que mes données personnelles soient collectées et utilisées conformément à la
+        <a href="https://www.cnil.fr/fr/reglement-europeen-protection-donnees" target="_blank" rel="noopener">
+          politique de confidentialité
+        </a>
+        pour me permettre d'accéder aux services proposés par le site
+      </label>
+    </div>
+    @if (!registerForm.get('rgpdConsent')?.value && (registerForm.get('rgpdConsent')?.dirty
+    || registerForm.get('rgpdConsent')?.touched)) {
+      <div class="error-msg mt-2">
+        Vous devez accepter la politique de confidentialité pour créer un compte
+      </div>
+    }
+    <div class="modal-footer justify-content-center">
+      <button type="submit" class="btn-success mt-4"
+        [disabled]="registerForm.invalid || !registerForm.get('rgpdConsent')?.value">
+        C'est parti !
+      </button>
+    </div>
+  </div>
+</form>

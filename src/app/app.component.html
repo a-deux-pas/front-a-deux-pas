@@ -1,4 +1,14 @@
-<a class="m-2" routerLink="/">Home</a>
-<a class="m-2" routerLink="/style-guide">Style Guide</a>
+@if (isUserLoggedIn || onSellerAdPageUnlogged) {
+  <app-navbar
+    [isAccountMenuOpen]="isAccountMenuOpen"
+    [isUserLoggedIn]="isUserLoggedIn"
+    (accountMenuToggleOutput)="accountNavbarMenuToggle($event)">
+  </app-navbar>
+}
 
-<router-outlet />
+<main class="main-container">
+  <app-alert></app-alert>
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer class="footer"></app-footer>

@@ -1,0 +1,44 @@
+<a (click)="goToAdPage(ad.id!, ad.publisherAlias!, ad.publisherId!)" class="card mt-4 text-decoration-none">
+  <div class="card-img-container">
+    @switch (ad.status) {
+      @case(adStatus.SOLD) {
+        <p class="statusStamp">Vendu</p>
+        }
+      @case(adStatus.RESERVED) {
+        <p class="statusStamp">Réservé</p>
+      }
+    }
+    <img class="card-img-top" [src]="ad.firstArticlePictureUrl" alt="article à vendre - {{ ad.title }}" />
+  </div>
+  <div class="card-colored-border">
+    <div class="card-body">
+      <h5 class="card-title pb-2">{{ ad.title }}</h5>
+      @if (type !== 'loggedInUserAd') {
+      <p class="card-text">{{ ad.publisherAlias }}</p>
+      }
+      @else {
+      <p class="white-space">''</p>
+      }
+        @switch (type) {
+          @case ('loggedInUserAd') {
+            <a class="bottom-card-part" (click)="goToAdUpdateForm($event, ad.id)">
+              <img class="cta-btn card-icon" src="assets/icons/buttons/edit-orange.webp" alt="bouton-modifier-annonce">
+            </a>
+          }
+          @case ('sellerAd') {
+            <div class="bottom-card-part">
+              <button type="button"
+              id="btn-add-to-favorites"
+              (click)="addToFavorites($event)">
+                <img class="card-icon" src="assets/icons/buttons/add-to-favorites-card.webp" alt="icône favoris" [hidden]="ad.favorite">
+                <img class="card-icon" src="assets/icons/buttons/added-to-favorites-card.webp" alt="icône favoris" [hidden]="!ad.favorite">
+              </button>
+            </div>
+          }
+        }
+      <div class="d-flex justify-content-end">
+        <p class="card-text" id="article-price">{{ ad.price }} €</p>
+      </div>
+    </div>
+  </div>
+</a>

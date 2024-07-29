@@ -1,0 +1,55 @@
+@import 'color-variables';
+
+.my-ad-cta-encart {
+  border-radius: 10px 10px 25px 10px;
+  background: #FFE2BC;
+  width: 279.854px;
+  height: 234px;
+  padding: 35px 32px;
+}
+
+.btn:active {
+  border: none;
+  height: 0px;
+  color: transparent;
+}
+
+.cta-btn-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.trash-cta-btn {
+  width: 40px;
+  height: 40px;
+}
+
+.edit-cta-btn {
+  width: 31.9px;
+  height: 30.29px;
+  margin: 5px 0 5.7px;
+}
+
+.cta-btn-text {
+  font-weight: 400;
+  font-size: 15px;
+  color: black !important;
+  cursor: pointer;
+}
+
+#favorite-icon {
+  width: 27.28px;
+  height: 26.55px;
+}
+
+.favorites {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+#favorite-text {
+  text-align: left;
+  font-size: 12px;
+  margin-top: 3px;
+}

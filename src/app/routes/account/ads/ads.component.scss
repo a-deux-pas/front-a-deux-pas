@@ -1,0 +1,25 @@
+.tab-title-mobile {
+  font-size: 22px;
+  font-weight: 700;
+  width: 40%;
+}
+
+button[type="submit"].btn-sell {
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media (min-width: 799px) {
+  .tab-title-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  button[type="submit"].btn-sell {
+    margin-right: 3% !important;
+  }
+}

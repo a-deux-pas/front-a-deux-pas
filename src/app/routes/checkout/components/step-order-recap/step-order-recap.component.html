@@ -1,0 +1,42 @@
+<app-order-recap-card [ad]="ad"></app-order-recap-card>
+<section class="payment-options-container">
+  <div class="radio-input-container">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="payment"
+        id="card"
+        (change)="selectPaymentMethod('card')"
+        checked
+      />
+      <label class="form-check-label" for="card">
+        Paiement CB, activé une fois l'article récupéré
+      </label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="payment"
+        id="cash"
+        (change)="selectPaymentMethod('cash')"
+      />
+      <label class="form-check-label" for="cash">
+        Paiement cash à la remise de l'article
+      </label>
+    </div>
+  </div>
+</section>
+<section class="buttons-container">
+  <button
+    type="submit"
+    class="btn-secondary mt-4"
+    (click)="returnToAdDetails()"
+  >
+    annuler
+  </button>
+  <button type="submit" class="btn-primary mt-4" (click)="nextStep()">
+    valider
+  </button>
+</section>

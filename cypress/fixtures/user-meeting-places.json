@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "postalCode": "75001",
+    "city": "Paris",
+    "street": "1 Rue de Rivoli",
+    "name": "Musée du Louvre",
+    "userId": 1
+  },
+  {
+    "id": 2,
+    "postalCode": "75001",
+    "city": "Paris",
+    "street": "2 Rue Montmartre",
+    "name": "Opéra Garnier",
+    "userId": 1
+  },
+  {
+    "id": 3,
+    "postalCode": "75001",
+    "city": "Paris",
+    "street": "3 Rue des Francs-Bourgeois",
+    "name": "Le Centre Pompidou",
+    "userId": 1
+  },
+  {
+    "id": 4,
+    "postalCode": "75001",
+    "city": "Paris",
+    "street": "4 Place du Parvis Notre-Dame",
+    "name": "Cathédrale Notre-Dame de Paris",
+    "userId": 1
+  },
+  {
+    "id": 5,
+    "postalCode": "75001",
+    "city": "Paris",
+    "street": "5 Quai de la Tournelle",
+    "name": "Pont de la Tournelle",
+    "userId": 1
+  }
+]

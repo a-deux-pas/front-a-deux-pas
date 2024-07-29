@@ -1,0 +1,85 @@
+@import "color-variables";
+
+.name-and-card-number {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  margin-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.form-input-fields-container {
+  margin-right: 20%;
+  margin-left: 20%;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.radio-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label,
+p {
+  font-size: small;
+}
+
+p {
+  text-align: center;
+}
+
+.expiration-date {
+  margin-right: none !important;
+}
+
+.expiration-and-cvv {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.form-check-input[type="checkbox"] {
+  border-radius: 50%;
+  border-color: $secondary;
+}
+
+@media (max-width: 530px) {
+  .form-input-fields-container {
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
+
+// Desktop
+@media (min-width: 650px) {
+  .expiration-and-cvv {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+  }
+
+  .expiration-date {
+    margin-right: 5%;
+  }
+}
+
+@media (min-width: 830px) {
+  .form-input-fields-container {
+    margin-left: 30%;
+    margin-right: 30%;
+  }
+}

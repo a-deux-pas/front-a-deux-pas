@@ -1,0 +1,27 @@
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.resize {
+  width: auto;
+}
+
+.dropdown-menu {
+  position: absolute;
+  z-index: 100;
+}
+
+.keep-visible {
+  display: block;
+}
+
+// Desktop display
+@media (min-width: 1277px) {
+  .filters-container {
+    justify-content: flex-end;
+  }
+}

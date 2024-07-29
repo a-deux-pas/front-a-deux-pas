@@ -1,0 +1,128 @@
+@import 'color-variables.scss';
+
+.centered-elements {
+  text-align: center;
+}
+
+.centered-elements h3 {
+  text-align: left;
+
+  /* to cancel h3tag central alignement */
+  >label {
+    text-align: left;
+  }
+}
+
+.test {
+  display: inline-block;
+}
+
+#ad-title,
+#ad-description {
+  width: 320px;
+  overflow: hidden;
+}
+
+#ad-price,
+#ad-status {
+  width: 246px;
+  height: 43px;
+}
+
+.price-input-field {
+  display: grid;
+}
+
+#ad-price {
+  position: relative;
+}
+
+.input-group-addon {
+  margin-left: -9.5%;
+  position: absolute;
+}
+
+label {
+  width: max-content;
+}
+
+.label-and-input {
+  margin-bottom: 7%;
+
+  >label {
+    text-align: left;
+  }
+}
+
+.state-and-price-input-correction {
+  margin-left: -28%;
+  width: 246px;
+}
+
+.input {
+  border-radius: 10px 10px 40px 5px;
+  border-bottom: 5px solid #ffbf6b;
+  border-top: white;
+  border-right: white;
+  border-left: white;
+  padding-bottom: 0.315rem;
+  height: 40px;
+}
+
+#select-pic-number,
+.article-categorization {
+  width: 246px;
+}
+
+.error-container {
+  width: max-content;
+}
+
+.bottom-btns {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#btn-spinner {
+  padding: 0.625rem 1.5625rem !important;
+  color: white;
+  background-color: $primary;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 1200px) {
+  .input-group-addon {
+    margin-left: -4.5%;
+  }
+
+  #ad-title {
+    width: 471px;
+  }
+
+  .ad-title {
+    margin-left: 36% !important;
+  }
+
+  #ad-description {
+    width: 573px;
+  }
+
+  .label-and-input {
+    margin-left: auto;
+    margin-right: 46%;
+  }
+
+  .dropzone-field {
+    grid-gap: 21px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    max-width: 859px !important;
+    max-height: 478px !important;
+  }
+}

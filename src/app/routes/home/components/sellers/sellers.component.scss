@@ -1,0 +1,24 @@
+@import 'color-variables';
+
+p {
+  margin: 0;
+  color: black;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#seller-alias {
+  color: $info;
+  font-weight: 700;
+}
+
+
+@media (min-width: 768px) {
+  #sellers {
+    display: flex;
+    justify-content: space-between;
+  }
+}

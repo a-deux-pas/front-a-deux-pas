@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-end mt-2 mb-4">
+  <button type="button" class="btn-close mx-4" data-bs-dismiss="modal" aria-label="Close"
+  (click)="activeModal.dismiss('Cross click')"><span class="close">x</span></button>
+</div>
+<div class="modal-body text-center">
+  <p>Êtes-vous sûr(e) de vouloir supprimer ce créneau ?</p>
+</div>
+<div class="modal-footer d-grid gap-md-2 d-md-flex justify-content-center">
+  <button type="button" class="btn-secondary" (click)="activeModal.dismiss('cancel')">annuler</button>
+  <button type="button" class="btn-primary" (click)="confirm()">supprimer</button>
+</div>

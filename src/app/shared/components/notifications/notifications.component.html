@@ -1,0 +1,42 @@
+<div formGroupName="emailNotifications" id="notifications-form">
+  <div class="row justify-content-center">
+    <div style="width: fit-content;">
+      <div class="form-check form-switch">
+        <input class="form-check-input" formControlName="notifications" name="checkbox" type="checkbox" id="notifications">
+        <label class="form-check-label" for="notifications">Je souhaite recevoir des notifications par email</label>
+      </div>
+      @if(notificationsFormGroup.get('notifications')?.value === true) {
+        <div class="form-check">
+          <input class="form-check-input" formControlName="meetingProposal" name="meeting-proposal" type="checkbox" value="" id="meeting-proposal">
+          <label class="form-check-label" for="meeting-proposal">
+            lorsqu'un membre m'envoie une proposition de RDV
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" formControlName="meetingUpdate" name="meeting-update" type="checkbox" value="" id="meeting-update">
+          <label class="form-check-label" for="meeting-update">
+            lors de la modification d’un RDV
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" formControlName="meetingReminder" name="meeting-reminder" type="checkbox" value="" id="meeting-reminder">
+          <label class="form-check-label" for="meeting-reminder">
+            la veille d’un RDV en guise de rappel
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" formControlName="meetingToFinalize" name="meeting-to-finalize" type="checkbox" value="" id="meeting-to-finalize">
+          <label class="form-check-label" for="meeting-to-finalize">
+            pour me rappeler de finaliser un RDV
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" formControlName="meetingCancelled" name="meeting-cancelled" type="checkbox" value="" id="meeting-cancelled">
+          <label class="form-check-label" for="meeting-cancelled">
+            pour m’informer de l’annulation d’un RDV
+          </label>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+@import 'color-variables';
+
+// profile picture style
+#user-presentation .profile-picture {
+  width: 208px;
+  padding: 0;
+}
+
+// 'A propos' color
+#user-presentation strong {
+  color: $primary;
+}
+
+// user information display
+#user-info {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+// tablet and desktop version
+@media (min-width: 768px) {
+
+  .bio {
+    min-width: 700px;
+    max-width: 753px;
+  }
+
+  // user information display
+  #user-info {
+    text-align: left;
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}

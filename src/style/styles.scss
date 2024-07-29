@@ -1,0 +1,1507 @@
+// See more about Bootstrap here : https://getbootstrap.com/docs/5.3/
+// see more about ng-bootstrap components here : https://ng-bootstrap.github.io/#/components/
+
+// Importing Google Fonts for the logo
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+// Setting up font families
+$font-sans-serif: "Verdana", sans-serif;
+$font-family-base: $font-sans-serif;
+
+/*-----------------------------------------------------------------------*/
+
+// Title sizes
+$h1-font-size: 2.22rem;
+$h2-font-size: 1.4rem;
+$h3-font-size: 1.125rem;
+
+.bold-title-700 {
+  font-weight: 700;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Colors
+@import "color-variables";
+
+/*-----------------------------------------------------------------------*/
+
+// Mobile logo styling
+.mobile-logo-container {
+  display: inline-flex;
+}
+
+.mobile-footsteps {
+  width: 48.174px;
+  height: 49.367px;
+  margin-top: 5px;
+}
+
+.mobile-logo {
+  font-size: 40px;
+  font-family: "Roboto", sans-serif;
+  align-self: center;
+}
+
+// Desktop logo styling
+.desktop-footsteps {
+  width: 75.661px;
+  height: 75.661px;
+  float: left;
+  margin-right: 3px;
+  margin-top: 27px;
+}
+
+.desktop-logo {
+  font-size: 33.5px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  margin-bottom: -18px;
+  display: block;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Method to create personalized containers
+@mixin make-container(
+  $padding-x: $container-padding-x,
+  $padding-y: $container-padding-y
+) {
+  width: 100%;
+  margin-top: $padding-y;
+  padding-right: $padding-x;
+  padding-left: $padding-x;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Margin adjustments
+html,
+body {
+  overflow-x: hidden;
+}
+
+.main-container {
+  margin: 11vh 2vh 0;
+  min-height: 100vh;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Animation
+.fade-in {
+  animation: fadeIn 0.9s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Bottom mobile navbar
+#mobile-bottom-navbar .mobile-wave-bottom-background {
+  background-color: $tertiary;
+  width: 100%;
+  height: 62px;
+  margin-top: 14px;
+}
+
+.mobile-wave-bottom-navbar {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 85px;
+  z-index: 2;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 79px;
+    background-color: $tertiary;
+    z-index: -1;
+  }
+
+  &::before {
+    right: -6px;
+    transform: rotate(-8deg);
+    border-top-right-radius: 542px 18px;
+  }
+
+  &::after {
+    left: -6px;
+    transform: rotate(8deg);
+    border-top-left-radius: 542px 18px;
+  }
+}
+
+#mobile-bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 65px;
+  z-index: 3;
+}
+
+#mobile-bottom-navbar-icons {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  font-size: 0.75rem;
+  z-index: 3;
+}
+
+ul#mobile-bottom-navbar-icons {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon .icon {
+  width: 29px;
+  margin-bottom: 3px;
+}
+
+#mobile-bottom-navbar-icons #mobile-sell-icon {
+  margin-top: -10px;
+  color: $primary;
+}
+
+#mobile-bottom-navbar-icons .navbar-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Buttons
+$btn-font-size: 0.938rem;
+$btn-padding-x: 0.625rem;
+$btn-padding-y: 2.5625rem;
+$btn-border-radius: 10px 10px 25px 10px;
+$btn-focus-shadow-rgb: 49, 132, 253;
+$color: var(--bs-btn-hover-color);
+
+button.btn {
+  padding: $btn-padding-x $btn-padding-y;
+}
+
+// Primary button styling
+.btn-primary {
+  display: flex;
+  width: 141px;
+  height: 43px;
+  padding: $btn-padding-x $btn-padding-y;
+  text-align: justify;
+  justify-content: center;
+  align-items: center;
+  border-radius: $btn-border-radius;
+  background-color: $primary;
+  color: white;
+  font-size: $btn-font-size;
+  border: $primary;
+
+  &:hover {
+    background-color: darken($secondary, 25%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
+  }
+}
+
+// Secondary button styling
+.btn-secondary {
+  display: flex;
+  width: 141px;
+  height: 43px;
+  padding: $btn-padding-x $btn-padding-y;
+  align-items: center;
+  border-radius: $btn-border-radius;
+  border: 2px solid $primary;
+  background-color: white;
+  color: $primary;
+  font-size: $btn-font-size;
+  justify-content: center;
+
+  &:hover {
+    background-color: darken($secondary, 15%);
+    color: white;
+  }
+}
+
+// Success button styling
+.btn-success {
+  display: flex;
+  width: 141px;
+  height: 43px;
+  padding: 0.55rem 0.55rem;
+  text-align: justify;
+  justify-content: center;
+  align-items: center;
+  background-color: $secondary;
+  color: white;
+  font-size: $btn-font-size;
+  font-weight: 700;
+  border-radius: $btn-border-radius;
+  border: 1.7px solid $primary;
+
+  &:hover {
+    background-color: darken($secondary, 10%);
+  }
+
+  &:disabled {
+    background-color: #6666668f;
+    border: #6666668f;
+    font-weight: 400;
+  }
+}
+
+// See more button styling
+.btn-info {
+  display: flex;
+  width: 121px;
+  height: 43px;
+  gap: 10px;
+  align-items: center;
+  border-radius: $btn-border-radius;
+  padding-left: 12px;
+  background-color: $primary;
+  color: white;
+  font-size: $btn-font-size;
+  border: $primary;
+
+  &:hover {
+    background-color: darken($secondary, 25%);
+  }
+}
+
+.arrow-down-icon {
+  width: 22px;
+}
+
+// Sell button styling
+.btn-sell {
+  display: flex;
+  height: 51px;
+  padding: $btn-padding-x $btn-padding-y;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border: 2px solid $primary;
+  background-color: $secondary;
+  box-shadow: -4px 4px 0px 0px $primary;
+  color: white;
+  font-size: $btn-font-size;
+  font-weight: 700;
+
+  &:hover {
+    background-color: darken($secondary, 10%);
+  }
+}
+
+.add-icon {
+  width: 29px;
+}
+
+// Connection button styling
+.btn-connection {
+  background-color: white;
+  height: 43px;
+  flex-shrink: 0;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: $primary;
+  font-size: $btn-font-size;
+  border-radius: $btn-border-radius;
+  padding: $btn-padding-x $btn-padding-y;
+  border: white;
+
+  &:hover {
+    background-color: darken($secondary, 10%);
+    color: white;
+  }
+}
+
+// Buttons with icon styling
+.btn-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #000;
+  text-decoration: none;
+  width: 16vh;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+.btn-icon span {
+  margin-top: 6.29px;
+  text-align: center;
+}
+
+// Edit icon size
+.edit-icon {
+  width: 32px;
+}
+
+// Save icon size
+.save-icon {
+  width: 40px;
+}
+
+.add-icon,
+.remove-icon {
+  width: 27.25px;
+  height: 27.25px;
+}
+
+.btn-cta {
+  cursor: pointer;
+}
+
+/*-----------------------------------------------------------------------*/
+
+//Spinner
+$spinner-width: 4rem;
+$spinner-height: 4rem;
+$spinner-border-width: 0.5em;
+
+/*-----------------------------------------------------------------------*/
+
+// Connection modal
+$btn-close-color: $primary;
+$modal-content-border-color: none;
+$modal-header-border-color: none;
+$modal-content-border-radius: 15px;
+
+// Modal Close button
+$btn-close-bg: none;
+$btn-close-focus-shadow: none;
+$btn-close-hover-opacity: none;
+$btn-close-opacity: none;
+
+span.close,
+a.close {
+  display: inline-block;
+  font-size: 1.3rem;
+  transform: scaleX(1.1);
+  color: $secondary;
+  z-index: 1;
+
+  &:hover {
+    color: black;
+  }
+}
+
+.modal-content {
+  .form-check-input[type="checkbox"] {
+    border-radius: 50%;
+    border-color: $secondary;
+
+    &:checked {
+      background-color: $secondary;
+    }
+  }
+
+  .modal-body {
+    label.form-check-label {
+      font-size: 14.5px;
+      margin-right: 2px;
+    }
+  }
+
+  .modal-footer {
+    .btn-success:disabled {
+      background-color: #9d9d9d8f;
+    }
+  }
+
+  .btn-password-visibility {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    background: transparent;
+    border: none;
+    right: 7%;
+    top: 3px;
+  }
+
+  #password-input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .eye-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .input-group:not(.has-validation)
+    > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(
+      .form-floating
+    ),
+  .input-group:not(.has-validation)
+    > .form-floating:not(:last-child)
+    > .form-control {
+    border-radius: 10px 10px 40px 5px;
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Input
+$input-border-radius: 10px 10px 40px 5px;
+$focus-ring-color: transparent;
+
+input.form-control,
+textarea.form-control {
+  border-radius: $input-border-radius;
+  border-bottom: 5px solid $secondary;
+  caret-color: $primary;
+  border-top: white;
+  border-right: white;
+  border-left: white;
+  padding-bottom: 0.625rem;
+}
+
+// Placeholders color
+.form-control::placeholder {
+  color: rgba(0, 0, 0, 0.38) !important;
+}
+
+// Error class
+.error-msg {
+  color: $primary;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Select
+// Main ng-select container styling
+.ng-select .ng-select-container {
+  border: none;
+}
+
+// Custom ng-select container styling
+.ng-select.custom .ng-select-container {
+  border-radius: 10px 10px 40px 5px;
+  border-bottom: 5px solid $secondary;
+  border-top: white;
+  border-right: white;
+  border-left: white;
+  padding-bottom: 0.315rem;
+  height: 40px;
+  min-width: 245.238px;
+}
+
+// Opened ng-select container bottom border radius
+.ng-select.ng-select-opened.ng-select-bottom > .ng-select-container {
+  border-bottom-right-radius: 40px;
+}
+
+// Focus effects for ng-select
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+  border-color: $secondary;
+  box-shadow: none;
+}
+
+// Placeholder color
+.ng-select.custom .ng-value-container .ng-placeholder {
+  color: black;
+}
+
+// Arrow wrapper padding
+.ng-select .ng-arrow-wrapper {
+  padding-right: 2rem;
+}
+
+// Arrow icon color
+.ng-select.custom .ng-arrow-wrapper .ng-arrow {
+  border-color: black transparent transparent;
+}
+
+// Hover effects for arrow icon
+.ng-select .ng-arrow-wrapper:hover .ng-arrow {
+  border-color: $secondary transparent transparent;
+}
+
+// Clear icon color
+.ng-select.custom .ng-clear-wrapper .ng-clear {
+  color: black;
+}
+
+// Hover color for clear icon
+.ng-select .ng-clear-wrapper:hover .ng-clear {
+  color: $secondary;
+}
+
+// Focus color for clear icon
+.ng-select .ng-clear-wrapper:focus .ng-clear {
+  color: $secondary;
+}
+
+// Selected value label and close icon styling in multiselect
+span.ng-value-label,
+span.ng-value-icon.left {
+  background-color: white;
+  color: black;
+  border-radius: 1px;
+
+  &:hover {
+    background-color: white;
+    color: $primary;
+  }
+}
+
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon.left {
+  border-right: 1px solid white;
+}
+
+// Hover effects on selected value in multiselect
+.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value
+  .ng-value-icon:hover {
+  background-color: white;
+  color: $primary;
+}
+
+/*--------------------------------------*/
+
+// Dropdown panel styling
+.ng-dropdown-panel {
+  border-top: 2px solid $secondary;
+  border-right: 2px solid $secondary;
+  border-bottom: 4px solid $secondary;
+  border-left: 2px solid $secondary;
+  border-color: $secondary;
+}
+
+// Dropdown panel border styling
+.ng-dropdown-panel.ng-select-bottom {
+  border-radius: 10px;
+  border-color: $secondary;
+  margin-top: 10px;
+}
+
+// Dropdown panel First child option styling
+.ng-dropdown-panel.ng-select-bottom
+  .ng-dropdown-panel-items
+  .ng-option:first-child {
+  border-radius: 10px;
+  border-color: $secondary;
+}
+
+// Dropdown panel first child marked option
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-marked:first-child {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+// Color of the group option in the multiselect
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup {
+  color: black;
+}
+
+// Marked option styling in dropdown panel
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-marked {
+  color: $primary;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+// Selected option styling in dropdown panel
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-option.ng-option-selected.ng-option-marked {
+  color: $primary;
+  background-color: white;
+}
+
+// Selected option styling in multiselect
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected,
+.ng-dropdown-panel
+  .ng-dropdown-panel-items
+  .ng-optgroup.ng-option-selected.ng-option-marked {
+  color: $primary;
+  background-color: white;
+  font-weight: 400;
+}
+
+// Scrollbar styling in dropdown panel
+.ng-dropdown-panel .scroll-host::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ng-dropdown-panel .scroll-host::-webkit-scrollbar-thumb {
+  background-color: #dad3d3;
+  border-radius: 4.7px;
+}
+
+.ng-dropdown-panel .scroll-host::-webkit-scrollbar-button {
+  display: none;
+}
+
+/*-----------------------------------------------------------------------*/
+
+//Switch
+$form-switch-checked-color: white;
+$form-switch-color: white;
+$form-switch-focus-color: white;
+
+#notifications {
+  background-color: grey;
+  border: transparent;
+}
+
+#notifications:checked {
+  background-color: $primary;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Checkbox and radio
+$form-check-input-checked-color: white;
+$form-check-input-checked-bg-image: url("/assets/icons/check.webp");
+$form-check-radio-checked-bg-image: url("/assets/icons/check.webp");
+
+.form-check-input[type="checkbox"],
+.form-check-input[type="radio"] {
+  border: 1.7px solid $secondary;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Cards
+$card-border-color: transparent;
+$card-height: 332px;
+$card-spacer-y: 3.1875rem;
+
+// Card container styling
+.card-img-container {
+  position: absolute;
+  border-bottom: 7px solid #ffbf6b;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 0px;
+}
+
+.card {
+  width: 253px;
+  cursor: pointer;
+
+  &:hover {
+    .card-img-container {
+      border-bottom: 7px solid $info;
+    }
+
+    .card-colored-border {
+      border-left: 2px solid $info;
+      border-right: 2px solid $info;
+      border-bottom: 2px solid $info;
+    }
+  }
+}
+
+// Bottom part of the card styling
+.bottom-card-part {
+  display: flex;
+  justify-content: center;
+  height: 17.74px;
+}
+
+#article-price {
+  position: relative;
+  bottom: 13.8px;
+}
+
+// Card image styling
+@mixin filter($filters...) {
+  filter: #{$filters};
+  -webkit-filter: #{$filters};
+  -moz-filter: #{$filters};
+}
+
+.card-img-top {
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  width: 252px !important;
+  height: 224px !important;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 45px;
+  border-bottom-left-radius: 0px;
+
+  &.SOLD {
+    @include filter(grayscale(0.5783132530120482));
+  }
+
+  &.RESERVED {
+    @include filter(
+      sepia(149%) brightness(78%) hue-rotate(360deg) saturate(192%)
+        contrast(140%) invert(13%)
+    );
+  }
+}
+
+.statusStamp {
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+// Card border styling
+.card-colored-border {
+  position: relative;
+  z-index: 0;
+  border-radius: 0px 0px 10px 10px;
+  border-left: 2px solid $secondary;
+  border-right: 2px solid $secondary;
+  border-bottom: 2px solid $secondary;
+  margin-top: 181px;
+  height: 160px;
+}
+
+// Card title styling
+.card-title {
+  margin-top: 3%;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+// Card text styling
+.card-text {
+  font-size: 0.75rem;
+}
+
+// White space styling
+.white-space {
+  color: white;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Dropdowns
+$navbar-toggler-focus-width: 0rem;
+
+button.dropdown-btn,
+button.navbar-toggler {
+  border: transparent;
+  background-color: transparent;
+}
+
+// Dropdown label
+.dropdown-first-level {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.625rem;
+  text-decoration: none;
+  width: 141px;
+  height: 53.993px;
+  align-items: center;
+  border-radius: 5px;
+  border: 1.5px solid $primary;
+  color: black;
+  list-style-type: none;
+  background-color: transparent;
+
+  &:hover {
+    background: rgba(255, 191, 107, 0.39);
+  }
+}
+
+// Select box styling
+.dropdown:hover > .dropdown-menu,
+.dropend:hover > .dropdown-menu {
+  display: block;
+  margin-left: 0.125em;
+  border-radius: 10px;
+  border-top: 2px solid $secondary;
+  border-right: 2px solid $secondary;
+  border-bottom: 4px solid $secondary;
+  border-left: 2px solid $secondary;
+}
+
+.div-form-check input[type="checkbox"] {
+  margin-left: 3px;
+}
+
+label.ddmenu-with-select {
+  height: 30px;
+}
+
+// Select box hover styling
+a.nav-link:hover,
+input.nav-link:hover,
+li.ddmenu-with-select:hover,
+.div-form-check:hover {
+  color: $primary;
+
+  .dropdown-first-level {
+    background: rgba(255, 191, 107, 0.39);
+  }
+}
+
+.dropdown .dropdown-menu {
+  display: none;
+}
+
+ul.ddmenu-with-select,
+ul.dropdown-menu {
+  margin-top: 10px;
+}
+
+a.dropdown-first-level.dropdown-toggle {
+  font-size: 16px;
+}
+
+//center sub categories in their boxes
+.dropdown-menu .nav-item.dropend input[type="button"],
+.dropdown-menu .nav-item.dropend button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Schedule
+
+// Set the width of the calendar and center it
+.fc {
+  width: 302px;
+  margin: 0 auto;
+}
+
+// Header style
+.fc .fc-col-header-cell-cushion {
+  background-color: $info;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-size: 10px;
+  padding: 5px 5px;
+  margin-bottom: 16px;
+}
+
+// Personalized header borders
+.fc-theme-standard th {
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px solid var(--fc-border-color);
+}
+
+// Remove header borders
+.fc-theme-standard .fc-scrollgrid {
+  border-top: none;
+  border-left: none;
+}
+
+.fc-media-screen .fc-timegrid-cols > table {
+  width: 302px;
+}
+
+// Thicken grids
+.fc-theme-standard td {
+  border: 2px solid var(--fc-border-color);
+}
+
+// Remove today highlight
+.fc-day-today {
+  background-color: inherit !important;
+}
+
+// Timegrid slot styling
+.fc-timegrid-slot-label-frame.fc-scrollgrid-shrink-frame {
+  background-color: #f2f2f2;
+  color: rgba(155, 149, 149, 0.85);
+}
+
+.fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+// Event styling
+.fc-v-event {
+  background-color: rgba(255, 191, 107, 0.705);
+  border: none;
+}
+
+.fc-event-time {
+  display: none;
+}
+
+.fc-timegrid-event {
+  border-radius: inherit;
+}
+
+// Remove margin
+.fc-event,
+.fc-event-main {
+  margin-bottom: 0 !important;
+}
+
+.fc-direction-ltr .fc-timegrid-col-events {
+  margin: 0;
+}
+
+// Remove "-" after new event timing
+.fc-timegrid-event-short .fc-event-time::after {
+  content: "";
+}
+
+// Center new event timing
+.fc-v-event .fc-event-title-container {
+  flex-grow: 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Dropzone
+.dz-progress,
+.dz-details,
+.dz-success-mark,
+.dz-error-mark,
+.dz-error-message {
+  display: none !important;
+}
+
+.dropzone.dz-wrapper.dz-single .dz-message {
+  background-color: white;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+  transform: none !important;
+  filter: none !important;
+}
+
+.dropzone .dz-preview .dz-image,
+.dropzone .dz-preview:hover {
+  z-index: 2 !important;
+}
+
+.dropzone-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropzone-icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+.dropzone.dz-clickable .dz-message,
+.dropzone.dz-clickable .dz-message * {
+  color: $primary;
+  font-weight: 700;
+}
+
+.dz-remove:hover {
+  text-decoration: none !important;
+  color: #343a40;
+}
+
+// Dropzone profile picture
+app-profile-picture {
+  #dropzone {
+    width: 231px;
+  }
+
+  .dropzone.dz-wrapper {
+    height: 212px;
+    overflow: inherit !important;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-message,
+  .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+    border-radius: 50%;
+  }
+
+  .dropzone.dz-wrapper.dz-single .dz-preview {
+    height: auto !important;
+  }
+
+  .dz-remove:hover {
+    opacity: 1;
+  }
+}
+
+app-ad-form {
+  .mobile-dropzones,
+  .mobile-dropzones .dz-message {
+    width: 349px !important;
+    height: 315px !important;
+  }
+
+  .two-dropzones,
+  .two-dropzones .dz-message {
+    width: 423px !important;
+    height: 479px !important;
+  }
+
+  .three-dropzones,
+  .three-dropzones .dz-message {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+  }
+
+  .three-dropzones:first-child,
+  .three-dropzones:first-child .dz-message {
+    width: 523px !important;
+    grid-area: 1 / 1 / 3 / 3 !important;
+  }
+
+  .three-dropzones:not(:first-child),
+  .three-dropzones:not(:first-child) .dz-message {
+    width: 316px !important;
+  }
+
+  .three-dropzones:nth-child(2),
+  .three-dropzones:nth-child(2) .dz-message {
+    grid-area: 1 / 3 / 2 / 4;
+  }
+
+  .three-dropzones:nth-child(3),
+  .three-dropzones:nth-child(3) .dz-message {
+    grid-area: 2 / 3 / 3 / 4;
+  }
+
+  .four-dropzones:first-child,
+  .four-dropzones:first-child .dz-message {
+    grid-area: 1 / 1 / 3 / 2;
+  }
+
+  .four-dropzones:nth-child(4),
+  .four-dropzones:nth-child(4) .dz-message {
+    grid-area: 1 / 3 / 3 / 4;
+  }
+
+  .four-dropzones:nth-child(2),
+  .four-dropzones:nth-child(3),
+  .four-dropzones:nth-child(2) .dz-message,
+  .four-dropzones:nth-child(3) .dz-message {
+    width: 215px !important;
+  }
+
+  .five-dropzones:first-child,
+  .five-dropzones:first-child .dz-message {
+    grid-area: 1 / 1 / 3 / 2 !important;
+  }
+
+  .five-dropzones:not(:first-child),
+  .five-dropzones:not(:first-child) .dz-message {
+    width: 256.67px !important;
+  }
+
+  .five-dropzones:first-child,
+  .five-dropzones:first-child .dz-message,
+  .three-dropzones:first-child,
+  .three-dropzones:first-child .dz-message,
+  .four-dropzones:first-child,
+  .four-dropzones:first-child .dz-message,
+  .four-dropzones:nth-child(4),
+  .four-dropzones:nth-child(4) .dz-message {
+    height: 494px !important;
+  }
+
+  .four-dropzones:first-child,
+  .four-dropzones:first-child .dz-message,
+  .four-dropzones:nth-child(4),
+  .four-dropzones:nth-child(4) .dz-message,
+  .five-dropzones:first-child,
+  .five-dropzones:first-child .dz-message {
+    width: 308px !important;
+  }
+
+  .three-dropzones:not(:first-child),
+  .three-dropzones:not(:first-child) .dz-message,
+  .four-dropzones:nth-child(2),
+  .four-dropzones:nth-child(3),
+  .four-dropzones:nth-child(2) .dz-message,
+  .four-dropzones:nth-child(3) .dz-message,
+  .five-dropzones:not(:first-child),
+  .five-dropzones:not(:first-child) .dz-message {
+    height: 232px !important;
+  }
+}
+
+.dz-remove {
+  display: inline-block !important;
+  width: 1.2em;
+  height: 1.2em;
+  text-decoration: none;
+
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1000;
+
+  font-size: 1.2em !important;
+  line-height: 1em;
+
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid gray !important;
+  border-radius: 1.2em;
+  color: gray;
+  background-color: white;
+  opacity: 0.5;
+}
+
+/*-----------------------------------------------------------------------*/
+// Register page
+
+// profile picture dropzone display
+app-register {
+  app-profile-picture {
+    #profile-picture {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  // bank account form display
+  app-bank-account-form {
+    #bank-account {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+// Preferred meeting places display on Register & account profile pages
+
+.meeting-place .number,
+#preferred-meeting-places .number {
+  background-color: $info;
+  color: white;
+  border-radius: 38px;
+  padding: 4px 8px;
+  font-size: 14px;
+  position: relative;
+}
+
+.meeting-place .address-name {
+  font-weight: 700;
+  color: $primary;
+  padding-left: 0.5rem;
+  position: absolute;
+}
+
+.meeting-place .address-detail {
+  margin-top: 0.2rem;
+  margin-left: 2.2rem;
+}
+
+/*-----------------------------------------------------------------------*/
+
+@media (min-width: 768px) {
+
+  // Personalized container for "my account" pages
+  // Includes tabs and page content
+  .custom-container {
+    @include make-container($padding-x: 1.3vh, $padding-y: 7.25vh);
+  }
+
+  /*---------------------------------*/
+
+  // Schedule
+
+  // Adjust width and font size for larger screens
+  .fc {
+    width: calc(100% - 16px);
+    max-width: 745px;
+  }
+
+  // Header style
+  .fc .fc-col-header-cell-cushion {
+    font-size: 13px;
+    padding: 9px 12px;
+  }
+
+  // Display event time
+  .fc-event-time {
+    margin: 0 auto;
+    display: inline-block;
+  }
+
+  /*---------------------------------*/
+
+  // Bottom navbar
+  #mobile-bottom-navbar .mobile-wave-bottom-background {
+    margin-top: 21px;
+  }
+
+  #mobile-bottom-navbar-icons #mobile-sell-icon {
+    margin-top: 0px;
+  }
+
+  /*---------------------------------*/
+
+  //Dropdown menu styling for better display of the ad-filters component.
+  .dropend:hover > .dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Carousel Bootstrap classes overriding
+.article-picture-image-section-mobile .carousel-inner {
+  position: relative;
+  display: flex;
+}
+
+.article-picture-image-section-mobile .carousel-indicators {
+  display: flex;
+}
+
+.carousel-control-prev {
+  margin-left: -13%;
+}
+
+.carousel-control-next {
+  margin-right: -13%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  color: $primary !important;
+
+  &:hover,
+  &:focus {
+    color: $primary !important;
+  }
+}
+
+.carousel-control-prev-icon {
+  background-image: url("../assets/icons/buttons/arrow-left.webp") !important;
+
+  .noShow {
+    display: none;
+  }
+}
+
+.carousel-control-next-icon {
+  background-image: url("../assets/icons/buttons/arrow-right.webp") !important;
+
+  .noShow {
+    display: none;
+  }
+}
+
+[data-bs-target] {
+  background-color: $primary !important;
+}
+
+.carousel-indicators {
+  z-index: 10;
+}
+
+.dz-image img {
+  z-index: 1;
+}
+
+ngb-carousel,
+.carousel-control-next-icon,
+.carousel-control-prev-icon,
+.carousel-indicators {
+  display: block;
+}
+
+// Desktop version
+@media (min-width: 1200px) {
+  // margin
+  body {
+    margin: 0;
+  }
+
+  .main-container {
+    margin: 8vh 14vh 0;
+  }
+
+  // Personalized container for "my account" pages
+  // Includes tabs and page content
+  .custom-container {
+    @include make-container($padding-x: 8vh, $padding-y: 88px);
+  }
+
+  /*---------------------------------*/
+
+  //Carousel Bootsrap classes overriding
+  ngb-carousel,
+  .carousel-control-next-icon,
+  .carousel-control-prev-icon,
+  .carousel-indicators {
+    display: none;
+  }
+}
+
+/*---------------------------------*/
+
+//Calendar Desktop
+
+ngb-datepicker {
+  border-radius: 3% !important;
+}
+
+ngb-datepicker-navigation-select > .form-select {
+  color: $primary;
+  font-size: large !important;
+  font-weight: bold !important;
+  text-align: center;
+}
+
+ngb-datepicker-month {
+  width: 400px;
+  height: 400px;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: #f8f9fa;
+  border-radius: 3% !important;
+}
+
+@media (max-width: 1330px) {
+  ngb-datepicker-month {
+    width: 300px;
+    height: 300px;
+  }
+  ngb-datepicker-navigation-select > .form-select {
+    text-align: justify !important;
+    font-size: 13px !important;
+  }
+}
+
+.ngb-dp-header {
+  padding: 5% !important;
+}
+
+.ngb-dp-week {
+  width: 100% !important;
+  height: 100% !important;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5% !important;
+  padding-right: 5% !important;
+}
+
+.ngb-dp-month .ngb-dp-week:last-child {
+  padding-bottom: 5% !important;
+}
+
+.ngb-dp-day {
+  text-align: center;
+  width: 14.2857% !important;
+  height: 100% !important;
+  align-content: center;
+  padding-bottom: 0.5% !important;
+  padding-right: 0.5% !important;
+  padding-left: 0.5% !important;
+  padding-top: 0.5% !important;
+  cursor: default !important;
+}
+
+.custom-day {
+  height: 100% !important;
+  width: 100% !important;
+  font-size: medium;
+  font-weight: bold;
+  align-content: center;
+  background-color: #f8f9fa !important;
+}
+
+.ngb-dp-weekday {
+  color: #282727 !important;
+  width: 14.2857% !important;
+  height: 100% !important;
+  align-content: center;
+  font-size: medium !important;
+  font-weight: 550;
+  font-style: normal !important;
+}
+
+.ngb-dp-navigation-chevron {
+  color: white;
+}
+
+.ngb-dp-arrow {
+  border-radius: 50%;
+  background-color: $primary;
+  width: 3rem !important;
+  height: 3rem !important;
+  justify-content: center;
+  flex: none !important;
+}
+
+.ngb-dp-arrow-next {
+  justify-content: center !important;
+}
+
+.ngb-dp-weekdays {
+  border-bottom: 0 !important;
+}
+
+.form-select {
+  font-size: larger !important;
+  border-radius: 0 !important;
+  height: 3rem !important;
+}
+
+.ngb-dp-navigation-select {
+  margin-left: 5% !important;
+  margin-right: 5% !important;
+}
+
+/*-----------------------------------------------------------------------*/
+
+// Importing NgSelect and Bootstrap styles
+@import "../../node_modules/@ng-select/ng-select/themes/default.theme.css";
+@import "bootstrap/scss/bootstrap";
