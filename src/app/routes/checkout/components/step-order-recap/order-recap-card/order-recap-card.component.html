@@ -1,7 +1,7 @@
 <section class="order-recap-card">
   <h3><b>Votre commande</b></h3>
-  <div class="ad-details">
-    <img src="{{ displayedArticlePictureUrl }}" alt="ask Sonar what this is" />
+  <a [routerLink]="['/annonce', ad.publisherAlias, ad.id]" class="ad-details">
+    <img src="{{ displayedArticlePictureUrl }}" alt="article" />
     <div class="name-and-description">
       <div class="with-custom-scrollbar text-container">
         <u>{{ ad.title }}</u>
@@ -10,7 +10,7 @@
         {{ ad.articleDescription }}
       </div>
     </div>
-  </div>
+  </a>
   <div class="horizontal-line"></div>
   <div class="total">
     <p>Total</p>

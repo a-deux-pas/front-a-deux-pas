@@ -3,7 +3,9 @@
   <div class="ad-details">
     <div class="article-name-and-price">
       <p>
-        <u>{{ ad.title }} </u>
+        <a [routerLink]="['/annonce', ad.publisherAlias, ad.id]" style="text-decoration: underline; color: black;">
+          {{ ad.title }}
+        </a>
       </p>
       <p>{{ ad.price }} €</p>
     </div>
