@@ -25,6 +25,7 @@ export class CashPaymentComponent {
     this.checkoutService
       .proposeMeeting(this.checkoutService.getProposedMeeting())
       .subscribe((response: any) => {
+        this.checkoutService.getProposedMeeting()!.meetingId = response.meetingId;
         this.router.navigate(['/compte/rdv']);
       });
   }

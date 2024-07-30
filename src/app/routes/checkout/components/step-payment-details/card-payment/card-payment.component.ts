@@ -125,6 +125,7 @@ export class CardPaymentComponent implements OnInit {
       .subscribe((response: any) => {
         // create payment intent immediately after the meeting is created
         this.createPaymentIntent(response);
+        this.checkoutService.getProposedMeeting()!.meetingId = response.meetingId;
         this.router.navigate(['/compte/rdv']);
       });
   }

@@ -36,6 +36,7 @@ export class CheckoutService {
   setCheckoutAd(ad: any): void {
     this.checkoutAd = ad;
   }
+
   getCheckoutAd(): any {
     return this.checkoutAd;
   }
@@ -44,14 +45,16 @@ export class CheckoutService {
   setCheckoutseller(seller: any): void {
     this.checkoutSeller = seller;
   }
+
   getCheckoutSeller(): any {
     return this.checkoutSeller;
   }
 
   // Meeting state management methods
-  setProposedMeeting(proposedMeeting: BuyerProposedMeetingRequest): void {
+  setProposedMeeting(proposedMeeting: BuyerProposedMeetingRequest | null): void {
     this.proposedMeeting = proposedMeeting;
   }
+
   getProposedMeeting(): BuyerProposedMeetingRequest | null {
     return this.proposedMeeting;
   }
