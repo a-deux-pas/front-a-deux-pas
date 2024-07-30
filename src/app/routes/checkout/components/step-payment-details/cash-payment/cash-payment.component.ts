@@ -33,16 +33,17 @@ export class CashPaymentComponent {
           console.error('Error while initializing the meeting', error);
           this.displayManagementService.displayAlert(ALERTS.DEFAULT_ERROR);
           return of(null);
-        }),
-        finalize(() => {
-          this.router.navigate(['/compte/rdv']);
         })
       )
-      .subscribe((result: any) => {
-        if (result)
+      .subscribe((response: any) => {
+        if (response) {
           this.displayManagementService.displayAlert(
             ALERTS.MEETING_INITIALIZED_SUCCESS
           );
+          this.checkoutService.getProposedMeeting()!.meetingId =
+            response.meetingId;
+        }
+        this.router.navigate(['/compte/rdv']);
       });
   }
 }

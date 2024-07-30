@@ -6,6 +6,7 @@ export class BuyerProposedMeetingRequest {
     public proposedMeetingPlaceId: number,
     public date: string,
     public buyerAdditionalInfo: string | null,
-    public buyerDistinctiveSign: string | null
+    public buyerDistinctiveSign: string | null,
+    public meetingId?: number
   ) {}
 }
