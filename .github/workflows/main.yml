@@ -62,8 +62,8 @@ jobs:
       - name: Retrieve Application Version and set Artifact Version
         id: set_app_version
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]] then
-            COMMIT_SHA=$(git rev-parse --short HEAD)
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          COMMIT_SHA=$(git rev-parse --short HEAD)
             APP_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")-${COMMIT_SHA}
           else
             APP_VERSION=$(node -p "require('./package.json').version")
