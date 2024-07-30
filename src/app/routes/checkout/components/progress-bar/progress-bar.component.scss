@@ -1,0 +1,70 @@
+@import "color-variables";
+
+.progress-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 90px;
+  margin-top: 90px;
+}
+
+.step-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.title-checkpoint {
+  color: $primary;
+}
+
+.checkpoint {
+  background-color: $primary;
+  border: 1px solid $primary;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 70px;
+  font-size: x-large;
+}
+
+hr {
+  width: 10%;
+  border: 1px solid #ccc;
+  align-self: flex-start;
+  position: relative;
+  top: 33px;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  position: relative;
+}
+
+// custom checkmark
+.circle::after {
+  content: "";
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+  display: none; // Initially hide the checkmark
+}
+
+// apply custom checkmark when .checkmark-flag class is added
+.circle.checkmark-flag::after {
+  display: block;
+}
+
+.circle.pointer {
+  cursor: pointer;
+}

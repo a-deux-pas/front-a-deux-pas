@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, tap } from 'rxjs';
-import { API_URL } from '../utils/constants/util-constants';
+import { AUTH_BASE_URL } from '../utils/constants/util-constants';
 import { jwtDecode } from 'jwt-decode';
 import { HandleErrorService } from './handle-error.service';
 import { Credentials } from '../models/user/credentials.model';
@@ -19,31 +19,24 @@ export class AuthService {
     public http: HttpClient,
     private router: Router,
     private handleErrorService: HandleErrorService
-  ) {
-    window.addEventListener('beforeunload', () => {
-      const stayLoggedIn = localStorage.getItem('stayLoggedIn');
-      if (stayLoggedIn === 'false') {
-        this.logout();
-      }
-    });
-  }
+  ) {}
 
   validateCredentials(email: string, password: string): Observable<boolean> {
-    return this.http.post<boolean>(`${API_URL}check-credentials`,
+    return this.http.post<boolean>(`${AUTH_BASE_URL}/check-credentials`,
       { email, password }
     ).pipe(
         catchError(this.handleErrorService.handleError))
   }
 
   isEmailAddressAlreadyExist(email: string): Observable<boolean> {
-    return this.http.post<boolean>(`${API_URL}check-email`,
+    return this.http.post<boolean>(`${AUTH_BASE_URL}/check-email`,
       email
     ).pipe(
         catchError(this.handleErrorService.handleError))
   }
 
   isAliasAlreadyExist(alias: string): Observable<boolean> {
-    return this.http.get<boolean>(`${API_URL}check-alias`, {
+    return this.http.get<boolean>(`${AUTH_BASE_URL}/check-alias`, {
       params: { alias }
     }).pipe(
         catchError(this.handleErrorService.handleError))
@@ -64,8 +57,8 @@ export class AuthService {
   auth(credentials: Credentials, endpoint: string): Observable<any> {
     return this.http
       .post<any>(
-        `${API_URL}${endpoint}`,
-        { email: credentials.email, password: credentials.password },
+        `${AUTH_BASE_URL}/${endpoint}`,
+        credentials,
         { responseType: 'text' as 'json' } // Response type expected
       )
       .pipe(
@@ -76,7 +69,6 @@ export class AuthService {
             localStorage.setItem('token', token);
             const userId = this.extractIdFromToken(token);
             localStorage.setItem('userId', userId);
-            localStorage.setItem('stayLoggedIn', credentials.stayLoggedIn.toString());
           } else {
             // Throw error if no token received
             throw new Error('No token received');

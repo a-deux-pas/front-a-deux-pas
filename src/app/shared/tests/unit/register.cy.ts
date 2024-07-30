@@ -2,7 +2,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { PreferredMeetingPlace } from "../../models/user/preferred-meeting-place.model";
 import { RegisterComponent } from "../../../routes/register/register.component";
 import { AsyncValidatorService } from "../../services/async-validator.service";
-import { API_URL } from "../../utils/constants/util-constants";
+import { AUTH_BASE_URL } from "../../utils/constants/util-constants";
 
 context('create account testing', () => {
   beforeEach(function() {
@@ -14,12 +14,10 @@ context('create account testing', () => {
       this['userMeetingPlaces'] = userMeetingPlaces;
     });
 
-    cy.intercept('GET', `${API_URL}/check-alias*`, {
+    cy.intercept('GET', `${AUTH_BASE_URL}/check-alias*`, {
       statusCode: 200,
       body: null,
     }).as('checkAlias');
-
-    // TO DO: ajouter un intercept une fois cloudinary ajouté côté back
 
     cy.mount(RegisterComponent, {
       imports: [HttpClientModule],

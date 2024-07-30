@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { HandleErrorService } from './handle-error.service';
-import { API_URL } from '../utils/constants/util-constants';
+import { AD_BASE_URL } from '../utils/constants/util-constants';
 import { AdCard } from '../models/ad/ad-card.model';
 import { catchError, Observable } from 'rxjs';
 import { DisplayManagementService } from './display-management.service';
@@ -12,7 +12,6 @@ import { ALERTS } from '../utils/constants/alert-constants';
   providedIn: 'root'
 })
 export class AdFavoriteService {
-  contextUrl = `${API_URL}ads/`;
   updateAdsFavoritesList: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -22,14 +21,14 @@ export class AdFavoriteService {
   ) {}
 
   getUserFavoritesAd(userId: number, pageNumber: number, pageSize: number): Observable<AdCard[]> {
-    const url = `${this.contextUrl}favorites/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    const url = `${AD_BASE_URL}/favorites/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<AdCard[]>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
 
   sendNewAdFavoriteStatus(adId: number, userId: number, isFavorite: boolean): Observable<boolean> {
-    const url = `${this.contextUrl}${adId}/favorite/${userId}`;
+    const url = `${AD_BASE_URL}/${adId}/favorite/${userId}`;
     return this.http.put<boolean>(url, isFavorite,
       { responseType: 'text' as 'json'}
     ).pipe(

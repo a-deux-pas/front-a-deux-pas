@@ -1,0 +1,11 @@
+@if(currentDayPreferredSchedules){
+<section class="grid-container">
+  @for (interval of halfHourIntervals; track interval) {
+  <div class="grid-element" [class.selected]="isSelected(interval)">
+    <span class="start-time" (click)="onTimeSelect(interval)"
+      ><b>{{ interval }}</b></span
+    >
+  </div>
+  }
+</section>
+}

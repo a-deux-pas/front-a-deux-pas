@@ -1,5 +1,15 @@
-import { AfterViewInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AfterViewInit,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { ProfilePictureComponent } from '../../shared/components/user-presentation/profile-picture/profile-picture.component';
 import { MeetingPlaceFormComponent } from './components/meeting-place-form/meeting-place-form.component';
@@ -13,19 +23,34 @@ import { AsyncValidatorService } from '../../shared/services/async-validator.ser
 import { RegisterService } from './register.service';
 import { UserProfile } from '../../shared/models/user/user-profile.model';
 import { DisplayManagementService } from '../../shared/services/display-management.service';
-import { escapeHtml, formatText } from '../../shared/utils/sanitizers/custom-sanitizers';
+import {
+  escapeHtml,
+  formatText,
+} from '../../shared/utils/sanitizers/custom-sanitizers';
 import { ALERTS } from '../../shared/utils/constants/alert-constants';
+import { HttpErrorResponse } from '@angular/common/http';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, ProfilePictureComponent, MeetingPlaceFormComponent, ScheduleComponent, BankAccountFormComponent, NotificationsComponent],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    ProfilePictureComponent,
+    MeetingPlaceFormComponent,
+    ScheduleComponent,
+    BankAccountFormComponent,
+    NotificationsComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './register.component.html'
+  templateUrl: './register.component.html',
 })
 export class RegisterComponent implements AfterViewInit {
+  profilPictureUrl!: string;
   profileForm: FormGroup;
-  userProfilePicture!: FormData;
+  userProfilePicture!: File | null;
   profilePicturePreview: boolean = false;
   preferredMeetingPlaces: PreferredMeetingPlace[] = [];
   scheduleEditMode: boolean = true;
@@ -33,6 +58,12 @@ export class RegisterComponent implements AfterViewInit {
   notifications!: EventNotification[];
   showErrorAlert: boolean = false;
   userId = localStorage.getItem('userId');
+
+  stripe: Stripe | null = null;
+
+  async ngOnInit() {
+    this.stripe = await loadStripe(environment.stripeToken);
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,17 +74,30 @@ export class RegisterComponent implements AfterViewInit {
     private changeDetector: ChangeDetectorRef
   ) {
     this.profileForm = this.formBuilder.group({
-      alias: ['', {
-        validators:[Validators.required, Validators.minLength(3), Validators.maxLength(30)],
+      alias: [
+        '',
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(30),
+          ],
           asyncValidators: this.asyncValidatorService.uniqueAliasValidator(),
-          updateOn: 'blur'
-        }
+          updateOn: 'blur',
+        },
       ],
       bio: ['', [Validators.minLength(10), Validators.maxLength(600)]],
       address: this.formBuilder.group({
         street: ['', Validators.required],
-        postalCode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
-        city: ['', Validators.required]
+        postalCode: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(5),
+            Validators.maxLength(5),
+          ],
+        ],
+        city: ['', Validators.required],
       }),
     });
   }
@@ -62,20 +106,20 @@ export class RegisterComponent implements AfterViewInit {
     this.displayManagementService.configureAddressAutofill();
   }
 
-  getUserprofilePicture(eventType: string, userPicture: FormData): void {
+  getUserprofilePicture(eventType: string, userPicture: File): void {
     if (eventType === 'thumbnailGenerated' && userPicture) {
-      console.log('thumbnail generated');
       this.profilePicturePreview = true;
       this.userProfilePicture = userPicture;
     } else if (eventType === 'fileRemoved') {
-      console.log('thumbnail removed');
-      this.userProfilePicture = userPicture;
+      this.userProfilePicture = null;
       this.profilePicturePreview = false;
     }
     this.changeDetector.detectChanges();
   }
 
-  getUserPreferredMeetingPlaces(newPreferredMeetingPlaces: PreferredMeetingPlace[]) {
+  getUserPreferredMeetingPlaces(
+    newPreferredMeetingPlaces: PreferredMeetingPlace[]
+  ) {
     this.preferredMeetingPlaces = newPreferredMeetingPlaces;
   }
 
@@ -96,56 +140,106 @@ export class RegisterComponent implements AfterViewInit {
     );
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.profilePicturePreview && this.userId) {
-      // TO DO: Créer un service pour envoyer l'image au back
-      // this.uploadPicture(this.userProfilePicture).subscribe({
-      //     next: () => {
-              // si le backend renvoie l'url de l'image
-              // const profilePictureUrl = response.url;
-              const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
-              const userProfile = new UserProfile(
-                this.userId,
-                '', // à remplacer par l'URL de l'image
-                userAlias,
-                escapeHtml(this.profileForm.get('bio')?.value) || null,
-                formatText(escapeHtml(this.profileForm.get('address')?.get('city')?.value)),
-                escapeHtml(this.profileForm.get('address')?.get('street')?.value),
-                escapeHtml(this.profileForm.get('address')?.get('postalCode')?.value),
-                escapeHtml(this.profileForm.get('bankAccount')?.get('accountHolder')?.value),
-                escapeHtml(this.profileForm.get('bankAccount')?.get('accountNumber')?.value),
-                this.preferredSchedules,
-                this.preferredMeetingPlaces,
-                this.notifications
-              );
-              this.registerService.saveProfile(userProfile).subscribe({
-                next: () => {
-                  localStorage.setItem('userAlias', userAlias);
-                  this.goBack();
-                  setTimeout(() => {
-                    this.displayManagementService.displayAlert(
-                      ALERTS.PROFILE_CREATED_SUCCESS,
-                    );
-                  }, 100);
-                },
-                error: () => {
-                  this.displayManagementService.displayAlert(
-                    ALERTS.DEFAULT_ERROR
-                  );
-                }
-              });
-          // }
-            } else {
-              console.error(`Errors: ${!this.profilePicturePreview ?
-                'Profile picture upload failed.' : ''} ${!this.userId ? 'User ID is null.' : ''}`);
-              this.displayManagementService.displayAlert(
-                ALERTS.DEFAULT_ERROR
-              );
-            }
-      // });
+      const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
+      const bio = escapeHtml(this.profileForm.get('bio')?.value) || null;
+      const city = formatText(
+        escapeHtml(this.profileForm.get('address')?.get('city')?.value)
+      );
+      const street = escapeHtml(
+        this.profileForm.get('address')?.get('street')?.value
+      );
+      const postalCode = escapeHtml(
+        this.profileForm.get('address')?.get('postalCode')?.value
+      );
+
+      const bankAccountHolderName = escapeHtml(
+        this.profileForm.get('bankAccount')?.get('accountHolder')?.value
+      );
+      const bankAccountNumber = escapeHtml(
+        this.profileForm.get('bankAccount')?.get('accountNumber')?.value
+      );
+      const bankAccountTokenId = await this.generateBankAccountTokenId(
+        bankAccountHolderName,
+        bankAccountNumber
+      );
+
+      const userProfile = new UserProfile(
+        this.userId,
+        userAlias,
+        bio,
+        city,
+        street,
+        postalCode,
+        bankAccountTokenId,
+        this.preferredSchedules,
+        this.preferredMeetingPlaces,
+        this.notifications
+      );
+      const profileJson = JSON.stringify(userProfile);
+      const profileBlob = new Blob([profileJson], {
+        type: 'application/json',
+      });
+      // JSON.parse will create a javascript object which is not what the backend is expecting.
+      // it needs to be sent as a JSON file.
+      // which is what's created by a blob
+      const userProfileData: FormData = new FormData();
+      userProfileData.append('profileInfo', profileBlob);
+      userProfileData.append('profilePicture', this.userProfilePicture!);
+      this.registerService.saveProfile(userProfileData).subscribe({
+        next: () => {
+          localStorage.setItem('userAlias', userAlias);
+          this.goBack();
+          setTimeout(() => {
+            this.displayManagementService.displayAlert(
+              ALERTS.PROFILE_CREATED_SUCCESS
+            );
+          }, 100);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status == 413) {
+            this.displayManagementService.displayAlert(
+              ALERTS.UPLOAD_PICTURE_ERROR
+            );
+          } else {
+            this.displayManagementService.displayAlert(ALERTS.DEFAULT_ERROR);
+          }
+        },
+      });
+    } else {
+      console.error(
+        `Errors: ${
+          !this.profilePicturePreview ? 'Profile picture upload failed.' : ''
+        } ${!this.userId ? 'User ID is null.' : ''}`
+      );
+      this.displayManagementService.displayAlert(ALERTS.DEFAULT_ERROR);
+    }
   }
 
   goBack() {
     this.location.back();
+  }
+
+  async generateBankAccountTokenId(
+    bankAccountHolderName: string,
+    bankAccountNumber: string
+  ) {
+    if (!this.stripe) return '';
+
+    const response = await this.stripe.createToken('bank_account', {
+      country: 'FR',
+      currency: 'eur',
+      account_number: bankAccountNumber,
+      account_holder_name: bankAccountHolderName,
+      account_holder_type: 'individual',
+    });
+
+    if (response.error) {
+      console.error('Error while generating bank account token');
+      return '';
+    } else {
+      return response.token.id;
+    }
   }
 }
