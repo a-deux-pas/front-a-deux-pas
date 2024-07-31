@@ -40,7 +40,7 @@ context('account tabs testing', () => {
       fixture: 'user-profile',
     }).as('getMeetingsList');
 
-    cy.visit('https://localhost:4200/compte/profil');
+    cy.visit('http://localhost:4200/compte/profil');
     cy.url().should('include', '/compte/profil');
     cy.get('ul#account-tabs li').should('have.length', 4);
   });
@@ -63,7 +63,7 @@ context('account tabs testing', () => {
   });
 
   it('checks adds tab functionality', () => {
-    cy.visit('https://localhost:4200/compte/annonces');
+    cy.visit('http://localhost:4200/compte/annonces');
 
     cy.get('.custom-active-tab').contains('Mes annonces').click();
 
@@ -77,7 +77,7 @@ context('account tabs testing', () => {
   });
 
   it('checks meetings tab functionality', () => {
-    cy.visit('https://localhost:4200/compte/rdv');
+    cy.visit('http://localhost:4200/compte/rdv');
 
     cy.get('.custom-active-tab').contains('Mes RDV').click();
 
@@ -91,7 +91,7 @@ context('account tabs testing', () => {
   });
 
   it('checks favorites tab functionality', () => {
-    cy.visit('https://localhost:4200/compte/favoris');
+    cy.visit('http://localhost:4200/compte/favoris');
 
     cy.get('.custom-active-tab').contains('Mes favoris').click();
 

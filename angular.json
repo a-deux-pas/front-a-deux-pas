@@ -105,12 +105,7 @@
               "buildTarget": "front:build:development"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "ssl": true,
-            "sslCert": "cert.pem",
-            "sslKey": "key.pem"
-          }
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
