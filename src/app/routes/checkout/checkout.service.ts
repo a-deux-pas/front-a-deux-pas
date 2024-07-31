@@ -4,7 +4,6 @@ import { BuyerProposedMeetingRequest } from '../../shared/models/meeting/buyer-p
 import { HttpClient } from '@angular/common/http';
 import { HandleErrorService } from '../../shared/services/handle-error.service';
 import {
-  API_URL,
   MEETING_BASE_URL,
   PAYMENT_BASE_URL,
 } from '../../shared/utils/constants/util-constants';
@@ -55,7 +54,9 @@ export class CheckoutService {
   }
 
   // Meeting state management methods
-  setProposedMeeting(proposedMeeting: BuyerProposedMeetingRequest | null): void {
+  setProposedMeeting(
+    proposedMeeting: BuyerProposedMeetingRequest | null
+  ): void {
     this.proposedMeeting = proposedMeeting;
   }
 

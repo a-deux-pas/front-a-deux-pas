@@ -3,7 +3,7 @@ import { BillingSummaryCardComponent } from '../billing-summary-card/billing-sum
 import { FormsModule } from '@angular/forms';
 import { CheckoutService } from '../../../checkout.service';
 import { Router } from '@angular/router';
-import { catchError, finalize, of } from 'rxjs';
+import { catchError, of } from 'rxjs';
 import { DisplayManagementService } from '../../../../../shared/services/display-management.service';
 import { ALERTS } from '../../../../../shared/utils/constants/alert-constants';
 
