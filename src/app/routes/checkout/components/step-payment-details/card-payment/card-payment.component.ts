@@ -141,7 +141,7 @@ export class CardPaymentComponent implements OnInit {
           this.displayManagementService.displayAlert(
             ALERTS.MEETING_INITIALIZED_SUCCESS
           );
-          // create payment intent immediately after the meeting is created
+          // create payment intent immediately after the meeting is successfully created
           this.createPaymentIntent(response);
           this.checkoutService.getProposedMeeting()!.meetingId =
             response.meetingId;
