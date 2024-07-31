@@ -1,5 +1,5 @@
-import { AlertType } from "../../models/alert.model";
-import { AlertMessage } from "../../models/enum/alert-message.enum";
+import { AlertType } from '../../models/alert.model';
+import { AlertMessage } from '../../models/enum/alert-message.enum';
 
 export const ALERTS = {
   PROFILE_CREATED_SUCCESS: {
@@ -24,6 +24,10 @@ export const ALERTS = {
   },
   FAVORITES_REMOVED_SUCCESS: {
     message: AlertMessage.FAVORITES_REMOVED_SUCCESS,
+    type: AlertType.SUCCESS,
+  },
+  MEETING_INITIALIZED_SUCCESS: {
+    message: AlertMessage.MEETING_INITIALIZED_SUCCESS,
     type: AlertType.SUCCESS,
   },
   MEETING_ACCEPTED_SUCCESS: {

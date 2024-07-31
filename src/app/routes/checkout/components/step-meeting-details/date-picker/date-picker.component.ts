@@ -40,18 +40,17 @@ export class DatePickerComponent implements ControlValueAccessor {
   startDate: NgbDateStruct;
   endDate: NgbDateStruct;
   daysOfCurrentMonth: NgbDateStruct[] = [];
+  daysInRange: NgbDateStruct[] = [];
 
   constructor() {
     this.startDate = this.getTomorrowDate();
-    this.endDate = this.getLastDayOfCurrentMonth();
+    this.endDate = this.getDateTwoWeeksFromNow();
   }
 
   ngOnInit() {
     this.extractSellerPreferredDayIndexes();
-    this.extractCurrentMonthDays();
-    this.selectedDate = this.daysOfCurrentMonth.find((day) =>
-      this.isSelectable(day)
-    );
+    this.extractDateRangeDays();
+    this.selectedDate = this.daysInRange.find((day) => this.isSelectable(day));
     this.dateSelected.emit(this.selectedDate);
     this.model = this.selectedDate;
   }
@@ -68,24 +67,27 @@ export class DatePickerComponent implements ControlValueAccessor {
     };
   }
 
-  private extractCurrentMonthDays() {
-    for (let i = this.startDate.day; i <= this.endDate.day; i++) {
-      this.daysOfCurrentMonth.push({
-        year: this.startDate.year,
-        month: this.startDate.month,
-        day: i,
-      });
-    }
-  }
+  private extractDateRangeDays() {
+    const start = new Date(
+      this.startDate.year,
+      this.startDate.month - 1,
+      this.startDate.day
+    );
+    const end = new Date(
+      this.endDate.year,
+      this.endDate.month - 1,
+      this.endDate.day
+    );
 
-  private getLastDayOfCurrentMonth(): NgbDateStruct {
-    const now = new Date();
-    const lastDayDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    return {
-      year: lastDayDate.getFullYear(),
-      month: lastDayDate.getMonth() + 1,
-      day: lastDayDate.getDate(),
-    };
+    let current = start;
+    while (current <= end) {
+      this.daysInRange.push({
+        year: current.getFullYear(),
+        month: current.getMonth() + 1,
+        day: current.getDate(),
+      });
+      current.setDate(current.getDate() + 1);
+    }
   }
 
   isSelectable(date: NgbDateStruct): boolean {
@@ -128,6 +130,18 @@ export class DatePickerComponent implements ControlValueAccessor {
     this.sellerPreferredSchedules?.forEach((schedule) => {
       this.dayIndexesArr.push(schedule.daysOfWeek[0]);
     });
+  }
+
+  private getDateTwoWeeksFromNow(): NgbDateStruct {
+    const today = new Date();
+    const twoWeeksFromNow = new Date(today);
+    twoWeeksFromNow.setDate(today.getDate() + 14);
+
+    return {
+      year: twoWeeksFromNow.getFullYear(),
+      month: twoWeeksFromNow.getMonth() + 1,
+      day: twoWeeksFromNow.getDate(),
+    };
   }
 
   // ControlValueAccessor interface method implementations
