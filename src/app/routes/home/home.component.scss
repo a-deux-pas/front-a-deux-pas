@@ -4,13 +4,7 @@
   padding: 0 6%;
 }
 
-@media (min-width: 1250px) {
-  #home-body {
-    padding: 0;
-    margin-left: 126px;
-    margin-right: 3%;
-  }
-}
+
 
 .section-title {
   text-align: center;
@@ -25,9 +19,10 @@
 }
 
 h2 {
-  margin-left: 0 !important;
-  position: relative;
-  z-index: 1;
+  display: grid;
+  place-items: center;
+  justify-content: center;
+  text-align: center !important;
 }
 
 @media (min-width: 1158px) {
@@ -42,5 +37,20 @@ h2 {
   .section-title {
     text-align: left;
     font-size: 2.22rem;
+  }
+
+  h2 {
+    display: block;
+    position: relative;
+    z-index: 1;
+    text-align: left !important;
+  }
+}
+
+@media (min-width: 1250px) {
+  #home-body {
+    padding: 0;
+    margin-left: 126px;
+    margin-right: 3%;
   }
 }
