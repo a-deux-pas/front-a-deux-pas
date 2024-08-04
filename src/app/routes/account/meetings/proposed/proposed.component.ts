@@ -4,19 +4,20 @@ import { Meeting } from '../../../../shared/models/meeting/meeting.model';
 import { MeetingListComponent } from '../components/meeting-list/meeting-list.component';
 import { CommonModule } from '@angular/common';
 import { catchError, map, of } from 'rxjs';
+import { CheckoutService } from '../../../checkout/checkout.service';
 
 @Component({
   selector: 'app-proposed',
   standalone: true,
   imports: [CommonModule, MeetingListComponent],
-  templateUrl: './proposed.component.html' 
+  templateUrl: './proposed.component.html'
 })
 export class ProposedComponent implements OnInit {
   proposedMeetings: Meeting[] = [];
   selectedMeeting?: Meeting;
   userId: number;
 
-  constructor(private meetingService: MeetingService) {
+  constructor(private meetingService: MeetingService, private checkoutService: CheckoutService) {
     this.userId = Number(localStorage.getItem('userId'));
   }
 
@@ -33,13 +34,23 @@ export class ProposedComponent implements OnInit {
       })
     ).subscribe(meetings => {
       this.proposedMeetings = meetings;
-      this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
+      const checkoutMeeting = this.checkoutService.getProposedMeeting();
+      if (meetings.length > 0) {
+        if (checkoutMeeting?.meetingId) {
+          window.scrollTo(0, 0);
+          this.selectedMeeting = this.proposedMeetings.find(proposedMeeting => proposedMeeting.idMeeting === checkoutMeeting.meetingId);
+          this.checkoutService.setProposedMeeting(null);
+        } else {
+          this.selectedMeeting = meetings[0];
+        }
+      } else {
+        this.selectedMeeting = undefined;
+      }
     });
   }
 
   onSelectMeeting(meeting: Meeting) {
     this.selectedMeeting = meeting;
-  
   }
 
   onModifyMeeting(meeting: Meeting) {
@@ -51,5 +62,4 @@ export class ProposedComponent implements OnInit {
      // TO DO: Implémentez la logique pour annuler le rendez-vous
     console.log('Annuler le rendez-vous', meeting);
   }
-  
 }

@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-order-recap-card',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './order-recap-card.component.html',
   styleUrl: './order-recap-card.component.scss',
 })
