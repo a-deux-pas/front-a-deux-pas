@@ -21,6 +21,7 @@ jobs:
     # export APP_VERSION to other jobs
     outputs:
       APP_VERSION: ${{ steps.set_app_version.outputs.APP_VERSION }}
+      ARTIFACT_VERSION: ${{ steps.set_app_version.outputs.ARTIFACT_VERSION }}
     strategy:
       matrix:
         node-version: [20.x]
@@ -57,24 +58,34 @@ jobs:
           install: false
           component: true
 
-      # Get application version from pom.xml to variable
-      - name: Retrieve Application Version
+      # Get application version from package.json to variable
+      - name: Retrieve Application Version and set Artifact Version
         id: set_app_version
         run: |
-          echo APP_VERSION=$(node -p "require('./package.json').version") | tee -a $GITHUB_OUTPUT >> $GITHUB_ENV
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+            APP_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")-${COMMIT_SHA}
+          else
+            APP_VERSION=$(node -p "require('./package.json').version")
+          fi
+
+          echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_OUTPUT
+          echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
+
+          ARTIFACT_VERSION="${APP_VERSION}"
+          echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" >> $GITHUB_OUTPUT
+          echo "ARTIFACT_VERSION=${ARTIFACT_VERSION}" >> $GITHUB_ENV
 
       - name: Print Package.json project version
         run: echo "application version = ${{ env.APP_VERSION }}"
 
-      # Upload artifact to repository
       - name: Upload Application Package
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}
-          path: |
-            ${{ github.workspace }}
-            !.git/
+          name: ${{ env.APP_NAME }}-${{ env.ARTIFACT_VERSION }}
+          path: dist
           overwrite: true
+          
   docker:
     needs: build
     runs-on: ubuntu-latest
@@ -109,3 +120,95 @@ jobs:
           build-args: |
             APP_NAME=${{ env.APP_NAME }}
             APP_VERSION=${{ env.APP_VERSION }}
+
+  release:
+    # This job depends on the successful completion of the 'build' and 'docker' jobs
+    needs: [build, docker]
+    # This job only runs on the 'main' branch
+    if: github.ref == 'refs/heads/main'
+    # The job runs on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+    env:
+      APP_NAME: ${{ vars.APP_NAME }}
+      APP_VERSION: ${{ needs.build.outputs.APP_VERSION }}
+      ARTIFACT_VERSION: ${{ needs.build.outputs.ARTIFACT_VERSION }}
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN }}
+
+      # Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      # Configure Git with GitHub Actions bot details
+      - name: Configure Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      # Download the built artifact from the 'build' job
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.APP_NAME }}-${{ env.ARTIFACT_VERSION }}
+          path: dist
+
+      # Create a zip file of the built application
+      - name: Create zip artifact
+        run: |
+          zip front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip dist/*
+          ls -ltrh ${{ github.workspace }} || true
+      
+      # Create a GitHub release with the built artifact
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get commit id
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          RELEASE_VERSION="${{ env.APP_VERSION }}"
+          DOCKER_IMAGE_URL="docker.io/douniabed/${{ env.APP_NAME }}:${{ env.ARTIFACT_VERSION }}"
+          RELEASE_NOTES="front-a-deux-pas release v${RELEASE_VERSION}
+      
+          Docker image: \`${DOCKER_IMAGE_URL}\`
+          Commit: ${COMMIT_SHA}"
+          
+          gh release create v${RELEASE_VERSION} front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip \
+            --title "v${RELEASE_VERSION}" \
+            --notes "${RELEASE_NOTES}" \
+            --target ${{ github.ref_name }}
+            
+      # Increment the version number and create a pull request for the next development cycle
+      - name: Increment version and create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          # Generate a unique branch name
+          BRANCH_NAME="bump-version-$(date +%Y%m%d%H%M%S)"
+          git checkout -b $BRANCH_NAME
+          
+          # Remove the -SNAPSHOT suffix and increment the version
+          CURRENT_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")
+          npm --no-git-tag-version version $CURRENT_VERSION
+          npm --no-git-tag-version version patch
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          
+          # Add the -SNAPSHOT suffix to the new version
+          sed -i 's/"version": "'"$NEW_VERSION"'"/"version": "'"$NEW_VERSION-SNAPSHOT"'"/' package.json
+          NEW_VERSION="${NEW_VERSION}-SNAPSHOT"
+          
+          # Commit the changes
+          git add package.json
+          git commit -m "Increment version to ${NEW_VERSION} [skip ci]"
+          git push origin $BRANCH_NAME
+          
+          gh pr create --base dev --head $BRANCH_NAME \
+            --title "Bump version to ${NEW_VERSION}" \
+            --body "Automated version bump after release ${{ env.APP_VERSION }}"
+
+          echo "Pull request created successfully. Please review and merge manually."
