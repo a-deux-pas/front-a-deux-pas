@@ -169,7 +169,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Obtenir le commit id
+          # Get commit id
           COMMIT_SHA=$(git rev-parse --short HEAD)
           RELEASE_VERSION="${{ env.APP_VERSION }}"
           DOCKER_IMAGE_URL="docker.io/douniabed/${{ env.APP_NAME }}:${{ env.ARTIFACT_VERSION }}"
@@ -188,21 +188,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         run: |
-          # Générer un nom de branche unique
+          # Generate a unique branch name
           BRANCH_NAME="bump-version-$(date +%Y%m%d%H%M%S)"
           git checkout -b $BRANCH_NAME
           
-          # Retirer le suffixe -SNAPSHOT et incrémenter la version
+          # Remove the -SNAPSHOT suffix and increment the version
           CURRENT_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")
           npm --no-git-tag-version version $CURRENT_VERSION
           npm --no-git-tag-version version patch
           NEW_VERSION=$(node -p "require('./package.json').version")
           
-          # Ajouter le suffixe -SNAPSHOT à la nouvelle version
+          # Add the -SNAPSHOT suffix to the new version
           sed -i 's/"version": "'"$NEW_VERSION"'"/"version": "'"$NEW_VERSION-SNAPSHOT"'"/' package.json
           NEW_VERSION="${NEW_VERSION}-SNAPSHOT"
           
-          # Commit les changements
+          # Commit the changes
           git add package.json
           git commit -m "Increment version to ${NEW_VERSION} [skip ci]"
           git push origin $BRANCH_NAME
