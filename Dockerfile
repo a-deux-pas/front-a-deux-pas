@@ -33,10 +33,10 @@ USER app
 WORKDIR /home/app
 
 # Copies the build files from the previous stage to the app home
-COPY --from=build --chown=app:app /app/dist/front /home/app
+COPY --from=build /app/dist/front /home/app
 
 # Copies the custom Nginx configuration file to app home
-COPY --chown=app:app nginx.conf /home/app/nginx.conf
+COPY nginx.conf /home/app/nginx.conf
 
 # Indicates that the container will listen on port 1080
 EXPOSE 1080
