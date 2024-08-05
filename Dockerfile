@@ -27,13 +27,23 @@ RUN npm run build -- --configuration production
 # Uses a lightweight Nginx Alpine image to serve the application
 FROM nginx:alpine
 
+# Create a non-root user
+RUN adduser -D -u 1000 appuser
+
 # Copies the build files from the previous stage to the Nginx server directory
 # /app/dist/front is the default output path for an Angular app named "front"
-COPY --from=build /app/dist/front /usr/share/nginx/html
+COPY --from=build --chown=appuser:appuser /app/dist/front /usr/share/nginx/html
 
 # Copies the custom Nginx configuration file
 # This file should be present in the Docker build context
 COPY nginx.conf /etc/nginx/nginx.conf
+
+# Change ownership of necessary directories
+RUN chown -R appuser:appuser /var/cache/nginx /var/log/nginx /etc/nginx/conf.d
+RUN touch /var/run/nginx.pid && chown -R appuser:appuser /var/run/nginx.pid
+
+# Switch to non-root user
+USER appuser
 
 # Indicates that the container will listen on port 80
 EXPOSE 80
