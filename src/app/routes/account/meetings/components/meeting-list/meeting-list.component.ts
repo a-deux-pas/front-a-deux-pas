@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Meeting } from '../../../../../shared/models/meeting/meeting.model';
 import { Router, RouterModule } from '@angular/router';
@@ -31,7 +31,6 @@ export class MeetingListComponent {
     if (this.meetings.length > 0 && !this.selectedMeeting) {
       this.selectedMeeting = this.meetings[0];
     }
-
     setTimeout(() => {
       this.meetingsLoading = false;
     }, 300);
@@ -106,16 +105,5 @@ export class MeetingListComponent {
 
   finalizeMeeting(meeting: Meeting) {
     this.finalize.emit(meeting)
-    console.log('meeting::', meeting)
-    console.log('selectedmeeting:: ', this.selectedMeeting)
-
-
-    setTimeout(() => {
-      console.log('meeting = selected metting:: ', meeting === this.selectedMeeting)
-      console.log('after')
-      console.log('meeting::', meeting)
-      console.log('selectedmeeting:: ', this.selectedMeeting)
-
-    }, 5000);
   }
 }
