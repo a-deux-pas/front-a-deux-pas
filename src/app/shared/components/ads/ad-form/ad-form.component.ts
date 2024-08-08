@@ -41,7 +41,6 @@ export class AdFormComponent implements AfterViewChecked {
   categoryEnum = Category;
   hasInteractedWithDropzone: boolean = false;
   isSubmitting: boolean = false;
-  isImageSectionIsReady: boolean = false;
 
   @ViewChildren('desktopDropzone') desktopDropzones!: QueryList<DropzoneComponent>;
   @ViewChildren('mobileDropzone') mobileDropzones!: QueryList<DropzoneComponent>;
@@ -96,12 +95,9 @@ export class AdFormComponent implements AfterViewChecked {
           } else {
             const adId = Number(this.route.snapshot.paramMap.get('adId'));
             this.getAd(adId);
-
           }
         });
     }
-
-    console.log('eri')
   }
 
   ngAfterViewChecked(): void {
@@ -116,14 +112,10 @@ export class AdFormComponent implements AfterViewChecked {
       this.selectedPicNumber = this.ad.articlePictures?.length ?? 2;
       if (this.ad.articlePictures && this.ad.articlePictures.length > 0) {
         this.convertUrlsToFiles(this.ad.articlePictures);
-        if (!this.isCreateAdForm) {
-
-        }
       }
     }
     );
   }
-
 
   private convertUrlsToFiles(urls: string[]): void {
     // promise handles urls one by one
@@ -145,10 +137,6 @@ export class AdFormComponent implements AfterViewChecked {
       // Filter out any null values and cast the result to File[]
       this.articlePictures = files.filter(file => file !== null) as File[];
       this.initializeDropzones();
-      setTimeout(() => {
-        this.isImageSectionIsReady = true
-
-      }, 300)
     });
   }
 
@@ -243,7 +231,6 @@ export class AdFormComponent implements AfterViewChecked {
           this.renderer.setStyle(imgThumbnail, 'width', `${dropzoneWidth}px`);
           this.renderer.setStyle(imgThumbnail, 'height', `${dropzoneHeight}px`);
           this.renderer.setStyle(imgThumbnail, 'object-fit', `cover`);
-
         }
       }
     });
