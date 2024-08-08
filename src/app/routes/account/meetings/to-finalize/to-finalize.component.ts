@@ -3,7 +3,10 @@ import { MeetingService } from '../meeting.service';
 import { MeetingListComponent } from '../components/meeting-list/meeting-list.component';
 import { CommonModule } from '@angular/common';
 import { Meeting } from '../../../../shared/models/meeting/meeting.model';
-import { catchError, map, of } from 'rxjs';
+import { catchError, finalize, map, of, tap } from 'rxjs';
+import { DisplayManagementService } from '../../../../shared/services/display-management.service';
+import { ALERTS } from '../../../../shared/utils/constants/alert-constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-to-finalize',
@@ -16,31 +19,101 @@ export class ToFinalizeComponent implements OnInit {
   toFinalizeMeetings: Meeting[] = [];
   selectedMeeting?: Meeting;
   userId: number;
+  isBuyer: boolean = false;
 
-  constructor(private meetingService: MeetingService) {
+  constructor(private meetingService: MeetingService, private displayManagementService: DisplayManagementService, private router: Router,) {
     this.userId = Number(localStorage.getItem('userId'));
   }
 
   ngOnInit() {
     this.loadToFinalizeMeetings();
+
   }
 
   loadToFinalizeMeetings() {
     this.meetingService.getToBeFinishedMeetings(this.userId).pipe(
       map(meetings => meetings || []),
+
       catchError(error => {
         console.error('Error loading meetings to finalize:', error);
         return of([]);
       })
     ).subscribe(meetings => {
       this.toFinalizeMeetings = meetings;
+      console.table(meetings)
       this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
+      if (Number(localStorage.getItem('userId')) === meetings[0].buyerId) {
+        this.isBuyer = true
+      }
+      console.log('userId:: ', Number(localStorage.getItem('userId')))
+      console.log('this.selectedMeeting.buyerId::', meetings[0].buyerId)
     });
   }
 
   onSelectMeeting(meeting: Meeting) {
     this.selectedMeeting = meeting;
   }
+
+
+  // Eri
+  // onFinalizingMeeting(meeting: Meeting) {
+  //   this.meetingService.finalizeMeeting(meeting.idMeeting, Number(localStorage.getItem('userId')))
+  //     .pipe(
+  //       catchError((error) => {
+  //         this.displayManagementService.displayAlert(ALERTS.DEFAULT_ERROR);
+  //         throw error; // Rethrow the error to stop the observable chain
+  //       })
+  //     )
+  //     .subscribe({
+  //       next: (updatedMeeting) => {
+  //         console.log('updatedMeeting', updatedMeeting);
+  //         this.displayManagementService.displayAlert(ALERTS.MEETING_FINALIZED_SUCCESS);
+  //         // this.router.navigate(['/a-finaliser'], {
+  //         //   queryParams: { selected: `${meeting.idMeeting}` }
+  //         // });
+  //       },
+  //       error: (error) => {
+  //         console.error('Error finalizing meeting:', error);
+  //       }
+  //     });
+  // }
+
+  onFinalizingMeeting(meeting: Meeting) {
+    this.meetingService.finalizeMeeting(meeting.idMeeting, Number(localStorage.getItem('userId')))
+      .pipe(
+        tap((updatedMeeting) => {
+          if (updatedMeeting) {
+            const index = this.toFinalizeMeetings.findIndex(m => m.idMeeting === updatedMeeting.idMeeting);
+            if (index !== -1) {
+              this.toFinalizeMeetings[index] = updatedMeeting;
+              console.log('this.toFinalizeMeetings');
+              console.table(this.toFinalizeMeetings);
+              console.log('this.selectedMeeting');
+              console.table(this.selectedMeeting)
+              this.selectedMeeting = updatedMeeting
+              if (this.selectedMeeting.validatedByBuyer && this.selectedMeeting.validatedBySeller) {
+
+                console.log('ici')
+                console.log('this.selectedMeeting');
+                console.table(this.selectedMeeting)
+                this.toFinalizeMeetings = this.toFinalizeMeetings.filter(m => m.idMeeting !== this.selectedMeeting!.idMeeting);
+                this.selectedMeeting = this.toFinalizeMeetings[index]
+              }
+
+              this.displayManagementService.displayAlert(ALERTS.MEETING_FINALIZED_SUCCESS);
+            }
+          }
+        }), // Correction: Fermeture de la parenthèse pour tap
+        catchError((error) => {
+          console.error('Error while updating the appointment', error);
+          this.displayManagementService.displayAlert(
+            ALERTS.DEFAULT_ERROR
+          );
+          return of(null);
+        })
+      ).subscribe(); // Correction: Fermeture de la parenthèse pour pipe
+  }
+
 
   onModifyMeeting(meeting: Meeting) {
     // TO DO: Implémentez la logique pour modifier le rendez-vous

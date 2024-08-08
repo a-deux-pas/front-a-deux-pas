@@ -15,14 +15,14 @@
       </ng-select>
     </div>
 
-    <div class="text-center" [hidden]="isImageSectionIsReady">
+    <!-- <div class="text-center">
       <div class="spinner-border text-primary" output="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-    </div>
+    </div> -->
 
     <!-- article picture selection on desktop -->
-    <div [hidden]="!isImageSectionIsReady">
+    <div>
       <div (mouseleave)="onDropzoneInteraction()" class="dropzone-field mx-auto mb-5"
         [ngClass]="{'d-none': isBigScreen == false, 'block': isBigScreen == true}">
         @for (n of getArray(selectedPicNumber); track n; let i = $index) {
@@ -40,7 +40,7 @@
     <!-- article picture selection on mobile -->
     <ngb-carousel (mouseleave)="onDropzoneInteraction()" #carousel [interval]="5000" [pauseOnHover]="true"
       [pauseOnFocus]="true" (slide)="onSlide($event)" class="center"
-      [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}" [hidden]="!isImageSectionIsReady">
+      [ngClass]="{'block': isBigScreen == false, 'd-none': isBigScreen == true}">
       @for (picNumber of getArray(selectedPicNumber); track picNumber; let i = $index) {
       <ng-template ngbSlide>
         <div class="carousel-caption"></div>
@@ -208,7 +208,7 @@
       id="price-input-field">
       <label for="ad-price" name="ad-price" class="mb-2">Prix</label>
       <div class="test">
-        <input [(ngModel)]="ad.price" name="price" id="ad-price" type="number"
+        <input [(ngModel)]="ad.price" name="price" id="ad-price" type="number" placeholder="0"
           class="col-8 mx-auto form-control mb-4 d-inline" #price="ngModel" required number min="0.1">
         <span class="input-group-addon d-inline">&nbsp;&nbsp;&nbsp;€</span>
       </div>

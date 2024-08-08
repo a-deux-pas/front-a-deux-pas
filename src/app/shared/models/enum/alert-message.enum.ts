@@ -8,6 +8,7 @@ export enum AlertMessage {
   FAVORITES_REMOVED_SUCCESS = "L'annonce a été supprimée de vos favoris",
   MEETING_INITIALIZED_SUCCESS = 'La proposition de RDV a été envoyée',
   MEETING_ACCEPTED_SUCCESS = 'Votre RDV est planifié',
+  MEETING_FINALIZED_SUCCESS = "Merci d'avoir confirmé l'information",
 
   // Error messages
   UPLOAD_PICTURE_ERROR = 'Vos images dépassent la taille autorisée',

@@ -96,9 +96,12 @@ export class AdFormComponent implements AfterViewChecked {
           } else {
             const adId = Number(this.route.snapshot.paramMap.get('adId'));
             this.getAd(adId);
+
           }
         });
     }
+
+    console.log('eri')
   }
 
   ngAfterViewChecked(): void {
@@ -114,9 +117,7 @@ export class AdFormComponent implements AfterViewChecked {
       if (this.ad.articlePictures && this.ad.articlePictures.length > 0) {
         this.convertUrlsToFiles(this.ad.articlePictures);
         if (!this.isCreateAdForm) {
-          setTimeout(() => {
-            this.isImageSectionIsReady = true
-          }, 300)
+
         }
       }
     }
@@ -144,6 +145,10 @@ export class AdFormComponent implements AfterViewChecked {
       // Filter out any null values and cast the result to File[]
       this.articlePictures = files.filter(file => file !== null) as File[];
       this.initializeDropzones();
+      setTimeout(() => {
+        this.isImageSectionIsReady = true
+
+      }, 300)
     });
   }
 

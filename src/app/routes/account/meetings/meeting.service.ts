@@ -13,7 +13,7 @@ export class MeetingService {
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
-  ) {}
+  ) { }
 
   getProposedMeetings(userId: number): Observable<Meeting[]> {
     return this.http.get<Meeting[]>(`${MEETING_BASE_URL}/proposed/${userId}`
@@ -51,9 +51,10 @@ export class MeetingService {
   }
 
   // To be uncommented for testing the Stripe API's payment capture mechanism (demonstration purporses only)
-  /*finalizeMeeting(meetingId: any): Observable<any> {
-    return this.http.get<any>(`${MEETING_BASE_URL}/finalize/${meetingId}`, {
-      responseType: 'text' as 'json',
-    });
-  }*/
+  finalizeMeeting(meetingId: number, userId: number): Observable<Meeting> {
+    return this.http.put<Meeting>(`${MEETING_BASE_URL}/finalize/${meetingId}/${userId}`, {}
+    ).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }

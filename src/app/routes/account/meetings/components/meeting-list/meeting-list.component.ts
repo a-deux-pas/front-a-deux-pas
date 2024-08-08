@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Meeting } from '../../../../../shared/models/meeting/meeting.model';
 import { Router, RouterModule } from '@angular/router';
@@ -16,21 +16,24 @@ export class MeetingListComponent {
   @Input() meetings: Meeting[] = [];
   @Input() selectedMeeting?: Meeting;
   @Input() currentUserId: number | undefined;
+  @Input() isBuyer: boolean = false;
   @Output() modify = new EventEmitter<Meeting>();
   @Output() cancel = new EventEmitter<Meeting>();
   @Output() select = new EventEmitter<Meeting>();
   @Output() accept = new EventEmitter<Meeting>();
+  @Output() finalize = new EventEmitter<Meeting>();
   meetingsLoading: boolean = true;
   meetingStatus = MeetingStatus;
 
-  constructor(private meetingService: MeetingService, private router: Router) {}
+  constructor(private meetingService: MeetingService, private router: Router) { }
 
   ngOnInit() {
     if (this.meetings.length > 0 && !this.selectedMeeting) {
       this.selectedMeeting = this.meetings[0];
     }
+
     setTimeout(() => {
-    this.meetingsLoading = false;
+      this.meetingsLoading = false;
     }, 300);
   }
 
@@ -101,13 +104,18 @@ export class MeetingListComponent {
     }
   }
 
-  // To be uncommented when testing the Stripe API's payment capture mechanism (demonstration purporses only)
-  finalizeMeeting() {
-    /*console.log('@@@@@@@ Meeting id : ', this.selectedMeeting?.idMeeting);
-    this.meetingService
-      .finalizeMeeting(this.selectedMeeting?.idMeeting)
-      .subscribe((result) => {
-        console.log('@@@@@@@ Meeting finalized');
-      });*/
+  finalizeMeeting(meeting: Meeting) {
+    this.finalize.emit(meeting)
+    console.log('meeting::', meeting)
+    console.log('selectedmeeting:: ', this.selectedMeeting)
+
+
+    setTimeout(() => {
+      console.log('meeting = selected metting:: ', meeting === this.selectedMeeting)
+      console.log('after')
+      console.log('meeting::', meeting)
+      console.log('selectedmeeting:: ', this.selectedMeeting)
+
+    }, 5000);
   }
 }
