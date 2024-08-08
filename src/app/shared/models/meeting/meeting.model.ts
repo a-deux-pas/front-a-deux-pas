@@ -25,4 +25,6 @@ export interface Meeting {
   adTitle: string;
   adPrice: number;
   adPictureUrl: string;
+  validatedBySeller?: boolean;
+  validatedByBuyer?: boolean
 }

@@ -1,8 +1,4 @@
-<app-meeting-list 
-    [meetings]="toFinalizeMeetings" 
-    (modify)="onModifyMeeting($event)"
-    (cancel)="onCancelMeeting($event)"
-    [selectedMeeting]="selectedMeeting"
-    (select)="onSelectMeeting($event)"
+<app-meeting-list [meetings]="toFinalizeMeetings" (modify)="onModifyMeeting($event)" (cancel)="onCancelMeeting($event)"
+    [selectedMeeting]="selectedMeeting" (select)="onSelectMeeting($event)" (finalize)="onFinalizingMeeting($event)"
     [currentUserId]="userId">
 </app-meeting-list>

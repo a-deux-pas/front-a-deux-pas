@@ -34,6 +34,10 @@ export const ALERTS = {
     message: AlertMessage.MEETING_ACCEPTED_SUCCESS,
     type: AlertType.SUCCESS,
   },
+  MEETING_FINALIZED_SUCCESS: {
+    message: AlertMessage.MEETING_FINALIZED_SUCCESS,
+    type: AlertType.SUCCESS,
+  },
   UPLOAD_PICTURE_ERROR: {
     message: AlertMessage.UPLOAD_PICTURE_ERROR,
     type: AlertType.ERROR,

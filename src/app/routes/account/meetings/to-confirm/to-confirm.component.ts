@@ -75,6 +75,6 @@ export class ToConfirmComponent implements OnInit {
   }
 
   onCancelMeeting(meeting: Meeting) {
-     // TO DO: Implémentez la logique pour annuler le rendez-vous
+    // TO DO: Implémentez la logique pour annuler le rendez-vous
   }
 }
