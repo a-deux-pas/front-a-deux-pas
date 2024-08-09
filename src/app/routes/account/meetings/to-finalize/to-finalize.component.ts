@@ -21,7 +21,7 @@ export class ToFinalizeComponent implements OnInit {
   userId: number;
   isBuyer: boolean = false;
 
-  constructor(private meetingService: MeetingService, private displayManagementService: DisplayManagementService, private router: Router,) {
+  constructor(private meetingService: MeetingService, private displayManagementService: DisplayManagementService, private router: Router) {
     this.userId = Number(localStorage.getItem('userId'));
   }
 

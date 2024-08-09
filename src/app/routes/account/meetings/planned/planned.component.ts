@@ -16,7 +16,7 @@ export class PlannedComponent implements OnInit {
   plannedMeetings: Meeting[] = [];
   selectedMeeting?: Meeting;
   userId: number;
-
+  selectMeetingId: number| undefined;
 
   constructor(private meetingService: MeetingService) {
     this.userId = Number(localStorage.getItem('userId'));
@@ -35,7 +35,17 @@ export class PlannedComponent implements OnInit {
       })
     ).subscribe(meetings => {
       this.plannedMeetings = meetings;
-      this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
+      const acceptedMeeting = this.meetingService.getMeeting();
+      if (meetings.length > 0) {
+        if (acceptedMeeting?.meetingId) {
+          this.selectedMeeting = this.plannedMeetings.find(plannedMeeting => plannedMeeting.idMeeting === acceptedMeeting.meetingId);
+          this.meetingService.setMeeting(null);
+        } else {
+          this.selectedMeeting = meetings[0];
+        }
+      } else {
+        this.selectedMeeting = undefined;
+      }
     });
   }
 

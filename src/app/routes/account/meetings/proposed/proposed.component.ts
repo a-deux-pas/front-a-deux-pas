@@ -4,7 +4,6 @@ import { Meeting } from '../../../../shared/models/meeting/meeting.model';
 import { MeetingListComponent } from '../components/meeting-list/meeting-list.component';
 import { CommonModule } from '@angular/common';
 import { catchError, map, of } from 'rxjs';
-import { CheckoutService } from '../../../checkout/checkout.service';
 
 @Component({
   selector: 'app-proposed',
@@ -17,7 +16,7 @@ export class ProposedComponent implements OnInit {
   selectedMeeting?: Meeting;
   userId: number;
 
-  constructor(private meetingService: MeetingService, private checkoutService: CheckoutService) {
+  constructor(private meetingService: MeetingService) {
     this.userId = Number(localStorage.getItem('userId'));
   }
 
@@ -34,12 +33,12 @@ export class ProposedComponent implements OnInit {
       })
     ).subscribe(meetings => {
       this.proposedMeetings = meetings;
-      const checkoutMeeting = this.checkoutService.getProposedMeeting();
+      const checkoutMeeting = this.meetingService.getMeeting();
       if (meetings.length > 0) {
         if (checkoutMeeting?.meetingId) {
           window.scrollTo(0, 0);
           this.selectedMeeting = this.proposedMeetings.find(proposedMeeting => proposedMeeting.idMeeting === checkoutMeeting.meetingId);
-          this.checkoutService.setProposedMeeting(null);
+          this.meetingService.setMeeting(null);
         } else {
           this.selectedMeeting = meetings[0];
         }
