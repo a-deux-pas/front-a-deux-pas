@@ -27,13 +27,11 @@ export class ToFinalizeComponent implements OnInit {
 
   ngOnInit() {
     this.loadToFinalizeMeetings();
-
   }
 
   loadToFinalizeMeetings() {
     this.meetingService.getToBeFinishedMeetings(this.userId).pipe(
       map(meetings => meetings || []),
-
       catchError(error => {
         console.error('Error loading meetings to finalize:', error);
         return of([]);
