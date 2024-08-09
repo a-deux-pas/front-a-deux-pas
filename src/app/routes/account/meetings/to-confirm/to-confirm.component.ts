@@ -7,6 +7,8 @@ import { catchError, finalize, map, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ALERTS } from '../../../../shared/utils/constants/alert-constants';
 import { DisplayManagementService } from '../../../../shared/services/display-management.service';
+import { MeetingRequest } from '../../../../shared/models/meeting/meeting-request.model';
+
 @Component({
   selector: 'app-to-confirm',
   standalone: true,
@@ -53,10 +55,13 @@ export class ToConfirmComponent implements OnInit {
         if (updatedMeeting) {
           // Remove the accepted meeting from the list
           this.toConfirmMeetings = this.toConfirmMeetings.filter(m => m.idMeeting !== updatedMeeting.idMeeting);
+          const newplannedMeeting: MeetingRequest = { meetingId: meeting.idMeeting };
+          this.meetingService.setMeeting(newplannedMeeting);
         }
       }),
       catchError((error) => {
         console.error('Error while accepting the appointment', error);
+        this.meetingService.setMeeting(null);
         this.displayManagementService.displayAlert(
           ALERTS.DEFAULT_ERROR
         );
@@ -75,6 +80,6 @@ export class ToConfirmComponent implements OnInit {
   }
 
   onCancelMeeting(meeting: Meeting) {
-     // TO DO: Implémentez la logique pour annuler le rendez-vous
+    // TO DO: Implémentez la logique pour annuler le rendez-vous
   }
 }
