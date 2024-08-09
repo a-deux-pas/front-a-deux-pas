@@ -1,31 +1,45 @@
-# use the latest Node LTS (v20) in Debian bookworm image
-FROM node:20-bookworm
+# Build stage
 
-# set args with default values, can be changed at build time with docker build --buil-args option
-ARG ANGULAR_CONFIG=production \
-    ANGULAR_MAJOR_VERSION=17 \
-    APP_UID=1001
+# Uses a lightweight Node.js image for the build phase
+FROM node:20-slim AS build
 
-# create app-user to avoid running app as root and install Angular CLI globally
-RUN useradd -U -m -d /app/ -s /bin/bash -u ${APP_UID} app-user && \
-    npm install -g @angular/cli@${ANGULAR_MAJOR_VERSION}
-
-# switch to user app and its home directory
-USER app-user
+# Sets the working directory in the container
 WORKDIR /app
 
-# copy application files and change owner (chown) to app-user
-COPY --chown=${APP_UID}:${APP_UID} package.json angular.json tsconfig*.json /app/
-ADD --chown=${APP_UID}:${APP_UID} src /app/src
+# Copies package.json and package-lock.json
+# This allows us to install dependencies before copying the rest of the code
+COPY package*.json ./
 
-# install dependencies and build application
-RUN npm set cache /app/.npm && \
-    npm install && \
-    npm run build --configuration=${ANGULAR_CONFIG}
+# Installs all dependencies
+# npm ci is faster and more reliable than npm install for CI/CD environments
+RUN npm ci
 
-# make app and tmp directories writable when container is running in readonly
-VOLUME /app /tmp
+# Copies the rest of the project files into the container
+COPY . .
 
-# set default command to start application and expose application port
-CMD ["ng", "serve", "--host", "0.0.0.0"]
-EXPOSE 4200
+# Runs the build script for the Angular application
+# --configuration production ensures the app is built with production optimizations
+RUN npm run build -- --configuration production
+
+
+# Production stage
+
+# Uses a lightweight Nginx Alpine image to serve the application
+FROM nginx:alpine
+
+# Create a non-root user
+RUN adduser -D -h /home/app -u 1000 app
+USER app
+WORKDIR /home/app
+
+# Copies the build files from the previous stage to the app home
+COPY --from=build /app/dist/front /home/app
+
+# Copies the custom Nginx configuration file to app home
+COPY nginx.conf /home/app/nginx.conf
+
+# Indicates that the container will listen on port 1080
+EXPOSE 1080
+
+# Runs Nginx
+CMD ["nginx", "-c", "/home/app/nginx.conf", "-p", "/home/app"]

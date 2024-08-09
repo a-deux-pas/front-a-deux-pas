@@ -9,7 +9,7 @@ import { catchError, map, of } from 'rxjs';
   selector: 'app-proposed',
   standalone: true,
   imports: [CommonModule, MeetingListComponent],
-  templateUrl: './proposed.component.html' 
+  templateUrl: './proposed.component.html'
 })
 export class ProposedComponent implements OnInit {
   proposedMeetings: Meeting[] = [];
@@ -33,13 +33,23 @@ export class ProposedComponent implements OnInit {
       })
     ).subscribe(meetings => {
       this.proposedMeetings = meetings;
-      this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
+      const checkoutMeeting = this.meetingService.getMeeting();
+      if (meetings.length > 0) {
+        if (checkoutMeeting?.meetingId) {
+          window.scrollTo(0, 0);
+          this.selectedMeeting = this.proposedMeetings.find(proposedMeeting => proposedMeeting.idMeeting === checkoutMeeting.meetingId);
+          this.meetingService.setMeeting(null);
+        } else {
+          this.selectedMeeting = meetings[0];
+        }
+      } else {
+        this.selectedMeeting = undefined;
+      }
     });
   }
 
   onSelectMeeting(meeting: Meeting) {
     this.selectedMeeting = meeting;
-  
   }
 
   onModifyMeeting(meeting: Meeting) {
@@ -51,5 +61,4 @@ export class ProposedComponent implements OnInit {
      // TO DO: Implémentez la logique pour annuler le rendez-vous
     console.log('Annuler le rendez-vous', meeting);
   }
-  
 }

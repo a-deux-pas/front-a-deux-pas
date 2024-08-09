@@ -13,7 +13,9 @@ import { CommonModule } from '@angular/common';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { TimeIntervalPickerComponent } from './time-interval-picker/time-interval-picker.component';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { BuyerProposedMeetingRequest } from '../../../../shared/models/meeting/buyer-proposed-meeting-request.model';
+import { MeetingRequest } from '../../../../shared/models/meeting/meeting-request.model';
+import { format } from 'date-fns';
+import { MeetingService } from '../../../account/meetings/meeting.service';
 
 @Component({
   selector: 'app-step-meeting-details',
@@ -36,7 +38,7 @@ export class StepMeetingDetailsComponent implements OnInit {
 
   ad: any;
   seller: any;
-  proposedMeeting: BuyerProposedMeetingRequest | undefined;
+  proposedMeeting: MeetingRequest | undefined;
   meetingPlaces: any;
   preferredSchedules: any;
 
@@ -45,7 +47,8 @@ export class StepMeetingDetailsComponent implements OnInit {
   constructor(
     private checkoutService: CheckoutService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private meetingService: MeetingService
   ) {
     this.form = this.formBuilder.group({
       meetingPlace: [null, Validators.required],
@@ -106,17 +109,20 @@ export class StepMeetingDetailsComponent implements OnInit {
     const buyerDistinctiveSign = this.form.get('sign')?.value;
     this.addHoursAndMinutes(proposedDate);
 
-    this.proposedMeeting = new BuyerProposedMeetingRequest(
+    // Format the date manually to the string format expected by Spring's LocalDateTime type, to avoid a backend parse error,
+    // ( without using the toISOString() that sets the absolute UTC time, and subtracts 2 hours in our case)
+    const formattedDate = format(proposedDate, "yyyy-MM-dd'T'HH:mm:ss");
+
+    this.proposedMeeting = new MeetingRequest(
       buyerId,
       this.seller.id,
       this.ad.id,
       proposedMeetingPlaceId,
-      proposedDate.toISOString(),
+      formattedDate,
       buyerAdditionalInfo,
       buyerDistinctiveSign
     );
-
-    this.checkoutService.setProposedMeeting(this.proposedMeeting);
+    this.meetingService.setMeeting(this.proposedMeeting);
   }
 
   private addHoursAndMinutes(proposedDate: Date) {

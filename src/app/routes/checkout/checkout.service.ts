@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable } from 'rxjs';
-import { BuyerProposedMeetingRequest } from '../../shared/models/meeting/buyer-proposed-meeting-request.model';
+import { MeetingRequest } from '../../shared/models/meeting/meeting-request.model';
 import { HttpClient } from '@angular/common/http';
 import { HandleErrorService } from '../../shared/services/handle-error.service';
-import { MEETING_BASE_URL } from '../../shared/utils/constants/util-constants';
+import {
+  MEETING_BASE_URL,
+  PAYMENT_BASE_URL,
+} from '../../shared/utils/constants/util-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +20,6 @@ export class CheckoutService {
 
   private checkoutAd: any;
   private checkoutSeller: any;
-  private proposedMeeting: BuyerProposedMeetingRequest | null = null;
 
   constructor(
     private http: HttpClient,
@@ -36,6 +38,7 @@ export class CheckoutService {
   setCheckoutAd(ad: any): void {
     this.checkoutAd = ad;
   }
+
   getCheckoutAd(): any {
     return this.checkoutAd;
   }
@@ -44,23 +47,16 @@ export class CheckoutService {
   setCheckoutseller(seller: any): void {
     this.checkoutSeller = seller;
   }
+
   getCheckoutSeller(): any {
     return this.checkoutSeller;
   }
 
-  // Meeting state management methods
-  setProposedMeeting(proposedMeeting: BuyerProposedMeetingRequest): void {
-    this.proposedMeeting = proposedMeeting;
-  }
-  getProposedMeeting(): BuyerProposedMeetingRequest | null {
-    return this.proposedMeeting;
-  }
-
   proposeMeeting(
-    proposedMeeting: BuyerProposedMeetingRequest | null
-  ): Observable<BuyerProposedMeetingRequest> {
+    proposedMeeting: MeetingRequest | null
+  ): Observable<MeetingRequest> {
     return this.http
-      .post<BuyerProposedMeetingRequest>(
+      .post<MeetingRequest>(
         `${MEETING_BASE_URL}/initialize`,
         proposedMeeting
       )
@@ -69,7 +65,7 @@ export class CheckoutService {
 
   createPaymentIntent(token: any, meetingId: any): Observable<any> {
     return this.http
-      .post<any>(`${MEETING_BASE_URL}/payment/create-payment-intent`, {
+      .post<any>(`${PAYMENT_BASE_URL}/create-payment-intent`, {
         amount: this.getCheckoutAd().price * 100, // initial amount is in cents
         currency: 'eur',
         type: 'card',

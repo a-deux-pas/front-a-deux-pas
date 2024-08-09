@@ -11,6 +11,10 @@ import { environment } from '../../../../../../environments/environment';
 import { CheckoutService } from '../../../checkout.service';
 import { Router } from '@angular/router';
 import { BillingSummaryCardComponent } from '../billing-summary-card/billing-summary-card.component';
+import { catchError, finalize, of } from 'rxjs';
+import { ALERTS } from '../../../../../shared/utils/constants/alert-constants';
+import { DisplayManagementService } from '../../../../../shared/services/display-management.service';
+import { MeetingService } from '../../../../account/meetings/meeting.service';
 
 @Component({
   selector: 'app-card-payment',
@@ -47,7 +51,9 @@ export class CardPaymentComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private checkoutService: CheckoutService,
-    private router: Router
+    private router: Router,
+    private displayManagementService: DisplayManagementService,
+    private meetingService: MeetingService
   ) {
     this.paymentForm = this.fb.group({
       name: ['', Validators.required],
@@ -121,10 +127,27 @@ export class CardPaymentComponent implements OnInit {
     }
 
     this.checkoutService
-      .proposeMeeting(this.checkoutService.getProposedMeeting())
+      .proposeMeeting(this.meetingService.getMeeting())
+      .pipe(
+        catchError((error) => {
+          console.error('Error while initializing the meeting', error);
+          this.displayManagementService.displayAlert(ALERTS.DEFAULT_ERROR);
+          return of(null);
+        }),
+        finalize(() => {
+          this.router.navigate(['/compte/rdv']);
+        })
+      )
       .subscribe((response: any) => {
-        // create payment intent immediately after the meeting is created
-        this.createPaymentIntent(response);
+        if (response) {
+          this.displayManagementService.displayAlert(
+            ALERTS.MEETING_INITIALIZED_SUCCESS
+          );
+          // create payment intent immediately after the meeting is successfully created
+          this.createPaymentIntent(response);
+          this.meetingService.getMeeting()!.meetingId =
+            response.meetingId;
+        }
         this.router.navigate(['/compte/rdv']);
       });
   }
