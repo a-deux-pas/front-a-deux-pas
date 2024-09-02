@@ -17,10 +17,13 @@ RUN npm ci
 # Copies the rest of the project files into the container
 COPY . .
 
-# Runs the build script for the Angular application
+ARG MAPBOX_TOKEN
+ARG STRIPE_TOKEN
+# Replaces placeholders with actual tokens and runs the build script for the Angular application
 # --configuration production ensures the app is built with production optimizations
-RUN npm run build -- --configuration production
-
+RUN sed -i "s|MAPBOX_TOKEN_PLACEHOLDER|${MAPBOX_TOKEN}|g" src/environments/environment.prod.ts && \
+    sed -i "s|STRIPE_TOKEN_PLACEHOLDER|${STRIPE_TOKEN}|g" src/environments/environment.prod.ts && \
+    npm run build -- --configuration production
 
 # Production stage
 

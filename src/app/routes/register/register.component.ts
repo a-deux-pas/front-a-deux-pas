@@ -30,7 +30,7 @@ import {
 import { ALERTS } from '../../shared/utils/constants/alert-constants';
 import { HttpErrorResponse } from '@angular/common/http';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.dev';
 
 @Component({
   selector: 'app-register',

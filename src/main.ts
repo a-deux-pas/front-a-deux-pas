@@ -24,5 +24,4 @@ bootstrapApplication(AppComponent, {
         // Set the application locale to French
         { provide: LOCALE_ID, useValue: 'fr' },
     ]
-})
-    .catch(err => console.error(err));
+}).catch(err => console.error(err));
