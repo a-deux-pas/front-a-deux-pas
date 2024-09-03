@@ -12,7 +12,11 @@
   }
 }
 
-.section-title {
+.section-title-logged-in {
+  text-align: center;
+}
+
+.section-title-unlogged {
   text-align: center;
   margin-top: 30px;
   margin-bottom: 25px;
@@ -39,7 +43,11 @@ h2 {
 }
 
 @media (min-width: 892px) {
-  .section-title {
+  .section-title-logged-in {
+    text-align: left;
+  }
+
+  .section-title-unlogged {
     text-align: left;
     font-size: 2.22rem;
   }
