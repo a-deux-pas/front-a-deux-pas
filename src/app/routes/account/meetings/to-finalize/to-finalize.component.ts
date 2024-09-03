@@ -12,16 +12,19 @@ import { Router } from '@angular/router';
   selector: 'app-to-finalize',
   standalone: true,
   imports: [CommonModule, MeetingListComponent],
-  templateUrl: './to-finalize.component.html'
+  templateUrl: './to-finalize.component.html',
 })
-
 export class ToFinalizeComponent implements OnInit {
   toFinalizeMeetings: Meeting[] = [];
   selectedMeeting?: Meeting;
   userId: number;
   isBuyer: boolean = false;
 
-  constructor(private meetingService: MeetingService, private displayManagementService: DisplayManagementService, private router: Router) {
+  constructor(
+    private meetingService: MeetingService,
+    private displayManagementService: DisplayManagementService,
+    private router: Router
+  ) {
     this.userId = Number(localStorage.getItem('userId'));
   }
 
@@ -30,19 +33,22 @@ export class ToFinalizeComponent implements OnInit {
   }
 
   loadToFinalizeMeetings() {
-    this.meetingService.getToBeFinishedMeetings(this.userId).pipe(
-      map(meetings => meetings || []),
-      catchError(error => {
-        console.error('Error loading meetings to finalize:', error);
-        return of([]);
-      })
-    ).subscribe(meetings => {
-      this.toFinalizeMeetings = meetings;
-      this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
-      if (Number(localStorage.getItem('userId')) === meetings[0].buyerId) {
-        this.isBuyer = true
-      }
-    });
+    this.meetingService
+      .getToBeFinishedMeetings(this.userId)
+      .pipe(
+        map((meetings) => meetings || []),
+        catchError((error) => {
+          console.error('Error loading meetings to finalize:', error);
+          return of([]);
+        })
+      )
+      .subscribe((meetings) => {
+        this.toFinalizeMeetings = meetings;
+        this.selectedMeeting = meetings.length > 0 ? meetings[0] : undefined;
+        if (Number(localStorage.getItem('userId')) === meetings[0]?.buyerId) {
+          this.isBuyer = true;
+        }
+      });
   }
 
   onSelectMeeting(meeting: Meeting) {
@@ -50,30 +56,42 @@ export class ToFinalizeComponent implements OnInit {
   }
 
   onFinalizingMeeting(meeting: Meeting) {
-    this.meetingService.finalizeMeeting(meeting.idMeeting, Number(localStorage.getItem('userId')))
+    this.meetingService
+      .finalizeMeeting(
+        meeting.idMeeting,
+        Number(localStorage.getItem('userId'))
+      )
       .pipe(
         tap((updatedMeeting) => {
           if (updatedMeeting) {
-            const index = this.toFinalizeMeetings.findIndex(m => m.idMeeting === updatedMeeting.idMeeting);
+            const index = this.toFinalizeMeetings.findIndex(
+              (m) => m.idMeeting === updatedMeeting.idMeeting
+            );
             if (index !== -1) {
               this.toFinalizeMeetings[index] = updatedMeeting;
-              this.selectedMeeting = updatedMeeting
-              if (this.selectedMeeting.validatedByBuyer && this.selectedMeeting.validatedBySeller) {
-                this.toFinalizeMeetings = this.toFinalizeMeetings.filter(m => m.idMeeting !== this.selectedMeeting!.idMeeting);
-                this.selectedMeeting = this.toFinalizeMeetings[index]
+              this.selectedMeeting = updatedMeeting;
+              if (
+                this.selectedMeeting.validatedByBuyer &&
+                this.selectedMeeting.validatedBySeller
+              ) {
+                this.toFinalizeMeetings = this.toFinalizeMeetings.filter(
+                  (m) => m.idMeeting !== this.selectedMeeting!.idMeeting
+                );
+                this.selectedMeeting = this.toFinalizeMeetings[index];
               }
-              this.displayManagementService.displayAlert(ALERTS.MEETING_FINALIZED_SUCCESS);
+              this.displayManagementService.displayAlert(
+                ALERTS.MEETING_FINALIZED_SUCCESS
+              );
             }
           }
-        }), 
+        }),
         catchError((error) => {
           console.error('Error while updating the appointment', error);
-          this.displayManagementService.displayAlert(
-            ALERTS.DEFAULT_ERROR
-          );
+          this.displayManagementService.displayAlert(ALERTS.DEFAULT_ERROR);
           return of(null);
         })
-      ).subscribe(); 
+      )
+      .subscribe();
   }
 
   onModifyMeeting(meeting: Meeting) {

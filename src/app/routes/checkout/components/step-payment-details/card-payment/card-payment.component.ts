@@ -145,8 +145,7 @@ export class CardPaymentComponent implements OnInit {
           );
           // create payment intent immediately after the meeting is successfully created
           this.createPaymentIntent(response);
-          this.meetingService.getMeeting()!.meetingId =
-            response.meetingId;
+          this.meetingService.getMeeting()!.meetingId = response.meetingId;
         }
         this.router.navigate(['/compte/rdv']);
       });
