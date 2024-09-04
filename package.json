@@ -11,7 +11,7 @@
     "test:ci": "ng test --watch=false --code-coverage --source-map true --browsers=ChromeHeadles",
     "build:ci": "ng build",
     "build:local": "ng build --configuration=local",
-    "heroku-postbuild": "ng build --configuration=prod && sed -i 's/MAPBOX_TOKEN_PLACEHOLDER/$MAPBOX_TOKEN/' ./src/environments/environment.ts && sed -i 's/STRIPE_TOKEN_PLACEHOLDER/$STRIPE_TOKEN/' ./src/environments/environment.ts"
+    "heroku-postbuild": "ng build && sed -i 's/MAPBOX_TOKEN_PLACEHOLDER/$MAPBOX_TOKEN/' ./src/environments/environment.ts && sed -i 's/STRIPE_TOKEN_PLACEHOLDER/$STRIPE_TOKEN/' ./src/environments/environment.ts"
   },
   "private": true,
   "dependencies": {
