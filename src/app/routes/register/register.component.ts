@@ -58,7 +58,7 @@ export class RegisterComponent implements AfterViewInit {
   notifications!: EventNotification[];
   showErrorAlert: boolean = false;
   userId = localStorage.getItem('userId');
-
+  isSubmitting: boolean = false;
   stripe: Stripe | null = null;
 
   async ngOnInit() {
@@ -142,6 +142,8 @@ export class RegisterComponent implements AfterViewInit {
 
   async onSubmit() {
     if (this.profilePicturePreview && this.userId) {
+      if (this.isSubmitting) return; // Avoids multiple submissions
+      this.isSubmitting = true;
       const userAlias = escapeHtml(this.profileForm.get('alias')?.value);
       const bio = escapeHtml(this.profileForm.get('bio')?.value) || null;
       const city = formatText(
