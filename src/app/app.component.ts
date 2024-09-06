@@ -44,7 +44,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       .isLoggedIn()
       .subscribe((status: boolean) => {
         this.isUserLoggedIn = status;
-        console.log('is user logged in?', this.isUserLoggedIn);
       });
 
     this.windowSizeSubscription =

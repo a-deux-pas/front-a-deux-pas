@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { loadStripe, Stripe, StripeElements } from '@stripe/stripe-js';
-import { environment } from '../../../../../../environments/environment';
+import { environment } from '../../../../../../environments/environment.dev';
 import { CheckoutService } from '../../../checkout.service';
 import { Router } from '@angular/router';
 import { BillingSummaryCardComponent } from '../billing-summary-card/billing-summary-card.component';

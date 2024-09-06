@@ -4,7 +4,11 @@
   padding: 0 6%;
 }
 
-.section-title {
+.section-title-logged-in {
+  text-align: center;
+}
+
+.section-title-unlogged {
   text-align: center;
   margin-top: 30px;
   margin-bottom: 25px;
@@ -23,16 +27,12 @@ h2 {
   text-align: center !important;
 }
 
-@media (min-width: 1158px) {
-  #hello {
-    position: relative;
-    z-index: 1;
-    margin-top: -5%;
-  }
-}
-
 @media (min-width: 892px) {
-  .section-title {
+  .section-title-logged-in {
+    text-align: left;
+  }
+
+  .section-title-unlogged {
     text-align: left;
     font-size: 2.22rem;
   }
@@ -42,6 +42,14 @@ h2 {
     position: relative;
     z-index: 1;
     text-align: left !important;
+  }
+}
+
+@media (min-width: 1158px) {
+  #hello {
+    position: relative;
+    z-index: 1;
+    margin-top: -5%;
   }
 }
 

@@ -1,7 +1,7 @@
 import { Injectable, ViewChild } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.dev';
 import { Alert } from '../models/alert.model';
 
 @Injectable({

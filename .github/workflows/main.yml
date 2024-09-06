@@ -85,7 +85,7 @@ jobs:
           name: ${{ env.APP_NAME }}-${{ env.ARTIFACT_VERSION }}
           path: dist
           overwrite: true
-          
+
   docker:
     needs: build
     runs-on: ubuntu-latest
@@ -118,6 +118,8 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }} # Don't push on PR
           tags: docker.io/douniabed/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
           build-args: |
+            MAPBOX_TOKEN=${{ secrets.MAPBOX_TOKEN }}
+            STRIPE_TOKEN=${{ secrets.STRIPE_TOKEN }}
             APP_NAME=${{ env.APP_NAME }}
             APP_VERSION=${{ env.APP_VERSION }}
 
@@ -143,7 +145,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       # Configure Git with GitHub Actions bot details
       - name: Configure Git
@@ -163,7 +165,7 @@ jobs:
         run: |
           zip front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip dist/*
           ls -ltrh ${{ github.workspace }} || true
-      
+
       # Create a GitHub release with the built artifact
       - name: Create GitHub Release
         env:
@@ -174,15 +176,15 @@ jobs:
           RELEASE_VERSION="${{ env.APP_VERSION }}"
           DOCKER_IMAGE_URL="docker.io/douniabed/${{ env.APP_NAME }}:${{ env.ARTIFACT_VERSION }}"
           RELEASE_NOTES="front-a-deux-pas release v${RELEASE_VERSION}
-      
+
           Docker image: \`${DOCKER_IMAGE_URL}\`
           Commit: ${COMMIT_SHA}"
-          
+
           gh release create v${RELEASE_VERSION} front-a-deux-pas-${{ env.ARTIFACT_VERSION }}.zip \
             --title "v${RELEASE_VERSION}" \
             --notes "${RELEASE_NOTES}" \
             --target ${{ github.ref_name }}
-            
+
       # Increment the version number and create a pull request for the next development cycle
       - name: Increment version and create PR
         env:
@@ -191,24 +193,35 @@ jobs:
           # Generate a unique branch name
           BRANCH_NAME="bump-version-$(date +%Y%m%d%H%M%S)"
           git checkout -b $BRANCH_NAME
-          
+
           # Remove the -SNAPSHOT suffix and increment the version
           CURRENT_VERSION=$(node -p "require('./package.json').version.replace(/-SNAPSHOT$/, '')")
           npm --no-git-tag-version version $CURRENT_VERSION
           npm --no-git-tag-version version patch
           NEW_VERSION=$(node -p "require('./package.json').version")
-          
+
           # Add the -SNAPSHOT suffix to the new version
           sed -i 's/"version": "'"$NEW_VERSION"'"/"version": "'"$NEW_VERSION-SNAPSHOT"'"/' package.json
           NEW_VERSION="${NEW_VERSION}-SNAPSHOT"
-          
+
           # Commit the changes
           git add package.json
           git commit -m "Increment version to ${NEW_VERSION} [skip ci]"
           git push origin $BRANCH_NAME
-          
+
           gh pr create --base dev --head $BRANCH_NAME \
             --title "Bump version to ${NEW_VERSION}" \
             --body "Automated version bump after release ${{ env.APP_VERSION }}"
 
           echo "Pull request created successfully. Please review and merge manually."
+
+      # Trigger a deployment in the docker-a-deux-pas repository after a successful workflow run.
+      # This dispatches a 'new-release' event with the app and version information to initiate the deployment process.
+      - name: Trigger deployment
+        if: success()
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: a-deux-pas/docker-a-deux-pas
+          event-type: new-release
+          client-payload: '{"app": "front-end", "version": "${{ env.APP_VERSION }}"}'
