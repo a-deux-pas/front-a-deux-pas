@@ -387,6 +387,12 @@ $spinner-width: 4rem;
 $spinner-height: 4rem;
 $spinner-border-width: 0.5em;
 
+#btn-spinner {
+  padding: 0.625rem 1.5625rem !important;
+  color: white;
+  background-color: $primary;
+}
+
 /*-----------------------------------------------------------------------*/
 
 // Connection modal

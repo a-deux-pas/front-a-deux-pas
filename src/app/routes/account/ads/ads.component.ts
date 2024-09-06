@@ -33,7 +33,7 @@ export class AdsComponent implements OnInit {
     this.fetchPaginatedAdsList();
     setTimeout(() => {
       this.adsLoading = false;
-    });
+    }, 300);
   }
 
   loadMoreAds() {
