@@ -14,6 +14,7 @@ import { BillingSummaryCardComponent } from '../billing-summary-card/billing-sum
 import { catchError, finalize, of } from 'rxjs';
 import { ALERTS } from '../../../../../shared/utils/constants/alert-constants';
 import { DisplayManagementService } from '../../../../../shared/services/display-management.service';
+import { MeetingService } from '../../../../account/meetings/meeting.service';
 
 @Component({
   selector: 'app-card-payment',
@@ -51,7 +52,8 @@ export class CardPaymentComponent implements OnInit {
     private fb: FormBuilder,
     private checkoutService: CheckoutService,
     private router: Router,
-    private displayManagementService: DisplayManagementService
+    private displayManagementService: DisplayManagementService,
+    private meetingService: MeetingService
   ) {
     this.paymentForm = this.fb.group({
       name: ['', Validators.required],
@@ -125,7 +127,7 @@ export class CardPaymentComponent implements OnInit {
     }
 
     this.checkoutService
-      .proposeMeeting(this.checkoutService.getProposedMeeting())
+      .proposeMeeting(this.meetingService.getMeeting())
       .pipe(
         catchError((error) => {
           console.error('Error while initializing the meeting', error);
@@ -143,7 +145,7 @@ export class CardPaymentComponent implements OnInit {
           );
           // create payment intent immediately after the meeting is successfully created
           this.createPaymentIntent(response);
-          this.checkoutService.getProposedMeeting()!.meetingId =
+          this.meetingService.getMeeting()!.meetingId =
             response.meetingId;
         }
         this.router.navigate(['/compte/rdv']);

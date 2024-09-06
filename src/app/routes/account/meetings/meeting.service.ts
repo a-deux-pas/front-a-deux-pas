@@ -4,16 +4,18 @@ import { catchError, Observable } from 'rxjs';
 import { MEETING_BASE_URL } from '../../../shared/utils/constants/util-constants';
 import { Meeting } from '../../../shared/models/meeting/meeting.model';
 import { HandleErrorService } from '../../../shared/services/handle-error.service';
+import { MeetingRequest } from '../../../shared/models/meeting/meeting-request.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MeetingService {
+  private meeting: MeetingRequest | null = null;
 
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
-  ) {}
+  ) { }
 
   getProposedMeetings(userId: number): Observable<Meeting[]> {
     return this.http.get<Meeting[]>(`${MEETING_BASE_URL}/proposed/${userId}`
@@ -50,10 +52,21 @@ export class MeetingService {
     );
   }
 
-  // To be uncommented for testing the Stripe API's payment capture mechanism (demonstration purporses only)
-  /*finalizeMeeting(meetingId: any): Observable<any> {
-    return this.http.get<any>(`${MEETING_BASE_URL}/finalize/${meetingId}`, {
-      responseType: 'text' as 'json',
-    });
-  }*/
+  finalizeMeeting(meetingId: number, userId: number): Observable<Meeting> {
+    return this.http.put<Meeting>(`${MEETING_BASE_URL}/finalize/${meetingId}/${userId}`, {}
+    ).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+
+  // Meeting state management methods
+  setMeeting(
+    meeting: MeetingRequest | null
+  ): void {
+    this.meeting = meeting;
+  }
+
+  getMeeting(): MeetingRequest | null {
+    return this.meeting;
+  }
 }
