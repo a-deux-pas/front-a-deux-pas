@@ -19,7 +19,7 @@ COPY . .
 
 # Runs the build script for the Angular application
 # --configuration production ensures the app is built with production optimizations
-RUN npm run build -- --configuration local
+RUN npm run build -- 
 
 
 # Production stage
