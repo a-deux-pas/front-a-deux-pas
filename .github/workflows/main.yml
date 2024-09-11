@@ -118,7 +118,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }} # Don't push on PR
           tags: docker.io/douniabed/${{ env.APP_NAME }}:${{ env.APP_VERSION }}
           build-args: |
-            MAPBOX_TOKEN=${{ secrets.MAPBOX_TOKEN }}
+            MAPBOX_TOKEN=${{ secrets.MAPBOX_ACCESS_TOKEN }}
             STRIPE_TOKEN=${{ secrets.STRIPE_TOKEN }}
             APP_NAME=${{ env.APP_NAME }}
             APP_VERSION=${{ env.APP_VERSION }}
